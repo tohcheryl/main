@@ -819,30 +819,73 @@ _{More to be added}_
 (For all use cases below, the *System* is the `AddressBook` and the *Actor* is the `user`, unless specified otherwise)
 
 [discrete]
-=== Use case: Delete person
+== Use case: Rate a meal
 
 *MSS*
 
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
-3.  User requests to delete a specific person in the list
-4.  AddressBook deletes the person
+1. User types in a food that he would like to eat
+2. Hackeat orders the food
+3. User rates the meal he just had
+4. Hackeat saves the rating.
 +
 Use case ends.
 
 *Extensions*
 
 [none]
-* 2a. The list is empty.
+* 1a. Food contains ingredients that he is allergic to.
++
+[none]
+** 1a1. Hackeat informs user of his allergy.
+** 1a2. User decides whether to go ahead with the order.
++
+** Use case ends.
+
+[discrete]
+== Use case: Edit food preferences
+
+*MSS*
+
+1. User types in a command to view his food preferences.
+2. Hackeat displays a list of food preferences.
+3. User types in command to modify his food preferences.
+4. Hackeat updates user's food preferences.
 +
 Use case ends.
 
-* 3a. The given index is invalid.
+*Extensions*
+
+[none]
+* 3a. User types in a food preference that already exists.
 +
 [none]
-** 3a1. AddressBook shows an error message.
+** 3a1. Hackeat informs user that food preference already exists.
 +
-Use case resumes at step 2.
+** Use case ends.
+
+[discrete]
+== Use case: Search, add and order food on sale
+
+*MSS*
+
+1. User searches for food which are on sale.
+2. Hackeat returns a list of relevant food.
+3. User picks one of the food to order.
+4. Hackeat helps to order the food.
++
+Use case ends.
+
+*Extensions*
+
+[none]
+
+* 1a. No food is sale
++
+[none]
+** 1a1. Hackeat informs user that nothing is on sale.
+** 1a2. User chooses to order other food.
++
+Use case resumes from Step 4.
 
 _{More to be added}_
 
