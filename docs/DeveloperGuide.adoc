@@ -874,11 +874,11 @@ Windows, Linux, Unix, OS-X
 Companies such as delivery.com, eatstreet.com, and ordr.in that offer APIs to access their food delivery service.
 These services handle the communication with restaurants and deliverers for successful delivery of the food.
 
-[[environment, environment]] Environment::
+[[environment]] Environment::
 Refers to the visual landscape inhabited by code monkeys. Such landscapes are characterised by certain fonts,
 commands, and the plain look and feel of terminal applications.
 
-[[java-api, Java API]] Java API::
+[[java-api]] Java API::
 Refers to a Java library that can be used to programmatically access a food delivery service.
 
 [appendix]
