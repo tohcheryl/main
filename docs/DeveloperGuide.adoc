@@ -853,7 +853,7 @@ _{More to be added}_
 .  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
 .  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
 .  A programmer should be able to select and order food faster than using a mobile application like UberEats, Foodora, etc. given that the user has set-up his/her food preferences.
-.  The security measures required for safe handling of payments, home addresses and credit card details should be industry-standard.
+.  The security measures required for safe handling of payments, home addresses and <<credit-card-details, credit card details>> should be industry-standard.
 .  Complex tasks such as payment should be outsourced to existing, leading payment providers such as Stripe so that we can benefit from well-developed products.
 .  A reliable <<food-delivery-network, food delivery network>> should be used to actually fulfill the food orders and deliveries.
 .  The food delivery services we use to power the backend of the app should offer a <<java-api, Java API>>.
@@ -880,6 +880,15 @@ commands, and the plain look and feel of terminal applications.
 
 [[java-api]] Java API::
 Refers to a Java library that can be used to programmatically access a food delivery service.
+
+[[price-range]] Price Range::
+Price of the food. Can be 1, 2, or 3.
+
+[[cuisine]] Cuisine::
+The country from which the food originates.
+
+[[credit-card-details]] Credit card details::
+Card number, card holder's name, expiry date and CSC (card security code).
 
 [appendix]
 == Product Survey
