@@ -890,6 +890,9 @@ The country from which the food originates.
 [[credit-card-details]] Credit card details::
 Card number, card holder's name, expiry date and CSC (card security code).
 
+[[order]] Order::
+An set of food items that a user asks the app to deliver.
+
 [appendix]
 == Product Survey
 
