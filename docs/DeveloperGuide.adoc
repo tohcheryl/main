@@ -852,8 +852,17 @@ _{More to be added}_
 .  Should work on any <<mainstream-os,mainstream OS>> as long as it has Java `1.8.0_60` or higher installed.
 .  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
 .  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+.  A programmer should be able to select and order food faster than using a mobile application like UberEats, Foodora, etc. given that the user has set-up his/her food preferences.
+.  The security measures required for safe handling of payments, home addresses and credit card details should be industry-standard.
+.  Complex tasks such as payment should be outsourced to existing, leading payment providers such as Stripe so that we can benefit from well-developed products.
+.  A reliable <<food-delivery-network, food delivery network>> should be used to actually fulfill the food orders and deliveries.
+.  The food delivery services we use to power the backend of the app should offer a <<java-api, Java API>>.
+.  The user experience should be similar to the <<environment, environment>> that programmers are used.
+.  After asking for a food suggestion, the system should respond within 1 second.
+.  The service provided by us should be cost-neutral or profitable.
+.  The user interface should be simple and minimise distractions so that programmers can continue with their work in a focused manner.
+.  A user should not be bored with the food that the app suggests and orders, as a certain level of novelty and surprise must be provided with each experience.
 
-_{More to be added}_
 
 [appendix]
 == Glossary
@@ -861,8 +870,16 @@ _{More to be added}_
 [[mainstream-os]] Mainstream OS::
 Windows, Linux, Unix, OS-X
 
-[[private-contact-detail]] Private contact detail::
-A contact detail that is not meant to be shared with others
+[[food-delivery-network]] Food delivery network::
+Companies such as delivery.com, eatstreet.com, and ordr.in that offer APIs to access their food delivery service.
+These services handle the communication with restaurants and deliverers for successful delivery of the food.
+
+[[environment, environment]] Environment::
+Refers to the visual landscape inhabited by code monkeys. Such landscapes are characterised by certain fonts,
+commands, and the plain look and feel of terminal applications.
+
+[[java-api, Java API]] Java API::
+Refers to a Java library that can be used to programmatically access a food delivery service.
 
 [appendix]
 == Product Survey
