@@ -803,15 +803,67 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 |Priority |As a ... |I want to ... |So that I can...
 |`* * *` |new user |see usage instructions |refer to instructions when I forget how to use the App
 
-|`* * *` |user |add a new person |
+|`* * *` |user |Use cmdline to add food that I like | I can get recommended meals that I will likely enjoy
 
-|`* * *` |user |delete a person |remove entries that I no longer need
+|`* * *` |user |delete a food | I can avoid meals that I will probably not enjoy
 
-|`* * *` |user |find a person by name |locate details of persons without having to go through the entire list
+|`* * *` |user |find a food by name | to see how many times I’ve ordered certain foods
 
-|`* *` |user |hide <<private-contact-detail,private contact details>> by default |minimize chance of someone else seeing them by accident
+|`* * *` |user |Add my allergies | I can eat safely and not die
 
-|`*` |user with many persons in the address book |sort persons by name |locate a person easily
+|`* * *` |user | Be blocked from adding food preferences | Be told if the food cannot be accepted due to allergies and not die
+
+|`* * *` |user | Edit my food preferences | I can have meals which fit my current requirements
+
+|`* * *` |user | Contact support | Fix any issues that may happen with the application
+
+|`* * *` |user | Can use Unix-y commands to do actions | I am not dis-immersed from coding-work when ordering food
+
+|`* * *` |user |Pre-fill/browse local area/people nearby food address books/playlists | Save time building my own book
+
+|`* *` |user | Rate a meal on a scale from 1 to 5 | I can get recommended meals that I will likely enjoy
+
+|`* *` |user | Set a price range for orders | to help with budgeting
+
+|`* *` |user | Add shortcuts for my favourite commands | Increase the speed in which I order food
+
+|`* *` |user | See how much calories in each meal | to better track and align my personal health goals
+
+|`* *` |user | Add culture tags to the food items that I like | The app can recommend certain types of cultural dishes
+
+|`* *` |user | Discover new restaurants | I can try new types of cuisine
+
+|`* *` |user | order a random meal that I will probably like to my doorstep | I can minimise distraction of food ordering and focus on my work
+
+|`* *` |user | See images of how the food looks like | So that I know how a dish appears if I have never heard of the name before
+
+|`* *` |user | Type in my mood and get a list of recommended foods | I can decide more quickly on what to eat
+
+|`* *` |user |hide <<private-contact-detail,private contact details>> by default |minimize chance of someone else seeing the food by accident
+
+|`* *` |user |Use different criterias to help decide where my food will be ordered from |I can order food based on my current needs e.g. fastest chicken rice(if I am starving)
+
+|`* *` |user |Set a maximum number of food or restaurants to be shown |I will not be overloaded with information
+
+|`* *` |user |Search, add and order for foods with a sale or discounted price | Save money and get good value for money
+
+|`*` |user |Check how long my food will take to arrive |I have an idea of the waiting time
+
+|`*` |user |Save restaurants that I like |I can order food from my preferred restaurants more easily
+
+|`*` |user |Set personal goals |I can get recommended meals which are aligned with my objectives
+
+|`*` |user |Add friends using the app |So I can know what they’re eating and talk about it
+
+|`*` |user |See the delivery rate of the deliverer |I can estimate the probability of the chances of my food arriving
+
+|`*` |user |See the rating of a restaurant |I know how reliable/how good the food is from that restaurant
+
+|`*` |user |Delete restaurants that I have saved | So that I can keep an updated list of restaurants I like
+
+|`*` |user with many foods in the address book |sort foods by name |locate a food easily
+
+|`*` |user |See a history of what I’ve written as a GitHub-style diagram |I can see something cool
 |=======================================================================
 
 _{More to be added}_
