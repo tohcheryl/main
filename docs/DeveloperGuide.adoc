@@ -782,13 +782,16 @@ See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-
 
 *Target user profile*:
 
-* has a need to manage a significant number of contacts
-* prefer desktop apps over other types
-* can type fast
-* prefers typing over mouse input
-* is reasonably comfortable using CLI apps
+* Developers/Hackers
+** is picky and has a need to manage/order a significant number of pre-approved foods
+** prefer desktop apps over other types
+** can type fast
+** prefers typing over mouse input
+** is reasonably comfortable using CLI apps
+** busy working on projects and immersed to change train of thought
+** does not care about their body/health and willing to order food to doorstep
 
-*Value proposition*: manage contacts faster than a typical mouse/GUI driven app
+*Value proposition*: Order food with as little disruption as possible to the user's workflow
 
 [appendix]
 == User Stories
