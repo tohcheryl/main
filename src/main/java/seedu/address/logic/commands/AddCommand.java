@@ -8,17 +8,17 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.person.Person;
+import seedu.address.model.person.Food;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 
 /**
- * Adds a person to the address book.
+ * Adds a food to the address book.
  */
 public class AddCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "add";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a person to the address book. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a food to the address book. "
             + "Parameters: "
             + PREFIX_NAME + "NAME "
             + PREFIX_PHONE + "PHONE "
@@ -33,17 +33,17 @@ public class AddCommand extends UndoableCommand {
             + PREFIX_TAG + "friends "
             + PREFIX_TAG + "owesMoney";
 
-    public static final String MESSAGE_SUCCESS = "New person added: %1$s";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book";
+    public static final String MESSAGE_SUCCESS = "New food added: %1$s";
+    public static final String MESSAGE_DUPLICATE_PERSON = "This food already exists in the address book";
 
-    private final Person toAdd;
+    private final Food toAdd;
 
     /**
-     * Creates an AddCommand to add the specified {@code Person}
+     * Creates an AddCommand to add the specified {@code Food}
      */
-    public AddCommand(Person person) {
-        requireNonNull(person);
-        toAdd = person;
+    public AddCommand(Food food) {
+        requireNonNull(food);
+        toAdd = food;
     }
 
     @Override

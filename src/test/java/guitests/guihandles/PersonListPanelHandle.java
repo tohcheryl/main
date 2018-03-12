@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javafx.scene.control.ListView;
-import seedu.address.model.person.Person;
+import seedu.address.model.person.Food;
 import seedu.address.ui.PersonCard;
 
 /**
@@ -28,7 +28,7 @@ public class PersonListPanelHandle extends NodeHandle<ListView<PersonCard>> {
         List<PersonCard> personList = getRootNode().getSelectionModel().getSelectedItems();
 
         if (personList.size() != 1) {
-            throw new AssertionError("Person list size expected 1.");
+            throw new AssertionError("Food list size expected 1.");
         }
 
         return new PersonCardHandle(personList.get(0).getRoot());
@@ -55,14 +55,14 @@ public class PersonListPanelHandle extends NodeHandle<ListView<PersonCard>> {
     }
 
     /**
-     * Navigates the listview to display and select the person.
+     * Navigates the listview to display and select the food.
      */
-    public void navigateToCard(Person person) {
+    public void navigateToCard(Food food) {
         List<PersonCard> cards = getRootNode().getItems();
-        Optional<PersonCard> matchingCard = cards.stream().filter(card -> card.person.equals(person)).findFirst();
+        Optional<PersonCard> matchingCard = cards.stream().filter(card -> card.food.equals(food)).findFirst();
 
         if (!matchingCard.isPresent()) {
-            throw new IllegalArgumentException("Person does not exist.");
+            throw new IllegalArgumentException("Food does not exist.");
         }
 
         guiRobot.interact(() -> {
@@ -73,21 +73,21 @@ public class PersonListPanelHandle extends NodeHandle<ListView<PersonCard>> {
     }
 
     /**
-     * Returns the person card handle of a person associated with the {@code index} in the list.
+     * Returns the food card handle of a food associated with the {@code index} in the list.
      */
     public PersonCardHandle getPersonCardHandle(int index) {
-        return getPersonCardHandle(getRootNode().getItems().get(index).person);
+        return getPersonCardHandle(getRootNode().getItems().get(index).food);
     }
 
     /**
-     * Returns the {@code PersonCardHandle} of the specified {@code person} in the list.
+     * Returns the {@code PersonCardHandle} of the specified {@code food} in the list.
      */
-    public PersonCardHandle getPersonCardHandle(Person person) {
+    public PersonCardHandle getPersonCardHandle(Food food) {
         Optional<PersonCardHandle> handle = getRootNode().getItems().stream()
-                .filter(card -> card.person.equals(person))
+                .filter(card -> card.food.equals(food))
                 .map(card -> new PersonCardHandle(card.getRoot()))
                 .findFirst();
-        return handle.orElseThrow(() -> new IllegalArgumentException("Person does not exist."));
+        return handle.orElseThrow(() -> new IllegalArgumentException("Food does not exist."));
     }
 
     /**

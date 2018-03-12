@@ -15,10 +15,10 @@ import guitests.guihandles.PersonListPanelHandle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.commons.events.ui.JumpToListRequestEvent;
-import seedu.address.model.person.Person;
+import seedu.address.model.person.Food;
 
-public class PersonListPanelTest extends GuiUnitTest {
-    private static final ObservableList<Person> TYPICAL_PERSONS =
+public class FoodListPanelTest extends GuiUnitTest {
+    private static final ObservableList<Food> TYPICAL_FOODS =
             FXCollections.observableList(getTypicalPersons());
 
     private static final JumpToListRequestEvent JUMP_TO_SECOND_EVENT = new JumpToListRequestEvent(INDEX_SECOND_PERSON);
@@ -27,7 +27,7 @@ public class PersonListPanelTest extends GuiUnitTest {
 
     @Before
     public void setUp() {
-        PersonListPanel personListPanel = new PersonListPanel(TYPICAL_PERSONS);
+        PersonListPanel personListPanel = new PersonListPanel(TYPICAL_FOODS);
         uiPartRule.setUiPart(personListPanel);
 
         personListPanelHandle = new PersonListPanelHandle(getChildNode(personListPanel.getRoot(),
@@ -36,12 +36,12 @@ public class PersonListPanelTest extends GuiUnitTest {
 
     @Test
     public void display() {
-        for (int i = 0; i < TYPICAL_PERSONS.size(); i++) {
-            personListPanelHandle.navigateToCard(TYPICAL_PERSONS.get(i));
-            Person expectedPerson = TYPICAL_PERSONS.get(i);
+        for (int i = 0; i < TYPICAL_FOODS.size(); i++) {
+            personListPanelHandle.navigateToCard(TYPICAL_FOODS.get(i));
+            Food expectedFood = TYPICAL_FOODS.get(i);
             PersonCardHandle actualCard = personListPanelHandle.getPersonCardHandle(i);
 
-            assertCardDisplaysPerson(expectedPerson, actualCard);
+            assertCardDisplaysPerson(expectedFood, actualCard);
             assertEquals(Integer.toString(i + 1) + ". ", actualCard.getId());
         }
     }

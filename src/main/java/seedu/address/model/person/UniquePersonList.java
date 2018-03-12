@@ -17,27 +17,27 @@ import seedu.address.model.person.exceptions.PersonNotFoundException;
  *
  * Supports a minimal set of list operations.
  *
- * @see Person#equals(Object)
+ * @see Food#equals(Object)
  * @see CollectionUtil#elementsAreUnique(Collection)
  */
-public class UniquePersonList implements Iterable<Person> {
+public class UniquePersonList implements Iterable<Food> {
 
-    private final ObservableList<Person> internalList = FXCollections.observableArrayList();
+    private final ObservableList<Food> internalList = FXCollections.observableArrayList();
 
     /**
-     * Returns true if the list contains an equivalent person as the given argument.
+     * Returns true if the list contains an equivalent food as the given argument.
      */
-    public boolean contains(Person toCheck) {
+    public boolean contains(Food toCheck) {
         requireNonNull(toCheck);
         return internalList.contains(toCheck);
     }
 
     /**
-     * Adds a person to the list.
+     * Adds a food to the list.
      *
-     * @throws DuplicatePersonException if the person to add is a duplicate of an existing person in the list.
+     * @throws DuplicatePersonException if the food to add is a duplicate of an existing food in the list.
      */
-    public void add(Person toAdd) throws DuplicatePersonException {
+    public void add(Food toAdd) throws DuplicatePersonException {
         requireNonNull(toAdd);
         if (contains(toAdd)) {
             throw new DuplicatePersonException();
@@ -46,33 +46,33 @@ public class UniquePersonList implements Iterable<Person> {
     }
 
     /**
-     * Replaces the person {@code target} in the list with {@code editedPerson}.
+     * Replaces the food {@code target} in the list with {@code editedFood}.
      *
-     * @throws DuplicatePersonException if the replacement is equivalent to another existing person in the list.
+     * @throws DuplicatePersonException if the replacement is equivalent to another existing food in the list.
      * @throws PersonNotFoundException if {@code target} could not be found in the list.
      */
-    public void setPerson(Person target, Person editedPerson)
+    public void setPerson(Food target, Food editedFood)
             throws DuplicatePersonException, PersonNotFoundException {
-        requireNonNull(editedPerson);
+        requireNonNull(editedFood);
 
         int index = internalList.indexOf(target);
         if (index == -1) {
             throw new PersonNotFoundException();
         }
 
-        if (!target.equals(editedPerson) && internalList.contains(editedPerson)) {
+        if (!target.equals(editedFood) && internalList.contains(editedFood)) {
             throw new DuplicatePersonException();
         }
 
-        internalList.set(index, editedPerson);
+        internalList.set(index, editedFood);
     }
 
     /**
-     * Removes the equivalent person from the list.
+     * Removes the equivalent food from the list.
      *
-     * @throws PersonNotFoundException if no such person could be found in the list.
+     * @throws PersonNotFoundException if no such food could be found in the list.
      */
-    public boolean remove(Person toRemove) throws PersonNotFoundException {
+    public boolean remove(Food toRemove) throws PersonNotFoundException {
         requireNonNull(toRemove);
         final boolean personFoundAndDeleted = internalList.remove(toRemove);
         if (!personFoundAndDeleted) {
@@ -85,11 +85,11 @@ public class UniquePersonList implements Iterable<Person> {
         this.internalList.setAll(replacement.internalList);
     }
 
-    public void setPersons(List<Person> persons) throws DuplicatePersonException {
-        requireAllNonNull(persons);
+    public void setPersons(List<Food> foods) throws DuplicatePersonException {
+        requireAllNonNull(foods);
         final UniquePersonList replacement = new UniquePersonList();
-        for (final Person person : persons) {
-            replacement.add(person);
+        for (final Food food : foods) {
+            replacement.add(food);
         }
         setPersons(replacement);
     }
@@ -97,12 +97,12 @@ public class UniquePersonList implements Iterable<Person> {
     /**
      * Returns the backing list as an unmodifiable {@code ObservableList}.
      */
-    public ObservableList<Person> asObservableList() {
+    public ObservableList<Food> asObservableList() {
         return FXCollections.unmodifiableObservableList(internalList);
     }
 
     @Override
-    public Iterator<Person> iterator() {
+    public Iterator<Food> iterator() {
         return internalList.iterator();
     }
 

@@ -7,30 +7,30 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import seedu.address.logic.commands.AddCommand;
-import seedu.address.model.person.Person;
+import seedu.address.model.person.Food;
 
 /**
- * A utility class for Person.
+ * A utility class for Food.
  */
 public class PersonUtil {
 
     /**
-     * Returns an add command string for adding the {@code person}.
+     * Returns an add command string for adding the {@code food}.
      */
-    public static String getAddCommand(Person person) {
-        return AddCommand.COMMAND_WORD + " " + getPersonDetails(person);
+    public static String getAddCommand(Food food) {
+        return AddCommand.COMMAND_WORD + " " + getPersonDetails(food);
     }
 
     /**
-     * Returns the part of command string for the given {@code person}'s details.
+     * Returns the part of command string for the given {@code food}'s details.
      */
-    public static String getPersonDetails(Person person) {
+    public static String getPersonDetails(Food food) {
         StringBuilder sb = new StringBuilder();
-        sb.append(PREFIX_NAME + person.getName().fullName + " ");
-        sb.append(PREFIX_PHONE + person.getPhone().value + " ");
-        sb.append(PREFIX_EMAIL + person.getEmail().value + " ");
-        sb.append(PREFIX_ADDRESS + person.getAddress().value + " ");
-        person.getTags().stream().forEach(
+        sb.append(PREFIX_NAME + food.getName().fullName + " ");
+        sb.append(PREFIX_PHONE + food.getPhone().value + " ");
+        sb.append(PREFIX_EMAIL + food.getEmail().value + " ");
+        sb.append(PREFIX_ADDRESS + food.getAddress().value + " ");
+        food.getTags().stream().forEach(
             s -> sb.append(PREFIX_TAG + s.tagName + " ")
         );
         return sb.toString();

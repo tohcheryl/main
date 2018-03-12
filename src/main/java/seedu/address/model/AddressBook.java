@@ -11,7 +11,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;
-import seedu.address.model.person.Person;
+import seedu.address.model.person.Food;
 import seedu.address.model.person.UniquePersonList;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
@@ -51,8 +51,8 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     //// list overwrite operations
 
-    public void setPersons(List<Person> persons) throws DuplicatePersonException {
-        this.persons.setPersons(persons);
+    public void setPersons(List<Food> foods) throws DuplicatePersonException {
+        this.persons.setPersons(foods);
     }
 
     public void setTags(Set<Tag> tags) {
@@ -65,81 +65,81 @@ public class AddressBook implements ReadOnlyAddressBook {
     public void resetData(ReadOnlyAddressBook newData) {
         requireNonNull(newData);
         setTags(new HashSet<>(newData.getTagList()));
-        List<Person> syncedPersonList = newData.getPersonList().stream()
+        List<Food> syncedFoodList = newData.getPersonList().stream()
                 .map(this::syncWithMasterTagList)
                 .collect(Collectors.toList());
 
         try {
-            setPersons(syncedPersonList);
+            setPersons(syncedFoodList);
         } catch (DuplicatePersonException e) {
             throw new AssertionError("AddressBooks should not have duplicate persons");
         }
     }
 
-    //// person-level operations
+    //// food-level operations
 
     /**
-     * Adds a person to the address book.
-     * Also checks the new person's tags and updates {@link #tags} with any new tags found,
-     * and updates the Tag objects in the person to point to those in {@link #tags}.
+     * Adds a food to the address book.
+     * Also checks the new food's tags and updates {@link #tags} with any new tags found,
+     * and updates the Tag objects in the food to point to those in {@link #tags}.
      *
-     * @throws DuplicatePersonException if an equivalent person already exists.
+     * @throws DuplicatePersonException if an equivalent food already exists.
      */
-    public void addPerson(Person p) throws DuplicatePersonException {
-        Person person = syncWithMasterTagList(p);
+    public void addPerson(Food p) throws DuplicatePersonException {
+        Food food = syncWithMasterTagList(p);
         // TODO: the tags master list will be updated even though the below line fails.
-        // This can cause the tags master list to have additional tags that are not tagged to any person
-        // in the person list.
-        persons.add(person);
+        // This can cause the tags master list to have additional tags that are not tagged to any food
+        // in the food list.
+        persons.add(food);
     }
 
     /**
      * Replaces the given person {@code target} in the list with {@code editedPerson}.
      * {@code AddressBook}'s tag list will be updated with the tags of {@code editedPerson}.
      *
-     * @throws DuplicatePersonException if updating the person's details causes the person to be equivalent to
+     * @throws DuplicatePersonException if updating the food's details causes the food to be equivalent to
      *      another existing person in the list.
      * @throws PersonNotFoundException if {@code target} could not be found in the list.
      *
-     * @see #syncWithMasterTagList(Person)
+     * @see #syncWithMasterTagList(Food)
      */
-    public void updatePerson(Person target, Person editedPerson)
+    public void updatePerson(Food target, Food editedFood)
             throws DuplicatePersonException, PersonNotFoundException {
-        requireNonNull(editedPerson);
+        requireNonNull(editedFood);
 
-        Person syncedEditedPerson = syncWithMasterTagList(editedPerson);
+        Food syncedEditedFood = syncWithMasterTagList(editedFood);
         // TODO: the tags master list will be updated even though the below line fails.
-        // This can cause the tags master list to have additional tags that are not tagged to any person
-        // in the person list.
-        persons.setPerson(target, syncedEditedPerson);
+        // This can cause the tags master list to have additional tags that are not tagged to any food
+        // in the food list.
+        persons.setPerson(target, syncedEditedFood);
     }
 
     /**
-     *  Updates the master tag list to include tags in {@code person} that are not in the list.
-     *  @return a copy of this {@code person} such that every tag in this person points to a Tag object in the master
+     *  Updates the master tag list to include tags in {@code food} that are not in the list.
+     *  @return a copy of this {@code food} such that every tag in this food points to a Tag object in the master
      *  list.
      */
-    private Person syncWithMasterTagList(Person person) {
-        final UniqueTagList personTags = new UniqueTagList(person.getTags());
+    private Food syncWithMasterTagList(Food food) {
+        final UniqueTagList personTags = new UniqueTagList(food.getTags());
         tags.mergeFrom(personTags);
 
         // Create map with values = tag object references in the master list
-        // used for checking person tag references
+        // used for checking food tag references
         final Map<Tag, Tag> masterTagObjects = new HashMap<>();
         tags.forEach(tag -> masterTagObjects.put(tag, tag));
 
-        // Rebuild the list of person tags to point to the relevant tags in the master tag list.
+        // Rebuild the list of food tags to point to the relevant tags in the master tag list.
         final Set<Tag> correctTagReferences = new HashSet<>();
         personTags.forEach(tag -> correctTagReferences.add(masterTagObjects.get(tag)));
-        return new Person(
-                person.getName(), person.getPhone(), person.getEmail(), person.getAddress(), correctTagReferences);
+        return new Food(
+                food.getName(), food.getPhone(), food.getEmail(), food.getAddress(), correctTagReferences);
     }
 
     /**
      * Removes {@code key} from this {@code AddressBook}.
      * @throws PersonNotFoundException if the {@code key} is not in this {@code AddressBook}.
      */
-    public boolean removePerson(Person key) throws PersonNotFoundException {
+    public boolean removePerson(Food key) throws PersonNotFoundException {
         if (persons.remove(key)) {
             return true;
         } else {
@@ -162,7 +162,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     @Override
-    public ObservableList<Person> getPersonList() {
+    public ObservableList<Food> getPersonList() {
         return persons.asObservableList();
     }
 

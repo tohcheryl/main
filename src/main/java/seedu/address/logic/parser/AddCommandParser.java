@@ -16,8 +16,8 @@ import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
+import seedu.address.model.person.Food;
 import seedu.address.model.person.Name;
-import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
 
@@ -52,9 +52,9 @@ public class AddCommandParser implements Parser<AddCommand> {
 
             Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 
-            Person person = new Person(name, phone, email, address, tagList);
+            Food food = new Food(name, phone, email, address, tagList);
 
-            return new AddCommand(person);
+            return new AddCommand(food);
         } catch (IllegalValueException ive) {
             throw new ParseException(ive.getMessage(), ive);
         }
