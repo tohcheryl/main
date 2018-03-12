@@ -10,14 +10,14 @@ import seedu.address.model.person.Email;
 import seedu.address.model.person.Food;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
-import seedu.address.model.person.exceptions.DuplicatePersonException;
+import seedu.address.model.person.exceptions.DuplicateFoodException;
 import seedu.address.model.tag.Tag;
 
 /**
  * Contains utility methods for populating {@code AddressBook} with sample data.
  */
 public class SampleDataUtil {
-    public static Food[] getSamplePersons() {
+    public static Food[] getSampleFoods() {
         return new Food[] {
             new Food(new Name("Alex Yeoh"), new Phone("87438807"), new Email("alexyeoh@example.com"),
                 new Address("Blk 30 Geylang Street 29, #06-40"),
@@ -43,12 +43,12 @@ public class SampleDataUtil {
     public static ReadOnlyAddressBook getSampleAddressBook() {
         try {
             AddressBook sampleAb = new AddressBook();
-            for (Food sampleFood : getSamplePersons()) {
-                sampleAb.addPerson(sampleFood);
+            for (Food sampleFood : getSampleFoods()) {
+                sampleAb.addFood(sampleFood);
             }
             return sampleAb;
-        } catch (DuplicatePersonException e) {
-            throw new AssertionError("sample data cannot contain duplicate persons", e);
+        } catch (DuplicateFoodException e) {
+            throw new AssertionError("sample data cannot contain duplicate foods", e);
         }
     }
 

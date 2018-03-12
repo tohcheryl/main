@@ -1,17 +1,17 @@
 package seedu.address.commons.events.ui;
 
 import seedu.address.commons.events.BaseEvent;
-import seedu.address.ui.PersonCard;
+import seedu.address.ui.FoodCard;
 
 /**
  * Represents a selection change in the Food List Panel
  */
-public class PersonPanelSelectionChangedEvent extends BaseEvent {
+public class FoodPanelSelectionChangedEvent extends BaseEvent {
 
 
-    private final PersonCard newSelection;
+    private final FoodCard newSelection;
 
-    public PersonPanelSelectionChangedEvent(PersonCard newSelection) {
+    public FoodPanelSelectionChangedEvent(FoodCard newSelection) {
         this.newSelection = newSelection;
     }
 
@@ -20,7 +20,7 @@ public class PersonPanelSelectionChangedEvent extends BaseEvent {
         return this.getClass().getSimpleName();
     }
 
-    public PersonCard getNewSelection() {
+    public FoodCard getNewSelection() {
         return newSelection;
     }
 }

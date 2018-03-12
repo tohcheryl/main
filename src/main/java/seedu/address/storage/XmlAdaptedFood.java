@@ -19,7 +19,7 @@ import seedu.address.model.tag.Tag;
 /**
  * JAXB-friendly version of the Food.
  */
-public class XmlAdaptedPerson {
+public class XmlAdaptedFood {
 
     public static final String MISSING_FIELD_MESSAGE_FORMAT = "Food's %s field is missing!";
 
@@ -36,15 +36,15 @@ public class XmlAdaptedPerson {
     private List<XmlAdaptedTag> tagged = new ArrayList<>();
 
     /**
-     * Constructs an XmlAdaptedPerson.
+     * Constructs an XmlAdaptedFood.
      * This is the no-arg constructor that is required by JAXB.
      */
-    public XmlAdaptedPerson() {}
+    public XmlAdaptedFood() {}
 
     /**
-     * Constructs an {@code XmlAdaptedPerson} with the given food details.
+     * Constructs an {@code XmlAdaptedFood} with the given food details.
      */
-    public XmlAdaptedPerson(String name, String phone, String email, String address, List<XmlAdaptedTag> tagged) {
+    public XmlAdaptedFood(String name, String phone, String email, String address, List<XmlAdaptedTag> tagged) {
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -57,9 +57,9 @@ public class XmlAdaptedPerson {
     /**
      * Converts a given Food into this class for JAXB use.
      *
-     * @param source future changes to this will not affect the created XmlAdaptedPerson
+     * @param source future changes to this will not affect the created XmlAdaptedFood
      */
-    public XmlAdaptedPerson(Food source) {
+    public XmlAdaptedFood(Food source) {
         name = source.getName().fullName;
         phone = source.getPhone().value;
         email = source.getEmail().value;
@@ -123,15 +123,15 @@ public class XmlAdaptedPerson {
             return true;
         }
 
-        if (!(other instanceof XmlAdaptedPerson)) {
+        if (!(other instanceof XmlAdaptedFood)) {
             return false;
         }
 
-        XmlAdaptedPerson otherPerson = (XmlAdaptedPerson) other;
-        return Objects.equals(name, otherPerson.name)
-                && Objects.equals(phone, otherPerson.phone)
-                && Objects.equals(email, otherPerson.email)
-                && Objects.equals(address, otherPerson.address)
-                && tagged.equals(otherPerson.tagged);
+        XmlAdaptedFood otherFood = (XmlAdaptedFood) other;
+        return Objects.equals(name, otherFood.name)
+                && Objects.equals(phone, otherFood.phone)
+                && Objects.equals(email, otherFood.email)
+                && Objects.equals(address, otherFood.address)
+                && tagged.equals(otherFood.tagged);
     }
 }

@@ -9,18 +9,18 @@ import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.commons.util.CollectionUtil;
-import seedu.address.model.person.exceptions.DuplicatePersonException;
-import seedu.address.model.person.exceptions.PersonNotFoundException;
+import seedu.address.model.person.exceptions.DuplicateFoodException;
+import seedu.address.model.person.exceptions.FoodNotFoundException;
 
 /**
- * A list of persons that enforces uniqueness between its elements and does not allow nulls.
+ * A list of foods that enforces uniqueness between its elements and does not allow nulls.
  *
  * Supports a minimal set of list operations.
  *
  * @see Food#equals(Object)
  * @see CollectionUtil#elementsAreUnique(Collection)
  */
-public class UniquePersonList implements Iterable<Food> {
+public class UniqueFoodList implements Iterable<Food> {
 
     private final ObservableList<Food> internalList = FXCollections.observableArrayList();
 
@@ -35,12 +35,12 @@ public class UniquePersonList implements Iterable<Food> {
     /**
      * Adds a food to the list.
      *
-     * @throws DuplicatePersonException if the food to add is a duplicate of an existing food in the list.
+     * @throws DuplicateFoodException if the food to add is a duplicate of an existing food in the list.
      */
-    public void add(Food toAdd) throws DuplicatePersonException {
+    public void add(Food toAdd) throws DuplicateFoodException {
         requireNonNull(toAdd);
         if (contains(toAdd)) {
-            throw new DuplicatePersonException();
+            throw new DuplicateFoodException();
         }
         internalList.add(toAdd);
     }
@@ -48,20 +48,20 @@ public class UniquePersonList implements Iterable<Food> {
     /**
      * Replaces the food {@code target} in the list with {@code editedFood}.
      *
-     * @throws DuplicatePersonException if the replacement is equivalent to another existing food in the list.
-     * @throws PersonNotFoundException if {@code target} could not be found in the list.
+     * @throws DuplicateFoodException if the replacement is equivalent to another existing food in the list.
+     * @throws FoodNotFoundException if {@code target} could not be found in the list.
      */
-    public void setPerson(Food target, Food editedFood)
-            throws DuplicatePersonException, PersonNotFoundException {
+    public void setFood(Food target, Food editedFood)
+            throws DuplicateFoodException, FoodNotFoundException {
         requireNonNull(editedFood);
 
         int index = internalList.indexOf(target);
         if (index == -1) {
-            throw new PersonNotFoundException();
+            throw new FoodNotFoundException();
         }
 
         if (!target.equals(editedFood) && internalList.contains(editedFood)) {
-            throw new DuplicatePersonException();
+            throw new DuplicateFoodException();
         }
 
         internalList.set(index, editedFood);
@@ -70,28 +70,28 @@ public class UniquePersonList implements Iterable<Food> {
     /**
      * Removes the equivalent food from the list.
      *
-     * @throws PersonNotFoundException if no such food could be found in the list.
+     * @throws FoodNotFoundException if no such food could be found in the list.
      */
-    public boolean remove(Food toRemove) throws PersonNotFoundException {
+    public boolean remove(Food toRemove) throws FoodNotFoundException {
         requireNonNull(toRemove);
         final boolean personFoundAndDeleted = internalList.remove(toRemove);
         if (!personFoundAndDeleted) {
-            throw new PersonNotFoundException();
+            throw new FoodNotFoundException();
         }
         return personFoundAndDeleted;
     }
 
-    public void setPersons(UniquePersonList replacement) {
+    public void setFoods(UniqueFoodList replacement) {
         this.internalList.setAll(replacement.internalList);
     }
 
-    public void setPersons(List<Food> foods) throws DuplicatePersonException {
+    public void setFoods(List<Food> foods) throws DuplicateFoodException {
         requireAllNonNull(foods);
-        final UniquePersonList replacement = new UniquePersonList();
+        final UniqueFoodList replacement = new UniqueFoodList();
         for (final Food food : foods) {
             replacement.add(food);
         }
-        setPersons(replacement);
+        setFoods(replacement);
     }
 
     /**
@@ -109,8 +109,8 @@ public class UniquePersonList implements Iterable<Food> {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof UniquePersonList // instanceof handles nulls
-                        && this.internalList.equals(((UniquePersonList) other).internalList));
+                || (other instanceof UniqueFoodList // instanceof handles nulls
+                        && this.internalList.equals(((UniqueFoodList) other).internalList));
     }
 
     @Override

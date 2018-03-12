@@ -9,7 +9,7 @@ import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.person.Food;
-import seedu.address.model.person.exceptions.PersonNotFoundException;
+import seedu.address.model.person.exceptions.FoodNotFoundException;
 
 /**
  * Deletes a food identified using it's last displayed index from HackEat.
@@ -23,7 +23,7 @@ public class DeleteCommand extends UndoableCommand {
             + "Parameters: INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
 
-    public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted Food: %1$s";
+    public static final String MESSAGE_DELETE_FOOD_SUCCESS = "Deleted Food: %1$s";
 
     private final Index targetIndex;
 
@@ -38,20 +38,20 @@ public class DeleteCommand extends UndoableCommand {
     public CommandResult executeUndoableCommand() {
         requireNonNull(foodToDelete);
         try {
-            model.deletePerson(foodToDelete);
-        } catch (PersonNotFoundException pnfe) {
+            model.deleteFood(foodToDelete);
+        } catch (FoodNotFoundException pnfe) {
             throw new AssertionError("The target food cannot be missing");
         }
 
-        return new CommandResult(String.format(MESSAGE_DELETE_PERSON_SUCCESS, foodToDelete));
+        return new CommandResult(String.format(MESSAGE_DELETE_FOOD_SUCCESS, foodToDelete));
     }
 
     @Override
     protected void preprocessUndoableCommand() throws CommandException {
-        List<Food> lastShownList = model.getFilteredPersonList();
+        List<Food> lastShownList = model.getFilteredFoodList();
 
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+            throw new CommandException(Messages.MESSAGE_INVALID_FOOD_DISPLAYED_INDEX);
         }
 
         foodToDelete = lastShownList.get(targetIndex.getZeroBased());

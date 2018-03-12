@@ -13,8 +13,8 @@ import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
 import seedu.address.model.person.Food;
-import seedu.address.model.person.exceptions.DuplicatePersonException;
-import seedu.address.model.person.exceptions.PersonNotFoundException;
+import seedu.address.model.person.exceptions.DuplicateFoodException;
+import seedu.address.model.person.exceptions.FoodNotFoundException;
 
 /**
  * Represents the in-memory model of HackEat data.
@@ -36,7 +36,7 @@ public class ModelManager extends ComponentManager implements Model {
         logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
 
         this.addressBook = new AddressBook(addressBook);
-        filteredFoods = new FilteredList<>(this.addressBook.getPersonList());
+        filteredFoods = new FilteredList<>(this.addressBook.getFoodList());
     }
 
     public ModelManager() {
@@ -60,24 +60,24 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public synchronized void deletePerson(Food target) throws PersonNotFoundException {
-        addressBook.removePerson(target);
+    public synchronized void deleteFood(Food target) throws FoodNotFoundException {
+        addressBook.removeFood(target);
         indicateAddressBookChanged();
     }
 
     @Override
-    public synchronized void addPerson(Food food) throws DuplicatePersonException {
-        addressBook.addPerson(food);
-        updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+    public synchronized void addFood(Food food) throws DuplicateFoodException {
+        addressBook.addFood(food);
+        updateFilteredFoodList(PREDICATE_SHOW_ALL_FOODS);
         indicateAddressBookChanged();
     }
 
     @Override
-    public void updatePerson(Food target, Food editedFood)
-            throws DuplicatePersonException, PersonNotFoundException {
+    public void updateFood(Food target, Food editedFood)
+            throws DuplicateFoodException, FoodNotFoundException {
         requireAllNonNull(target, editedFood);
 
-        addressBook.updatePerson(target, editedFood);
+        addressBook.updateFood(target, editedFood);
         indicateAddressBookChanged();
     }
 
@@ -88,12 +88,12 @@ public class ModelManager extends ComponentManager implements Model {
      * {@code addressBook}
      */
     @Override
-    public ObservableList<Food> getFilteredPersonList() {
+    public ObservableList<Food> getFilteredFoodList() {
         return FXCollections.unmodifiableObservableList(filteredFoods);
     }
 
     @Override
-    public void updateFilteredPersonList(Predicate<Food> predicate) {
+    public void updateFilteredFoodList(Predicate<Food> predicate) {
         requireNonNull(predicate);
         filteredFoods.setPredicate(predicate);
     }

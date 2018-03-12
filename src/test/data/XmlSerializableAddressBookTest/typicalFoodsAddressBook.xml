@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!-- AddressBook save file which contains the same Food values as in
-{@code TypicalPersons#getTypicalAddressBook()}-->
+{@code TypicalFoods#getTypicalAddressBook()}-->
 <addressbook>
     <foods>
         <name>Alice Pauline</name>

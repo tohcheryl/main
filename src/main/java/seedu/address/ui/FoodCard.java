@@ -10,9 +10,9 @@ import seedu.address.model.person.Food;
 /**
  * An UI component that displays information of a {@code Food}.
  */
-public class PersonCard extends UiPart<Region> {
+public class FoodCard extends UiPart<Region> {
 
-    private static final String FXML = "PersonListCard.fxml";
+    private static final String FXML = "FoodListCard.fxml";
 
     /**
      * Note: Certain keywords such as "location" and "resources" are reserved keywords in JavaFX.
@@ -39,7 +39,7 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private FlowPane tags;
 
-    public PersonCard(Food food, int displayedIndex) {
+    public FoodCard(Food food, int displayedIndex) {
         super(FXML);
         this.food = food;
         id.setText(displayedIndex + ". ");
@@ -58,12 +58,12 @@ public class PersonCard extends UiPart<Region> {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof PersonCard)) {
+        if (!(other instanceof FoodCard)) {
             return false;
         }
 
         // state check
-        PersonCard card = (PersonCard) other;
+        FoodCard card = (FoodCard) other;
         return id.getText().equals(card.id.getText())
                 && food.equals(card.food);
     }

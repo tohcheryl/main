@@ -12,9 +12,9 @@ import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;
 import seedu.address.model.person.Food;
-import seedu.address.model.person.UniquePersonList;
-import seedu.address.model.person.exceptions.DuplicatePersonException;
-import seedu.address.model.person.exceptions.PersonNotFoundException;
+import seedu.address.model.person.UniqueFoodList;
+import seedu.address.model.person.exceptions.DuplicateFoodException;
+import seedu.address.model.person.exceptions.FoodNotFoundException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 
@@ -24,7 +24,7 @@ import seedu.address.model.tag.UniqueTagList;
  */
 public class AddressBook implements ReadOnlyAddressBook {
 
-    private final UniquePersonList persons;
+    private final UniqueFoodList foods;
     private final UniqueTagList tags;
 
     /*
@@ -35,14 +35,14 @@ public class AddressBook implements ReadOnlyAddressBook {
      *   among constructors.
      */
     {
-        persons = new UniquePersonList();
+        foods = new UniqueFoodList();
         tags = new UniqueTagList();
     }
 
     public AddressBook() {}
 
     /**
-     * Creates an AddressBook using the Persons and Tags in the {@code toBeCopied}
+     * Creates an AddressBook using the Foods and Tags in the {@code toBeCopied}
      */
     public AddressBook(ReadOnlyAddressBook toBeCopied) {
         this();
@@ -51,8 +51,8 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     //// list overwrite operations
 
-    public void setPersons(List<Food> foods) throws DuplicatePersonException {
-        this.persons.setPersons(foods);
+    public void setFoods(List<Food> foods) throws DuplicateFoodException {
+        this.foods.setFoods(foods);
     }
 
     public void setTags(Set<Tag> tags) {
@@ -65,14 +65,14 @@ public class AddressBook implements ReadOnlyAddressBook {
     public void resetData(ReadOnlyAddressBook newData) {
         requireNonNull(newData);
         setTags(new HashSet<>(newData.getTagList()));
-        List<Food> syncedFoodList = newData.getPersonList().stream()
+        List<Food> syncedFoodList = newData.getFoodList().stream()
                 .map(this::syncWithMasterTagList)
                 .collect(Collectors.toList());
 
         try {
-            setPersons(syncedFoodList);
-        } catch (DuplicatePersonException e) {
-            throw new AssertionError("AddressBooks should not have duplicate persons");
+            setFoods(syncedFoodList);
+        } catch (DuplicateFoodException e) {
+            throw new AssertionError("AddressBooks should not have duplicate foods");
         }
     }
 
@@ -83,35 +83,35 @@ public class AddressBook implements ReadOnlyAddressBook {
      * Also checks the new food's tags and updates {@link #tags} with any new tags found,
      * and updates the Tag objects in the food to point to those in {@link #tags}.
      *
-     * @throws DuplicatePersonException if an equivalent food already exists.
+     * @throws DuplicateFoodException if an equivalent food already exists.
      */
-    public void addPerson(Food p) throws DuplicatePersonException {
+    public void addFood(Food p) throws DuplicateFoodException {
         Food food = syncWithMasterTagList(p);
         // TODO: the tags master list will be updated even though the below line fails.
         // This can cause the tags master list to have additional tags that are not tagged to any food
         // in the food list.
-        persons.add(food);
+        foods.add(food);
     }
 
     /**
-     * Replaces the given person {@code target} in the list with {@code editedPerson}.
-     * {@code AddressBook}'s tag list will be updated with the tags of {@code editedPerson}.
+     * Replaces the given person {@code target} in the list with {@code editedFood}.
+     * {@code AddressBook}'s tag list will be updated with the tags of {@code editedFood}.
      *
-     * @throws DuplicatePersonException if updating the food's details causes the food to be equivalent to
+     * @throws DuplicateFoodException if updating the food's details causes the food to be equivalent to
      *      another existing person in the list.
-     * @throws PersonNotFoundException if {@code target} could not be found in the list.
+     * @throws FoodNotFoundException if {@code target} could not be found in the list.
      *
      * @see #syncWithMasterTagList(Food)
      */
-    public void updatePerson(Food target, Food editedFood)
-            throws DuplicatePersonException, PersonNotFoundException {
+    public void updateFood(Food target, Food editedFood)
+            throws DuplicateFoodException, FoodNotFoundException {
         requireNonNull(editedFood);
 
         Food syncedEditedFood = syncWithMasterTagList(editedFood);
         // TODO: the tags master list will be updated even though the below line fails.
         // This can cause the tags master list to have additional tags that are not tagged to any food
         // in the food list.
-        persons.setPerson(target, syncedEditedFood);
+        foods.setFood(target, syncedEditedFood);
     }
 
     /**
@@ -137,13 +137,13 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     /**
      * Removes {@code key} from this {@code AddressBook}.
-     * @throws PersonNotFoundException if the {@code key} is not in this {@code AddressBook}.
+     * @throws FoodNotFoundException if the {@code key} is not in this {@code AddressBook}.
      */
-    public boolean removePerson(Food key) throws PersonNotFoundException {
-        if (persons.remove(key)) {
+    public boolean removeFood(Food key) throws FoodNotFoundException {
+        if (foods.remove(key)) {
             return true;
         } else {
-            throw new PersonNotFoundException();
+            throw new FoodNotFoundException();
         }
     }
 
@@ -157,13 +157,13 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     @Override
     public String toString() {
-        return persons.asObservableList().size() + " persons, " + tags.asObservableList().size() +  " tags";
+        return foods.asObservableList().size() + " foods, " + tags.asObservableList().size() +  " tags";
         // TODO: refine later
     }
 
     @Override
-    public ObservableList<Food> getPersonList() {
-        return persons.asObservableList();
+    public ObservableList<Food> getFoodList() {
+        return foods.asObservableList();
     }
 
     @Override
@@ -175,13 +175,13 @@ public class AddressBook implements ReadOnlyAddressBook {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof AddressBook // instanceof handles nulls
-                && this.persons.equals(((AddressBook) other).persons)
+                && this.foods.equals(((AddressBook) other).foods)
                 && this.tags.equalsOrderInsensitive(((AddressBook) other).tags));
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(persons, tags);
+        return Objects.hash(foods, tags);
     }
 }

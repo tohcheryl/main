@@ -2,16 +2,16 @@ package seedu.address.ui;
 
 import static org.junit.Assert.assertEquals;
 import static seedu.address.testutil.EventsUtil.postNow;
-import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
-import static seedu.address.testutil.TypicalPersons.getTypicalPersons;
-import static seedu.address.ui.testutil.GuiTestAssert.assertCardDisplaysPerson;
+import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_FOOD;
+import static seedu.address.testutil.TypicalFoods.getTypicalFoods;
+import static seedu.address.ui.testutil.GuiTestAssert.assertCardDisplaysFood;
 import static seedu.address.ui.testutil.GuiTestAssert.assertCardEquals;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import guitests.guihandles.PersonCardHandle;
-import guitests.guihandles.PersonListPanelHandle;
+import guitests.guihandles.FoodCardHandle;
+import guitests.guihandles.FoodListPanelHandle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.commons.events.ui.JumpToListRequestEvent;
@@ -19,19 +19,19 @@ import seedu.address.model.person.Food;
 
 public class FoodListPanelTest extends GuiUnitTest {
     private static final ObservableList<Food> TYPICAL_FOODS =
-            FXCollections.observableList(getTypicalPersons());
+            FXCollections.observableList(getTypicalFoods());
 
-    private static final JumpToListRequestEvent JUMP_TO_SECOND_EVENT = new JumpToListRequestEvent(INDEX_SECOND_PERSON);
+    private static final JumpToListRequestEvent JUMP_TO_SECOND_EVENT = new JumpToListRequestEvent(INDEX_SECOND_FOOD);
 
-    private PersonListPanelHandle personListPanelHandle;
+    private FoodListPanelHandle personListPanelHandle;
 
     @Before
     public void setUp() {
-        PersonListPanel personListPanel = new PersonListPanel(TYPICAL_FOODS);
+        FoodListPanel personListPanel = new FoodListPanel(TYPICAL_FOODS);
         uiPartRule.setUiPart(personListPanel);
 
-        personListPanelHandle = new PersonListPanelHandle(getChildNode(personListPanel.getRoot(),
-                PersonListPanelHandle.PERSON_LIST_VIEW_ID));
+        personListPanelHandle = new FoodListPanelHandle(getChildNode(personListPanel.getRoot(),
+                FoodListPanelHandle.FOOD_LIST_VIEW_ID));
     }
 
     @Test
@@ -39,9 +39,9 @@ public class FoodListPanelTest extends GuiUnitTest {
         for (int i = 0; i < TYPICAL_FOODS.size(); i++) {
             personListPanelHandle.navigateToCard(TYPICAL_FOODS.get(i));
             Food expectedFood = TYPICAL_FOODS.get(i);
-            PersonCardHandle actualCard = personListPanelHandle.getPersonCardHandle(i);
+            FoodCardHandle actualCard = personListPanelHandle.getFoodCardHandle(i);
 
-            assertCardDisplaysPerson(expectedFood, actualCard);
+            assertCardDisplaysFood(expectedFood, actualCard);
             assertEquals(Integer.toString(i + 1) + ". ", actualCard.getId());
         }
     }
@@ -51,8 +51,8 @@ public class FoodListPanelTest extends GuiUnitTest {
         postNow(JUMP_TO_SECOND_EVENT);
         guiRobot.pauseForHuman();
 
-        PersonCardHandle expectedCard = personListPanelHandle.getPersonCardHandle(INDEX_SECOND_PERSON.getZeroBased());
-        PersonCardHandle selectedCard = personListPanelHandle.getHandleToSelectedCard();
+        FoodCardHandle expectedCard = personListPanelHandle.getFoodCardHandle(INDEX_SECOND_FOOD.getZeroBased());
+        FoodCardHandle selectedCard = personListPanelHandle.getHandleToSelectedCard();
         assertCardEquals(expectedCard, selectedCard);
     }
 }

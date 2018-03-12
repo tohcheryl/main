@@ -1,8 +1,8 @@
 package seedu.address.model;
 
 import static org.junit.Assert.assertEquals;
-import static seedu.address.testutil.TypicalPersons.ALICE;
-import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
+import static seedu.address.testutil.TypicalFoods.ALICE;
+import static seedu.address.testutil.TypicalFoods.getTypicalAddressBook;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,7 +28,7 @@ public class AddressBookTest {
 
     @Test
     public void constructor() {
-        assertEquals(Collections.emptyList(), addressBook.getPersonList());
+        assertEquals(Collections.emptyList(), addressBook.getFoodList());
         assertEquals(Collections.emptyList(), addressBook.getTagList());
     }
 
@@ -46,7 +46,7 @@ public class AddressBookTest {
     }
 
     @Test
-    public void resetData_withDuplicatePersons_throwsAssertionError() {
+    public void resetData_withDuplicateFoods_throwsAssertionError() {
         // Repeat ALICE twice
         List<Food> newFoods = Arrays.asList(ALICE, ALICE);
         List<Tag> newTags = new ArrayList<>(ALICE.getTags());
@@ -57,9 +57,9 @@ public class AddressBookTest {
     }
 
     @Test
-    public void getPersonList_modifyList_throwsUnsupportedOperationException() {
+    public void getFoodList_modifyList_throwsUnsupportedOperationException() {
         thrown.expect(UnsupportedOperationException.class);
-        addressBook.getPersonList().remove(0);
+        addressBook.getFoodList().remove(0);
     }
 
     @Test
@@ -81,7 +81,7 @@ public class AddressBookTest {
         }
 
         @Override
-        public ObservableList<Food> getPersonList() {
+        public ObservableList<Food> getFoodList() {
             return foods;
         }
 

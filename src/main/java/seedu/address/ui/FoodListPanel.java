@@ -14,30 +14,30 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.ui.JumpToListRequestEvent;
-import seedu.address.commons.events.ui.PersonPanelSelectionChangedEvent;
+import seedu.address.commons.events.ui.FoodPanelSelectionChangedEvent;
 import seedu.address.model.person.Food;
 
 /**
- * Panel containing the list of persons.
+ * Panel containing the list of foods.
  */
-public class PersonListPanel extends UiPart<Region> {
-    private static final String FXML = "PersonListPanel.fxml";
-    private final Logger logger = LogsCenter.getLogger(PersonListPanel.class);
+public class FoodListPanel extends UiPart<Region> {
+    private static final String FXML = "FoodListPanel.fxml";
+    private final Logger logger = LogsCenter.getLogger(FoodListPanel.class);
 
     @FXML
-    private ListView<PersonCard> personListView;
+    private ListView<FoodCard> personListView;
 
-    public PersonListPanel(ObservableList<Food> foodList) {
+    public FoodListPanel(ObservableList<Food> foodList) {
         super(FXML);
         setConnections(foodList);
         registerAsAnEventHandler(this);
     }
 
     private void setConnections(ObservableList<Food> foodList) {
-        ObservableList<PersonCard> mappedList = EasyBind.map(
-                foodList, (person) -> new PersonCard(person, foodList.indexOf(person) + 1));
+        ObservableList<FoodCard> mappedList = EasyBind.map(
+                foodList, (person) -> new FoodCard(person, foodList.indexOf(person) + 1));
         personListView.setItems(mappedList);
-        personListView.setCellFactory(listView -> new PersonListViewCell());
+        personListView.setCellFactory(listView -> new FoodListViewCell());
         setEventHandlerForSelectionChangeEvent();
     }
 
@@ -46,13 +46,13 @@ public class PersonListPanel extends UiPart<Region> {
                 .addListener((observable, oldValue, newValue) -> {
                     if (newValue != null) {
                         logger.fine("Selection in food list panel changed to : '" + newValue + "'");
-                        raise(new PersonPanelSelectionChangedEvent(newValue));
+                        raise(new FoodPanelSelectionChangedEvent(newValue));
                     }
                 });
     }
 
     /**
-     * Scrolls to the {@code PersonCard} at the {@code index} and selects it.
+     * Scrolls to the {@code FoodCard} at the {@code index} and selects it.
      */
     private void scrollTo(int index) {
         Platform.runLater(() -> {
@@ -68,12 +68,12 @@ public class PersonListPanel extends UiPart<Region> {
     }
 
     /**
-     * Custom {@code ListCell} that displays the graphics of a {@code PersonCard}.
+     * Custom {@code ListCell} that displays the graphics of a {@code FoodCard}.
      */
-    class PersonListViewCell extends ListCell<PersonCard> {
+    class FoodListViewCell extends ListCell<FoodCard> {
 
         @Override
-        protected void updateItem(PersonCard person, boolean empty) {
+        protected void updateItem(FoodCard person, boolean empty) {
             super.updateItem(person, empty);
 
             if (empty || person == null) {

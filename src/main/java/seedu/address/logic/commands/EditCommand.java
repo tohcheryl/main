@@ -6,7 +6,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
-import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
+import static seedu.address.model.Model.PREDICATE_SHOW_ALL_FOODS;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -24,8 +24,8 @@ import seedu.address.model.person.Email;
 import seedu.address.model.person.Food;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
-import seedu.address.model.person.exceptions.DuplicatePersonException;
-import seedu.address.model.person.exceptions.PersonNotFoundException;
+import seedu.address.model.person.exceptions.DuplicateFoodException;
+import seedu.address.model.person.exceptions.FoodNotFoundException;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -48,65 +48,65 @@ public class EditCommand extends UndoableCommand {
             + PREFIX_PHONE + "91234567 "
             + PREFIX_EMAIL + "johndoe@example.com";
 
-    public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Food: %1$s";
+    public static final String MESSAGE_EDIT_FOOD_SUCCESS = "Edited Food: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This food already exists in HackEat.";
+    public static final String MESSAGE_DUPLICATE_FOOD = "This food already exists in HackEat.";
 
     private final Index index;
-    private final EditPersonDescriptor editPersonDescriptor;
+    private final EditFoodDescriptor editFoodDescriptor;
 
     private Food foodToEdit;
     private Food editedFood;
 
     /**
      * @param index of the food in the filtered food list to edit
-     * @param editPersonDescriptor details to edit the food with
+     * @param editFoodDescriptor details to edit the food with
      */
-    public EditCommand(Index index, EditPersonDescriptor editPersonDescriptor) {
+    public EditCommand(Index index, EditFoodDescriptor editFoodDescriptor) {
         requireNonNull(index);
-        requireNonNull(editPersonDescriptor);
+        requireNonNull(editFoodDescriptor);
 
         this.index = index;
-        this.editPersonDescriptor = new EditPersonDescriptor(editPersonDescriptor);
+        this.editFoodDescriptor = new EditFoodDescriptor(editFoodDescriptor);
     }
 
     @Override
     public CommandResult executeUndoableCommand() throws CommandException {
         try {
-            model.updatePerson(foodToEdit, editedFood);
-        } catch (DuplicatePersonException dpe) {
-            throw new CommandException(MESSAGE_DUPLICATE_PERSON);
-        } catch (PersonNotFoundException pnfe) {
+            model.updateFood(foodToEdit, editedFood);
+        } catch (DuplicateFoodException dpe) {
+            throw new CommandException(MESSAGE_DUPLICATE_FOOD);
+        } catch (FoodNotFoundException pnfe) {
             throw new AssertionError("The target food cannot be missing");
         }
-        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-        return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, editedFood));
+        model.updateFilteredFoodList(PREDICATE_SHOW_ALL_FOODS);
+        return new CommandResult(String.format(MESSAGE_EDIT_FOOD_SUCCESS, editedFood));
     }
 
     @Override
     protected void preprocessUndoableCommand() throws CommandException {
-        List<Food> lastShownList = model.getFilteredPersonList();
+        List<Food> lastShownList = model.getFilteredFoodList();
 
         if (index.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+            throw new CommandException(Messages.MESSAGE_INVALID_FOOD_DISPLAYED_INDEX);
         }
 
         foodToEdit = lastShownList.get(index.getZeroBased());
-        editedFood = createEditedPerson(foodToEdit, editPersonDescriptor);
+        editedFood = createEditedFood(foodToEdit, editFoodDescriptor);
     }
 
     /**
      * Creates and returns a {@code Food} with the details of {@code foodToEdit}
-     * edited with {@code editPersonDescriptor}.
+     * edited with {@code editFoodDescriptor}.
      */
-    private static Food createEditedPerson(Food foodToEdit, EditPersonDescriptor editPersonDescriptor) {
+    private static Food createEditedFood(Food foodToEdit, EditFoodDescriptor editFoodDescriptor) {
         assert foodToEdit != null;
 
-        Name updatedName = editPersonDescriptor.getName().orElse(foodToEdit.getName());
-        Phone updatedPhone = editPersonDescriptor.getPhone().orElse(foodToEdit.getPhone());
-        Email updatedEmail = editPersonDescriptor.getEmail().orElse(foodToEdit.getEmail());
-        Address updatedAddress = editPersonDescriptor.getAddress().orElse(foodToEdit.getAddress());
-        Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(foodToEdit.getTags());
+        Name updatedName = editFoodDescriptor.getName().orElse(foodToEdit.getName());
+        Phone updatedPhone = editFoodDescriptor.getPhone().orElse(foodToEdit.getPhone());
+        Email updatedEmail = editFoodDescriptor.getEmail().orElse(foodToEdit.getEmail());
+        Address updatedAddress = editFoodDescriptor.getAddress().orElse(foodToEdit.getAddress());
+        Set<Tag> updatedTags = editFoodDescriptor.getTags().orElse(foodToEdit.getTags());
 
         return new Food(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags);
     }
@@ -126,7 +126,7 @@ public class EditCommand extends UndoableCommand {
         // state check
         EditCommand e = (EditCommand) other;
         return index.equals(e.index)
-                && editPersonDescriptor.equals(e.editPersonDescriptor)
+                && editFoodDescriptor.equals(e.editFoodDescriptor)
                 && Objects.equals(foodToEdit, e.foodToEdit);
     }
 
@@ -134,20 +134,20 @@ public class EditCommand extends UndoableCommand {
      * Stores the details to edit the food with. Each non-empty field value will replace the
      * corresponding field value of the food.
      */
-    public static class EditPersonDescriptor {
+    public static class EditFoodDescriptor {
         private Name name;
         private Phone phone;
         private Email email;
         private Address address;
         private Set<Tag> tags;
 
-        public EditPersonDescriptor() {}
+        public EditFoodDescriptor() {}
 
         /**
          * Copy constructor.
          * A defensive copy of {@code tags} is used internally.
          */
-        public EditPersonDescriptor(EditPersonDescriptor toCopy) {
+        public EditFoodDescriptor(EditFoodDescriptor toCopy) {
             setName(toCopy.name);
             setPhone(toCopy.phone);
             setEmail(toCopy.email);
@@ -219,12 +219,12 @@ public class EditCommand extends UndoableCommand {
             }
 
             // instanceof handles nulls
-            if (!(other instanceof EditPersonDescriptor)) {
+            if (!(other instanceof EditFoodDescriptor)) {
                 return false;
             }
 
             // state check
-            EditPersonDescriptor e = (EditPersonDescriptor) other;
+            EditFoodDescriptor e = (EditFoodDescriptor) other;
 
             return getName().equals(e.getName())
                     && getPhone().equals(e.getPhone())

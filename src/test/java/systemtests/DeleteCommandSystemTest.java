@@ -1,14 +1,14 @@
 package systemtests;
 
 import static org.junit.Assert.assertTrue;
-import static seedu.address.commons.core.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
+import static seedu.address.commons.core.Messages.MESSAGE_INVALID_FOOD_DISPLAYED_INDEX;
 import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
-import static seedu.address.logic.commands.DeleteCommand.MESSAGE_DELETE_PERSON_SUCCESS;
+import static seedu.address.logic.commands.DeleteCommand.MESSAGE_DELETE_FOOD_SUCCESS;
 import static seedu.address.testutil.TestUtil.getLastIndex;
 import static seedu.address.testutil.TestUtil.getMidIndex;
-import static seedu.address.testutil.TestUtil.getPerson;
-import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
-import static seedu.address.testutil.TypicalPersons.KEYWORD_MATCHING_MEIER;
+import static seedu.address.testutil.TestUtil.getFood;
+import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_FOOD;
+import static seedu.address.testutil.TypicalFoods.KEYWORD_MATCHING_MEIER;
 
 import org.junit.Test;
 
@@ -19,7 +19,7 @@ import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.UndoCommand;
 import seedu.address.model.Model;
 import seedu.address.model.person.Food;
-import seedu.address.model.person.exceptions.PersonNotFoundException;
+import seedu.address.model.person.exceptions.FoodNotFoundException;
 
 public class DeleteCommandSystemTest extends AddressBookSystemTest {
 
@@ -32,15 +32,15 @@ public class DeleteCommandSystemTest extends AddressBookSystemTest {
 
         /* Case: delete the first food in the list, command with leading spaces and trailing spaces -> deleted */
         Model expectedModel = getModel();
-        String command = "     " + DeleteCommand.COMMAND_WORD + "      " + INDEX_FIRST_PERSON.getOneBased() + "       ";
-        Food deletedFood = removePerson(expectedModel, INDEX_FIRST_PERSON);
-        String expectedResultMessage = String.format(MESSAGE_DELETE_PERSON_SUCCESS, deletedFood);
+        String command = "     " + DeleteCommand.COMMAND_WORD + "      " + INDEX_FIRST_FOOD.getOneBased() + "       ";
+        Food deletedFood = removeFood(expectedModel, INDEX_FIRST_FOOD);
+        String expectedResultMessage = String.format(MESSAGE_DELETE_FOOD_SUCCESS, deletedFood);
         assertCommandSuccess(command, expectedModel, expectedResultMessage);
 
         /* Case: delete the last food in the list -> deleted */
         Model modelBeforeDeletingLast = getModel();
-        Index lastPersonIndex = getLastIndex(modelBeforeDeletingLast);
-        assertCommandSuccess(lastPersonIndex);
+        Index lastFoodIndex = getLastIndex(modelBeforeDeletingLast);
+        assertCommandSuccess(lastFoodIndex);
 
         /* Case: undo deleting the last food in the list -> last food restored */
         command = UndoCommand.COMMAND_WORD;
@@ -49,41 +49,41 @@ public class DeleteCommandSystemTest extends AddressBookSystemTest {
 
         /* Case: redo deleting the last food in the list -> last food deleted again */
         command = RedoCommand.COMMAND_WORD;
-        removePerson(modelBeforeDeletingLast, lastPersonIndex);
+        removeFood(modelBeforeDeletingLast, lastFoodIndex);
         expectedResultMessage = RedoCommand.MESSAGE_SUCCESS;
         assertCommandSuccess(command, modelBeforeDeletingLast, expectedResultMessage);
 
         /* Case: delete the middle food in the list -> deleted */
-        Index middlePersonIndex = getMidIndex(getModel());
-        assertCommandSuccess(middlePersonIndex);
+        Index middleFoodIndex = getMidIndex(getModel());
+        assertCommandSuccess(middleFoodIndex);
 
         /* ------------------ Performing delete operation while a filtered list is being shown ---------------------- */
 
         /* Case: filtered food list, delete index within bounds of address book and food list -> deleted */
-        showPersonsWithName(KEYWORD_MATCHING_MEIER);
-        Index index = INDEX_FIRST_PERSON;
-        assertTrue(index.getZeroBased() < getModel().getFilteredPersonList().size());
+        showFoodsWithName(KEYWORD_MATCHING_MEIER);
+        Index index = INDEX_FIRST_FOOD;
+        assertTrue(index.getZeroBased() < getModel().getFilteredFoodList().size());
         assertCommandSuccess(index);
 
         /* Case: filtered food list, delete index within bounds of address book but out of bounds of food list
          * -> rejected
          */
-        showPersonsWithName(KEYWORD_MATCHING_MEIER);
-        int invalidIndex = getModel().getAddressBook().getPersonList().size();
+        showFoodsWithName(KEYWORD_MATCHING_MEIER);
+        int invalidIndex = getModel().getAddressBook().getFoodList().size();
         command = DeleteCommand.COMMAND_WORD + " " + invalidIndex;
-        assertCommandFailure(command, MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        assertCommandFailure(command, MESSAGE_INVALID_FOOD_DISPLAYED_INDEX);
 
         /* --------------------- Performing delete operation while a food card is selected ------------------------ */
 
         /* Case: delete the selected food -> food list panel selects the food before the deleted food */
-        showAllPersons();
+        showAllFoods();
         expectedModel = getModel();
         Index selectedIndex = getLastIndex(expectedModel);
         Index expectedIndex = Index.fromZeroBased(selectedIndex.getZeroBased() - 1);
-        selectPerson(selectedIndex);
+        selectFood(selectedIndex);
         command = DeleteCommand.COMMAND_WORD + " " + selectedIndex.getOneBased();
-        deletedFood = removePerson(expectedModel, selectedIndex);
-        expectedResultMessage = String.format(MESSAGE_DELETE_PERSON_SUCCESS, deletedFood);
+        deletedFood = removeFood(expectedModel, selectedIndex);
+        expectedResultMessage = String.format(MESSAGE_DELETE_FOOD_SUCCESS, deletedFood);
         assertCommandSuccess(command, expectedModel, expectedResultMessage, expectedIndex);
 
         /* --------------------------------- Performing invalid delete operation ------------------------------------ */
@@ -98,9 +98,9 @@ public class DeleteCommandSystemTest extends AddressBookSystemTest {
 
         /* Case: invalid index (size + 1) -> rejected */
         Index outOfBoundsIndex = Index.fromOneBased(
-                getModel().getAddressBook().getPersonList().size() + 1);
+                getModel().getAddressBook().getFoodList().size() + 1);
         command = DeleteCommand.COMMAND_WORD + " " + outOfBoundsIndex.getOneBased();
-        assertCommandFailure(command, MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
+        assertCommandFailure(command, MESSAGE_INVALID_FOOD_DISPLAYED_INDEX);
 
         /* Case: invalid arguments (alphabets) -> rejected */
         assertCommandFailure(DeleteCommand.COMMAND_WORD + " abc", MESSAGE_INVALID_DELETE_COMMAND_FORMAT);
@@ -116,11 +116,11 @@ public class DeleteCommandSystemTest extends AddressBookSystemTest {
      * Removes the {@code Food} at the specified {@code index} in {@code model}'s address book.
      * @return the removed food
      */
-    private Food removePerson(Model model, Index index) {
-        Food targetFood = getPerson(model, index);
+    private Food removeFood(Model model, Index index) {
+        Food targetFood = getFood(model, index);
         try {
-            model.deletePerson(targetFood);
-        } catch (PersonNotFoundException pnfe) {
+            model.deleteFood(targetFood);
+        } catch (FoodNotFoundException pnfe) {
             throw new AssertionError("targetFood is retrieved from model.");
         }
         return targetFood;
@@ -133,8 +133,8 @@ public class DeleteCommandSystemTest extends AddressBookSystemTest {
      */
     private void assertCommandSuccess(Index toDelete) {
         Model expectedModel = getModel();
-        Food deletedFood = removePerson(expectedModel, toDelete);
-        String expectedResultMessage = String.format(MESSAGE_DELETE_PERSON_SUCCESS, deletedFood);
+        Food deletedFood = removeFood(expectedModel, toDelete);
+        String expectedResultMessage = String.format(MESSAGE_DELETE_FOOD_SUCCESS, deletedFood);
 
         assertCommandSuccess(
                 DeleteCommand.COMMAND_WORD + " " + toDelete.getOneBased(), expectedModel, expectedResultMessage);

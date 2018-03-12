@@ -2,10 +2,10 @@ package seedu.address.logic.commands;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import static seedu.address.logic.commands.CommandTestUtil.deleteFirstPerson;
-import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;
-import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
-import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
+import static seedu.address.logic.commands.CommandTestUtil.deleteFirstFood;
+import static seedu.address.logic.commands.CommandTestUtil.showFoodAtIndex;
+import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_FOOD;
+import static seedu.address.testutil.TypicalFoods.getTypicalAddressBook;
 
 import org.junit.Test;
 
@@ -14,7 +14,7 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Food;
-import seedu.address.model.person.exceptions.PersonNotFoundException;
+import seedu.address.model.person.exceptions.FoodNotFoundException;
 
 public class UndoableCommandTest {
     private final Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
@@ -25,12 +25,12 @@ public class UndoableCommandTest {
     @Test
     public void executeUndo() throws Exception {
         dummyCommand.execute();
-        deleteFirstPerson(expectedModel);
+        deleteFirstFood(expectedModel);
         assertEquals(expectedModel, model);
 
-        showPersonAtIndex(model, INDEX_FIRST_PERSON);
+        showFoodAtIndex(model, INDEX_FIRST_FOOD);
 
-        // undo() should cause the model's filtered list to show all persons
+        // undo() should cause the model's filtered list to show all foods
         dummyCommand.undo();
         expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         assertEquals(expectedModel, model);
@@ -38,11 +38,11 @@ public class UndoableCommandTest {
 
     @Test
     public void redo() {
-        showPersonAtIndex(model, INDEX_FIRST_PERSON);
+        showFoodAtIndex(model, INDEX_FIRST_FOOD);
 
-        // redo() should cause the model's filtered list to show all persons
+        // redo() should cause the model's filtered list to show all foods
         dummyCommand.redo();
-        deleteFirstPerson(expectedModel);
+        deleteFirstFood(expectedModel);
         assertEquals(expectedModel, model);
     }
 
@@ -56,10 +56,10 @@ public class UndoableCommandTest {
 
         @Override
         public CommandResult executeUndoableCommand() throws CommandException {
-            Food foodToDelete = model.getFilteredPersonList().get(0);
+            Food foodToDelete = model.getFilteredFoodList().get(0);
             try {
-                model.deletePerson(foodToDelete);
-            } catch (PersonNotFoundException pnfe) {
+                model.deleteFood(foodToDelete);
+            } catch (FoodNotFoundException pnfe) {
                 fail("Impossible: foodToDelete was retrieved from model.");
             }
             return new CommandResult("");

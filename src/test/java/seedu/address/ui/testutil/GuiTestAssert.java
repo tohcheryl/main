@@ -5,8 +5,8 @@ import static org.junit.Assert.assertEquals;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import guitests.guihandles.PersonCardHandle;
-import guitests.guihandles.PersonListPanelHandle;
+import guitests.guihandles.FoodCardHandle;
+import guitests.guihandles.FoodListPanelHandle;
 import guitests.guihandles.ResultDisplayHandle;
 import seedu.address.model.person.Food;
 
@@ -17,7 +17,7 @@ public class GuiTestAssert {
     /**
      * Asserts that {@code actualCard} displays the same values as {@code expectedCard}.
      */
-    public static void assertCardEquals(PersonCardHandle expectedCard, PersonCardHandle actualCard) {
+    public static void assertCardEquals(FoodCardHandle expectedCard, FoodCardHandle actualCard) {
         assertEquals(expectedCard.getId(), actualCard.getId());
         assertEquals(expectedCard.getAddress(), actualCard.getAddress());
         assertEquals(expectedCard.getEmail(), actualCard.getEmail());
@@ -29,7 +29,7 @@ public class GuiTestAssert {
     /**
      * Asserts that {@code actualCard} displays the details of {@code expectedFood}.
      */
-    public static void assertCardDisplaysPerson(Food expectedFood, PersonCardHandle actualCard) {
+    public static void assertCardDisplaysFood(Food expectedFood, FoodCardHandle actualCard) {
         assertEquals(expectedFood.getName().fullName, actualCard.getName());
         assertEquals(expectedFood.getPhone().value, actualCard.getPhone());
         assertEquals(expectedFood.getEmail().value, actualCard.getEmail());
@@ -42,9 +42,9 @@ public class GuiTestAssert {
      * Asserts that the list in {@code personListPanelHandle} displays the details of {@code foods} correctly and
      * in the correct order.
      */
-    public static void assertListMatching(PersonListPanelHandle personListPanelHandle, Food... foods) {
+    public static void assertListMatching(FoodListPanelHandle personListPanelHandle, Food... foods) {
         for (int i = 0; i < foods.length; i++) {
-            assertCardDisplaysPerson(foods[i], personListPanelHandle.getPersonCardHandle(i));
+            assertCardDisplaysFood(foods[i], personListPanelHandle.getFoodCardHandle(i));
         }
     }
 
@@ -52,14 +52,14 @@ public class GuiTestAssert {
      * Asserts that the list in {@code personListPanelHandle} displays the details of {@code foods} correctly and
      * in the correct order.
      */
-    public static void assertListMatching(PersonListPanelHandle personListPanelHandle, List<Food> foods) {
+    public static void assertListMatching(FoodListPanelHandle personListPanelHandle, List<Food> foods) {
         assertListMatching(personListPanelHandle, foods.toArray(new Food[0]));
     }
 
     /**
      * Asserts the size of the list in {@code personListPanelHandle} equals to {@code size}.
      */
-    public static void assertListSize(PersonListPanelHandle personListPanelHandle, int size) {
+    public static void assertListSize(FoodListPanelHandle personListPanelHandle, int size) {
         int numberOfPeople = personListPanelHandle.getListSize();
         assertEquals(size, numberOfPeople);
     }

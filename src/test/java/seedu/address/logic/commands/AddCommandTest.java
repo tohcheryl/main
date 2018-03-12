@@ -22,9 +22,9 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.person.Food;
-import seedu.address.model.person.exceptions.DuplicatePersonException;
-import seedu.address.model.person.exceptions.PersonNotFoundException;
-import seedu.address.testutil.PersonBuilder;
+import seedu.address.model.person.exceptions.DuplicateFoodException;
+import seedu.address.model.person.exceptions.FoodNotFoundException;
+import seedu.address.testutil.FoodBuilder;
 
 public class AddCommandTest {
 
@@ -32,37 +32,37 @@ public class AddCommandTest {
     public ExpectedException thrown = ExpectedException.none();
 
     @Test
-    public void constructor_nullPerson_throwsNullPointerException() {
+    public void constructor_nullFood_throwsNullPointerException() {
         thrown.expect(NullPointerException.class);
         new AddCommand(null);
     }
 
     @Test
     public void execute_personAcceptedByModel_addSuccessful() throws Exception {
-        ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
-        Food validFood = new PersonBuilder().build();
+        ModelStubAcceptingFoodAdded modelStub = new ModelStubAcceptingFoodAdded();
+        Food validFood = new FoodBuilder().build();
 
-        CommandResult commandResult = getAddCommandForPerson(validFood, modelStub).execute();
+        CommandResult commandResult = getAddCommandForFood(validFood, modelStub).execute();
 
         assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, validFood), commandResult.feedbackToUser);
-        assertEquals(Arrays.asList(validFood), modelStub.personsAdded);
+        assertEquals(Arrays.asList(validFood), modelStub.foodsAdded);
     }
 
     @Test
-    public void execute_duplicatePerson_throwsCommandException() throws Exception {
-        ModelStub modelStub = new ModelStubThrowingDuplicatePersonException();
-        Food validFood = new PersonBuilder().build();
+    public void execute_duplicateFood_throwsCommandException() throws Exception {
+        ModelStub modelStub = new ModelStubThrowingDuplicateFoodException();
+        Food validFood = new FoodBuilder().build();
 
         thrown.expect(CommandException.class);
-        thrown.expectMessage(AddCommand.MESSAGE_DUPLICATE_PERSON);
+        thrown.expectMessage(AddCommand.MESSAGE_DUPLICATE_FOOD);
 
-        getAddCommandForPerson(validFood, modelStub).execute();
+        getAddCommandForFood(validFood, modelStub).execute();
     }
 
     @Test
     public void equals() {
-        Food alice = new PersonBuilder().withName("Alice").build();
-        Food bob = new PersonBuilder().withName("Bob").build();
+        Food alice = new FoodBuilder().withName("Alice").build();
+        Food bob = new FoodBuilder().withName("Bob").build();
         AddCommand addAliceCommand = new AddCommand(alice);
         AddCommand addBobCommand = new AddCommand(bob);
 
@@ -86,7 +86,7 @@ public class AddCommandTest {
     /**
      * Generates a new AddCommand with the details of the given food.
      */
-    private AddCommand getAddCommandForPerson(Food food, Model model) {
+    private AddCommand getAddCommandForFood(Food food, Model model) {
         AddCommand command = new AddCommand(food);
         command.setData(model, new CommandHistory(), new UndoRedoStack());
         return command;
@@ -97,7 +97,7 @@ public class AddCommandTest {
      */
     private class ModelStub implements Model {
         @Override
-        public void addPerson(Food food) throws DuplicatePersonException {
+        public void addFood(Food food) throws DuplicateFoodException {
             fail("This method should not be called.");
         }
 
@@ -113,35 +113,35 @@ public class AddCommandTest {
         }
 
         @Override
-        public void deletePerson(Food target) throws PersonNotFoundException {
+        public void deleteFood(Food target) throws FoodNotFoundException {
             fail("This method should not be called.");
         }
 
         @Override
-        public void updatePerson(Food target, Food editedFood)
-                throws DuplicatePersonException {
+        public void updateFood(Food target, Food editedFood)
+                throws DuplicateFoodException {
             fail("This method should not be called.");
         }
 
         @Override
-        public ObservableList<Food> getFilteredPersonList() {
+        public ObservableList<Food> getFilteredFoodList() {
             fail("This method should not be called.");
             return null;
         }
 
         @Override
-        public void updateFilteredPersonList(Predicate<Food> predicate) {
+        public void updateFilteredFoodList(Predicate<Food> predicate) {
             fail("This method should not be called.");
         }
     }
 
     /**
-     * A Model stub that always throw a DuplicatePersonException when trying to add a food.
+     * A Model stub that always throw a DuplicateFoodException when trying to add a food.
      */
-    private class ModelStubThrowingDuplicatePersonException extends ModelStub {
+    private class ModelStubThrowingDuplicateFoodException extends ModelStub {
         @Override
-        public void addPerson(Food food) throws DuplicatePersonException {
-            throw new DuplicatePersonException();
+        public void addFood(Food food) throws DuplicateFoodException {
+            throw new DuplicateFoodException();
         }
 
         @Override
@@ -153,13 +153,13 @@ public class AddCommandTest {
     /**
      * A Model stub that always accept the food being added.
      */
-    private class ModelStubAcceptingPersonAdded extends ModelStub {
-        final ArrayList<Food> personsAdded = new ArrayList<>();
+    private class ModelStubAcceptingFoodAdded extends ModelStub {
+        final ArrayList<Food> foodsAdded = new ArrayList<>();
 
         @Override
-        public void addPerson(Food food) throws DuplicatePersonException {
+        public void addFood(Food food) throws DuplicateFoodException {
             requireNonNull(food);
-            personsAdded.add(food);
+            foodsAdded.add(food);
         }
 
         @Override

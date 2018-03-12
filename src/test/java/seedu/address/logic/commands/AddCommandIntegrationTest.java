@@ -2,7 +2,7 @@ package seedu.address.logic.commands;
 
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
+import static seedu.address.testutil.TypicalFoods.getTypicalAddressBook;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +13,7 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Food;
-import seedu.address.testutil.PersonBuilder;
+import seedu.address.testutil.FoodBuilder;
 
 /**
  * Contains integration tests (interaction with the Model) for {@code AddCommand}.
@@ -28,20 +28,20 @@ public class AddCommandIntegrationTest {
     }
 
     @Test
-    public void execute_newPerson_success() throws Exception {
-        Food validFood = new PersonBuilder().build();
+    public void execute_newFood_success() throws Exception {
+        Food validFood = new FoodBuilder().build();
 
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
-        expectedModel.addPerson(validFood);
+        expectedModel.addFood(validFood);
 
         assertCommandSuccess(prepareCommand(validFood, model), model,
                 String.format(AddCommand.MESSAGE_SUCCESS, validFood), expectedModel);
     }
 
     @Test
-    public void execute_duplicatePerson_throwsCommandException() {
-        Food foodInList = model.getAddressBook().getPersonList().get(0);
-        assertCommandFailure(prepareCommand(foodInList, model), model, AddCommand.MESSAGE_DUPLICATE_PERSON);
+    public void execute_duplicateFood_throwsCommandException() {
+        Food foodInList = model.getAddressBook().getFoodList().get(0);
+        assertCommandFailure(prepareCommand(foodInList, model), model, AddCommand.MESSAGE_DUPLICATE_FOOD);
     }
 
     /**
