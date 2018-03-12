@@ -12,13 +12,13 @@ import seedu.address.model.person.Food;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 
 /**
- * Adds a food to the address book.
+ * Adds a food to HackEat.
  */
 public class AddCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "add";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a food to the address book. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a food to HackEat. "
             + "Parameters: "
             + PREFIX_NAME + "NAME "
             + PREFIX_PHONE + "PHONE "
@@ -34,7 +34,7 @@ public class AddCommand extends UndoableCommand {
             + PREFIX_TAG + "owesMoney";
 
     public static final String MESSAGE_SUCCESS = "New food added: %1$s";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This food already exists in the address book";
+    public static final String MESSAGE_DUPLICATE_PERSON = "This food already exists in HackEat";
 
     private final Food toAdd;
 

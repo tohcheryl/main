@@ -12,7 +12,7 @@ import seedu.address.model.person.Food;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 
 /**
- * Deletes a food identified using it's last displayed index from the address book.
+ * Deletes a food identified using it's last displayed index from HackEat.
  */
 public class DeleteCommand extends UndoableCommand {
 

@@ -10,7 +10,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.person.Food;
 
 /**
- * Selects a food identified using it's last displayed index from the address book.
+ * Selects a food identified using it's last displayed index from HackEat.
  */
 public class SelectCommand extends Command {
 

@@ -10,7 +10,7 @@ import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 
 /**
- * Represents a Food in the address book.
+ * Represents a Food in HackEat.
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
 public class Food {

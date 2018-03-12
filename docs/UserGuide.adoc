@@ -62,7 +62,7 @@ Format: `help`
 
 === Adding a food: `add`
 
-Adds a food to the address book +
+Adds a food to HackEat +
 Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...`
 
 [NOTE]
@@ -78,12 +78,12 @@ Examples:
 
 === Listing all foods : `list`
 
-Shows a list of all foods in the address book. +
+Shows a list of all foods in HackEat. +
 Format: `list`
 
 === Editing a food : `edit`
 
-Edits an existing food in the address book. +
+Edits an existing food in HackEat. +
 Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]...`
 
 ****
@@ -123,7 +123,7 @@ Returns any food having names `Betsy`, `Tim`, or `John`
 
 === Deleting a food : `delete`
 
-Deletes the specified food from the address book. +
+Deletes the specified food from HackEat. +
 Format: `delete INDEX`
 
 ****
@@ -136,7 +136,7 @@ Examples:
 
 * `list` +
 `delete 2` +
-Deletes the 2nd food in the address book.
+Deletes the 2nd food in HackEat.
 * `find Betsy` +
 `delete 1` +
 Deletes the 1st food in the results of the `find` command.
@@ -156,7 +156,7 @@ Examples:
 
 * `list` +
 `select 2` +
-Selects the 2nd food in the address book.
+Selects the 2nd food in HackEat.
 * `find Betsy` +
 `select 1` +
 Selects the 1st food in the results of the `find` command.
@@ -174,12 +174,12 @@ Pressing the kbd:[&uarr;] and kbd:[&darr;] arrows will display the previous and 
 // tag::undoredo[]
 === Undoing previous command : `undo`
 
-Restores the address book to the state before the previous _undoable_ command was executed. +
+Restores HackEat to the state before the previous _undoable_ command was executed. +
 Format: `undo`
 
 [NOTE]
 ====
-Undoable commands: those commands that modify the address book's content (`add`, `delete`, `edit` and `clear`).
+Undoable commands: those commands that modify HackEat's content (`add`, `delete`, `edit` and `clear`).
 ====
 
 Examples:
@@ -223,7 +223,7 @@ The `redo` command fails as there are no `undo` commands executed previously.
 
 === Clearing all entries : `clear`
 
-Clears all entries from the address book. +
+Clears all entries from HackEat. +
 Format: `clear`
 
 === Exiting the program : `exit`

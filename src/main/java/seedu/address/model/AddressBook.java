@@ -79,7 +79,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     //// food-level operations
 
     /**
-     * Adds a food to the address book.
+     * Adds a food to HackEat.
      * Also checks the new food's tags and updates {@link #tags} with any new tags found,
      * and updates the Tag objects in the food to point to those in {@link #tags}.
      *
