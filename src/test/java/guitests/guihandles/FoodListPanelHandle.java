@@ -11,12 +11,12 @@ import seedu.address.ui.FoodCard;
  * Provides a handle for {@code FoodListPanel} containing the list of {@code FoodCard}.
  */
 public class FoodListPanelHandle extends NodeHandle<ListView<FoodCard>> {
-    public static final String FOOD_LIST_VIEW_ID = "#personListView";
+    public static final String FOOD_LIST_VIEW_ID = "#foodListView";
 
     private Optional<FoodCard> lastRememberedSelectedFoodCard;
 
-    public FoodListPanelHandle(ListView<FoodCard> personListPanelNode) {
-        super(personListPanelNode);
+    public FoodListPanelHandle(ListView<FoodCard> foodListPanelNode) {
+        super(foodListPanelNode);
     }
 
     /**
@@ -25,13 +25,13 @@ public class FoodListPanelHandle extends NodeHandle<ListView<FoodCard>> {
      * @throws AssertionError if no card is selected, or more than 1 card is selected.
      */
     public FoodCardHandle getHandleToSelectedCard() {
-        List<FoodCard> personList = getRootNode().getSelectionModel().getSelectedItems();
+        List<FoodCard> foodList = getRootNode().getSelectionModel().getSelectedItems();
 
-        if (personList.size() != 1) {
+        if (foodList.size() != 1) {
             throw new AssertionError("Food list size expected 1.");
         }
 
-        return new FoodCardHandle(personList.get(0).getRoot());
+        return new FoodCardHandle(foodList.get(0).getRoot());
     }
 
     /**
