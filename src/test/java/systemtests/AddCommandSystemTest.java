@@ -26,13 +26,13 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_APPLE;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BANANA;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIED;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
-import static seedu.address.testutil.TypicalFoods.ALICE;
-import static seedu.address.testutil.TypicalFoods.AMY;
-import static seedu.address.testutil.TypicalFoods.BOB;
-import static seedu.address.testutil.TypicalFoods.CARL;
-import static seedu.address.testutil.TypicalFoods.HOON;
-import static seedu.address.testutil.TypicalFoods.IDA;
-import static seedu.address.testutil.TypicalFoods.KEYWORD_MATCHING_MEIER;
+import static seedu.address.testutil.TypicalFoods.ALMOND;
+import static seedu.address.testutil.TypicalFoods.APPLE;
+import static seedu.address.testutil.TypicalFoods.BANANA;
+import static seedu.address.testutil.TypicalFoods.CAKE;
+import static seedu.address.testutil.TypicalFoods.HAM;
+import static seedu.address.testutil.TypicalFoods.ICECREAM;
+import static seedu.address.testutil.TypicalFoods.KEYWORD_MATCHING_MOUSSE;
 
 import org.junit.Test;
 
@@ -63,7 +63,7 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
         /* Case: add a food without tags to a non-empty address book, command with leading spaces and trailing spaces
          * -> added
          */
-        Food toAdd = AMY;
+        Food toAdd = APPLE;
         String command = "   " + AddCommand.COMMAND_WORD + "  " + NAME_DESC_APPLE + "  " + PHONE_DESC_APPLE + " "
                 + EMAIL_DESC_APPLE + "   " + ADDRESS_DESC_APPLE + "   " + TAG_DESC_FRIED + " ";
         assertCommandSuccess(command, toAdd);
@@ -109,40 +109,40 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
 
         /* Case: add to empty address book -> added */
         deleteAllFoods();
-        assertCommandSuccess(ALICE);
+        assertCommandSuccess(ALMOND);
 
         /* Case: add a food with tags, command with parameters in random order -> added */
-        toAdd = BOB;
+        toAdd = BANANA;
         command = AddCommand.COMMAND_WORD + TAG_DESC_FRIED + PHONE_DESC_BANANA + ADDRESS_DESC_BANANA + NAME_DESC_BANANA
                 + TAG_DESC_NUTS + EMAIL_DESC_BANANA;
         assertCommandSuccess(command, toAdd);
 
         /* Case: add a food, missing tags -> added */
-        assertCommandSuccess(HOON);
+        assertCommandSuccess(HAM);
 
         /* -------------------------- Perform add operation on the shown filtered list ------------------------------ */
 
         /* Case: filters the food list before adding -> added */
-        showFoodsWithName(KEYWORD_MATCHING_MEIER);
-        assertCommandSuccess(IDA);
+        showFoodsWithName(KEYWORD_MATCHING_MOUSSE);
+        assertCommandSuccess(ICECREAM);
 
         /* ------------------------ Perform add operation while a food card is selected --------------------------- */
 
         /* Case: selects first card in the food list, add a food -> added, card selection remains unchanged */
         selectFood(Index.fromOneBased(1));
-        assertCommandSuccess(CARL);
+        assertCommandSuccess(CAKE);
 
         /* ----------------------------------- Perform invalid add operations --------------------------------------- */
 
         /* Case: add a duplicate food -> rejected */
-        command = FoodUtil.getAddCommand(HOON);
+        command = FoodUtil.getAddCommand(HAM);
         assertCommandFailure(command, AddCommand.MESSAGE_DUPLICATE_FOOD);
 
         /* Case: add a duplicate food except with different tags -> rejected */
-        // "friends" is an existing tag used in the default model, see TypicalFoods#ALICE
+        // "friends" is an existing tag used in the default model, see TypicalFoods#ALMOND
         // This test will fail if a new tag that is not in the model is used, see the bug documented in
         // AddressBook#addFood(Food)
-        command = FoodUtil.getAddCommand(HOON) + " " + PREFIX_TAG.getPrefix() + "friends";
+        command = FoodUtil.getAddCommand(HAM) + " " + PREFIX_TAG.getPrefix() + "friends";
         assertCommandFailure(command, AddCommand.MESSAGE_DUPLICATE_FOOD);
 
         /* Case: missing name -> rejected */

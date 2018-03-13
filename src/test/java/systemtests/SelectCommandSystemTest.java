@@ -5,7 +5,7 @@ import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_FOOD_DISPLAYED_INDEX;
 import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.address.logic.commands.SelectCommand.MESSAGE_SELECT_FOOD_SUCCESS;
-import static seedu.address.testutil.TypicalFoods.KEYWORD_MATCHING_MEIER;
+import static seedu.address.testutil.TypicalFoods.KEYWORD_MATCHING_MOUSSE;
 import static seedu.address.testutil.TypicalFoods.getTypicalFoods;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_FOOD;
 
@@ -56,7 +56,7 @@ public class SelectCommandSystemTest extends AddressBookSystemTest {
         /* Case: filtered food list, select index within bounds of address book but out of bounds of food list
          * -> rejected
          */
-        showFoodsWithName(KEYWORD_MATCHING_MEIER);
+        showFoodsWithName(KEYWORD_MATCHING_MOUSSE);
         int invalidIndex = getModel().getAddressBook().getFoodList().size();
         assertCommandFailure(SelectCommand.COMMAND_WORD + " " + invalidIndex, MESSAGE_INVALID_FOOD_DISPLAYED_INDEX);
 

@@ -4,9 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static seedu.address.commons.core.Messages.MESSAGE_FOODS_LISTED_OVERVIEW;
-import static seedu.address.testutil.TypicalFoods.CARL;
-import static seedu.address.testutil.TypicalFoods.ELLE;
-import static seedu.address.testutil.TypicalFoods.FIONA;
+import static seedu.address.testutil.TypicalFoods.CAKE;
+import static seedu.address.testutil.TypicalFoods.EGG;
+import static seedu.address.testutil.TypicalFoods.FRIES;
 import static seedu.address.testutil.TypicalFoods.getTypicalAddressBook;
 
 import java.util.Arrays;
@@ -68,7 +68,7 @@ public class FindCommandTest {
     public void execute_multipleKeywords_multipleFoodsFound() {
         String expectedMessage = String.format(MESSAGE_FOODS_LISTED_OVERVIEW, 3);
         FindCommand command = prepareCommand("Kurz Elle Kunz");
-        assertCommandSuccess(command, expectedMessage, Arrays.asList(CARL, ELLE, FIONA));
+        assertCommandSuccess(command, expectedMessage, Arrays.asList(CAKE, EGG, FRIES));
     }
 
     /**

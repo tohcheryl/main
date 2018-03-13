@@ -7,7 +7,7 @@ import static seedu.address.logic.commands.DeleteCommand.MESSAGE_DELETE_FOOD_SUC
 import static seedu.address.testutil.TestUtil.getFood;
 import static seedu.address.testutil.TestUtil.getLastIndex;
 import static seedu.address.testutil.TestUtil.getMidIndex;
-import static seedu.address.testutil.TypicalFoods.KEYWORD_MATCHING_MEIER;
+import static seedu.address.testutil.TypicalFoods.KEYWORD_MATCHING_MOUSSE;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_FOOD;
 
 import org.junit.Test;
@@ -60,7 +60,7 @@ public class DeleteCommandSystemTest extends AddressBookSystemTest {
         /* ------------------ Performing delete operation while a filtered list is being shown ---------------------- */
 
         /* Case: filtered food list, delete index within bounds of address book and food list -> deleted */
-        showFoodsWithName(KEYWORD_MATCHING_MEIER);
+        showFoodsWithName(KEYWORD_MATCHING_MOUSSE);
         Index index = INDEX_FIRST_FOOD;
         assertTrue(index.getZeroBased() < getModel().getFilteredFoodList().size());
         assertCommandSuccess(index);
@@ -68,7 +68,7 @@ public class DeleteCommandSystemTest extends AddressBookSystemTest {
         /* Case: filtered food list, delete index within bounds of address book but out of bounds of food list
          * -> rejected
          */
-        showFoodsWithName(KEYWORD_MATCHING_MEIER);
+        showFoodsWithName(KEYWORD_MATCHING_MOUSSE);
         int invalidIndex = getModel().getAddressBook().getFoodList().size();
         command = DeleteCommand.COMMAND_WORD + " " + invalidIndex;
         assertCommandFailure(command, MESSAGE_INVALID_FOOD_DISPLAYED_INDEX);

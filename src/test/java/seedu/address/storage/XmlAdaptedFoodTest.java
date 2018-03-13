@@ -2,7 +2,7 @@ package seedu.address.storage;
 
 import static org.junit.Assert.assertEquals;
 import static seedu.address.storage.XmlAdaptedFood.MISSING_FIELD_MESSAGE_FORMAT;
-import static seedu.address.testutil.TypicalFoods.BENSON;
+import static seedu.address.testutil.TypicalFoods.BACON;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,18 +24,18 @@ public class XmlAdaptedFoodTest {
     private static final String INVALID_EMAIL = "example.com";
     private static final String INVALID_TAG = "#friend";
 
-    private static final String VALID_NAME = BENSON.getName().toString();
-    private static final String VALID_PHONE = BENSON.getPhone().toString();
-    private static final String VALID_EMAIL = BENSON.getEmail().toString();
-    private static final String VALID_ADDRESS = BENSON.getAddress().toString();
-    private static final List<XmlAdaptedTag> VALID_TAGS = BENSON.getTags().stream()
+    private static final String VALID_NAME = BACON.getName().toString();
+    private static final String VALID_PHONE = BACON.getPhone().toString();
+    private static final String VALID_EMAIL = BACON.getEmail().toString();
+    private static final String VALID_ADDRESS = BACON.getAddress().toString();
+    private static final List<XmlAdaptedTag> VALID_TAGS = BACON.getTags().stream()
             .map(XmlAdaptedTag::new)
             .collect(Collectors.toList());
 
     @Test
     public void toModelType_validFoodDetails_returnsFood() throws Exception {
-        XmlAdaptedFood person = new XmlAdaptedFood(BENSON);
-        assertEquals(BENSON, person.toModelType());
+        XmlAdaptedFood person = new XmlAdaptedFood(BACON);
+        assertEquals(BACON, person.toModelType());
     }
 
     @Test

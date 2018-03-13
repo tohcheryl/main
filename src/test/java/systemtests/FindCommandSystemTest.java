@@ -3,10 +3,10 @@ package systemtests;
 import static org.junit.Assert.assertFalse;
 import static seedu.address.commons.core.Messages.MESSAGE_FOODS_LISTED_OVERVIEW;
 import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
-import static seedu.address.testutil.TypicalFoods.BENSON;
-import static seedu.address.testutil.TypicalFoods.CARL;
-import static seedu.address.testutil.TypicalFoods.DANIEL;
-import static seedu.address.testutil.TypicalFoods.KEYWORD_MATCHING_MEIER;
+import static seedu.address.testutil.TypicalFoods.BACON;
+import static seedu.address.testutil.TypicalFoods.CAKE;
+import static seedu.address.testutil.TypicalFoods.DUMPLING;
+import static seedu.address.testutil.TypicalFoods.KEYWORD_MATCHING_MOUSSE;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,28 +28,28 @@ public class FindCommandSystemTest extends AddressBookSystemTest {
         /* Case: find multiple foods in address book, command with leading spaces and trailing spaces
          * -> 2 foods found
          */
-        String command = "   " + FindCommand.COMMAND_WORD + " " + KEYWORD_MATCHING_MEIER + "   ";
+        String command = "   " + FindCommand.COMMAND_WORD + " " + KEYWORD_MATCHING_MOUSSE + "   ";
         Model expectedModel = getModel();
-        ModelHelper.setFilteredList(expectedModel, BENSON, DANIEL); // first names of Benson and Daniel are "Meier"
+        ModelHelper.setFilteredList(expectedModel, BACON, DUMPLING); // first names of Benson and Daniel are "Meier"
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 
         /* Case: repeat previous find command where food list is displaying the foods we are finding
          * -> 2 foods found
          */
-        command = FindCommand.COMMAND_WORD + " " + KEYWORD_MATCHING_MEIER;
+        command = FindCommand.COMMAND_WORD + " " + KEYWORD_MATCHING_MOUSSE;
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 
         /* Case: find food where food list is not displaying the food we are finding -> 1 food found */
         command = FindCommand.COMMAND_WORD + " Carl";
-        ModelHelper.setFilteredList(expectedModel, CARL);
+        ModelHelper.setFilteredList(expectedModel, CAKE);
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 
         /* Case: find multiple foods in address book, 2 keywords -> 2 foods found */
         command = FindCommand.COMMAND_WORD + " Benson Daniel";
-        ModelHelper.setFilteredList(expectedModel, BENSON, DANIEL);
+        ModelHelper.setFilteredList(expectedModel, BACON, DUMPLING);
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 
@@ -82,10 +82,10 @@ public class FindCommandSystemTest extends AddressBookSystemTest {
 
         /* Case: find same foods in address book after deleting 1 of them -> 1 food found */
         executeCommand(DeleteCommand.COMMAND_WORD + " 1");
-        assertFalse(getModel().getAddressBook().getFoodList().contains(BENSON));
-        command = FindCommand.COMMAND_WORD + " " + KEYWORD_MATCHING_MEIER;
+        assertFalse(getModel().getAddressBook().getFoodList().contains(BACON));
+        command = FindCommand.COMMAND_WORD + " " + KEYWORD_MATCHING_MOUSSE;
         expectedModel = getModel();
-        ModelHelper.setFilteredList(expectedModel, DANIEL);
+        ModelHelper.setFilteredList(expectedModel, DUMPLING);
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 
@@ -112,22 +112,22 @@ public class FindCommandSystemTest extends AddressBookSystemTest {
         assertSelectedCardUnchanged();
 
         /* Case: find phone number of food in address book -> 0 foods found */
-        command = FindCommand.COMMAND_WORD + " " + DANIEL.getPhone().value;
+        command = FindCommand.COMMAND_WORD + " " + DUMPLING.getPhone().value;
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 
         /* Case: find address of food in address book -> 0 foods found */
-        command = FindCommand.COMMAND_WORD + " " + DANIEL.getAddress().value;
+        command = FindCommand.COMMAND_WORD + " " + DUMPLING.getAddress().value;
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 
         /* Case: find email of food in address book -> 0 foods found */
-        command = FindCommand.COMMAND_WORD + " " + DANIEL.getEmail().value;
+        command = FindCommand.COMMAND_WORD + " " + DUMPLING.getEmail().value;
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 
         /* Case: find tags of food in address book -> 0 foods found */
-        List<Tag> tags = new ArrayList<>(DANIEL.getTags());
+        List<Tag> tags = new ArrayList<>(DUMPLING.getTags());
         command = FindCommand.COMMAND_WORD + " " + tags.get(0).tagName;
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
@@ -135,17 +135,17 @@ public class FindCommandSystemTest extends AddressBookSystemTest {
         /* Case: find while a food is selected -> selected card deselected */
         showAllFoods();
         selectFood(Index.fromOneBased(1));
-        assertFalse(getFoodListPanel().getHandleToSelectedCard().getName().equals(DANIEL.getName().fullName));
+        assertFalse(getFoodListPanel().getHandleToSelectedCard().getName().equals(DUMPLING.getName().fullName));
         command = FindCommand.COMMAND_WORD + " Daniel";
-        ModelHelper.setFilteredList(expectedModel, DANIEL);
+        ModelHelper.setFilteredList(expectedModel, DUMPLING);
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardDeselected();
 
         /* Case: find food in empty address book -> 0 foods found */
         deleteAllFoods();
-        command = FindCommand.COMMAND_WORD + " " + KEYWORD_MATCHING_MEIER;
+        command = FindCommand.COMMAND_WORD + " " + KEYWORD_MATCHING_MOUSSE;
         expectedModel = getModel();
-        ModelHelper.setFilteredList(expectedModel, DANIEL);
+        ModelHelper.setFilteredList(expectedModel, DUMPLING);
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 

@@ -25,9 +25,9 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIED;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_NUTS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_FOODS;
-import static seedu.address.testutil.TypicalFoods.AMY;
-import static seedu.address.testutil.TypicalFoods.BOB;
-import static seedu.address.testutil.TypicalFoods.KEYWORD_MATCHING_MEIER;
+import static seedu.address.testutil.TypicalFoods.APPLE;
+import static seedu.address.testutil.TypicalFoods.BANANA;
+import static seedu.address.testutil.TypicalFoods.KEYWORD_MATCHING_MOUSSE;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_FOOD;
 
 import org.junit.Test;
@@ -82,7 +82,7 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
         /* Case: edit a food with new values same as existing values -> edited */
         command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_BANANA + PHONE_DESC_BANANA + EMAIL_DESC_BANANA
                 + ADDRESS_DESC_BANANA + TAG_DESC_FRIED + TAG_DESC_NUTS;
-        assertCommandSuccess(command, index, BOB);
+        assertCommandSuccess(command, index, BANANA);
 
         /* Case: edit some fields -> edited */
         index = INDEX_FIRST_FOOD;
@@ -100,7 +100,7 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
         /* ------------------ Performing edit operation while a filtered list is being shown ------------------------ */
 
         /* Case: filtered food list, edit index within bounds of address book and food list -> edited */
-        showFoodsWithName(KEYWORD_MATCHING_MEIER);
+        showFoodsWithName(KEYWORD_MATCHING_MOUSSE);
         index = INDEX_FIRST_FOOD;
         assertTrue(index.getZeroBased() < getModel().getFilteredFoodList().size());
         command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + " " + NAME_DESC_BANANA;
@@ -111,7 +111,7 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
         /* Case: filtered food list, edit index within bounds of address book but out of bounds of food list
          * -> rejected
          */
-        showFoodsWithName(KEYWORD_MATCHING_MEIER);
+        showFoodsWithName(KEYWORD_MATCHING_MOUSSE);
         int invalidIndex = getModel().getAddressBook().getFoodList().size();
         assertCommandFailure(EditCommand.COMMAND_WORD + " " + invalidIndex + NAME_DESC_BANANA,
                 Messages.MESSAGE_INVALID_FOOD_DISPLAYED_INDEX);
@@ -128,7 +128,7 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
                 + ADDRESS_DESC_APPLE + TAG_DESC_FRIED;
         // this can be misleading: card selection actually remains unchanged but the
         // browser's url is updated to reflect the new food's name
-        assertCommandSuccess(command, index, AMY, index);
+        assertCommandSuccess(command, index, APPLE, index);
 
         /* --------------------------------- Performing invalid edit operation -------------------------------------- */
 
@@ -174,10 +174,10 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
                 Tag.MESSAGE_TAG_CONSTRAINTS);
 
         /* Case: edit a food with new values same as another food's values -> rejected */
-        executeCommand(FoodUtil.getAddCommand(BOB));
-        assertTrue(getModel().getAddressBook().getFoodList().contains(BOB));
+        executeCommand(FoodUtil.getAddCommand(BANANA));
+        assertTrue(getModel().getAddressBook().getFoodList().contains(BANANA));
         index = INDEX_FIRST_FOOD;
-        assertFalse(getModel().getFilteredFoodList().get(index.getZeroBased()).equals(BOB));
+        assertFalse(getModel().getFilteredFoodList().get(index.getZeroBased()).equals(BANANA));
         command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_BANANA + PHONE_DESC_BANANA + EMAIL_DESC_BANANA
                 + ADDRESS_DESC_BANANA + TAG_DESC_FRIED + TAG_DESC_NUTS;
         assertCommandFailure(command, EditCommand.MESSAGE_DUPLICATE_FOOD);
