@@ -4,8 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static seedu.address.logic.commands.CommandTestUtil.deleteFirstFood;
 import static seedu.address.logic.commands.CommandTestUtil.showFoodAtIndex;
-import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_FOOD;
 import static seedu.address.testutil.TypicalFoods.getTypicalAddressBook;
+import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_FOOD;
 
 import org.junit.Test;
 

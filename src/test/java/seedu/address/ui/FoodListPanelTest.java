@@ -2,8 +2,8 @@ package seedu.address.ui;
 
 import static org.junit.Assert.assertEquals;
 import static seedu.address.testutil.EventsUtil.postNow;
-import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_FOOD;
 import static seedu.address.testutil.TypicalFoods.getTypicalFoods;
+import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_FOOD;
 import static seedu.address.ui.testutil.GuiTestAssert.assertCardDisplaysFood;
 import static seedu.address.ui.testutil.GuiTestAssert.assertCardEquals;
 

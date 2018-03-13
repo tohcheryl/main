@@ -13,9 +13,9 @@ import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.CommandTestUtil.prepareRedoCommand;
 import static seedu.address.logic.commands.CommandTestUtil.prepareUndoCommand;
 import static seedu.address.logic.commands.CommandTestUtil.showFoodAtIndex;
+import static seedu.address.testutil.TypicalFoods.getTypicalAddressBook;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_FOOD;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_FOOD;
-import static seedu.address.testutil.TypicalFoods.getTypicalAddressBook;
 
 import org.junit.Test;
 

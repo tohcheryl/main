@@ -5,10 +5,10 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static seedu.address.logic.commands.CommandTestUtil.showFoodAtIndex;
+import static seedu.address.testutil.TypicalFoods.getTypicalAddressBook;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_FOOD;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_FOOD;
 import static seedu.address.testutil.TypicalIndexes.INDEX_THIRD_FOOD;
-import static seedu.address.testutil.TypicalFoods.getTypicalAddressBook;
 
 import org.junit.Before;
 import org.junit.Rule;
