@@ -142,7 +142,7 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
         // "friends" is an existing tag used in the default model, see TypicalFoods#ALMOND
         // This test will fail if a new tag that is not in the model is used, see the bug documented in
         // AddressBook#addFood(Food)
-        command = FoodUtil.getAddCommand(HAM) + " " + PREFIX_TAG.getPrefix() + "friends";
+        command = FoodUtil.getAddCommand(HAM) + " " + PREFIX_TAG.getPrefix() + "fried";
         assertCommandFailure(command, AddCommand.MESSAGE_DUPLICATE_FOOD);
 
         /* Case: missing name -> rejected */
