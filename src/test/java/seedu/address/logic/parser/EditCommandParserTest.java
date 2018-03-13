@@ -101,7 +101,8 @@ public class EditCommandParserTest {
         assertParseFailure(parser, "1" + TAG_EMPTY + TAG_DESC_FRIED + TAG_DESC_NUTS, Tag.MESSAGE_TAG_CONSTRAINTS);
 
         // multiple invalid values, but only the first invalid value is captured
-        assertParseFailure(parser, "1" + INVALID_NAME_DESC + INVALID_EMAIL_DESC + VALID_ADDRESS_APPLE + VALID_PHONE_APPLE,
+        assertParseFailure(parser, "1" + INVALID_NAME_DESC + INVALID_EMAIL_DESC + VALID_ADDRESS_APPLE
+                        + VALID_PHONE_APPLE,
                 Name.MESSAGE_NAME_CONSTRAINTS);
     }
 
@@ -173,8 +174,8 @@ public class EditCommandParserTest {
                 + PHONE_DESC_BANANA + ADDRESS_DESC_BANANA + EMAIL_DESC_BANANA + TAG_DESC_NUTS;
 
         EditFoodDescriptor descriptor = new EditFoodDescriptorBuilder().withPhone(VALID_PHONE_BANANA)
-                .withEmail(VALID_EMAIL_BANANA).withAddress(VALID_ADDRESS_BANANA).withTags(VALID_TAG_FRIED, VALID_TAG_NUTS)
-                .build();
+                .withEmail(VALID_EMAIL_BANANA).withAddress(VALID_ADDRESS_BANANA)
+                .withTags(VALID_TAG_FRIED, VALID_TAG_NUTS).build();
         EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
 
         assertParseSuccess(parser, userInput, expectedCommand);
