@@ -16,7 +16,7 @@ import org.junit.rules.ExpectedException;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import seedu.address.model.person.Food;
+import seedu.address.model.food.Food;
 import seedu.address.model.tag.Tag;
 
 public class AddressBookTest {

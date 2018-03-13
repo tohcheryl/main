@@ -8,8 +8,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.person.Food;
-import seedu.address.model.person.exceptions.DuplicateFoodException;
+import seedu.address.model.food.Food;
+import seedu.address.model.food.exceptions.DuplicateFoodException;
 
 /**
  * Adds a food to HackEat.

@@ -12,9 +12,9 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
-import seedu.address.model.person.Food;
-import seedu.address.model.person.exceptions.DuplicateFoodException;
-import seedu.address.model.person.exceptions.FoodNotFoundException;
+import seedu.address.model.food.Food;
+import seedu.address.model.food.exceptions.DuplicateFoodException;
+import seedu.address.model.food.exceptions.FoodNotFoundException;
 
 /**
  * Represents the in-memory model of HackEat data.

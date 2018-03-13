@@ -1,6 +1,6 @@
 package seedu.address.logic.commands;
 
-import seedu.address.model.person.NameContainsKeywordsPredicate;
+import seedu.address.model.food.NameContainsKeywordsPredicate;
 
 /**
  * Finds and lists all foods in address book whose name contains any of the argument keywords.

@@ -21,9 +21,9 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
-import seedu.address.model.person.Food;
-import seedu.address.model.person.exceptions.DuplicateFoodException;
-import seedu.address.model.person.exceptions.FoodNotFoundException;
+import seedu.address.model.food.Food;
+import seedu.address.model.food.exceptions.DuplicateFoodException;
+import seedu.address.model.food.exceptions.FoodNotFoundException;
 import seedu.address.testutil.FoodBuilder;
 
 public class AddCommandTest {

@@ -11,10 +11,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;
-import seedu.address.model.person.Food;
-import seedu.address.model.person.UniqueFoodList;
-import seedu.address.model.person.exceptions.DuplicateFoodException;
-import seedu.address.model.person.exceptions.FoodNotFoundException;
+import seedu.address.model.food.Food;
+import seedu.address.model.food.UniqueFoodList;
+import seedu.address.model.food.exceptions.DuplicateFoodException;
+import seedu.address.model.food.exceptions.FoodNotFoundException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 
@@ -94,11 +94,11 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     /**
-     * Replaces the given person {@code target} in the list with {@code editedFood}.
+     * Replaces the given food {@code target} in the list with {@code editedFood}.
      * {@code AddressBook}'s tag list will be updated with the tags of {@code editedFood}.
      *
      * @throws DuplicateFoodException if updating the food's details causes the food to be equivalent to
-     *      another existing person in the list.
+     *      another existing food in the list.
      * @throws FoodNotFoundException if {@code target} could not be found in the list.
      *
      * @see #syncWithMasterTagList(Food)

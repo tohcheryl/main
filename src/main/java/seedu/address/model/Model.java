@@ -3,9 +3,9 @@ package seedu.address.model;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
-import seedu.address.model.person.Food;
-import seedu.address.model.person.exceptions.DuplicateFoodException;
-import seedu.address.model.person.exceptions.FoodNotFoundException;
+import seedu.address.model.food.Food;
+import seedu.address.model.food.exceptions.DuplicateFoodException;
+import seedu.address.model.food.exceptions.FoodNotFoundException;
 
 /**
  * The API of the Model component.

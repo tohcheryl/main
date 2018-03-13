@@ -15,7 +15,7 @@ import guitests.guihandles.FoodListPanelHandle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.commons.events.ui.JumpToListRequestEvent;
-import seedu.address.model.person.Food;
+import seedu.address.model.food.Food;
 
 public class FoodListPanelTest extends GuiUnitTest {
     private static final ObservableList<Food> TYPICAL_FOODS =

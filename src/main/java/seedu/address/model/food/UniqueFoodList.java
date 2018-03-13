@@ -1,4 +1,4 @@
-package seedu.address.model.person;
+package seedu.address.model.food;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
@@ -9,8 +9,8 @@ import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.commons.util.CollectionUtil;
-import seedu.address.model.person.exceptions.DuplicateFoodException;
-import seedu.address.model.person.exceptions.FoodNotFoundException;
+import seedu.address.model.food.exceptions.DuplicateFoodException;
+import seedu.address.model.food.exceptions.FoodNotFoundException;
 
 /**
  * A list of foods that enforces uniqueness between its elements and does not allow nulls.

@@ -9,11 +9,11 @@ import java.util.Set;
 import javax.xml.bind.annotation.XmlElement;
 
 import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.model.person.Address;
-import seedu.address.model.person.Email;
-import seedu.address.model.person.Food;
-import seedu.address.model.person.Name;
-import seedu.address.model.person.Phone;
+import seedu.address.model.food.Address;
+import seedu.address.model.food.Email;
+import seedu.address.model.food.Food;
+import seedu.address.model.food.Name;
+import seedu.address.model.food.Phone;
 import seedu.address.model.tag.Tag;
 
 /**

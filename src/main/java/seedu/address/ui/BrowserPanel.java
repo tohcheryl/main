@@ -13,7 +13,7 @@ import javafx.scene.web.WebView;
 import seedu.address.MainApp;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.ui.FoodPanelSelectionChangedEvent;
-import seedu.address.model.person.Food;
+import seedu.address.model.food.Food;
 
 /**
  * The Browser Panel of the App.

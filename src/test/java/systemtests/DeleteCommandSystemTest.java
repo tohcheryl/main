@@ -18,8 +18,8 @@ import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.UndoCommand;
 import seedu.address.model.Model;
-import seedu.address.model.person.Food;
-import seedu.address.model.person.exceptions.FoodNotFoundException;
+import seedu.address.model.food.Food;
+import seedu.address.model.food.exceptions.FoodNotFoundException;
 
 public class DeleteCommandSystemTest extends AddressBookSystemTest {
 

@@ -4,7 +4,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import seedu.address.model.person.UniqueFoodList;
+import seedu.address.model.food.UniqueFoodList;
 
 public class UniqueFoodListTest {
     @Rule

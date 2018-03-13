@@ -19,9 +19,9 @@ import seedu.address.logic.UndoRedoStack;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
-import seedu.address.model.person.Food;
-import seedu.address.model.person.NameContainsKeywordsPredicate;
-import seedu.address.model.person.exceptions.FoodNotFoundException;
+import seedu.address.model.food.Food;
+import seedu.address.model.food.NameContainsKeywordsPredicate;
+import seedu.address.model.food.exceptions.FoodNotFoundException;
 import seedu.address.testutil.EditFoodDescriptorBuilder;
 
 /**

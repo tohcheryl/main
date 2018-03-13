@@ -16,8 +16,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import seedu.address.model.AddressBook;
-import seedu.address.model.person.Food;
-import seedu.address.model.person.exceptions.DuplicateFoodException;
+import seedu.address.model.food.Food;
+import seedu.address.model.food.exceptions.DuplicateFoodException;
 
 /**
  * A utility class containing a list of {@code Food} objects to be used in tests.

@@ -12,7 +12,7 @@ import seedu.address.logic.UndoRedoStack;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
-import seedu.address.model.person.Food;
+import seedu.address.model.food.Food;
 import seedu.address.testutil.FoodBuilder;
 
 /**
