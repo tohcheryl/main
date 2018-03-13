@@ -2,21 +2,21 @@ package systemtests;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_APPLE;
+import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_BANANA;
+import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_APPLE;
+import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_BANANA;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_ADDRESS_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_EMAIL_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_PHONE_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
-import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
-import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_HUSBAND;
+import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_APPLE;
+import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_BANANA;
+import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_APPLE;
+import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_BANANA;
+import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_FRIED;
+import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_NUTS;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BANANA;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BANANA;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BANANA;
@@ -61,8 +61,8 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
          * -> edited
          */
         Index index = INDEX_FIRST_FOOD;
-        String command = " " + EditCommand.COMMAND_WORD + "  " + index.getOneBased() + "  " + NAME_DESC_BOB + "  "
-                + PHONE_DESC_BOB + " " + EMAIL_DESC_BOB + "  " + ADDRESS_DESC_BOB + " " + TAG_DESC_HUSBAND + " ";
+        String command = " " + EditCommand.COMMAND_WORD + "  " + index.getOneBased() + "  " + NAME_DESC_BANANA + "  "
+                + PHONE_DESC_BANANA + " " + EMAIL_DESC_BANANA + "  " + ADDRESS_DESC_BANANA + " " + TAG_DESC_NUTS + " ";
         Food editedFood = new FoodBuilder().withName(VALID_NAME_BANANA).withPhone(VALID_PHONE_BANANA)
                 .withEmail(VALID_EMAIL_BANANA).withAddress(VALID_ADDRESS_BANANA).withTags(VALID_TAG_NUTS).build();
         assertCommandSuccess(command, index, editedFood);
@@ -80,13 +80,13 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
         assertCommandSuccess(command, model, expectedResultMessage);
 
         /* Case: edit a food with new values same as existing values -> edited */
-        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + TAG_DESC_FRIEND + TAG_DESC_HUSBAND;
+        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_BANANA + PHONE_DESC_BANANA + EMAIL_DESC_BANANA
+                + ADDRESS_DESC_BANANA + TAG_DESC_FRIED + TAG_DESC_NUTS;
         assertCommandSuccess(command, index, BOB);
 
         /* Case: edit some fields -> edited */
         index = INDEX_FIRST_FOOD;
-        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + TAG_DESC_FRIEND;
+        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + TAG_DESC_FRIED;
         Food foodToEdit = getModel().getFilteredFoodList().get(index.getZeroBased());
         editedFood = new FoodBuilder(foodToEdit).withTags(VALID_TAG_FRIED).build();
         assertCommandSuccess(command, index, editedFood);
@@ -103,7 +103,7 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
         showFoodsWithName(KEYWORD_MATCHING_MEIER);
         index = INDEX_FIRST_FOOD;
         assertTrue(index.getZeroBased() < getModel().getFilteredFoodList().size());
-        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + " " + NAME_DESC_BOB;
+        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + " " + NAME_DESC_BANANA;
         foodToEdit = getModel().getFilteredFoodList().get(index.getZeroBased());
         editedFood = new FoodBuilder(foodToEdit).withName(VALID_NAME_BANANA).build();
         assertCommandSuccess(command, index, editedFood);
@@ -113,7 +113,7 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
          */
         showFoodsWithName(KEYWORD_MATCHING_MEIER);
         int invalidIndex = getModel().getAddressBook().getFoodList().size();
-        assertCommandFailure(EditCommand.COMMAND_WORD + " " + invalidIndex + NAME_DESC_BOB,
+        assertCommandFailure(EditCommand.COMMAND_WORD + " " + invalidIndex + NAME_DESC_BANANA,
                 Messages.MESSAGE_INVALID_FOOD_DISPLAYED_INDEX);
 
         /* --------------------- Performing edit operation while a food card is selected -------------------------- */
@@ -124,8 +124,8 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
         showAllFoods();
         index = INDEX_FIRST_FOOD;
         selectFood(index);
-        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY
-                + ADDRESS_DESC_AMY + TAG_DESC_FRIEND;
+        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_APPLE + PHONE_DESC_APPLE + EMAIL_DESC_APPLE
+                + ADDRESS_DESC_APPLE + TAG_DESC_FRIED;
         // this can be misleading: card selection actually remains unchanged but the
         // browser's url is updated to reflect the new food's name
         assertCommandSuccess(command, index, AMY, index);
@@ -133,20 +133,20 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
         /* --------------------------------- Performing invalid edit operation -------------------------------------- */
 
         /* Case: invalid index (0) -> rejected */
-        assertCommandFailure(EditCommand.COMMAND_WORD + " 0" + NAME_DESC_BOB,
+        assertCommandFailure(EditCommand.COMMAND_WORD + " 0" + NAME_DESC_BANANA,
                 String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
 
         /* Case: invalid index (-1) -> rejected */
-        assertCommandFailure(EditCommand.COMMAND_WORD + " -1" + NAME_DESC_BOB,
+        assertCommandFailure(EditCommand.COMMAND_WORD + " -1" + NAME_DESC_BANANA,
                 String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
 
         /* Case: invalid index (size + 1) -> rejected */
         invalidIndex = getModel().getFilteredFoodList().size() + 1;
-        assertCommandFailure(EditCommand.COMMAND_WORD + " " + invalidIndex + NAME_DESC_BOB,
+        assertCommandFailure(EditCommand.COMMAND_WORD + " " + invalidIndex + NAME_DESC_BANANA,
                 Messages.MESSAGE_INVALID_FOOD_DISPLAYED_INDEX);
 
         /* Case: missing index -> rejected */
-        assertCommandFailure(EditCommand.COMMAND_WORD + NAME_DESC_BOB,
+        assertCommandFailure(EditCommand.COMMAND_WORD + NAME_DESC_BANANA,
                 String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE));
 
         /* Case: missing all fields -> rejected */
@@ -178,13 +178,13 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
         assertTrue(getModel().getAddressBook().getFoodList().contains(BOB));
         index = INDEX_FIRST_FOOD;
         assertFalse(getModel().getFilteredFoodList().get(index.getZeroBased()).equals(BOB));
-        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + TAG_DESC_FRIEND + TAG_DESC_HUSBAND;
+        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_BANANA + PHONE_DESC_BANANA + EMAIL_DESC_BANANA
+                + ADDRESS_DESC_BANANA + TAG_DESC_FRIED + TAG_DESC_NUTS;
         assertCommandFailure(command, EditCommand.MESSAGE_DUPLICATE_FOOD);
 
         /* Case: edit a food with new values same as another food's values but with different tags -> rejected */
-        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
-                + ADDRESS_DESC_BOB + TAG_DESC_HUSBAND;
+        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_BANANA + PHONE_DESC_BANANA + EMAIL_DESC_BANANA
+                + ADDRESS_DESC_BANANA + TAG_DESC_NUTS;
         assertCommandFailure(command, EditCommand.MESSAGE_DUPLICATE_FOOD);
     }
 

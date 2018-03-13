@@ -40,16 +40,16 @@ public class CommandTestUtil {
     public static final String VALID_TAG_NUTS = "nuts";
     public static final String VALID_TAG_FRIED = "fried";
 
-    public static final String NAME_DESC_AMY = " " + PREFIX_NAME + VALID_NAME_APPLE;
-    public static final String NAME_DESC_BOB = " " + PREFIX_NAME + VALID_NAME_BANANA;
-    public static final String PHONE_DESC_AMY = " " + PREFIX_PHONE + VALID_PHONE_APPLE;
-    public static final String PHONE_DESC_BOB = " " + PREFIX_PHONE + VALID_PHONE_BANANA;
-    public static final String EMAIL_DESC_AMY = " " + PREFIX_EMAIL + VALID_EMAIL_APPLE;
-    public static final String EMAIL_DESC_BOB = " " + PREFIX_EMAIL + VALID_EMAIL_BANANA;
-    public static final String ADDRESS_DESC_AMY = " " + PREFIX_ADDRESS + VALID_ADDRESS_APPLE;
-    public static final String ADDRESS_DESC_BOB = " " + PREFIX_ADDRESS + VALID_ADDRESS_BANANA;
-    public static final String TAG_DESC_FRIEND = " " + PREFIX_TAG + VALID_TAG_FRIED;
-    public static final String TAG_DESC_HUSBAND = " " + PREFIX_TAG + VALID_TAG_NUTS;
+    public static final String NAME_DESC_APPLE = " " + PREFIX_NAME + VALID_NAME_APPLE;
+    public static final String NAME_DESC_BANANA = " " + PREFIX_NAME + VALID_NAME_BANANA;
+    public static final String PHONE_DESC_APPLE = " " + PREFIX_PHONE + VALID_PHONE_APPLE;
+    public static final String PHONE_DESC_BANANA = " " + PREFIX_PHONE + VALID_PHONE_BANANA;
+    public static final String EMAIL_DESC_APPLE = " " + PREFIX_EMAIL + VALID_EMAIL_APPLE;
+    public static final String EMAIL_DESC_BANANA = " " + PREFIX_EMAIL + VALID_EMAIL_BANANA;
+    public static final String ADDRESS_DESC_APPLE = " " + PREFIX_ADDRESS + VALID_ADDRESS_APPLE;
+    public static final String ADDRESS_DESC_BANANA = " " + PREFIX_ADDRESS + VALID_ADDRESS_BANANA;
+    public static final String TAG_DESC_FRIED = " " + PREFIX_TAG + VALID_TAG_FRIED;
+    public static final String TAG_DESC_NUTS = " " + PREFIX_TAG + VALID_TAG_NUTS;
 
     public static final String INVALID_NAME_DESC = " " + PREFIX_NAME + "Panc&ke"; // '&' not allowed in names
     public static final String INVALID_PHONE_DESC = " " + PREFIX_PHONE + "911a"; // 'a' not allowed in phones
