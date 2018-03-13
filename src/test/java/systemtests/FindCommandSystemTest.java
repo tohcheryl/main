@@ -42,31 +42,31 @@ public class FindCommandSystemTest extends AddressBookSystemTest {
         assertSelectedCardUnchanged();
 
         /* Case: find food where food list is not displaying the food we are finding -> 1 food found */
-        command = FindCommand.COMMAND_WORD + " Carl";
+        command = FindCommand.COMMAND_WORD + " Cake";
         ModelHelper.setFilteredList(expectedModel, CAKE);
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 
         /* Case: find multiple foods in address book, 2 keywords -> 2 foods found */
-        command = FindCommand.COMMAND_WORD + " Benson Daniel";
+        command = FindCommand.COMMAND_WORD + " Bacon Dumpling";
         ModelHelper.setFilteredList(expectedModel, BACON, DUMPLING);
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 
         /* Case: find multiple foods in address book, 2 keywords in reversed order -> 2 foods found */
-        command = FindCommand.COMMAND_WORD + " Daniel Benson";
+        command = FindCommand.COMMAND_WORD + " Dumpling Bacon";
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 
         /* Case: find multiple foods in address book, 2 keywords with 1 repeat -> 2 foods found */
-        command = FindCommand.COMMAND_WORD + " Daniel Benson Daniel";
+        command = FindCommand.COMMAND_WORD + " Dumpling Bacon Dumpling";
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 
         /* Case: find multiple foods in address book, 2 matching keywords and 1 non-matching keyword
          * -> 2 foods found
          */
-        command = FindCommand.COMMAND_WORD + " Daniel Benson NonMatchingKeyWord";
+        command = FindCommand.COMMAND_WORD + " Dumpling Bacon NonMatchingKeyWord";
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 
@@ -90,24 +90,24 @@ public class FindCommandSystemTest extends AddressBookSystemTest {
         assertSelectedCardUnchanged();
 
         /* Case: find food in address book, keyword is same as name but of different case -> 1 food found */
-        command = FindCommand.COMMAND_WORD + " MeIeR";
+        command = FindCommand.COMMAND_WORD + " MoUsSe";
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 
         /* Case: find food in address book, keyword is substring of name -> 0 foods found */
-        command = FindCommand.COMMAND_WORD + " Mei";
+        command = FindCommand.COMMAND_WORD + " Mou";
         ModelHelper.setFilteredList(expectedModel);
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 
         /* Case: find food in address book, name is substring of keyword -> 0 foods found */
-        command = FindCommand.COMMAND_WORD + " Meiers";
+        command = FindCommand.COMMAND_WORD + " Mousses";
         ModelHelper.setFilteredList(expectedModel);
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 
         /* Case: find food not in address book -> 0 foods found */
-        command = FindCommand.COMMAND_WORD + " Mark";
+        command = FindCommand.COMMAND_WORD + " Mouse";
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardUnchanged();
 
@@ -136,7 +136,7 @@ public class FindCommandSystemTest extends AddressBookSystemTest {
         showAllFoods();
         selectFood(Index.fromOneBased(1));
         assertFalse(getFoodListPanel().getHandleToSelectedCard().getName().equals(DUMPLING.getName().fullName));
-        command = FindCommand.COMMAND_WORD + " Daniel";
+        command = FindCommand.COMMAND_WORD + " Dumpling";
         ModelHelper.setFilteredList(expectedModel, DUMPLING);
         assertCommandSuccess(command, expectedModel);
         assertSelectedCardDeselected();
@@ -150,7 +150,7 @@ public class FindCommandSystemTest extends AddressBookSystemTest {
         assertSelectedCardUnchanged();
 
         /* Case: mixed case command word -> rejected */
-        command = "FiNd Meier";
+        command = "FiNd Mousse";
         assertCommandFailure(command, MESSAGE_UNKNOWN_COMMAND);
     }
 
