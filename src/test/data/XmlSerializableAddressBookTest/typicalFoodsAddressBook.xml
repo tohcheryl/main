@@ -3,50 +3,50 @@
 {@code TypicalFoods#getTypicalAddressBook()}-->
 <addressbook>
     <foods>
-        <name>Alice Pauline</name>
+        <name>Almond Biscuits</name>
         <phone>85355255</phone>
-        <email>alice@example.com</email>
+        <email>almond@example.com</email>
         <address>123, Jurong West Ave 6, #08-111</address>
-        <tagged>friends</tagged>
+        <tagged>fried</tagged>
     </foods>
     <foods>
-        <name>Benson Meier</name>
+        <name>Bacon Mousse</name>
         <phone>98765432</phone>
-        <email>johnd@example.com</email>
+        <email>baconator@example.com</email>
         <address>311, Clementi Ave 2, #02-25</address>
-        <tagged>owesMoney</tagged>
-        <tagged>friends</tagged>
+        <tagged>avoid</tagged>
+        <tagged>fried</tagged>
     </foods>
     <foods>
-        <name>Carl Kurz</name>
+        <name>Cake Pops</name>
         <phone>95352563</phone>
-        <email>heinz@example.com</email>
-        <address>wall street</address>
+        <email>caker@example.com</email>
+        <address>dessert street</address>
     </foods>
     <foods>
-        <name>Daniel Meier</name>
+        <name>Dumpling Mousse</name>
         <phone>87652533</phone>
-        <email>cornelia@example.com</email>
+        <email>dumper@example.com</email>
         <address>10th street</address>
     </foods>
     <foods>
-        <name>Elle Meyer</name>
+        <name>Egg Tart</name>
         <phone>9482224</phone>
-        <email>werner@example.com</email>
-        <address>michegan ave</address>
+        <email>yumcha@example.com</email>
+        <address>china ave</address>
     </foods>
     <foods>
-        <name>Fiona Kunz</name>
+        <name>Fries and Gravy</name>
         <phone>9482427</phone>
-        <email>lydia@example.com</email>
+        <email>maccas@example.com</email>
         <address>little tokyo</address>
     </foods>
     <foods>
-        <name>George Best</name>
+        <name>Grape Juice</name>
         <phone>9482442</phone>
-        <email>anna@example.com</email>
+        <email>boost@example.com</email>
         <address>4th street</address>
     </foods>
-    <tags>friends</tags>
-    <tags>owesMoney</tags>
+    <tags>fried</tags>
+    <tags>avoid</tags>
 </addressbook>
