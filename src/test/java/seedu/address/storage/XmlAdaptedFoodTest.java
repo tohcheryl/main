@@ -18,11 +18,11 @@ import seedu.address.model.food.Phone;
 import seedu.address.testutil.Assert;
 
 public class XmlAdaptedFoodTest {
-    private static final String INVALID_NAME = "R@chel";
+    private static final String INVALID_NAME = "R@nch";
     private static final String INVALID_PHONE = "+651234";
     private static final String INVALID_ADDRESS = " ";
     private static final String INVALID_EMAIL = "example.com";
-    private static final String INVALID_TAG = "#friend";
+    private static final String INVALID_TAG = "#fried";
 
     private static final String VALID_NAME = BACON.getName().toString();
     private static final String VALID_PHONE = BACON.getPhone().toString();
