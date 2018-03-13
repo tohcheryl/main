@@ -29,9 +29,9 @@ public class SelectCommandSystemTest extends AddressBookSystemTest {
         assertCommandSuccess(command, INDEX_FIRST_FOOD);
 
         /* Case: select the last card in the food list -> selected */
-        Index personCount = Index.fromOneBased(getTypicalFoods().size());
-        command = SelectCommand.COMMAND_WORD + " " + personCount.getOneBased();
-        assertCommandSuccess(command, personCount);
+        Index foodCount = Index.fromOneBased(getTypicalFoods().size());
+        command = SelectCommand.COMMAND_WORD + " " + foodCount.getOneBased();
+        assertCommandSuccess(command, foodCount);
 
         /* Case: undo previous selection -> rejected */
         command = UndoCommand.COMMAND_WORD;
@@ -44,7 +44,7 @@ public class SelectCommandSystemTest extends AddressBookSystemTest {
         assertCommandFailure(command, expectedResultMessage);
 
         /* Case: select the middle card in the food list -> selected */
-        Index middleIndex = Index.fromOneBased(personCount.getOneBased() / 2);
+        Index middleIndex = Index.fromOneBased(foodCount.getOneBased() / 2);
         command = SelectCommand.COMMAND_WORD + " " + middleIndex.getOneBased();
         assertCommandSuccess(command, middleIndex);
 
