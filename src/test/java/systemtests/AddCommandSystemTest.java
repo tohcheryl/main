@@ -158,19 +158,23 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
         assertCommandFailure(command, Messages.MESSAGE_UNKNOWN_COMMAND);
 
         /* Case: invalid name -> rejected */
-        command = AddCommand.COMMAND_WORD + INVALID_NAME_DESC + PHONE_DESC_APPLE + EMAIL_DESC_APPLE + ADDRESS_DESC_APPLE;
+        command = AddCommand.COMMAND_WORD + INVALID_NAME_DESC + PHONE_DESC_APPLE + EMAIL_DESC_APPLE
+                + ADDRESS_DESC_APPLE;
         assertCommandFailure(command, Name.MESSAGE_NAME_CONSTRAINTS);
 
         /* Case: invalid phone -> rejected */
-        command = AddCommand.COMMAND_WORD + NAME_DESC_APPLE + INVALID_PHONE_DESC + EMAIL_DESC_APPLE + ADDRESS_DESC_APPLE;
+        command = AddCommand.COMMAND_WORD + NAME_DESC_APPLE + INVALID_PHONE_DESC + EMAIL_DESC_APPLE
+                + ADDRESS_DESC_APPLE;
         assertCommandFailure(command, Phone.MESSAGE_PHONE_CONSTRAINTS);
 
         /* Case: invalid email -> rejected */
-        command = AddCommand.COMMAND_WORD + NAME_DESC_APPLE + PHONE_DESC_APPLE + INVALID_EMAIL_DESC + ADDRESS_DESC_APPLE;
+        command = AddCommand.COMMAND_WORD + NAME_DESC_APPLE + PHONE_DESC_APPLE + INVALID_EMAIL_DESC
+                + ADDRESS_DESC_APPLE;
         assertCommandFailure(command, Email.MESSAGE_EMAIL_CONSTRAINTS);
 
         /* Case: invalid address -> rejected */
-        command = AddCommand.COMMAND_WORD + NAME_DESC_APPLE + PHONE_DESC_APPLE + EMAIL_DESC_APPLE + INVALID_ADDRESS_DESC;
+        command = AddCommand.COMMAND_WORD + NAME_DESC_APPLE + PHONE_DESC_APPLE + EMAIL_DESC_APPLE
+                + INVALID_ADDRESS_DESC;
         assertCommandFailure(command, Address.MESSAGE_ADDRESS_CONSTRAINTS);
 
         /* Case: invalid tag -> rejected */

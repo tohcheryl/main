@@ -80,8 +80,8 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
         assertCommandSuccess(command, model, expectedResultMessage);
 
         /* Case: edit a food with new values same as existing values -> edited */
-        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_BANANA + PHONE_DESC_BANANA + EMAIL_DESC_BANANA
-                + ADDRESS_DESC_BANANA + TAG_DESC_FRIED + TAG_DESC_NUTS;
+        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_BANANA + PHONE_DESC_BANANA
+                + EMAIL_DESC_BANANA + ADDRESS_DESC_BANANA + TAG_DESC_FRIED + TAG_DESC_NUTS;
         assertCommandSuccess(command, index, BANANA);
 
         /* Case: edit some fields -> edited */
@@ -124,8 +124,8 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
         showAllFoods();
         index = INDEX_FIRST_FOOD;
         selectFood(index);
-        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_APPLE + PHONE_DESC_APPLE + EMAIL_DESC_APPLE
-                + ADDRESS_DESC_APPLE + TAG_DESC_FRIED;
+        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_APPLE + PHONE_DESC_APPLE
+                + EMAIL_DESC_APPLE + ADDRESS_DESC_APPLE + TAG_DESC_FRIED;
         // this can be misleading: card selection actually remains unchanged but the
         // browser's url is updated to reflect the new food's name
         assertCommandSuccess(command, index, APPLE, index);
@@ -178,13 +178,13 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
         assertTrue(getModel().getAddressBook().getFoodList().contains(BANANA));
         index = INDEX_FIRST_FOOD;
         assertFalse(getModel().getFilteredFoodList().get(index.getZeroBased()).equals(BANANA));
-        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_BANANA + PHONE_DESC_BANANA + EMAIL_DESC_BANANA
-                + ADDRESS_DESC_BANANA + TAG_DESC_FRIED + TAG_DESC_NUTS;
+        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_BANANA + PHONE_DESC_BANANA
+                + EMAIL_DESC_BANANA + ADDRESS_DESC_BANANA + TAG_DESC_FRIED + TAG_DESC_NUTS;
         assertCommandFailure(command, EditCommand.MESSAGE_DUPLICATE_FOOD);
 
         /* Case: edit a food with new values same as another food's values but with different tags -> rejected */
-        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_BANANA + PHONE_DESC_BANANA + EMAIL_DESC_BANANA
-                + ADDRESS_DESC_BANANA + TAG_DESC_NUTS;
+        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_BANANA + PHONE_DESC_BANANA
+                + EMAIL_DESC_BANANA + ADDRESS_DESC_BANANA + TAG_DESC_NUTS;
         assertCommandFailure(command, EditCommand.MESSAGE_DUPLICATE_FOOD);
     }
 
