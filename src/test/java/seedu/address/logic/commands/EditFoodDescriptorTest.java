@@ -36,23 +36,23 @@ public class EditFoodDescriptorTest {
         assertFalse(DESC_APPLE.equals(DESC_BANANA));
 
         // different name -> returns false
-        EditFoodDescriptor editedAmy = new EditFoodDescriptorBuilder(DESC_APPLE).withName(VALID_NAME_BANANA).build();
-        assertFalse(DESC_APPLE.equals(editedAmy));
+        EditFoodDescriptor editedApple = new EditFoodDescriptorBuilder(DESC_APPLE).withName(VALID_NAME_BANANA).build();
+        assertFalse(DESC_APPLE.equals(editedApple));
 
         // different phone -> returns false
-        editedAmy = new EditFoodDescriptorBuilder(DESC_APPLE).withPhone(VALID_PHONE_BANANA).build();
-        assertFalse(DESC_APPLE.equals(editedAmy));
+        editedApple = new EditFoodDescriptorBuilder(DESC_APPLE).withPhone(VALID_PHONE_BANANA).build();
+        assertFalse(DESC_APPLE.equals(editedApple));
 
         // different email -> returns false
-        editedAmy = new EditFoodDescriptorBuilder(DESC_APPLE).withEmail(VALID_EMAIL_BANANA).build();
-        assertFalse(DESC_APPLE.equals(editedAmy));
+        editedApple = new EditFoodDescriptorBuilder(DESC_APPLE).withEmail(VALID_EMAIL_BANANA).build();
+        assertFalse(DESC_APPLE.equals(editedApple));
 
         // different address -> returns false
-        editedAmy = new EditFoodDescriptorBuilder(DESC_APPLE).withAddress(VALID_ADDRESS_BANANA).build();
-        assertFalse(DESC_APPLE.equals(editedAmy));
+        editedApple = new EditFoodDescriptorBuilder(DESC_APPLE).withAddress(VALID_ADDRESS_BANANA).build();
+        assertFalse(DESC_APPLE.equals(editedApple));
 
         // different tags -> returns false
-        editedAmy = new EditFoodDescriptorBuilder(DESC_APPLE).withTags(VALID_TAG_NUTS).build();
-        assertFalse(DESC_APPLE.equals(editedAmy));
+        editedApple = new EditFoodDescriptorBuilder(DESC_APPLE).withTags(VALID_TAG_NUTS).build();
+        assertFalse(DESC_APPLE.equals(editedApple));
     }
 }
