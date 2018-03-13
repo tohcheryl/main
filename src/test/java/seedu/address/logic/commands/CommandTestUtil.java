@@ -60,14 +60,14 @@ public class CommandTestUtil {
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
     public static final String PREAMBLE_NON_EMPTY = "NonEmptyPreamble";
 
-    public static final EditCommand.EditFoodDescriptor DESC_AMY;
-    public static final EditCommand.EditFoodDescriptor DESC_BOB;
+    public static final EditCommand.EditFoodDescriptor DESC_APPLE;
+    public static final EditCommand.EditFoodDescriptor DESC_BANANA;
 
     static {
-        DESC_AMY = new EditFoodDescriptorBuilder().withName(VALID_NAME_APPLE)
+        DESC_APPLE = new EditFoodDescriptorBuilder().withName(VALID_NAME_APPLE)
                 .withPhone(VALID_PHONE_APPLE).withEmail(VALID_EMAIL_APPLE).withAddress(VALID_ADDRESS_APPLE)
                 .withTags(VALID_TAG_FRIED).build();
-        DESC_BOB = new EditFoodDescriptorBuilder().withName(VALID_NAME_BANANA)
+        DESC_BANANA = new EditFoodDescriptorBuilder().withName(VALID_NAME_BANANA)
                 .withPhone(VALID_PHONE_BANANA).withEmail(VALID_EMAIL_BANANA).withAddress(VALID_ADDRESS_BANANA)
                 .withTags(VALID_TAG_NUTS, VALID_TAG_FRIED).build();
     }

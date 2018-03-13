@@ -3,8 +3,8 @@ package seedu.address.logic.commands;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
-import static seedu.address.logic.commands.CommandTestUtil.DESC_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.DESC_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.DESC_APPLE;
+import static seedu.address.logic.commands.CommandTestUtil.DESC_BANANA;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BANANA;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BANANA;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_NUTS;
@@ -224,10 +224,10 @@ public class EditCommandTest {
 
     @Test
     public void equals() throws Exception {
-        final EditCommand standardCommand = prepareCommand(INDEX_FIRST_FOOD, DESC_AMY);
+        final EditCommand standardCommand = prepareCommand(INDEX_FIRST_FOOD, DESC_APPLE);
 
         // same values -> returns true
-        EditFoodDescriptor copyDescriptor = new EditFoodDescriptor(DESC_AMY);
+        EditFoodDescriptor copyDescriptor = new EditFoodDescriptor(DESC_APPLE);
         EditCommand commandWithSameValues = prepareCommand(INDEX_FIRST_FOOD, copyDescriptor);
         assertTrue(standardCommand.equals(commandWithSameValues));
 
@@ -245,10 +245,10 @@ public class EditCommandTest {
         assertFalse(standardCommand.equals(new ClearCommand()));
 
         // different index -> returns false
-        assertFalse(standardCommand.equals(new EditCommand(INDEX_SECOND_FOOD, DESC_AMY)));
+        assertFalse(standardCommand.equals(new EditCommand(INDEX_SECOND_FOOD, DESC_APPLE)));
 
         // different descriptor -> returns false
-        assertFalse(standardCommand.equals(new EditCommand(INDEX_FIRST_FOOD, DESC_BOB)));
+        assertFalse(standardCommand.equals(new EditCommand(INDEX_FIRST_FOOD, DESC_BANANA)));
     }
 
     /**
