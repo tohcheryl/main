@@ -58,8 +58,8 @@ public class EditCommandTest {
         Index indexLastFood = Index.fromOneBased(model.getFilteredFoodList().size());
         Food lastFood = model.getFilteredFoodList().get(indexLastFood.getZeroBased());
 
-        FoodBuilder personInList = new FoodBuilder(lastFood);
-        Food editedFood = personInList.withName(VALID_NAME_BANANA).withPhone(VALID_PHONE_BANANA)
+        FoodBuilder foodInList = new FoodBuilder(lastFood);
+        Food editedFood = foodInList.withName(VALID_NAME_BANANA).withPhone(VALID_PHONE_BANANA)
                 .withTags(VALID_TAG_NUTS).build();
 
         EditFoodDescriptor descriptor = new EditFoodDescriptorBuilder().withName(VALID_NAME_BANANA)
