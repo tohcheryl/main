@@ -11,7 +11,7 @@ import seedu.address.ui.FoodCard;
  * Provides a handle for {@code FoodListPanel} containing the list of {@code FoodCard}.
  */
 public class FoodListPanelHandle extends NodeHandle<ListView<FoodCard>> {
-    public static final String FOOD_LIST_VIEW_ID = "#personListView";
+    public static final String FOOD_LIST_VIEW_ID = "#foodListView";
 
     private Optional<FoodCard> lastRememberedSelectedFoodCard;
 
