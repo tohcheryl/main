@@ -4,11 +4,11 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.DESC_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BANANA;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BANANA;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BANANA;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BANANA;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_NUTS;
 
 import org.junit.Test;
 
@@ -36,23 +36,23 @@ public class EditFoodDescriptorTest {
         assertFalse(DESC_AMY.equals(DESC_BOB));
 
         // different name -> returns false
-        EditFoodDescriptor editedAmy = new EditFoodDescriptorBuilder(DESC_AMY).withName(VALID_NAME_BOB).build();
+        EditFoodDescriptor editedAmy = new EditFoodDescriptorBuilder(DESC_AMY).withName(VALID_NAME_BANANA).build();
         assertFalse(DESC_AMY.equals(editedAmy));
 
         // different phone -> returns false
-        editedAmy = new EditFoodDescriptorBuilder(DESC_AMY).withPhone(VALID_PHONE_BOB).build();
+        editedAmy = new EditFoodDescriptorBuilder(DESC_AMY).withPhone(VALID_PHONE_BANANA).build();
         assertFalse(DESC_AMY.equals(editedAmy));
 
         // different email -> returns false
-        editedAmy = new EditFoodDescriptorBuilder(DESC_AMY).withEmail(VALID_EMAIL_BOB).build();
+        editedAmy = new EditFoodDescriptorBuilder(DESC_AMY).withEmail(VALID_EMAIL_BANANA).build();
         assertFalse(DESC_AMY.equals(editedAmy));
 
         // different address -> returns false
-        editedAmy = new EditFoodDescriptorBuilder(DESC_AMY).withAddress(VALID_ADDRESS_BOB).build();
+        editedAmy = new EditFoodDescriptorBuilder(DESC_AMY).withAddress(VALID_ADDRESS_BANANA).build();
         assertFalse(DESC_AMY.equals(editedAmy));
 
         // different tags -> returns false
-        editedAmy = new EditFoodDescriptorBuilder(DESC_AMY).withTags(VALID_TAG_HUSBAND).build();
+        editedAmy = new EditFoodDescriptorBuilder(DESC_AMY).withTags(VALID_TAG_NUTS).build();
         assertFalse(DESC_AMY.equals(editedAmy));
     }
 }

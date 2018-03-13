@@ -17,12 +17,12 @@ import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_HUSBAND;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BANANA;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BANANA;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BANANA;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BANANA;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIED;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_NUTS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_FOODS;
 import static seedu.address.testutil.TypicalFoods.AMY;
@@ -63,8 +63,8 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
         Index index = INDEX_FIRST_FOOD;
         String command = " " + EditCommand.COMMAND_WORD + "  " + index.getOneBased() + "  " + NAME_DESC_BOB + "  "
                 + PHONE_DESC_BOB + " " + EMAIL_DESC_BOB + "  " + ADDRESS_DESC_BOB + " " + TAG_DESC_HUSBAND + " ";
-        Food editedFood = new FoodBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
-                .withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND).build();
+        Food editedFood = new FoodBuilder().withName(VALID_NAME_BANANA).withPhone(VALID_PHONE_BANANA)
+                .withEmail(VALID_EMAIL_BANANA).withAddress(VALID_ADDRESS_BANANA).withTags(VALID_TAG_NUTS).build();
         assertCommandSuccess(command, index, editedFood);
 
         /* Case: undo editing the last food in the list -> last food restored */
@@ -88,7 +88,7 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
         index = INDEX_FIRST_FOOD;
         command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + TAG_DESC_FRIEND;
         Food foodToEdit = getModel().getFilteredFoodList().get(index.getZeroBased());
-        editedFood = new FoodBuilder(foodToEdit).withTags(VALID_TAG_FRIEND).build();
+        editedFood = new FoodBuilder(foodToEdit).withTags(VALID_TAG_FRIED).build();
         assertCommandSuccess(command, index, editedFood);
 
         /* Case: clear tags -> cleared */
@@ -105,7 +105,7 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
         assertTrue(index.getZeroBased() < getModel().getFilteredFoodList().size());
         command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + " " + NAME_DESC_BOB;
         foodToEdit = getModel().getFilteredFoodList().get(index.getZeroBased());
-        editedFood = new FoodBuilder(foodToEdit).withName(VALID_NAME_BOB).build();
+        editedFood = new FoodBuilder(foodToEdit).withName(VALID_NAME_BANANA).build();
         assertCommandSuccess(command, index, editedFood);
 
         /* Case: filtered food list, edit index within bounds of address book but out of bounds of food list
