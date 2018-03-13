@@ -67,7 +67,7 @@ public class FindCommandTest {
     @Test
     public void execute_multipleKeywords_multipleFoodsFound() {
         String expectedMessage = String.format(MESSAGE_FOODS_LISTED_OVERVIEW, 3);
-        FindCommand command = prepareCommand("Kurz Elle Kunz");
+        FindCommand command = prepareCommand("Cake Egg Fries");
         assertCommandSuccess(command, expectedMessage, Arrays.asList(CAKE, EGG, FRIES));
     }
 
