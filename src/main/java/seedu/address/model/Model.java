@@ -3,16 +3,16 @@ package seedu.address.model;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
-import seedu.address.model.person.Person;
-import seedu.address.model.person.exceptions.DuplicatePersonException;
-import seedu.address.model.person.exceptions.PersonNotFoundException;
+import seedu.address.model.food.Food;
+import seedu.address.model.food.exceptions.DuplicateFoodException;
+import seedu.address.model.food.exceptions.FoodNotFoundException;
 
 /**
  * The API of the Model component.
  */
 public interface Model {
     /** {@code Predicate} that always evaluate to true */
-    Predicate<Person> PREDICATE_SHOW_ALL_PERSONS = unused -> true;
+    Predicate<Food> PREDICATE_SHOW_ALL_FOODS = unused -> true;
 
     /** Clears existing backing model and replaces with the provided new data. */
     void resetData(ReadOnlyAddressBook newData);
@@ -20,29 +20,29 @@ public interface Model {
     /** Returns the AddressBook */
     ReadOnlyAddressBook getAddressBook();
 
-    /** Deletes the given person. */
-    void deletePerson(Person target) throws PersonNotFoundException;
+    /** Deletes the given food. */
+    void deleteFood(Food target) throws FoodNotFoundException;
 
-    /** Adds the given person */
-    void addPerson(Person person) throws DuplicatePersonException;
+    /** Adds the given food */
+    void addFood(Food food) throws DuplicateFoodException;
 
     /**
-     * Replaces the given person {@code target} with {@code editedPerson}.
+     * Replaces the given food {@code target} with {@code editedFood}.
      *
-     * @throws DuplicatePersonException if updating the person's details causes the person to be equivalent to
-     *      another existing person in the list.
-     * @throws PersonNotFoundException if {@code target} could not be found in the list.
+     * @throws DuplicateFoodException if updating the food's details causes the food to be equivalent to
+     *      another existing food in the list.
+     * @throws FoodNotFoundException if {@code target} could not be found in the list.
      */
-    void updatePerson(Person target, Person editedPerson)
-            throws DuplicatePersonException, PersonNotFoundException;
+    void updateFood(Food target, Food editedFood)
+            throws DuplicateFoodException, FoodNotFoundException;
 
-    /** Returns an unmodifiable view of the filtered person list */
-    ObservableList<Person> getFilteredPersonList();
+    /** Returns an unmodifiable view of the filtered food list */
+    ObservableList<Food> getFilteredFoodList();
 
     /**
-     * Updates the filter of the filtered person list to filter by the given {@code predicate}.
+     * Updates the filter of the filtered food list to filter by the given {@code predicate}.
      * @throws NullPointerException if {@code predicate} is null.
      */
-    void updateFilteredPersonList(Predicate<Person> predicate);
+    void updateFilteredFoodList(Predicate<Food> predicate);
 
 }

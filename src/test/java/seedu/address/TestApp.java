@@ -71,7 +71,7 @@ public class TestApp extends MainApp {
     }
 
     /**
-     * Returns a defensive copy of the address book data stored inside the storage file.
+     * Returns a defensive copy of HackEat data stored inside the storage file.
      */
     public AddressBook readStorageAddressBook() {
         try {
@@ -95,7 +95,7 @@ public class TestApp extends MainApp {
      */
     public Model getModel() {
         Model copy = new ModelManager((model.getAddressBook()), new UserPrefs());
-        ModelHelper.setFilteredList(copy, model.getFilteredPersonList());
+        ModelHelper.setFilteredList(copy, model.getFilteredFoodList());
         return copy;
     }
 

@@ -12,19 +12,19 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
-import seedu.address.model.person.Person;
-import seedu.address.model.person.exceptions.DuplicatePersonException;
-import seedu.address.model.person.exceptions.PersonNotFoundException;
+import seedu.address.model.food.Food;
+import seedu.address.model.food.exceptions.DuplicateFoodException;
+import seedu.address.model.food.exceptions.FoodNotFoundException;
 
 /**
- * Represents the in-memory model of the address book data.
+ * Represents the in-memory model of HackEat data.
  * All changes to any model should be synchronized.
  */
 public class ModelManager extends ComponentManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
     private final AddressBook addressBook;
-    private final FilteredList<Person> filteredPersons;
+    private final FilteredList<Food> filteredFoods;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -36,7 +36,7 @@ public class ModelManager extends ComponentManager implements Model {
         logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
 
         this.addressBook = new AddressBook(addressBook);
-        filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
+        filteredFoods = new FilteredList<>(this.addressBook.getFoodList());
     }
 
     public ModelManager() {
@@ -60,42 +60,42 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public synchronized void deletePerson(Person target) throws PersonNotFoundException {
-        addressBook.removePerson(target);
+    public synchronized void deleteFood(Food target) throws FoodNotFoundException {
+        addressBook.removeFood(target);
         indicateAddressBookChanged();
     }
 
     @Override
-    public synchronized void addPerson(Person person) throws DuplicatePersonException {
-        addressBook.addPerson(person);
-        updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+    public synchronized void addFood(Food food) throws DuplicateFoodException {
+        addressBook.addFood(food);
+        updateFilteredFoodList(PREDICATE_SHOW_ALL_FOODS);
         indicateAddressBookChanged();
     }
 
     @Override
-    public void updatePerson(Person target, Person editedPerson)
-            throws DuplicatePersonException, PersonNotFoundException {
-        requireAllNonNull(target, editedPerson);
+    public void updateFood(Food target, Food editedFood)
+            throws DuplicateFoodException, FoodNotFoundException {
+        requireAllNonNull(target, editedFood);
 
-        addressBook.updatePerson(target, editedPerson);
+        addressBook.updateFood(target, editedFood);
         indicateAddressBookChanged();
     }
 
-    //=========== Filtered Person List Accessors =============================================================
+    //=========== Filtered Food List Accessors =============================================================
 
     /**
-     * Returns an unmodifiable view of the list of {@code Person} backed by the internal list of
+     * Returns an unmodifiable view of the list of {@code Food} backed by the internal list of
      * {@code addressBook}
      */
     @Override
-    public ObservableList<Person> getFilteredPersonList() {
-        return FXCollections.unmodifiableObservableList(filteredPersons);
+    public ObservableList<Food> getFilteredFoodList() {
+        return FXCollections.unmodifiableObservableList(filteredFoods);
     }
 
     @Override
-    public void updateFilteredPersonList(Predicate<Person> predicate) {
+    public void updateFilteredFoodList(Predicate<Food> predicate) {
         requireNonNull(predicate);
-        filteredPersons.setPredicate(predicate);
+        filteredFoods.setPredicate(predicate);
     }
 
     @Override
@@ -113,7 +113,7 @@ public class ModelManager extends ComponentManager implements Model {
         // state check
         ModelManager other = (ModelManager) obj;
         return addressBook.equals(other.addressBook)
-                && filteredPersons.equals(other.filteredPersons);
+                && filteredFoods.equals(other.filteredFoods);
     }
 
 }
