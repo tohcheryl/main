@@ -25,7 +25,7 @@ public class FoodListPanel extends UiPart<Region> {
     private final Logger logger = LogsCenter.getLogger(FoodListPanel.class);
 
     @FXML
-    private ListView<FoodCard> personListView;
+    private ListView<FoodCard> foodListView;
 
     public FoodListPanel(ObservableList<Food> foodList) {
         super(FXML);
@@ -35,14 +35,14 @@ public class FoodListPanel extends UiPart<Region> {
 
     private void setConnections(ObservableList<Food> foodList) {
         ObservableList<FoodCard> mappedList = EasyBind.map(
-                foodList, (person) -> new FoodCard(person, foodList.indexOf(person) + 1));
-        personListView.setItems(mappedList);
-        personListView.setCellFactory(listView -> new FoodListViewCell());
+                foodList, (food) -> new FoodCard(food, foodList.indexOf(food) + 1));
+        foodListView.setItems(mappedList);
+        foodListView.setCellFactory(listView -> new FoodListViewCell());
         setEventHandlerForSelectionChangeEvent();
     }
 
     private void setEventHandlerForSelectionChangeEvent() {
-        personListView.getSelectionModel().selectedItemProperty()
+        foodListView.getSelectionModel().selectedItemProperty()
                 .addListener((observable, oldValue, newValue) -> {
                     if (newValue != null) {
                         logger.fine("Selection in food list panel changed to : '" + newValue + "'");
@@ -56,8 +56,8 @@ public class FoodListPanel extends UiPart<Region> {
      */
     private void scrollTo(int index) {
         Platform.runLater(() -> {
-            personListView.scrollTo(index);
-            personListView.getSelectionModel().clearAndSelect(index);
+            foodListView.scrollTo(index);
+            foodListView.getSelectionModel().clearAndSelect(index);
         });
     }
 
@@ -73,14 +73,14 @@ public class FoodListPanel extends UiPart<Region> {
     class FoodListViewCell extends ListCell<FoodCard> {
 
         @Override
-        protected void updateItem(FoodCard person, boolean empty) {
-            super.updateItem(person, empty);
+        protected void updateItem(FoodCard food, boolean empty) {
+            super.updateItem(food, empty);
 
-            if (empty || person == null) {
+            if (empty || food == null) {
                 setGraphic(null);
                 setText(null);
             } else {
-                setGraphic(person.getRoot());
+                setGraphic(food.getRoot());
             }
         }
     }

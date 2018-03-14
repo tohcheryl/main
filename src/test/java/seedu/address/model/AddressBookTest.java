@@ -1,7 +1,7 @@
 package seedu.address.model;
 
 import static org.junit.Assert.assertEquals;
-import static seedu.address.testutil.TypicalFoods.ALICE;
+import static seedu.address.testutil.TypicalFoods.ALMOND;
 import static seedu.address.testutil.TypicalFoods.getTypicalAddressBook;
 
 import java.util.ArrayList;
@@ -47,9 +47,9 @@ public class AddressBookTest {
 
     @Test
     public void resetData_withDuplicateFoods_throwsAssertionError() {
-        // Repeat ALICE twice
-        List<Food> newFoods = Arrays.asList(ALICE, ALICE);
-        List<Tag> newTags = new ArrayList<>(ALICE.getTags());
+        // Repeat ALMOND twice
+        List<Food> newFoods = Arrays.asList(ALMOND, ALMOND);
+        List<Tag> newTags = new ArrayList<>(ALMOND.getTags());
         AddressBookStub newData = new AddressBookStub(newFoods, newTags);
 
         thrown.expect(AssertionError.class);

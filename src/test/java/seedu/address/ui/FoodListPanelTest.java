@@ -23,23 +23,23 @@ public class FoodListPanelTest extends GuiUnitTest {
 
     private static final JumpToListRequestEvent JUMP_TO_SECOND_EVENT = new JumpToListRequestEvent(INDEX_SECOND_FOOD);
 
-    private FoodListPanelHandle personListPanelHandle;
+    private FoodListPanelHandle foodListPanelHandle;
 
     @Before
     public void setUp() {
-        FoodListPanel personListPanel = new FoodListPanel(TYPICAL_FOODS);
-        uiPartRule.setUiPart(personListPanel);
+        FoodListPanel foodListPanel = new FoodListPanel(TYPICAL_FOODS);
+        uiPartRule.setUiPart(foodListPanel);
 
-        personListPanelHandle = new FoodListPanelHandle(getChildNode(personListPanel.getRoot(),
+        foodListPanelHandle = new FoodListPanelHandle(getChildNode(foodListPanel.getRoot(),
                 FoodListPanelHandle.FOOD_LIST_VIEW_ID));
     }
 
     @Test
     public void display() {
         for (int i = 0; i < TYPICAL_FOODS.size(); i++) {
-            personListPanelHandle.navigateToCard(TYPICAL_FOODS.get(i));
+            foodListPanelHandle.navigateToCard(TYPICAL_FOODS.get(i));
             Food expectedFood = TYPICAL_FOODS.get(i);
-            FoodCardHandle actualCard = personListPanelHandle.getFoodCardHandle(i);
+            FoodCardHandle actualCard = foodListPanelHandle.getFoodCardHandle(i);
 
             assertCardDisplaysFood(expectedFood, actualCard);
             assertEquals(Integer.toString(i + 1) + ". ", actualCard.getId());
@@ -51,8 +51,8 @@ public class FoodListPanelTest extends GuiUnitTest {
         postNow(JUMP_TO_SECOND_EVENT);
         guiRobot.pauseForHuman();
 
-        FoodCardHandle expectedCard = personListPanelHandle.getFoodCardHandle(INDEX_SECOND_FOOD.getZeroBased());
-        FoodCardHandle selectedCard = personListPanelHandle.getHandleToSelectedCard();
+        FoodCardHandle expectedCard = foodListPanelHandle.getFoodCardHandle(INDEX_SECOND_FOOD.getZeroBased());
+        FoodCardHandle selectedCard = foodListPanelHandle.getHandleToSelectedCard();
         assertCardEquals(expectedCard, selectedCard);
     }
 }

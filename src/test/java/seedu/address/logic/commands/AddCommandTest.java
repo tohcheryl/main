@@ -38,7 +38,7 @@ public class AddCommandTest {
     }
 
     @Test
-    public void execute_personAcceptedByModel_addSuccessful() throws Exception {
+    public void execute_foodAcceptedByModel_addSuccessful() throws Exception {
         ModelStubAcceptingFoodAdded modelStub = new ModelStubAcceptingFoodAdded();
         Food validFood = new FoodBuilder().build();
 
@@ -61,26 +61,26 @@ public class AddCommandTest {
 
     @Test
     public void equals() {
-        Food alice = new FoodBuilder().withName("Alice").build();
-        Food bob = new FoodBuilder().withName("Bob").build();
-        AddCommand addAliceCommand = new AddCommand(alice);
-        AddCommand addBobCommand = new AddCommand(bob);
+        Food apple = new FoodBuilder().withName("Apple").build();
+        Food banana = new FoodBuilder().withName("Banana").build();
+        AddCommand addAppleCommand = new AddCommand(apple);
+        AddCommand addBananaCommand = new AddCommand(banana);
 
         // same object -> returns true
-        assertTrue(addAliceCommand.equals(addAliceCommand));
+        assertTrue(addAppleCommand.equals(addAppleCommand));
 
         // same values -> returns true
-        AddCommand addAliceCommandCopy = new AddCommand(alice);
-        assertTrue(addAliceCommand.equals(addAliceCommandCopy));
+        AddCommand addAppleCommandCopy = new AddCommand(apple);
+        assertTrue(addAppleCommand.equals(addAppleCommandCopy));
 
         // different types -> returns false
-        assertFalse(addAliceCommand.equals(1));
+        assertFalse(addAppleCommand.equals(1));
 
         // null -> returns false
-        assertFalse(addAliceCommand.equals(null));
+        assertFalse(addAppleCommand.equals(null));
 
         // different food -> returns false
-        assertFalse(addAliceCommand.equals(addBobCommand));
+        assertFalse(addAppleCommand.equals(addBananaCommand));
     }
 
     /**

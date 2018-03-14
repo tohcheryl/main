@@ -5,7 +5,7 @@ import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_FOOD_DISPLAYED_INDEX;
 import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.address.logic.commands.SelectCommand.MESSAGE_SELECT_FOOD_SUCCESS;
-import static seedu.address.testutil.TypicalFoods.KEYWORD_MATCHING_MEIER;
+import static seedu.address.testutil.TypicalFoods.KEYWORD_MATCHING_MOUSSE;
 import static seedu.address.testutil.TypicalFoods.getTypicalFoods;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_FOOD;
 
@@ -29,9 +29,9 @@ public class SelectCommandSystemTest extends AddressBookSystemTest {
         assertCommandSuccess(command, INDEX_FIRST_FOOD);
 
         /* Case: select the last card in the food list -> selected */
-        Index personCount = Index.fromOneBased(getTypicalFoods().size());
-        command = SelectCommand.COMMAND_WORD + " " + personCount.getOneBased();
-        assertCommandSuccess(command, personCount);
+        Index foodCount = Index.fromOneBased(getTypicalFoods().size());
+        command = SelectCommand.COMMAND_WORD + " " + foodCount.getOneBased();
+        assertCommandSuccess(command, foodCount);
 
         /* Case: undo previous selection -> rejected */
         command = UndoCommand.COMMAND_WORD;
@@ -44,7 +44,7 @@ public class SelectCommandSystemTest extends AddressBookSystemTest {
         assertCommandFailure(command, expectedResultMessage);
 
         /* Case: select the middle card in the food list -> selected */
-        Index middleIndex = Index.fromOneBased(personCount.getOneBased() / 2);
+        Index middleIndex = Index.fromOneBased(foodCount.getOneBased() / 2);
         command = SelectCommand.COMMAND_WORD + " " + middleIndex.getOneBased();
         assertCommandSuccess(command, middleIndex);
 
@@ -56,7 +56,7 @@ public class SelectCommandSystemTest extends AddressBookSystemTest {
         /* Case: filtered food list, select index within bounds of address book but out of bounds of food list
          * -> rejected
          */
-        showFoodsWithName(KEYWORD_MATCHING_MEIER);
+        showFoodsWithName(KEYWORD_MATCHING_MOUSSE);
         int invalidIndex = getModel().getAddressBook().getFoodList().size();
         assertCommandFailure(SelectCommand.COMMAND_WORD + " " + invalidIndex, MESSAGE_INVALID_FOOD_DISPLAYED_INDEX);
 

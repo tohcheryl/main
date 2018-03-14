@@ -39,28 +39,28 @@ public class GuiTestAssert {
     }
 
     /**
-     * Asserts that the list in {@code personListPanelHandle} displays the details of {@code foods} correctly and
+     * Asserts that the list in {@code foodListPanelHandle} displays the details of {@code foods} correctly and
      * in the correct order.
      */
-    public static void assertListMatching(FoodListPanelHandle personListPanelHandle, Food... foods) {
+    public static void assertListMatching(FoodListPanelHandle foodListPanelHandle, Food... foods) {
         for (int i = 0; i < foods.length; i++) {
-            assertCardDisplaysFood(foods[i], personListPanelHandle.getFoodCardHandle(i));
+            assertCardDisplaysFood(foods[i], foodListPanelHandle.getFoodCardHandle(i));
         }
     }
 
     /**
-     * Asserts that the list in {@code personListPanelHandle} displays the details of {@code foods} correctly and
+     * Asserts that the list in {@code foodListPanelHandle} displays the details of {@code foods} correctly and
      * in the correct order.
      */
-    public static void assertListMatching(FoodListPanelHandle personListPanelHandle, List<Food> foods) {
-        assertListMatching(personListPanelHandle, foods.toArray(new Food[0]));
+    public static void assertListMatching(FoodListPanelHandle foodListPanelHandle, List<Food> foods) {
+        assertListMatching(foodListPanelHandle, foods.toArray(new Food[0]));
     }
 
     /**
-     * Asserts the size of the list in {@code personListPanelHandle} equals to {@code size}.
+     * Asserts the size of the list in {@code foodListPanelHandle} equals to {@code size}.
      */
-    public static void assertListSize(FoodListPanelHandle personListPanelHandle, int size) {
-        int numberOfPeople = personListPanelHandle.getListSize();
+    public static void assertListSize(FoodListPanelHandle foodListPanelHandle, int size) {
+        int numberOfPeople = foodListPanelHandle.getListSize();
         assertEquals(size, numberOfPeople);
     }
 
