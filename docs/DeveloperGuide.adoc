@@ -803,7 +803,7 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 |Priority |As a ... |I want to ... |So that I can...
 |`* * *` |new user |see usage instructions |refer to instructions when I forget how to use the App
 
-|`* * *` |user |Use cmdline to add food that I like | I can get recommended meals that I will likely enjoy
+|`* * *` |user |Use CLI to add food that I like | I can get recommended meals that I will likely enjoy
 
 |`* * *` |user |delete a food | I can avoid meals that I will probably not enjoy
 
@@ -860,10 +860,6 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 |`*` |user |See the rating of a restaurant |I know how reliable/how good the food is from that restaurant
 
 |`*` |user |Delete restaurants that I have saved | So that I can keep an updated list of restaurants I like
-
-|`*` |user with many foods in HackEat |sort foods by name |locate a food easily
-
-|`*` |user |See a history of what I’ve written as a GitHub-style diagram |I can see something cool
 |=======================================================================
 
 _{More to be added}_
@@ -934,13 +930,10 @@ Use case ends.
 
 [none]
 
-* 1a. No food is sale
+* 1a. No food is on sale
 +
-[none]
-** 1a1. Hackeat informs user that nothing is on sale.
-** 1a2. User chooses to order other food.
-+
-Use case resumes from Step 4.
+
+
 
 _{More to be added}_
 
