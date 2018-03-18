@@ -39,8 +39,8 @@ public abstract class FoodProperty {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof Phone // instanceof handles nulls
-                && this.value.equals(((Phone) other).value)); // state check
+                || (other instanceof FoodProperty // instanceof handles nulls
+                && this.value.equals(((FoodProperty) other).value)); // state check
     }
 
     @Override

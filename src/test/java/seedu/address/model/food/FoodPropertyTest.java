@@ -39,6 +39,19 @@ public class FoodPropertyTest {
     }
 
     @Test
+    public void toString_validValue_assertEqual() {
+        FoodPropertyStub foodPropertyStub = new FoodPropertyStub("Test");
+        assertEquals(foodPropertyStub.toString(), "Test");
+    }
+
+    @Test
+    public void equals_validFoodPropertyValue_assertEqual() {
+        FoodPropertyStub foodPropertyStub = new FoodPropertyStub("Test");
+        FoodPropertyStub foodPropertyStub2 = new FoodPropertyStub("Test");
+        assertEquals(foodPropertyStub, foodPropertyStub2);
+    }
+
+    @Test
     public void isValid() {
         // TODO: Add isValid for all child classes
         // invalid email
