@@ -10,8 +10,8 @@ public abstract class FoodProperty {
 
     public static final String MESSAGE_CONSTRAINT =
             "To be implemented by child classes";
-    private static final String PROPERTY_VALID_REGEX = "[^\\s].*";
-    private String value;
+    public static final String PROPERTY_VALID_REGEX = "[^\\s].*";
+    public final String value;
 
     /**
      * Constructs a {@code FoodProperty}.
