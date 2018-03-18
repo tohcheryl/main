@@ -7,7 +7,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  * Represents a Food's phone number in HackEat.
  * Guarantees: immutable; is valid as declared in {@link #isValidPhone(String)}
  */
-public class Phone implements FoodProperty {
+public class Phone {
 
 
     public static final String MESSAGE_PHONE_CONSTRAINTS =
