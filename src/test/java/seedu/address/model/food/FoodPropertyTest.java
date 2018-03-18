@@ -52,6 +52,13 @@ public class FoodPropertyTest {
     }
 
     @Test
+    public void hashCode_validFoodPropertyValue_assertEqual() {
+        FoodPropertyStub foodPropertyStub = new FoodPropertyStub("Test");
+        FoodPropertyStub foodPropertyStub2 = new FoodPropertyStub("Test");
+        assertEquals(foodPropertyStub.hashCode(), foodPropertyStub2.hashCode());
+    }
+
+    @Test
     public void isValid() {
         // TODO: Add isValid for all child classes
         // invalid email
