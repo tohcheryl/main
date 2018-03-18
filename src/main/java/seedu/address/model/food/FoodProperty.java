@@ -16,7 +16,7 @@ public abstract class FoodProperty {
     /**
      * Constructs a {@code FoodProperty}.
      *
-     * @param foodProperty A valid phone number.
+     * @param foodProperty A valid FoodProperty.
      */
     public FoodProperty(String foodProperty) {
         requireNonNull(foodProperty);
@@ -25,7 +25,7 @@ public abstract class FoodProperty {
     }
 
     /**
-     * Returns true if a given string is a valid food phone number.
+     * Returns true if a given string is a valid food property.
      */
     public static boolean isValid (String test, String regex) {
         return test.matches(regex);
