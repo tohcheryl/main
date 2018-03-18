@@ -7,7 +7,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -44,11 +43,10 @@ public class AddCommandParser implements Parser<AddCommand> {
             Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME)).get();
             Phone phone = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE)).get();
 
-            Optional<Email> optionalEmail = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL));
-            Email email = optionalEmail.isPresent() ? optionalEmail.get() : new Email("UNKNOWN@EMAIL");
-
-            Optional<Address> optionalAddress = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS));
-            Address address = optionalAddress.isPresent() ? optionalAddress.get() : new Address("UNKNOWN ADDRESS");
+            Email email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL))
+                    .orElse(new Email("UNKNOWN@EMAIL"));
+            Address address = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS))
+                    .orElse(new Address("UNKNOWN"));
 
             Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 

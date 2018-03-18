@@ -117,8 +117,22 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
                 + TAG_DESC_NUTS + EMAIL_DESC_BANANA;
         assertCommandSuccess(command, toAdd);
 
+        /* -------------------------- Perform add with missing fields (optional fields) ------------------------------*/
+
         /* Case: add a food, missing tags -> added */
         assertCommandSuccess(HAM);
+
+        /* Case: add a food, missing email -> added */
+        toAdd = new FoodBuilder().withName(VALID_NAME_APPLE).withPhone(VALID_PHONE_APPLE)
+                .withAddress(VALID_ADDRESS_APPLE).withTags(VALID_TAG_FRIED).build();
+        command = AddCommand.COMMAND_WORD + NAME_DESC_APPLE + PHONE_DESC_APPLE + ADDRESS_DESC_APPLE + TAG_DESC_FRIED;
+        assertCommandSuccess(command, toAdd);
+
+        /* Case: add a food, missing address -> added */
+        toAdd = new FoodBuilder().withName(VALID_NAME_APPLE).withPhone(VALID_PHONE_APPLE).withEmail(VALID_EMAIL_BANANA)
+                .withTags(VALID_TAG_FRIED).build();
+        command = AddCommand.COMMAND_WORD + NAME_DESC_APPLE + PHONE_DESC_APPLE + EMAIL_DESC_BANANA + TAG_DESC_FRIED;
+        assertCommandSuccess(command, toAdd);
 
         /* -------------------------- Perform add operation on the shown filtered list ------------------------------ */
 
