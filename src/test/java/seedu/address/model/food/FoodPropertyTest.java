@@ -41,6 +41,23 @@ public class FoodPropertyTest {
     @Test
     public void isValid() {
         // TODO: Add isValid for all child classes
+        // invalid email
+        assertFalse(FoodProperty.isValid("", Email.EMAIL_VALIDATION_REGEX)); // empty string
+
+        // valid email
+        assertTrue(FoodProperty.isValid("chicken@example.com", Email.EMAIL_VALIDATION_REGEX));
+
+        // invalid name
+        assertFalse(FoodProperty.isValid("", Name.NAME_VALIDATION_REGEX)); // empty string
+
+        // valid name
+        assertTrue(FoodProperty.isValid("Chicken Sandwich", Name.NAME_VALIDATION_REGEX));
+
+        // invalid phone
+        assertFalse(FoodProperty.isValid("", Phone.PHONE_VALIDATION_REGEX)); // empty string
+
+        // valid phone
+        assertTrue(FoodProperty.isValid("91234567", Phone.PHONE_VALIDATION_REGEX));
 
         // invalid address
         assertFalse(FoodProperty.isValid("", Address.ADDRESS_VALIDATION_REGEX)); // empty string
