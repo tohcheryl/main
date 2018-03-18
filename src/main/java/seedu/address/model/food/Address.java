@@ -7,7 +7,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  * Represents a Food's address in HackEat.
  * Guarantees: immutable; is valid as declared in {@link #isValidAddress(String)}
  */
-public class Address {
+public class Address implements FoodProperty {
 
     public static final String MESSAGE_ADDRESS_CONSTRAINTS =
             "Food addresses can take any values, and it should not be blank";
