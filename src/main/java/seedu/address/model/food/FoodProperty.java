@@ -24,7 +24,6 @@ public abstract class FoodProperty {
         this.value = foodProperty;
     }
 
-
     /**
      * Returns true if a given string is a valid food property.
      */
