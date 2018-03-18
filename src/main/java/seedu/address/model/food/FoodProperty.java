@@ -8,8 +8,9 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public abstract class FoodProperty {
 
-    private static String MESSAGE_CONSTRAINT;
-    private static String VALID_REGEX;
+    public static final String MESSAGE_CONSTRAINT =
+            "To be implemented by child classes";
+    private static final String PROPERTY_VALID_REGEX = "[^\\s].*";
     private String value;
 
     /**
@@ -19,15 +20,15 @@ public abstract class FoodProperty {
      */
     public FoodProperty(String foodProperty) {
         requireNonNull(foodProperty);
-        checkArgument(isValid(foodProperty), MESSAGE_CONSTRAINT);
+        checkArgument(isValid(foodProperty, PROPERTY_VALID_REGEX), MESSAGE_CONSTRAINT);
         this.value = foodProperty;
     }
 
     /**
      * Returns true if a given string is a valid food phone number.
      */
-    public static boolean isValid (String test) {
-        return test.matches(VALID_REGEX);
+    public static boolean isValid (String test, String regex) {
+        return test.matches(regex);
     }
 
     @Override
