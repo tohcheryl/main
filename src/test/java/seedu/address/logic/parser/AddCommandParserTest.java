@@ -85,6 +85,18 @@ public class AddCommandParserTest {
                 .withEmail(VALID_EMAIL_APPLE).withAddress(VALID_ADDRESS_APPLE).withTags().build();
         assertParseSuccess(parser, NAME_DESC_APPLE + PHONE_DESC_APPLE + EMAIL_DESC_APPLE + ADDRESS_DESC_APPLE,
                 new AddCommand(expectedFood));
+
+        // missing email prefix
+        Food expectedFoodNoEmail = new FoodBuilder().withName(VALID_NAME_APPLE).withPhone(VALID_PHONE_APPLE)
+                .withAddress(VALID_ADDRESS_APPLE).withTags().build();
+        assertParseSuccess(parser, NAME_DESC_APPLE + PHONE_DESC_APPLE + ADDRESS_DESC_APPLE,
+                new AddCommand(expectedFoodNoEmail));
+
+        // missing address prefix
+        Food expectedFoodNoAddress = new FoodBuilder().withName(VALID_NAME_APPLE).withPhone(VALID_PHONE_APPLE)
+                .withEmail(VALID_EMAIL_APPLE).withTags().build();
+        assertParseSuccess(parser, NAME_DESC_APPLE + PHONE_DESC_APPLE + EMAIL_DESC_APPLE,
+                new AddCommand(expectedFoodNoAddress));
     }
 
     @Test
