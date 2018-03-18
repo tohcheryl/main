@@ -803,63 +803,63 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 |Priority |As a ... |I want to ... |So that I can...
 |`* * *` |new user |see usage instructions |refer to instructions when I forget how to use the App
 
-|`* * *` |user |Use CLI to add food that I like | I can get recommended meals that I will likely enjoy
+|`* * *` |expert programmer |Use CLI to add food that I like | I can get recommended meals that I will likely enjoy
 
-|`* * *` |user |delete a food | I can avoid meals that I will probably not enjoy
+|`* * *` |picky user |delete a food | I can avoid meals that I will probably not enjoy
 
-|`* * *` |user |find a food by name | to see how many times I’ve ordered certain foods
+|`* * *` |picky user |find a food by name | to see how many times I’ve ordered certain foods
 
-|`* * *` |user |Add my allergies | I can eat safely and not die
+|`* * *` |health-conscious user |Add my allergies | I can eat safely and not die
 
-|`* * *` |user | Be blocked from adding food preferences | Be told if the food cannot be accepted due to allergies and not die
+|`* * *` |health-conscious user | Be blocked from adding food preferences | Be told if the food cannot be accepted due to allergies and not die
 
-|`* * *` |user | Edit my food preferences | I can have meals which fit my current requirements
+|`* * *` |picky user | Edit my food preferences | I can have meals which fit my current requirements
 
-|`* * *` |user | Contact support | Fix any issues that may happen with the application
+|`* * *` |critical user | Contact support | Fix any issues that may happen with the application
 
-|`* * *` |user | Can use Unix-y commands to do actions | I am not dis-immersed from coding-work when ordering food
+|`* * *` |expert programmer  | Can use Unix-y commands to do actions | I am not dis-immersed from coding-work when ordering food
 
-|`* * *` |user |Pre-fill/browse local area/people nearby food address books/playlists | Save time building my own book
+|`* * *` |speedy user |Pre-fill/browse local area/people nearby food address books/playlists | Save time building my own book
 
-|`* *` |user | Rate a meal on a scale from 1 to 5 | I can get recommended meals that I will likely enjoy
+|`* *` |critical user | Rate a meal on a scale from 1 to 5 | I can get recommended meals that I will likely enjoy
 
-|`* *` |user | Set a price range for orders | to help with budgeting
+|`* *` |budget-conscious user | Set a price range for orders | to help with budgeting
 
-|`* *` |user | Add shortcuts for my favourite commands | Increase the speed in which I order food
+|`* *` |speedy user | Add shortcuts for my favourite commands | Increase the speed in which I order food
 
-|`* *` |user | See how much calories in each meal | to better track and align my personal health goals
+|`* *` |health-conscious user | See how much calories in each meal | to better track and align my personal health goals
 
-|`* *` |user | Add culture tags to the food items that I like | The app can recommend certain types of cultural dishes
+|`* *` |cultured user | Add culture tags to the food items that I like | The app can recommend certain types of cultural dishes
 
-|`* *` |user | Discover new restaurants | I can try new types of cuisine
+|`* *` |curious user | Discover new restaurants | I can try new types of cuisine
 
-|`* *` |user | order a random meal that I will probably like to my doorstep | I can minimise distraction of food ordering and focus on my work
+|`* *` |speedy user | order a random meal that I will probably like to my doorstep | I can minimise distraction of food ordering and focus on my work
 
-|`* *` |user | See images of how the food looks like | So that I know how a dish appears if I have never heard of the name before
+|`* *` |visual user | See images of how the food looks like | So that I know how a dish appears if I have never heard of the name before
 
-|`* *` |user | Type in my mood and get a list of recommended foods | I can decide more quickly on what to eat
+|`* *` |indecisive user | Type in my mood and get a list of recommended foods | I can decide more quickly on what to eat
 
-|`* *` |user |hide <<private-contact-detail,private contact details>> by default |minimize chance of someone else seeing the food by accident
+|`* *` |private user |hide <<private-contact-detail,private contact details>> by default |minimize chance of someone else seeing the food by accident
 
-|`* *` |user |Use different criterias to help decide where my food will be ordered from |I can order food based on my current needs e.g. fastest chicken rice(if I am starving)
+|`* *` |indecisive user |Use different criteria to help decide where my food will be ordered from |I can order food based on my current needs e.g. fastest chicken rice(if I am starving)
 
-|`* *` |user |Set a maximum number of food or restaurants to be shown |I will not be overloaded with information
+|`* *` |indecisive user |Set a maximum number of food or restaurants to be shown |I will not be overwhelmed by all the information
 
-|`* *` |user |Search, add and order for foods with a sale or discounted price | Save money and get good value for money
+|`* *` |budget-conscious user |Search, add and order for foods with a sale or discounted price | Save money and get good value for money
 
-|`*` |user |Check how long my food will take to arrive |I have an idea of the waiting time
+|`*` |time-conscious user |Check how long my food will take to arrive |I have an idea of the waiting time
 
-|`*` |user |Save restaurants that I like |I can order food from my preferred restaurants more easily
+|`*` |picky user |Save restaurants that I like |I can order food from my preferred restaurants more easily
 
-|`*` |user |Set personal goals |I can get recommended meals which are aligned with my objectives
+|`*` |health-conscious user |Set personal goals |I can get recommended meals which are aligned with my objectives
 
-|`*` |user |Add friends using the app |So I can know what they’re eating and talk about it
+|`*` |social user |Add friends using the app |So I can know what they’re eating and talk about it
 
-|`*` |user |See the delivery rate of the deliverer |I can estimate the probability of the chances of my food arriving
+|`*` |hungry user |See the delivery rate of the deliverer |I can estimate the probability of the chances of my food arriving
 
-|`*` |user |See the rating of a restaurant |I know how reliable/how good the food is from that restaurant
+|`*` |picky user |See the rating of a restaurant |I know how reliable/how good the food is from that restaurant
 
-|`*` |user |Delete restaurants that I have saved | So that I can keep an updated list of restaurants I like
+|`*` |picky user |Delete restaurants that I have saved | So that I can keep an updated list of restaurants I like
 |=======================================================================
 
 _{More to be added}_
