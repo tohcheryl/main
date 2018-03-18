@@ -18,8 +18,8 @@ public class FoodBuilder {
 
     public static final String DEFAULT_NAME = "Apple Pie";
     public static final String DEFAULT_PHONE = "85355255";
-    public static final String DEFAULT_EMAIL = "apple@gmail.com";
-    public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
+    public static final String DEFAULT_EMAIL = "UNKNOWN@EMAIL";
+    public static final String DEFAULT_ADDRESS = "UNKNOWN";
     public static final String DEFAULT_TAGS = "fried";
 
     private Name name;
