@@ -14,7 +14,7 @@ public class FoodPropertyTest {
     private static final String FOOD_STUB_VALID_REGEX = "[^\\s].*";
 
     @Test
-    public void constructor_test() {
+    public void constructor_variables_assertEqual() {
         FoodPropertyStub foodPropertyStub = new FoodPropertyStub("Test");
 
         // Test value
@@ -33,7 +33,7 @@ public class FoodPropertyTest {
     }
 
     @Test
-    public void constructor_invalidFoodPropertyStub_throwsIllegalArgumentException() {
+    public void constructor_invalidFoodPropertyValue_throwsIllegalArgumentException() {
         String invalidFoodStubValue = "";
         Assert.assertThrows(IllegalArgumentException.class, () -> new FoodPropertyStub(invalidFoodStubValue));
     }
