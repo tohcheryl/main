@@ -14,6 +14,7 @@ import seedu.address.model.food.Email;
 import seedu.address.model.food.Food;
 import seedu.address.model.food.Name;
 import seedu.address.model.food.Phone;
+import seedu.address.model.food.Price;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -31,6 +32,8 @@ public class XmlAdaptedFood {
     private String email;
     @XmlElement(required = true)
     private String address;
+    @XmlElement(required = true)
+    private String price;
 
     @XmlElement
     private List<XmlAdaptedTag> tagged = new ArrayList<>();
@@ -44,11 +47,13 @@ public class XmlAdaptedFood {
     /**
      * Constructs an {@code XmlAdaptedFood} with the given food details.
      */
-    public XmlAdaptedFood(String name, String phone, String email, String address, List<XmlAdaptedTag> tagged) {
+    public XmlAdaptedFood(String name, String phone, String email, String address,
+                          String price, List<XmlAdaptedTag> tagged) {
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
+        this.price = price;
         if (tagged != null) {
             this.tagged = new ArrayList<>(tagged);
         }
@@ -64,6 +69,7 @@ public class XmlAdaptedFood {
         phone = source.getPhone().value;
         email = source.getEmail().value;
         address = source.getAddress().value;
+        price = source.getPrice().getValue();
         tagged = new ArrayList<>();
         for (Tag tag : source.getTags()) {
             tagged.add(new XmlAdaptedTag(tag));
@@ -113,8 +119,16 @@ public class XmlAdaptedFood {
         }
         final Address address = new Address(this.address);
 
+        if (this.price == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Price.class.getSimpleName()));
+        }
+        if (!Price.isValidPrice(this.price)) {
+            throw new IllegalValueException(Price.MESSAGE_PRICE_CONSTRAINTS);
+        }
+        final Price price = new Price(this.price);
+
         final Set<Tag> tags = new HashSet<>(personTags);
-        return new Food(name, phone, email, address, , tags);
+        return new Food(name, phone, email, address, price, tags);
     }
 
     @Override
@@ -132,6 +146,7 @@ public class XmlAdaptedFood {
                 && Objects.equals(phone, otherFood.phone)
                 && Objects.equals(email, otherFood.email)
                 && Objects.equals(address, otherFood.address)
+                && Objects.equals(price, otherFood.price)
                 && tagged.equals(otherFood.tagged);
     }
 }

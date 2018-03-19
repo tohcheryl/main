@@ -19,7 +19,7 @@ public class Price {
     public static final String MESSAGE_PRICE_CONSTRAINTS =
             "Price can only contain currency symbol and numbers";
     private static Locale currentLocale = Locale.getDefault();
-    private BigDecimal value;
+    private String value;
 
     /**
      * Constructs a {@code Price}.
@@ -70,19 +70,19 @@ public class Price {
      */
     public void setPrice(String inputPrice) {
         BigDecimalValidator validator = CurrencyValidator.getInstance();
-        value = validator.validate(inputPrice, currentLocale);
+        value = validator.validate(inputPrice, currentLocale).toString();
     }
 
     /**
      * Returns price of Food as a BigDecimal.
      */
-    public BigDecimal getValue() {
+    public String getValue() {
         return value;
     }
 
     @Override
     public String toString() {
-        return value.toString();
+        return value;
     }
 
     @Override
