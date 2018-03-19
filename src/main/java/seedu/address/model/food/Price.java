@@ -4,7 +4,6 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
 import java.math.BigDecimal;
-import java.util.Currency;
 import java.util.Locale;
 
 import org.apache.commons.validator.routines.BigDecimalValidator;
@@ -33,29 +32,15 @@ public class Price {
     }
 
     /**
-     * Returns true if a given string begins/ends with the correct currency symbol.
-     */
-    private static boolean isValidSymbol(String inputPrice) {
-        Currency currency = Currency.getInstance(currentLocale);
-        String symbol = currency.getSymbol();
-        if (inputPrice.startsWith(symbol) || inputPrice.endsWith(symbol)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * Returns true if a given string is a valid price.
      */
     public static boolean isValidPrice(String inputPrice) {
-        BigDecimal amount = null;
-        BigDecimalValidator validator = CurrencyValidator.getInstance();
-        if (isValidSymbol(inputPrice)) {
-            amount = validator.validate(inputPrice, currentLocale);
-        } else {
-            amount = null;
+        if (inputPrice == null) {
+            throw new NullPointerException();
         }
+
+        BigDecimalValidator validator = CurrencyValidator.getInstance();
+        BigDecimal amount = validator.validate(inputPrice, currentLocale);
 
         if (amount != null) {
             return true;
