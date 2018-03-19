@@ -48,6 +48,7 @@ public class FoodBuilder {
         phone = foodToCopy.getPhone();
         email = foodToCopy.getEmail();
         address = foodToCopy.getAddress();
+        price = foodToCopy.getPrice();
         tags = new HashSet<>(foodToCopy.getTags());
     }
 
