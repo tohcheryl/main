@@ -36,6 +36,7 @@ public class EditFoodDescriptorBuilder {
         descriptor.setPhone(food.getPhone());
         descriptor.setEmail(food.getEmail());
         descriptor.setAddress(food.getAddress());
+        descriptor.setPrice(food.getPrice());
         descriptor.setTags(food.getTags());
     }
 
