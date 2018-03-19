@@ -17,7 +17,7 @@ public class Price {
 
     public static final String MESSAGE_PRICE_CONSTRAINTS =
             "Price can only contain currency symbol and numbers";
-    private static Locale currentLocale = Locale.getDefault();
+    private static Locale currentLocale = Locale.US;
     private String value;
 
     /**
@@ -51,7 +51,7 @@ public class Price {
 
     /**
      * Sets price of Food without currency symbol.
-     * Truncates given price if it is given to more than 2 decimal places(if applicable).
+     * Truncates given price to the appropriate number of dp.
      */
     public void setPrice(String inputPrice) {
         BigDecimalValidator validator = CurrencyValidator.getInstance();
