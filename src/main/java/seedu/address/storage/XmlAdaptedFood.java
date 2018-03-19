@@ -47,7 +47,8 @@ public class XmlAdaptedFood {
     /**
      * Constructs an {@code XmlAdaptedFood} with the given food details.
      */
-    public XmlAdaptedFood(String name, String phone, String email, String address, String price, List<XmlAdaptedTag> tagged) {
+    public XmlAdaptedFood(String name, String phone, String email, String address, String price,
+                          List<XmlAdaptedTag> tagged) {
         this.name = name;
         this.phone = phone;
         this.email = email;
