@@ -74,20 +74,6 @@ public class Price {
     }
 
     /**
-     * Sets locale
-     */
-    public static void setCurrentLocale(Locale locale) {
-        currentLocale = locale;
-    }
-
-    /**
-     * Returns current locale
-     */
-    public static Locale getCurrentLocale() {
-        return currentLocale;
-    }
-
-    /**
      * Returns price of Food as a BigDecimal.
      */
     public BigDecimal getValue() {
