@@ -114,7 +114,7 @@ public class XmlAdaptedFood {
         final Address address = new Address(this.address);
 
         final Set<Tag> tags = new HashSet<>(personTags);
-        return new Food(name, phone, email, address, tags);
+        return new Food(name, phone, email, address, , tags);
     }
 
     @Override

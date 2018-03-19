@@ -88,7 +88,7 @@ public class FoodBuilder {
     }
 
     public Food build() {
-        return new Food(name, phone, email, address, tags);
+        return new Food(name, phone, email, address, , tags);
     }
 
 }

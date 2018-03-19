@@ -132,7 +132,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         final Set<Tag> correctTagReferences = new HashSet<>();
         personTags.forEach(tag -> correctTagReferences.add(masterTagObjects.get(tag)));
         return new Food(
-                food.getName(), food.getPhone(), food.getEmail(), food.getAddress(), correctTagReferences);
+                food.getName(), food.getPhone(), food.getEmail(), food.getAddress(), , correctTagReferences);
     }
 
     /**

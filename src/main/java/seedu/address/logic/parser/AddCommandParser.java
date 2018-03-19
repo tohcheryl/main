@@ -50,7 +50,7 @@ public class AddCommandParser implements Parser<AddCommand> {
 
             Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 
-            Food food = new Food(name, phone, email, address, tagList);
+            Food food = new Food(name, phone, email, address, , tagList);
 
             return new AddCommand(food);
         } catch (IllegalValueException ive) {
