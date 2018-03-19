@@ -45,15 +45,14 @@ public class PriceTest {
     @Test
     public void setPrice() {
         Price p = new Price("$23.40");
-        BigDecimal expectedP = new BigDecimal("23.40");
-        assertEquals(expectedP, p.getValue());
+        p.setPrice("$40.00");
+        assertEquals("40.00", p.getValue());
     }
 
     @Test
     public void getValue() {
         Price p = new Price("$23.40");
-        BigDecimal expectedP = new BigDecimal("23.40");
-        assertEquals(expectedP, p.getValue());
+        assertEquals("23.40", p.getValue());
     }
 
     @Test
