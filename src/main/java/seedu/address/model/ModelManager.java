@@ -113,6 +113,11 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
+    public SessionInterface getSessionManager() {
+        return sessionManager;
+    }
+
+    @Override
     public boolean equals(Object obj) {
         // short circuit if same object
         if (obj == this) {
@@ -128,15 +133,5 @@ public class ModelManager extends ComponentManager implements Model {
         ModelManager other = (ModelManager) obj;
         return addressBook.equals(other.addressBook)
                 && filteredFoods.equals(other.filteredFoods);
-    }
-
-    @Override
-    public Session getActiveSession() {
-        return sessionManager.getActiveSession();
-    }
-
-    @Override
-    public boolean isUserInActiveSession() {
-        return sessionManager.isUserInActiveSession();
     }
 }

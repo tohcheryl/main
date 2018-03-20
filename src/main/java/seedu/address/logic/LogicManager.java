@@ -12,6 +12,8 @@ import seedu.address.logic.parser.AddressBookParser;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Model;
 import seedu.address.model.food.Food;
+import seedu.address.model.util.Session;
+import seedu.address.model.util.SessionInterface;
 
 /**
  * The main LogicManager of the app.
@@ -53,5 +55,10 @@ public class LogicManager extends ComponentManager implements Logic {
     @Override
     public ListElementPointer getHistorySnapshot() {
         return new ListElementPointer(history.getHistory());
+    }
+
+    @Override
+    public SessionInterface getSessionManager() {
+        return model.getSessionManager();
     }
 }
