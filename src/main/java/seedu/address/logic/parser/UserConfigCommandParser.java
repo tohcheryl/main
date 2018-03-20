@@ -10,7 +10,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.logic.commands.AddCommand;
+import seedu.address.logic.commands.UserConfigCommand;
 import seedu.address.logic.commands.UserConfigCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.food.Address;
@@ -25,8 +25,8 @@ import seedu.address.model.user.UserProfile;
 public class UserConfigCommandParser implements Parser<UserConfigCommand> {
 
     /**
-     * Parses the given {@code String} of arguments in the context of the AddCommand
-     * and returns an AddCommand object for execution.
+     * Parses the given {@code String} of arguments in the context of the UserConfigCommand
+     * and returns an UserConfigCommand object for execution.
      * @throws ParseException if the user input does not conform the expected format
      */
     public UserConfigCommand parse(String args) throws ParseException {
@@ -36,7 +36,7 @@ public class UserConfigCommandParser implements Parser<UserConfigCommand> {
 
         if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_PHONE)
                 || !argMultimap.getPreamble().isEmpty()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, UserConfigCommand.MESSAGE_USAGE));
         }
 
         try {
