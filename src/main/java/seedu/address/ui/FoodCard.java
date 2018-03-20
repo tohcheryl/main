@@ -6,6 +6,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import seedu.address.model.food.Food;
+import seedu.address.model.food.Price;
 import seedu.address.model.food.Rating;
 
 /**
@@ -51,7 +52,7 @@ public class FoodCard extends UiPart<Region> {
         name.setText(food.getName().fullName);
         phone.setText(food.getPhone().value);
         address.setText(food.getAddress().value);
-        price.setText(food.getPrice().getValue());
+        price.setText(Price.displayString(food.getPrice().getValue()));
         email.setText(food.getEmail().value);
         rating.setText(Rating.displayString(food.getRating().value));
         food.getTags().forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));

@@ -60,6 +60,14 @@ public class Price {
     }
 
     /**
+     * Method to display price with pre-fix symbol '$'
+     * @return a string with '$' prefix
+     */
+    public static String displayString(String value) {
+        return "$" + value;
+    }
+
+    /**
      * Returns price of Food as a BigDecimal.
      */
     public String getValue() {
