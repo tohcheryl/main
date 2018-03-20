@@ -15,6 +15,7 @@ import seedu.address.model.food.Address;
 import seedu.address.model.food.Email;
 import seedu.address.model.food.Name;
 import seedu.address.model.food.Phone;
+import seedu.address.model.food.Price;
 import seedu.address.model.food.Rating;
 import seedu.address.testutil.Assert;
 
@@ -108,6 +109,23 @@ public class XmlAdaptedFoodTest {
         XmlAdaptedFood food = new XmlAdaptedFood(VALID_NAME, VALID_PHONE, VALID_EMAIL, null, VALID_PRICE,
                 VALID_RATING, VALID_TAGS);
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Address.class.getSimpleName());
+        Assert.assertThrows(IllegalValueException.class, expectedMessage, food::toModelType);
+    }
+
+    @Test
+    public void toModelType_invalidPrice_throwsIllegalValueException() {
+        XmlAdaptedFood food =
+                new XmlAdaptedFood(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, INVALID_PRICE, VALID_RATING,
+                        VALID_TAGS);
+        String expectedMessage = Price.MESSAGE_PRICE_CONSTRAINTS;
+        Assert.assertThrows(IllegalValueException.class, expectedMessage, food::toModelType);
+    }
+
+    @Test
+    public void toModelType_nullPrice_throwsIllegalValueException() {
+        XmlAdaptedFood food = new XmlAdaptedFood(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, null,
+                VALID_RATING, VALID_TAGS);
+        String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Price.class.getSimpleName());
         Assert.assertThrows(IllegalValueException.class, expectedMessage, food::toModelType);
     }
 
