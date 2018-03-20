@@ -16,6 +16,9 @@ import seedu.address.model.food.Food;
 import seedu.address.model.food.exceptions.DuplicateFoodException;
 import seedu.address.model.food.exceptions.FoodNotFoundException;
 import seedu.address.model.user.UserProfile;
+import seedu.address.model.util.Session;
+import seedu.address.model.util.SessionInterface;
+import seedu.address.model.util.SessionManager;
 
 /**
  * Represents the in-memory model of HackEat data.
@@ -27,6 +30,7 @@ public class ModelManager extends ComponentManager implements Model {
     private final AddressBook addressBook;
     private final FilteredList<Food> filteredFoods;
     private UserProfile profile;
+    private final SessionInterface sessionManager;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -40,6 +44,7 @@ public class ModelManager extends ComponentManager implements Model {
         this.addressBook = new AddressBook(addressBook);
         filteredFoods = new FilteredList<>(this.addressBook.getFoodList());
         profile = this.addressBook.getUserProfile();
+        sessionManager = new SessionManager();
     }
 
     public ModelManager() {
@@ -125,4 +130,13 @@ public class ModelManager extends ComponentManager implements Model {
                 && filteredFoods.equals(other.filteredFoods);
     }
 
+    @Override
+    public Session getActiveSession() {
+        return sessionManager.getActiveSession();
+    }
+
+    @Override
+    public boolean isUserInActiveSession() {
+        return sessionManager.isUserInActiveSession();
+    }
 }
