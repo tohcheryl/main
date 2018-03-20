@@ -255,7 +255,7 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
 
         /* Case: invalid tag -> rejected */
         command = AddCommand.COMMAND_WORD + NAME_DESC_APPLE + PHONE_DESC_APPLE + EMAIL_DESC_APPLE + ADDRESS_DESC_APPLE
-                + PRICE_DESC_APPLE+ RATING_DESC_APPLE + INVALID_TAG_DESC;
+                + PRICE_DESC_APPLE + RATING_DESC_APPLE + INVALID_TAG_DESC;
         assertCommandFailure(command, Tag.MESSAGE_TAG_CONSTRAINTS);
     }
 
