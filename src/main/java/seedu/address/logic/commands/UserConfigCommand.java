@@ -22,7 +22,12 @@ public class UserConfigCommand extends UndoableCommand {
             + PREFIX_NAME + "NAME "
             + PREFIX_PHONE + "PHONE "
             + PREFIX_ADDRESS + "ADDRESS "
-            + PREFIX_ALLERGIES + "ALLERGIES";
+            + "[" + PREFIX_ALLERGIES + "ALLERGIES]...\n"
+            + "Example: " + COMMAND_WORD + " "
+            + PREFIX_NAME + "John Doe "
+            + PREFIX_PHONE + "98765432 "
+            + PREFIX_ADDRESS + "311, Clementi Ave 2, #02-25 "
+            + PREFIX_ALLERGIES + "lactose gluten peanut";
 
     public static final String MESSAGE_SUCCESS = "User profile updated";
 
