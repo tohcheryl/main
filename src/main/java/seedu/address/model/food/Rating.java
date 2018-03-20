@@ -45,8 +45,8 @@ public class Rating {
     }
 
     /**
-     *
-     * @return
+     * Method to display ratings as stars instead of a number
+     * @return a string of colored or uncolore stars
      */
     public static String displayString(String value) {
         final int rating = Integer.parseInt(value);
