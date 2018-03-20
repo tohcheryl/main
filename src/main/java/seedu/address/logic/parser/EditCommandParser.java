@@ -53,7 +53,7 @@ public class EditCommandParser implements Parser<EditCommand> {
             ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL)).ifPresent(editFoodDescriptor::setEmail);
             ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS)).ifPresent(editFoodDescriptor::setAddress);
             ParserUtil.parsePrice(argMultimap.getValue(PREFIX_PRICE)).ifPresent(editFoodDescriptor::setPrice);
-            ParserUtil.parsePrice(argMultimap.getValue(PREFIX_RATING)).ifPresent(editFoodDescriptor::setPrice);
+            ParserUtil.parseRating(argMultimap.getValue(PREFIX_RATING)).ifPresent(editFoodDescriptor::setRating);
             parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editFoodDescriptor::setTags);
         } catch (IllegalValueException ive) {
             throw new ParseException(ive.getMessage(), ive);
