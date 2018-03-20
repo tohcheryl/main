@@ -49,13 +49,13 @@ public class AddCommandParser implements Parser<AddCommand> {
             Phone phone = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE)).get();
 
             Email email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL))
-                    .orElse(new Email("UNKNOWN@EMAIL"));
+                    .orElse(new Email(Email.DEFAULT_EMAIL));
             Address address = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS))
-                    .orElse(new Address("UNKNOWN"));
+                    .orElse(new Address(Address.DEFAULT_ADDRESS));
             Price price = ParserUtil.parsePrice(argMultimap.getValue(PREFIX_PRICE))
-                    .orElse(new Price("$0"));
+                    .orElse(new Price(Price.DEFAULT_PRICE));
             Rating rating = ParserUtil.parseRating(argMultimap.getValue(PREFIX_RATING))
-                    .orElse(new Rating("0"));
+                    .orElse(new Rating(Rating.DEFAULT_RATING));
 
             Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 

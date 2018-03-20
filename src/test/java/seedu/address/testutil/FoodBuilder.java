@@ -20,10 +20,11 @@ public class FoodBuilder {
 
     public static final String DEFAULT_NAME = "Apple Pie";
     public static final String DEFAULT_PHONE = "85355255";
-    public static final String DEFAULT_EMAIL = "UNKNOWN@EMAIL";
-    public static final String DEFAULT_ADDRESS = "UNKNOWN";
-    public static final String DEFAULT_PRICE = "$0";
-    public static final String DEFAULT_RATING = "0";
+
+    public static final String DEFAULT_EMAIL = Email.DEFAULT_EMAIL;
+    public static final String DEFAULT_ADDRESS = Address.DEFAULT_ADDRESS;
+    public static final String DEFAULT_PRICE = Price.DEFAULT_PRICE;
+    public static final String DEFAULT_RATING = Rating.DEFAULT_RATING;
     public static final String DEFAULT_TAGS = "fried";
 
     private Name name;
