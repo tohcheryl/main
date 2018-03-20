@@ -9,8 +9,9 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class Rating {
 
+    public static final int MAX_RATING = 5;
     public static final String MESSAGE_RATING_CONSTRAINTS =
-            "Please enter a number between 1 to 5.";
+            "Please enter a number between 0 to " + MAX_RATING;
 
     /*
      * User must enter only a single digit.
@@ -36,11 +37,30 @@ public class Rating {
     public static boolean isValidRating(String test) {
         if (test.matches(RATING_VALIDATION_REGEX)) {
             int rating = Integer.parseInt(test);
-            if (rating >= 0 && rating <= 5) {
+            if (rating >= 0 && rating <= MAX_RATING) {
                 return true;
             }
         }
         return false;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public static String displayString(String value) {
+        final int rating = Integer.parseInt(value);
+        int count = rating;
+        String stars = "";
+        for (int i = 0; i < MAX_RATING; i++) {
+            if (count > 0) {
+                stars += "★";
+            } else {
+                stars += "☆";
+            }
+            count--;
+        }
+        return stars;
     }
 
     @Override
