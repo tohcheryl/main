@@ -76,6 +76,7 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public void updateUserProfile(UserProfile toAdd) {
         addressBook.updateUserProfile(toAdd);
+        indicateAddressBookChanged();
     }
 
     @Override
