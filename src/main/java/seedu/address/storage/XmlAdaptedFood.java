@@ -15,6 +15,7 @@ import seedu.address.model.food.Food;
 import seedu.address.model.food.Name;
 import seedu.address.model.food.Phone;
 import seedu.address.model.food.Price;
+import seedu.address.model.food.Rating;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -34,6 +35,8 @@ public class XmlAdaptedFood {
     private String address;
     @XmlElement(required = true)
     private String price;
+    @XmlElement(required = true)
+    private String rating;
 
     @XmlElement
     private List<XmlAdaptedTag> tagged = new ArrayList<>();
@@ -48,12 +51,13 @@ public class XmlAdaptedFood {
      * Constructs an {@code XmlAdaptedFood} with the given food details.
      */
     public XmlAdaptedFood(String name, String phone, String email, String address, String price,
-                          List<XmlAdaptedTag> tagged) {
+                          String rating, List<XmlAdaptedTag> tagged) {
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
         this.price = price;
+        this.rating = rating;
         if (tagged != null) {
             this.tagged = new ArrayList<>(tagged);
         }
@@ -127,8 +131,16 @@ public class XmlAdaptedFood {
         }
         final Price price = new Price(this.price);
 
+        if (this.rating == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Rating.class.getSimpleName()));
+        }
+        if (!Rating.isValidRating(this.rating)) {
+            throw new IllegalValueException(Rating.MESSAGE_RATING_CONSTRAINTS);
+        }
+        final Rating rating = new Rating(this.rating);
+
         final Set<Tag> tags = new HashSet<>(personTags);
-        return new Food(name, phone, email, address, price, tags);
+        return new Food(name, phone, email, address, price, rating, tags);
     }
 
     @Override
@@ -147,6 +159,7 @@ public class XmlAdaptedFood {
                 && Objects.equals(email, otherFood.email)
                 && Objects.equals(address, otherFood.address)
                 && Objects.equals(price, otherFood.price)
+                && Objects.equals(rating, otherFood.rating)
                 && tagged.equals(otherFood.tagged);
     }
 }
