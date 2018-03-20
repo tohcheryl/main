@@ -793,6 +793,36 @@ See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-
 
 *Value proposition*: Order food with as little disruption as possible to the user's workflow
 
+=== Feature contribution
+*Major Enhancements:*
+
+* Order command - Sam
+** Allows users to order food from the HackEat book. Designed to choose a food that best suits the scenario, making it
+trustworthy enough for hackers that are too lazy to order themselves.
+* Food Profile - Jackson
+** Allows the user to browse through the HackEat book while showing visual statistics of the foods. Hackers, when not
+hacking can optimise their foods and get insightful knowledge through data visualisation.
+* User shortcuts - Cheryl
+** Sometimes ordering can still be tedious. With the shortcut system, users can create new shortcuts which minmises the
+number of characters required to order foods. This is especially handy for the super users who need food ASAP. The
+system will also include single commands to execute multiple commands, so users can order multiple foods with just one
+command!
+
+
+*Minor Enhancements:*
+
+* Addition of User profile - Jackson
+** User profile will save the preferences of the user, including allergies and how frugal they are. It also stores
+personal information so the `order` command can order food to their address.
+* Addition of Price property - Cheryl
+** Price property is required to track budgeting and control expenses. If the user is frugal, expensive foods will be
+ordered less frequently.
+* Addition of Rating property - Sam
+** Rating property of a food is essential to gather knowledge on what food the user enjoys. Highly rated foods will be
+recommended more often, until it is too frequent.
+
+
+
 [appendix]
 == User Stories
 
