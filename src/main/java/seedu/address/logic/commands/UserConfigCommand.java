@@ -15,7 +15,7 @@ import seedu.address.model.user.UserProfile;
  */
 public class UserConfigCommand extends UndoableCommand {
 
-    public static final String COMMAND_WORD = "config";
+    public static final String COMMAND_WORD = "userconfig";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a user's personal details to HackEat. "
             + "Parameters: "
