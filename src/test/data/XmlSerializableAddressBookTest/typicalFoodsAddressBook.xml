@@ -8,6 +8,7 @@
         <email>almond@example.com</email>
         <address>123, Jurong West Ave 6, #08-111</address>
         <price>$1</price>
+        <rating>0</rating>
         <tagged>fried</tagged>
     </foods>
     <foods>
@@ -16,6 +17,7 @@
         <email>baconator@example.com</email>
         <address>311, Clementi Ave 2, #02-25</address>
         <price>$2</price>
+        <rating>1</rating>
         <tagged>avoid</tagged>
         <tagged>fried</tagged>
     </foods>
@@ -25,6 +27,7 @@
         <email>caker@example.com</email>
         <address>dessert street</address>
         <price>$3</price>
+        <rating>2</rating>
     </foods>
     <foods>
         <name>Dumpling Mousse</name>
@@ -32,6 +35,7 @@
         <email>dumper@example.com</email>
         <address>10th street</address>
         <price>$4</price>
+        <rating>3</rating>
     </foods>
     <foods>
         <name>Egg Tart</name>
@@ -39,6 +43,7 @@
         <email>yumcha@example.com</email>
         <address>china ave</address>
         <price>$5</price>
+        <rating>4</rating>
     </foods>
     <foods>
         <name>Fries and Gravy</name>
@@ -46,6 +51,7 @@
         <email>maccas@example.com</email>
         <address>little tokyo</address>
         <price>$6</price>
+        <rating>5</rating>
     </foods>
     <foods>
         <name>Grape Juice</name>
@@ -53,6 +59,7 @@
         <email>boost@example.com</email>
         <address>4th street</address>
         <price>$7</price>
+        <rating>5</rating>
     </foods>
     <tags>fried</tags>
     <tags>avoid</tags>
