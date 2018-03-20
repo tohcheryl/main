@@ -20,6 +20,7 @@ import seedu.address.model.food.Food;
 import seedu.address.model.food.Name;
 import seedu.address.model.food.Phone;
 import seedu.address.model.food.Price;
+import seedu.address.model.food.Rating;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -50,13 +51,14 @@ public class AddCommandParser implements Parser<AddCommand> {
                     .orElse(new Email("UNKNOWN@EMAIL"));
             Address address = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS))
                     .orElse(new Address("UNKNOWN"));
-
             Price price = ParserUtil.parsePrice(argMultimap.getValue(PREFIX_PRICE))
                     .orElse(new Price("$0"));
+            Rating rating = ParserUtil.parseRating(argMultimap.getValue(PREFIX_PRICE))
+                    .orElse(new Rating("0"));
 
             Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 
-            Food food = new Food(name, phone, email, address, price, tagList);
+            Food food = new Food(name, phone, email, address, price, rating, tagList);
 
             return new AddCommand(food);
         } catch (IllegalValueException ive) {
