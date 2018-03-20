@@ -358,6 +358,30 @@ image::UndoRedoActivityDiagram.png[width="650"]
 ** Cons: Requires dealing with commands that have already been undone: We must remember to skip these commands. Violates Single Responsibility Principle and Separation of Concerns as `HistoryManager` now needs to do two * different things.
 // end::undoredo[]
 
+// tag:: makeshortcuts[]
+=== [Proposed] Add Shortcuts
+==== Proposed Implementation
+A new Command class `AddShortcutCommand` will be created. A `Shortcut` class will be added to Model. An ArrayList of Commands that is linked to a particular shortcut will be saved. Every `Person` object will have a HashMap which stores the different Shortcuts they have created.
+
+Suppose that a user has just launched the application. The user decides to create a new shortcut for ordering his favorite food. He will type in `mksc orderfave` and he will then be prompted to type in the commands that he would like to associate with that particular shortcut, for e.g. `find butter, order 1`.
+The sequence of commands he has typed in will be stored in a `List`. The `List`, together with the name of the shortcut will then be stored in a `HashMap` as part of the attributes of the `Person` class.
+
+image::UpdatedLogicCommandClassDiagram.png[width="800"]
+==== Design Considerations
+
+===== Aspect: Whether to make AddShortcut undoable
+
+* **Alternative 1:** Make it undoable
+** Pros: Provides user with greater flexibility
+
+** Cons: Harder to implement
+
+* **Alternative 2:** Do not make it undoable
+** Pros: Easier to implement
+
+** Cons: Less user friendly
+//end::addshortcuts[]
+
 // tag::dataencryption[]
 === [Proposed] Data Encryption
 
