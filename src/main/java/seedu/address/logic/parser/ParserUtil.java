@@ -15,6 +15,7 @@ import seedu.address.model.food.Email;
 import seedu.address.model.food.Name;
 import seedu.address.model.food.Phone;
 import seedu.address.model.food.Price;
+import seedu.address.model.food.Rating;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -162,6 +163,30 @@ public class ParserUtil {
     public static Optional<Price> parsePrice(Optional<String> price) throws IllegalValueException {
         requireNonNull(price);
         return price.isPresent() ? Optional.of(parsePrice(price.get())) : Optional.empty();
+    }
+
+    /**
+     * Parses a {@code String price} into an {@code Price}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws IllegalValueException if the given {@code price} is invalid.
+     */
+    public static Rating parseRating(String rating) throws IllegalValueException {
+        requireNonNull(rating);
+        String trimmedRating = rating.trim();
+        if (!Rating.isValidRating(trimmedRating)) {
+            throw new IllegalValueException(Rating.MESSAGE_RATING_CONSTRAINTS);
+        }
+        return new Rating(trimmedRating);
+    }
+
+    /**
+     * Parses a {@code Optional<String> price} into an {@code Optional<Price>} if {@code price} is present.
+     * See header comment of this class regarding the use of {@code Optional} parameters.
+     */
+    public static Optional<Rating> parseRating(Optional<String> rating) throws IllegalValueException {
+        requireNonNull(rating);
+        return rating.isPresent() ? Optional.of(parseRating(rating.get())) : Optional.empty();
     }
 
     /**
