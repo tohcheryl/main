@@ -9,6 +9,7 @@ import seedu.address.model.food.Food;
 import seedu.address.model.food.Name;
 import seedu.address.model.food.Phone;
 import seedu.address.model.food.Price;
+import seedu.address.model.food.Rating;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.util.SampleDataUtil;
 
@@ -22,6 +23,7 @@ public class FoodBuilder {
     public static final String DEFAULT_EMAIL = "UNKNOWN@EMAIL";
     public static final String DEFAULT_ADDRESS = "UNKNOWN";
     public static final String DEFAULT_PRICE = "$0";
+    public static final String DEFAULT_RATING = "0";
     public static final String DEFAULT_TAGS = "fried";
 
     private Name name;
@@ -29,6 +31,7 @@ public class FoodBuilder {
     private Email email;
     private Address address;
     private Price price;
+    private Rating rating;
     private Set<Tag> tags;
 
     public FoodBuilder() {
@@ -37,6 +40,7 @@ public class FoodBuilder {
         email = new Email(DEFAULT_EMAIL);
         address = new Address(DEFAULT_ADDRESS);
         price = new Price(DEFAULT_PRICE);
+        rating = new Rating(DEFAULT_RATING);
         tags = SampleDataUtil.getTagSet(DEFAULT_TAGS);
     }
 
@@ -49,6 +53,7 @@ public class FoodBuilder {
         email = foodToCopy.getEmail();
         address = foodToCopy.getAddress();
         price = foodToCopy.getPrice();
+        rating = foodToCopy.getRating();
         tags = new HashSet<>(foodToCopy.getTags());
     }
 
@@ -100,8 +105,16 @@ public class FoodBuilder {
         return this;
     }
 
+    /**
+     * Sets the {@code Rating} of the {@code Food} that we are building
+     */
+    public FoodBuilder withRating(String rating) {
+        this.rating = new Rating(rating);
+        return this;
+    }
+
     public Food build() {
-        return new Food(name, phone, email, address, price, tags);
+        return new Food(name, phone, email, address, price, rating, tags);
     }
 
 }

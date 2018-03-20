@@ -5,6 +5,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PRICE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_RATING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import seedu.address.logic.commands.AddCommand;
@@ -32,6 +33,7 @@ public class FoodUtil {
         sb.append(PREFIX_EMAIL + food.getEmail().value + " ");
         sb.append(PREFIX_ADDRESS + food.getAddress().value + " ");
         sb.append(PREFIX_PRICE + food.getPrice().getValue() + " ");
+        sb.append(PREFIX_RATING + food.getRating().value + " ");
         food.getTags().stream().forEach(
             s -> sb.append(PREFIX_TAG + s.tagName + " ")
         );

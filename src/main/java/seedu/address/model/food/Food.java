@@ -20,19 +20,21 @@ public class Food {
     private final Email email;
     private final Address address;
     private final Price price;
+    private final Rating rating;
 
     private final UniqueTagList tags;
 
     /**
      * Every field must be present and not null.
      */
-    public Food(Name name, Phone phone, Email email, Address address, Price price, Set<Tag> tags) {
+    public Food(Name name, Phone phone, Email email, Address address, Price price, Rating rating, Set<Tag> tags) {
         requireAllNonNull(name, phone, email, address, tags);
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
         this.price = price;
+        this.rating = rating;
         // protect internal tags from changes in the arg list
         this.tags = new UniqueTagList(tags);
     }
@@ -57,6 +59,9 @@ public class Food {
         return price;
     }
 
+    public Rating getRating() {
+        return rating;
+    }
     /**
      * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
      * if modification is attempted.
@@ -80,13 +85,14 @@ public class Food {
                 && otherFood.getPhone().equals(this.getPhone())
                 && otherFood.getEmail().equals(this.getEmail())
                 && otherFood.getAddress().equals(this.getAddress())
-                && otherFood.getPrice().equals(this.getPrice());
+                && otherFood.getPrice().equals(this.getPrice())
+                && otherFood.getRating().equals(this.getRating());
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, price, tags);
+        return Objects.hash(name, phone, email, address, price, rating, tags);
     }
 
     @Override
@@ -101,6 +107,8 @@ public class Food {
                 .append(getAddress())
                 .append(" Price: ")
                 .append(getPrice())
+                .append(" Rating: ")
+                .append(getRating())
                 .append(" Tags: ");
         getTags().forEach(builder::append);
         return builder.toString();
