@@ -44,7 +44,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     public AddressBook() {}
 
     /**
-     * Creates an AddressBook using the Foods and Tags in the {@code toBeCopied}
+     * Creates an AddressBook using the Foods, Tags, and User Profile in the {@code toBeCopied}
      */
     public AddressBook(ReadOnlyAddressBook toBeCopied) {
         this();
@@ -61,6 +61,10 @@ public class AddressBook implements ReadOnlyAddressBook {
         this.tags.setTags(tags);
     }
 
+    public void setUserProfile(UserProfile profile) {
+        this.profile = profile;
+    }
+
     /**
      * Resets the existing data of this {@code AddressBook} with {@code newData}.
      */
@@ -70,6 +74,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         List<Food> syncedFoodList = newData.getFoodList().stream()
                 .map(this::syncWithMasterTagList)
                 .collect(Collectors.toList());
+        setUserProfile(newData.getUserProfile());
 
         try {
             setFoods(syncedFoodList);

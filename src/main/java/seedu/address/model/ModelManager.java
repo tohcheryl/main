@@ -26,6 +26,7 @@ public class ModelManager extends ComponentManager implements Model {
 
     private final AddressBook addressBook;
     private final FilteredList<Food> filteredFoods;
+    private UserProfile profile;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -38,6 +39,7 @@ public class ModelManager extends ComponentManager implements Model {
 
         this.addressBook = new AddressBook(addressBook);
         filteredFoods = new FilteredList<>(this.addressBook.getFoodList());
+        profile = this.addressBook.getUserProfile();
     }
 
     public ModelManager() {
