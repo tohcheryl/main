@@ -74,6 +74,7 @@ public class XmlAdaptedFood {
         email = source.getEmail().value;
         address = source.getAddress().value;
         price = source.getPrice().getValue();
+        rating = source.getRating().value;
         tagged = new ArrayList<>();
         for (Tag tag : source.getTags()) {
             tagged.add(new XmlAdaptedTag(tag));
