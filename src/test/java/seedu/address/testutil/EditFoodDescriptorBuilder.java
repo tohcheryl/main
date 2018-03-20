@@ -11,6 +11,7 @@ import seedu.address.model.food.Food;
 import seedu.address.model.food.Name;
 import seedu.address.model.food.Phone;
 import seedu.address.model.food.Price;
+import seedu.address.model.food.Rating;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -38,6 +39,7 @@ public class EditFoodDescriptorBuilder {
         descriptor.setEmail(food.getEmail());
         descriptor.setAddress(food.getAddress());
         descriptor.setPrice(food.getPrice());
+        descriptor.setRating(food.getRating());
         descriptor.setTags(food.getTags());
     }
 
@@ -78,6 +80,14 @@ public class EditFoodDescriptorBuilder {
      */
     public EditFoodDescriptorBuilder withPrice(String price) {
         descriptor.setPrice(new Price(price));
+        return this;
+    }
+
+    /**
+     * Sets the {@code Rating} of the {@code EditFoodDescriptor} that we are building.
+     */
+    public EditFoodDescriptorBuilder withRating(String rating) {
+        descriptor.setRating(new Rating(rating));
         return this;
     }
 
