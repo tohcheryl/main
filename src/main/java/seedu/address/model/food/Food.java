@@ -19,18 +19,20 @@ public class Food {
     private final Phone phone;
     private final Email email;
     private final Address address;
+    private final Price price;
 
     private final UniqueTagList tags;
 
     /**
      * Every field must be present and not null.
      */
-    public Food(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
+    public Food(Name name, Phone phone, Email email, Address address, Price price, Set<Tag> tags) {
         requireAllNonNull(name, phone, email, address, tags);
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
+        this.price = price;
         // protect internal tags from changes in the arg list
         this.tags = new UniqueTagList(tags);
     }
@@ -49,6 +51,10 @@ public class Food {
 
     public Address getAddress() {
         return address;
+    }
+
+    public Price getPrice() {
+        return price;
     }
 
     /**
@@ -73,13 +79,14 @@ public class Food {
         return otherFood.getName().equals(this.getName())
                 && otherFood.getPhone().equals(this.getPhone())
                 && otherFood.getEmail().equals(this.getEmail())
-                && otherFood.getAddress().equals(this.getAddress());
+                && otherFood.getAddress().equals(this.getAddress())
+                && otherFood.getPrice().equals(this.getPrice());
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, tags);
+        return Objects.hash(name, phone, email, address, price, tags);
     }
 
     @Override
@@ -92,6 +99,8 @@ public class Food {
                 .append(getEmail())
                 .append(" Address: ")
                 .append(getAddress())
+                .append(" Price: ")
+                .append(getPrice())
                 .append(" Tags: ");
         getTags().forEach(builder::append);
         return builder.toString();

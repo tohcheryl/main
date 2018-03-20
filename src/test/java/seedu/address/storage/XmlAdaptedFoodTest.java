@@ -22,12 +22,14 @@ public class XmlAdaptedFoodTest {
     private static final String INVALID_PHONE = "+651234";
     private static final String INVALID_ADDRESS = " ";
     private static final String INVALID_EMAIL = "example.com";
+    private static final String INVALID_PRICE = "0a.3";
     private static final String INVALID_TAG = "#fried";
 
     private static final String VALID_NAME = BACON.getName().toString();
     private static final String VALID_PHONE = BACON.getPhone().toString();
     private static final String VALID_EMAIL = BACON.getEmail().toString();
     private static final String VALID_ADDRESS = BACON.getAddress().toString();
+    private static final String VALID_PRICE = BACON.getPrice().toString();
     private static final List<XmlAdaptedTag> VALID_TAGS = BACON.getTags().stream()
             .map(XmlAdaptedTag::new)
             .collect(Collectors.toList());
@@ -41,14 +43,15 @@ public class XmlAdaptedFoodTest {
     @Test
     public void toModelType_invalidName_throwsIllegalValueException() {
         XmlAdaptedFood food =
-                new XmlAdaptedFood(INVALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_TAGS);
+                new XmlAdaptedFood(INVALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_PRICE, VALID_TAGS);
         String expectedMessage = Name.MESSAGE_NAME_CONSTRAINTS;
         Assert.assertThrows(IllegalValueException.class, expectedMessage, food::toModelType);
     }
 
     @Test
     public void toModelType_nullName_throwsIllegalValueException() {
-        XmlAdaptedFood food = new XmlAdaptedFood(null, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_TAGS);
+        XmlAdaptedFood food = new XmlAdaptedFood(null, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS,
+                VALID_PRICE, VALID_TAGS);
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName());
         Assert.assertThrows(IllegalValueException.class, expectedMessage, food::toModelType);
     }
@@ -56,14 +59,14 @@ public class XmlAdaptedFoodTest {
     @Test
     public void toModelType_invalidPhone_throwsIllegalValueException() {
         XmlAdaptedFood food =
-                new XmlAdaptedFood(VALID_NAME, INVALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_TAGS);
+                new XmlAdaptedFood(VALID_NAME, INVALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_PRICE, VALID_TAGS);
         String expectedMessage = Phone.MESSAGE_PHONE_CONSTRAINTS;
         Assert.assertThrows(IllegalValueException.class, expectedMessage, food::toModelType);
     }
 
     @Test
     public void toModelType_nullPhone_throwsIllegalValueException() {
-        XmlAdaptedFood food = new XmlAdaptedFood(VALID_NAME, null, VALID_EMAIL, VALID_ADDRESS, VALID_TAGS);
+        XmlAdaptedFood food = new XmlAdaptedFood(VALID_NAME, null, VALID_EMAIL, VALID_ADDRESS, VALID_PRICE, VALID_TAGS);
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Phone.class.getSimpleName());
         Assert.assertThrows(IllegalValueException.class, expectedMessage, food::toModelType);
     }
@@ -71,14 +74,14 @@ public class XmlAdaptedFoodTest {
     @Test
     public void toModelType_invalidEmail_throwsIllegalValueException() {
         XmlAdaptedFood food =
-                new XmlAdaptedFood(VALID_NAME, VALID_PHONE, INVALID_EMAIL, VALID_ADDRESS, VALID_TAGS);
+                new XmlAdaptedFood(VALID_NAME, VALID_PHONE, INVALID_EMAIL, VALID_ADDRESS, VALID_PRICE, VALID_TAGS);
         String expectedMessage = Email.MESSAGE_EMAIL_CONSTRAINTS;
         Assert.assertThrows(IllegalValueException.class, expectedMessage, food::toModelType);
     }
 
     @Test
     public void toModelType_nullEmail_throwsIllegalValueException() {
-        XmlAdaptedFood food = new XmlAdaptedFood(VALID_NAME, VALID_PHONE, null, VALID_ADDRESS, VALID_TAGS);
+        XmlAdaptedFood food = new XmlAdaptedFood(VALID_NAME, VALID_PHONE, null, VALID_ADDRESS, VALID_PRICE, VALID_TAGS);
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Email.class.getSimpleName());
         Assert.assertThrows(IllegalValueException.class, expectedMessage, food::toModelType);
     }
@@ -86,14 +89,14 @@ public class XmlAdaptedFoodTest {
     @Test
     public void toModelType_invalidAddress_throwsIllegalValueException() {
         XmlAdaptedFood food =
-                new XmlAdaptedFood(VALID_NAME, VALID_PHONE, VALID_EMAIL, INVALID_ADDRESS, VALID_TAGS);
+                new XmlAdaptedFood(VALID_NAME, VALID_PHONE, VALID_EMAIL, INVALID_ADDRESS, VALID_PRICE, VALID_TAGS);
         String expectedMessage = Address.MESSAGE_ADDRESS_CONSTRAINTS;
         Assert.assertThrows(IllegalValueException.class, expectedMessage, food::toModelType);
     }
 
     @Test
     public void toModelType_nullAddress_throwsIllegalValueException() {
-        XmlAdaptedFood food = new XmlAdaptedFood(VALID_NAME, VALID_PHONE, VALID_EMAIL, null, VALID_TAGS);
+        XmlAdaptedFood food = new XmlAdaptedFood(VALID_NAME, VALID_PHONE, VALID_EMAIL, null, VALID_PRICE, VALID_TAGS);
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Address.class.getSimpleName());
         Assert.assertThrows(IllegalValueException.class, expectedMessage, food::toModelType);
     }
@@ -103,7 +106,7 @@ public class XmlAdaptedFoodTest {
         List<XmlAdaptedTag> invalidTags = new ArrayList<>(VALID_TAGS);
         invalidTags.add(new XmlAdaptedTag(INVALID_TAG));
         XmlAdaptedFood food =
-                new XmlAdaptedFood(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, invalidTags);
+                new XmlAdaptedFood(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_PRICE, invalidTags);
         Assert.assertThrows(IllegalValueException.class, food::toModelType);
     }
 

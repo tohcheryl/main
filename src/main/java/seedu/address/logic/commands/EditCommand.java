@@ -5,6 +5,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PRICE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_FOODS;
 
@@ -24,6 +25,7 @@ import seedu.address.model.food.Email;
 import seedu.address.model.food.Food;
 import seedu.address.model.food.Name;
 import seedu.address.model.food.Phone;
+import seedu.address.model.food.Price;
 import seedu.address.model.food.exceptions.DuplicateFoodException;
 import seedu.address.model.food.exceptions.FoodNotFoundException;
 import seedu.address.model.tag.Tag;
@@ -43,6 +45,7 @@ public class EditCommand extends UndoableCommand {
             + "[" + PREFIX_PHONE + "PHONE] "
             + "[" + PREFIX_EMAIL + "EMAIL] "
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
+            + "[" + PREFIX_PRICE + "PRICE] "
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_PHONE + "91234567 "
@@ -106,9 +109,10 @@ public class EditCommand extends UndoableCommand {
         Phone updatedPhone = editFoodDescriptor.getPhone().orElse(foodToEdit.getPhone());
         Email updatedEmail = editFoodDescriptor.getEmail().orElse(foodToEdit.getEmail());
         Address updatedAddress = editFoodDescriptor.getAddress().orElse(foodToEdit.getAddress());
+        Price updatedPrice = editFoodDescriptor.getPrice().orElse(foodToEdit.getPrice());
         Set<Tag> updatedTags = editFoodDescriptor.getTags().orElse(foodToEdit.getTags());
 
-        return new Food(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags);
+        return new Food(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedPrice, updatedTags);
     }
 
     @Override
@@ -139,6 +143,7 @@ public class EditCommand extends UndoableCommand {
         private Phone phone;
         private Email email;
         private Address address;
+        private Price price;
         private Set<Tag> tags;
 
         public EditFoodDescriptor() {}
@@ -152,6 +157,7 @@ public class EditCommand extends UndoableCommand {
             setPhone(toCopy.phone);
             setEmail(toCopy.email);
             setAddress(toCopy.address);
+            setPrice(toCopy.price);
             setTags(toCopy.tags);
         }
 
@@ -159,7 +165,7 @@ public class EditCommand extends UndoableCommand {
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(this.name, this.phone, this.email, this.address, this.tags);
+            return CollectionUtil.isAnyNonNull(this.name, this.phone, this.email, this.address, this.price, this.tags);
         }
 
         public void setName(Name name) {
@@ -192,6 +198,14 @@ public class EditCommand extends UndoableCommand {
 
         public Optional<Address> getAddress() {
             return Optional.ofNullable(address);
+        }
+
+        public void setPrice(Price price) {
+            this.price = price;
+        }
+
+        public Optional<Price> getPrice() {
+            return Optional.ofNullable(price);
         }
 
         /**
@@ -230,6 +244,7 @@ public class EditCommand extends UndoableCommand {
                     && getPhone().equals(e.getPhone())
                     && getEmail().equals(e.getEmail())
                     && getAddress().equals(e.getAddress())
+                    && getPrice().equals(e.getPrice())
                     && getTags().equals(e.getTags());
         }
     }

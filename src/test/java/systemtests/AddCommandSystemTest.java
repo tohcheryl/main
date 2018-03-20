@@ -9,11 +9,14 @@ import static seedu.address.logic.commands.CommandTestUtil.INVALID_ADDRESS_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_EMAIL_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_PHONE_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_PRICE_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_APPLE;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_BANANA;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_APPLE;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_BANANA;
+import static seedu.address.logic.commands.CommandTestUtil.PRICE_DESC_APPLE;
+import static seedu.address.logic.commands.CommandTestUtil.PRICE_DESC_BANANA;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_FRIED;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_NUTS;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_APPLE;
@@ -24,6 +27,8 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_APPLE;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BANANA;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_APPLE;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BANANA;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_PRICE_APPLE;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_PRICE_BANANA;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIED;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.testutil.TypicalFoods.ALMOND;
@@ -47,6 +52,7 @@ import seedu.address.model.food.Email;
 import seedu.address.model.food.Food;
 import seedu.address.model.food.Name;
 import seedu.address.model.food.Phone;
+import seedu.address.model.food.Price;
 import seedu.address.model.food.exceptions.DuplicateFoodException;
 import seedu.address.model.tag.Tag;
 import seedu.address.testutil.FoodBuilder;
@@ -65,7 +71,8 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
          */
         Food toAdd = APPLE;
         String command = "   " + AddCommand.COMMAND_WORD + "  " + NAME_DESC_APPLE + "  " + PHONE_DESC_APPLE + " "
-                + EMAIL_DESC_APPLE + "   " + ADDRESS_DESC_APPLE + "   " + TAG_DESC_FRIED + " ";
+                + EMAIL_DESC_APPLE + "   " + ADDRESS_DESC_APPLE + "   " + PRICE_DESC_APPLE + "   "
+                + TAG_DESC_FRIED + " ";
         assertCommandSuccess(command, toAdd);
 
         /* Case: undo adding Amy to the list -> Amy deleted */
@@ -81,30 +88,37 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
 
         /* Case: add a food with all fields same as another food in HackEat except name -> added */
         toAdd = new FoodBuilder().withName(VALID_NAME_BANANA).withPhone(VALID_PHONE_APPLE).withEmail(VALID_EMAIL_APPLE)
-                .withAddress(VALID_ADDRESS_APPLE).withTags(VALID_TAG_FRIED).build();
+                .withAddress(VALID_ADDRESS_APPLE).withPrice(VALID_PRICE_APPLE).withTags(VALID_TAG_FRIED).build();
         command = AddCommand.COMMAND_WORD + NAME_DESC_BANANA + PHONE_DESC_APPLE + EMAIL_DESC_APPLE + ADDRESS_DESC_APPLE
-                + TAG_DESC_FRIED;
+                + PRICE_DESC_APPLE + TAG_DESC_FRIED;
         assertCommandSuccess(command, toAdd);
 
         /* Case: add a food with all fields same as another food in HackEat except phone -> added */
         toAdd = new FoodBuilder().withName(VALID_NAME_APPLE).withPhone(VALID_PHONE_BANANA).withEmail(VALID_EMAIL_APPLE)
-                .withAddress(VALID_ADDRESS_APPLE).withTags(VALID_TAG_FRIED).build();
+                .withAddress(VALID_ADDRESS_APPLE).withPrice(VALID_PRICE_APPLE).withTags(VALID_TAG_FRIED).build();
         command = AddCommand.COMMAND_WORD + NAME_DESC_APPLE + PHONE_DESC_BANANA + EMAIL_DESC_APPLE + ADDRESS_DESC_APPLE
-                + TAG_DESC_FRIED;
+                + PRICE_DESC_APPLE + TAG_DESC_FRIED;
         assertCommandSuccess(command, toAdd);
 
         /* Case: add a food with all fields same as another food in HackEat except email -> added */
         toAdd = new FoodBuilder().withName(VALID_NAME_APPLE).withPhone(VALID_PHONE_APPLE).withEmail(VALID_EMAIL_BANANA)
-                .withAddress(VALID_ADDRESS_APPLE).withTags(VALID_TAG_FRIED).build();
+                .withAddress(VALID_ADDRESS_APPLE).withPrice(VALID_PRICE_APPLE).withTags(VALID_TAG_FRIED).build();
         command = AddCommand.COMMAND_WORD + NAME_DESC_APPLE + PHONE_DESC_APPLE + EMAIL_DESC_BANANA + ADDRESS_DESC_APPLE
-                + TAG_DESC_FRIED;
+                + PRICE_DESC_APPLE + TAG_DESC_FRIED;
         assertCommandSuccess(command, toAdd);
 
         /* Case: add a food with all fields same as another food in HackEat except address -> added */
         toAdd = new FoodBuilder().withName(VALID_NAME_APPLE).withPhone(VALID_PHONE_APPLE).withEmail(VALID_EMAIL_APPLE)
-                .withAddress(VALID_ADDRESS_BANANA).withTags(VALID_TAG_FRIED).build();
+                .withAddress(VALID_ADDRESS_BANANA).withPrice(VALID_PRICE_APPLE).withTags(VALID_TAG_FRIED).build();
         command = AddCommand.COMMAND_WORD + NAME_DESC_APPLE + PHONE_DESC_APPLE + EMAIL_DESC_APPLE + ADDRESS_DESC_BANANA
-                + TAG_DESC_FRIED;
+                + PRICE_DESC_APPLE + TAG_DESC_FRIED;
+        assertCommandSuccess(command, toAdd);
+
+        /* Case: add a food with all fields same as another food in HackEat except price -> added */
+        toAdd = new FoodBuilder().withName(VALID_NAME_APPLE).withPhone(VALID_PHONE_APPLE).withEmail(VALID_EMAIL_APPLE)
+                .withAddress(VALID_ADDRESS_APPLE).withPrice(VALID_PRICE_BANANA).withTags(VALID_TAG_FRIED).build();
+        command = AddCommand.COMMAND_WORD + NAME_DESC_APPLE + PHONE_DESC_APPLE + EMAIL_DESC_APPLE + ADDRESS_DESC_APPLE
+                + PRICE_DESC_BANANA + TAG_DESC_FRIED;
         assertCommandSuccess(command, toAdd);
 
         /* Case: add to empty address book -> added */
@@ -114,7 +128,7 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
         /* Case: add a food with tags, command with parameters in random order -> added */
         toAdd = BANANA;
         command = AddCommand.COMMAND_WORD + TAG_DESC_FRIED + PHONE_DESC_BANANA + ADDRESS_DESC_BANANA + NAME_DESC_BANANA
-                + TAG_DESC_NUTS + EMAIL_DESC_BANANA;
+                + TAG_DESC_NUTS + EMAIL_DESC_BANANA + PRICE_DESC_BANANA;
         assertCommandSuccess(command, toAdd);
 
         /* -------------------------- Perform add with missing fields (optional fields) ------------------------------*/
@@ -124,14 +138,23 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
 
         /* Case: add a food, missing email -> added */
         toAdd = new FoodBuilder().withName(VALID_NAME_APPLE).withPhone(VALID_PHONE_APPLE)
-                .withAddress(VALID_ADDRESS_APPLE).withTags(VALID_TAG_FRIED).build();
-        command = AddCommand.COMMAND_WORD + NAME_DESC_APPLE + PHONE_DESC_APPLE + ADDRESS_DESC_APPLE + TAG_DESC_FRIED;
+                .withAddress(VALID_ADDRESS_APPLE).withPrice(VALID_PRICE_APPLE).withTags(VALID_TAG_FRIED).build();
+        command = AddCommand.COMMAND_WORD + NAME_DESC_APPLE + PHONE_DESC_APPLE + ADDRESS_DESC_APPLE
+                + PRICE_DESC_APPLE + TAG_DESC_FRIED;
         assertCommandSuccess(command, toAdd);
 
         /* Case: add a food, missing address -> added */
         toAdd = new FoodBuilder().withName(VALID_NAME_APPLE).withPhone(VALID_PHONE_APPLE).withEmail(VALID_EMAIL_BANANA)
-                .withTags(VALID_TAG_FRIED).build();
-        command = AddCommand.COMMAND_WORD + NAME_DESC_APPLE + PHONE_DESC_APPLE + EMAIL_DESC_BANANA + TAG_DESC_FRIED;
+                .withPrice(VALID_PRICE_APPLE).withTags(VALID_TAG_FRIED).build();
+        command = AddCommand.COMMAND_WORD + NAME_DESC_APPLE + PHONE_DESC_APPLE + EMAIL_DESC_BANANA
+                + PRICE_DESC_APPLE + TAG_DESC_FRIED;
+        assertCommandSuccess(command, toAdd);
+
+        /* Case: add a food, missing price -> added */
+        toAdd = new FoodBuilder().withName(VALID_NAME_APPLE).withPhone(VALID_PHONE_APPLE).withEmail(VALID_EMAIL_BANANA)
+                .withAddress(VALID_ADDRESS_APPLE).withTags(VALID_TAG_FRIED).build();
+        command = AddCommand.COMMAND_WORD + NAME_DESC_APPLE + PHONE_DESC_APPLE + EMAIL_DESC_BANANA
+                + ADDRESS_DESC_APPLE + TAG_DESC_FRIED;
         assertCommandSuccess(command, toAdd);
 
         /* -------------------------- Perform add operation on the shown filtered list ------------------------------ */
@@ -160,11 +183,13 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
         assertCommandFailure(command, AddCommand.MESSAGE_DUPLICATE_FOOD);
 
         /* Case: missing name -> rejected */
-        command = AddCommand.COMMAND_WORD + PHONE_DESC_APPLE + EMAIL_DESC_APPLE + ADDRESS_DESC_APPLE;
+        command = AddCommand.COMMAND_WORD + PHONE_DESC_APPLE + EMAIL_DESC_APPLE + ADDRESS_DESC_APPLE
+                + PRICE_DESC_APPLE;
         assertCommandFailure(command, String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
 
         /* Case: missing phone -> rejected */
-        command = AddCommand.COMMAND_WORD + NAME_DESC_APPLE + EMAIL_DESC_APPLE + ADDRESS_DESC_APPLE;
+        command = AddCommand.COMMAND_WORD + NAME_DESC_APPLE + EMAIL_DESC_APPLE + ADDRESS_DESC_APPLE
+                + PRICE_DESC_APPLE;
         assertCommandFailure(command, String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
 
         /* Case: invalid keyword -> rejected */
@@ -173,27 +198,32 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
 
         /* Case: invalid name -> rejected */
         command = AddCommand.COMMAND_WORD + INVALID_NAME_DESC + PHONE_DESC_APPLE + EMAIL_DESC_APPLE
-                + ADDRESS_DESC_APPLE;
+                + ADDRESS_DESC_APPLE + PRICE_DESC_APPLE;
         assertCommandFailure(command, Name.MESSAGE_NAME_CONSTRAINTS);
 
         /* Case: invalid phone -> rejected */
         command = AddCommand.COMMAND_WORD + NAME_DESC_APPLE + INVALID_PHONE_DESC + EMAIL_DESC_APPLE
-                + ADDRESS_DESC_APPLE;
+                + ADDRESS_DESC_APPLE + PRICE_DESC_APPLE;
         assertCommandFailure(command, Phone.MESSAGE_PHONE_CONSTRAINTS);
 
         /* Case: invalid email -> rejected */
         command = AddCommand.COMMAND_WORD + NAME_DESC_APPLE + PHONE_DESC_APPLE + INVALID_EMAIL_DESC
-                + ADDRESS_DESC_APPLE;
+                + ADDRESS_DESC_APPLE + PRICE_DESC_APPLE;
         assertCommandFailure(command, Email.MESSAGE_EMAIL_CONSTRAINTS);
 
         /* Case: invalid address -> rejected */
         command = AddCommand.COMMAND_WORD + NAME_DESC_APPLE + PHONE_DESC_APPLE + EMAIL_DESC_APPLE
-                + INVALID_ADDRESS_DESC;
+                + INVALID_ADDRESS_DESC + PRICE_DESC_APPLE;
         assertCommandFailure(command, Address.MESSAGE_ADDRESS_CONSTRAINTS);
+
+        /* Case: invalid price -> rejected */
+        command = AddCommand.COMMAND_WORD + NAME_DESC_APPLE + PHONE_DESC_APPLE + EMAIL_DESC_APPLE
+                + ADDRESS_DESC_APPLE + INVALID_PRICE_DESC;
+        assertCommandFailure(command, Price.MESSAGE_PRICE_CONSTRAINTS);
 
         /* Case: invalid tag -> rejected */
         command = AddCommand.COMMAND_WORD + NAME_DESC_APPLE + PHONE_DESC_APPLE + EMAIL_DESC_APPLE + ADDRESS_DESC_APPLE
-                + INVALID_TAG_DESC;
+                + PRICE_DESC_APPLE + INVALID_TAG_DESC;
         assertCommandFailure(command, Tag.MESSAGE_TAG_CONSTRAINTS);
     }
 

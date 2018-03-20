@@ -10,17 +10,21 @@ import static seedu.address.logic.commands.CommandTestUtil.INVALID_ADDRESS_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_EMAIL_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_PHONE_DESC;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_PRICE_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_TAG_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_APPLE;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_BANANA;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_APPLE;
 import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_BANANA;
+import static seedu.address.logic.commands.CommandTestUtil.PRICE_DESC_APPLE;
+import static seedu.address.logic.commands.CommandTestUtil.PRICE_DESC_BANANA;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_FRIED;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_NUTS;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BANANA;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BANANA;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BANANA;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BANANA;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_PRICE_BANANA;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIED;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_NUTS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
@@ -43,6 +47,7 @@ import seedu.address.model.food.Email;
 import seedu.address.model.food.Food;
 import seedu.address.model.food.Name;
 import seedu.address.model.food.Phone;
+import seedu.address.model.food.Price;
 import seedu.address.model.food.exceptions.DuplicateFoodException;
 import seedu.address.model.food.exceptions.FoodNotFoundException;
 import seedu.address.model.tag.Tag;
@@ -62,9 +67,11 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
          */
         Index index = INDEX_FIRST_FOOD;
         String command = " " + EditCommand.COMMAND_WORD + "  " + index.getOneBased() + "  " + NAME_DESC_BANANA + "  "
-                + PHONE_DESC_BANANA + " " + EMAIL_DESC_BANANA + "  " + ADDRESS_DESC_BANANA + " " + TAG_DESC_NUTS + " ";
+                + PHONE_DESC_BANANA + " " + EMAIL_DESC_BANANA + "  " + ADDRESS_DESC_BANANA
+                +  "  " + PRICE_DESC_BANANA + " " + TAG_DESC_NUTS + " ";
         Food editedFood = new FoodBuilder().withName(VALID_NAME_BANANA).withPhone(VALID_PHONE_BANANA)
-                .withEmail(VALID_EMAIL_BANANA).withAddress(VALID_ADDRESS_BANANA).withTags(VALID_TAG_NUTS).build();
+                .withEmail(VALID_EMAIL_BANANA).withAddress(VALID_ADDRESS_BANANA).withPrice(VALID_PRICE_BANANA)
+                .withTags(VALID_TAG_NUTS).build();
         assertCommandSuccess(command, index, editedFood);
 
         /* Case: undo editing the last food in the list -> last food restored */
@@ -81,7 +88,7 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
 
         /* Case: edit a food with new values same as existing values -> edited */
         command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_BANANA + PHONE_DESC_BANANA
-                + EMAIL_DESC_BANANA + ADDRESS_DESC_BANANA + TAG_DESC_FRIED + TAG_DESC_NUTS;
+                + EMAIL_DESC_BANANA + ADDRESS_DESC_BANANA + PRICE_DESC_BANANA + TAG_DESC_FRIED + TAG_DESC_NUTS;
         assertCommandSuccess(command, index, BANANA);
 
         /* Case: edit some fields -> edited */
@@ -125,7 +132,7 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
         index = INDEX_FIRST_FOOD;
         selectFood(index);
         command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_APPLE + PHONE_DESC_APPLE
-                + EMAIL_DESC_APPLE + ADDRESS_DESC_APPLE + TAG_DESC_FRIED;
+                + EMAIL_DESC_APPLE + ADDRESS_DESC_APPLE + PRICE_DESC_APPLE + TAG_DESC_FRIED;
         // this can be misleading: card selection actually remains unchanged but the
         // browser's url is updated to reflect the new food's name
         assertCommandSuccess(command, index, APPLE, index);
@@ -169,6 +176,10 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
         assertCommandFailure(EditCommand.COMMAND_WORD + " " + INDEX_FIRST_FOOD.getOneBased() + INVALID_ADDRESS_DESC,
                 Address.MESSAGE_ADDRESS_CONSTRAINTS);
 
+        /* Case: invalid price -> rejected */
+        assertCommandFailure(EditCommand.COMMAND_WORD + " " + INDEX_FIRST_FOOD.getOneBased() + INVALID_PRICE_DESC,
+                Price.MESSAGE_PRICE_CONSTRAINTS);
+
         /* Case: invalid tag -> rejected */
         assertCommandFailure(EditCommand.COMMAND_WORD + " " + INDEX_FIRST_FOOD.getOneBased() + INVALID_TAG_DESC,
                 Tag.MESSAGE_TAG_CONSTRAINTS);
@@ -179,12 +190,12 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
         index = INDEX_FIRST_FOOD;
         assertFalse(getModel().getFilteredFoodList().get(index.getZeroBased()).equals(BANANA));
         command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_BANANA + PHONE_DESC_BANANA
-                + EMAIL_DESC_BANANA + ADDRESS_DESC_BANANA + TAG_DESC_FRIED + TAG_DESC_NUTS;
+                + EMAIL_DESC_BANANA + ADDRESS_DESC_BANANA + PRICE_DESC_BANANA + TAG_DESC_FRIED + TAG_DESC_NUTS;
         assertCommandFailure(command, EditCommand.MESSAGE_DUPLICATE_FOOD);
 
         /* Case: edit a food with new values same as another food's values but with different tags -> rejected */
         command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_BANANA + PHONE_DESC_BANANA
-                + EMAIL_DESC_BANANA + ADDRESS_DESC_BANANA + TAG_DESC_NUTS;
+                + EMAIL_DESC_BANANA + ADDRESS_DESC_BANANA + PRICE_DESC_BANANA + TAG_DESC_NUTS;
         assertCommandFailure(command, EditCommand.MESSAGE_DUPLICATE_FOOD);
     }
 
