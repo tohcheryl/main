@@ -227,7 +227,7 @@ public class ParserUtil {
         requireNonNull(allergy);
         String trimmedAllergy = allergy.trim();
         if (!Allergy.isValidAllergyName(trimmedAllergy)) {
-            throw new IllegalValueException(Allergy.MESSAGE_TAG_CONSTRAINTS);
+            throw new IllegalValueException(Allergy.MESSAGE_ALLERGY_CONSTRAINTS);
         }
         return new Allergy(trimmedAllergy);
     }

@@ -9,8 +9,8 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class Allergy {
 
-    public static final String MESSAGE_TAG_CONSTRAINTS = "Allergys names should be alphanumeric";
-    public static final String TAG_VALIDATION_REGEX = "\\p{Alnum}+";
+    public static final String MESSAGE_ALLERGY_CONSTRAINTS = "Allergy names should be alphanumeric";
+    public static final String ALLERGY_VALIDATION_REGEX= "\\p{Alnum}+";
 
     public final String allergyName;
 
@@ -21,7 +21,7 @@ public class Allergy {
      */
     public Allergy(String allergyName) {
         requireNonNull(allergyName);
-        checkArgument(isValidAllergyName(allergyName), MESSAGE_TAG_CONSTRAINTS);
+        checkArgument(isValidAllergyName(allergyName), MESSAGE_ALLERGY_CONSTRAINTS);
         this.allergyName = allergyName;
     }
 
@@ -29,7 +29,7 @@ public class Allergy {
      * Returns true if a given string is a valid allergy name.
      */
     public static boolean isValidAllergyName(String test) {
-        return test.matches(TAG_VALIDATION_REGEX);
+        return test.matches(ALLERGY_VALIDATION_REGEX);
     }
 
     @Override

@@ -42,7 +42,7 @@ public class XmlAdaptedAllergy {
      */
     public Allergy toModelType() throws IllegalValueException {
         if (!Allergy.isValidAllergyName(allergyName)) {
-            throw new IllegalValueException(Allergy.MESSAGE_TAG_CONSTRAINTS);
+            throw new IllegalValueException(Allergy.MESSAGE_ALLERGY_CONSTRAINTS);
         }
         return new Allergy(allergyName);
     }
