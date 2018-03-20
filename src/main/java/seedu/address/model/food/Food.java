@@ -59,8 +59,9 @@ public class Food {
         return price;
     }
 
-    public Rating getRating() { return rating; }
-
+    public Rating getRating() {
+        return rating;
+    }
     /**
      * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
      * if modification is attempted.
