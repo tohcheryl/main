@@ -9,6 +9,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class Rating {
 
+    public static final String DEFAULT_RATING = "0";
     public static final int MAX_RATING = 5;
     public static final String MESSAGE_RATING_CONSTRAINTS =
             "Please enter a number between 0 to " + MAX_RATING;
