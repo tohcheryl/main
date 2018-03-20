@@ -40,6 +40,8 @@ public class CommandTestUtil {
     public static final String VALID_ADDRESS_BANANA = "Block 123, Banana Street 3";
     public static final String VALID_PRICE_APPLE = "$0.50";
     public static final String VALID_PRICE_BANANA = "$0.80";
+    public static final String VALID_RATING_APPLE = "3";
+    public static final String VALID_RATING_BANANA = "5";
     public static final String VALID_TAG_NUTS = "nuts";
     public static final String VALID_TAG_FRIED = "fried";
 
