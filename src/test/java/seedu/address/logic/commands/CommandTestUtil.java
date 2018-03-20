@@ -8,6 +8,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PRICE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_RATING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.ArrayList;
@@ -55,6 +56,8 @@ public class CommandTestUtil {
     public static final String ADDRESS_DESC_BANANA = " " + PREFIX_ADDRESS + VALID_ADDRESS_BANANA;
     public static final String PRICE_DESC_APPLE = " " + PREFIX_PRICE + VALID_PRICE_APPLE;
     public static final String PRICE_DESC_BANANA = " " + PREFIX_PRICE + VALID_PRICE_BANANA;
+    public static final String RATING_DESC_APPLE = " " + PREFIX_RATING + VALID_RATING_APPLE;
+    public static final String RATING_DESC_BANANA = " " + PREFIX_RATING + VALID_RATING_BANANA;
     public static final String TAG_DESC_FRIED = " " + PREFIX_TAG + VALID_TAG_FRIED;
     public static final String TAG_DESC_NUTS = " " + PREFIX_TAG + VALID_TAG_NUTS;
 
@@ -63,6 +66,7 @@ public class CommandTestUtil {
     public static final String INVALID_EMAIL_DESC = " " + PREFIX_EMAIL + "banana!yahoo"; // missing '@' symbol
     public static final String INVALID_ADDRESS_DESC = " " + PREFIX_ADDRESS; // empty string not allowed for addresses
     public static final String INVALID_PRICE_DESC = " " + PREFIX_PRICE + "e.40"; // letters not allowed for prices
+    public static final String INVALID_RATING_DESC = " " + PREFIX_RATING + "9"; // out of range
     public static final String INVALID_TAG_DESC = " " + PREFIX_TAG + "poise*"; // '*' not allowed in tags
 
     public static final String PREAMBLE_WHITESPACE = "\t  \r  \n";
@@ -74,10 +78,11 @@ public class CommandTestUtil {
     static {
         DESC_APPLE = new EditFoodDescriptorBuilder().withName(VALID_NAME_APPLE)
                 .withPhone(VALID_PHONE_APPLE).withEmail(VALID_EMAIL_APPLE).withAddress(VALID_ADDRESS_APPLE)
-                .withPrice(VALID_PRICE_APPLE).withTags(VALID_TAG_FRIED).build();
+                .withPrice(VALID_PRICE_APPLE).withRating(VALID_RATING_APPLE).withTags(VALID_TAG_FRIED).build();
         DESC_BANANA = new EditFoodDescriptorBuilder().withName(VALID_NAME_BANANA)
                 .withPhone(VALID_PHONE_BANANA).withEmail(VALID_EMAIL_BANANA).withAddress(VALID_ADDRESS_BANANA)
-                .withPrice(VALID_PRICE_BANANA).withTags(VALID_TAG_NUTS, VALID_TAG_FRIED).build();
+                .withPrice(VALID_PRICE_BANANA).withRating(VALID_RATING_BANANA)
+                .withTags(VALID_TAG_NUTS, VALID_TAG_FRIED).build();
     }
 
     /**
