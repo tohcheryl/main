@@ -15,6 +15,7 @@ import seedu.address.model.food.Rating;
 import seedu.address.model.food.allergy.Allergy;
 import seedu.address.model.food.exceptions.DuplicateFoodException;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.user.UserProfile;
 
 /**
  * Contains utility methods for populating {@code AddressBook} with sample data.
@@ -41,6 +42,11 @@ public class SampleDataUtil {
                 new Address("Blk 45 Aljunied Street 85, #11-31"), new Price("$0"), new Rating("0"),
                     getTagSet("colleagues"))
         };
+    }
+
+    public static UserProfile getSampleProfile() {
+        return new UserProfile(new Name("Hacker"), new Phone("123456"),
+                new Address("Blk 71 One North MRT Station"), getAllergySet("lactose", "peanut", "cinnamon"));
     }
 
     public static ReadOnlyAddressBook getSampleAddressBook() {
