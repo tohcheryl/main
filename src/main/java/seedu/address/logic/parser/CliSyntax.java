@@ -13,5 +13,6 @@ public class CliSyntax {
     public static final Prefix PREFIX_PRICE = new Prefix("pr/");
     public static final Prefix PREFIX_RATING = new Prefix("r/");
     public static final Prefix PREFIX_TAG = new Prefix("t/");
+    public static final Prefix PREFIX_ALLERGIES = new Prefix("alg/");
 
 }
