@@ -46,5 +46,9 @@ public interface Model {
      */
     void updateFilteredFoodList(Predicate<Food> predicate);
 
-    void addUserProfile(UserProfile toAdd);
+    /**
+     * Update user's profile
+     * @param profile UserProfile
+     */
+    void updateUserProfile(UserProfile profile);
 }

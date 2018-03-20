@@ -12,6 +12,7 @@ import seedu.address.model.food.Name;
 import seedu.address.model.food.Phone;
 import seedu.address.model.food.Price;
 import seedu.address.model.food.Rating;
+import seedu.address.model.food.allergy.Allergy;
 import seedu.address.model.food.exceptions.DuplicateFoodException;
 import seedu.address.model.tag.Tag;
 
@@ -66,4 +67,15 @@ public class SampleDataUtil {
         return tags;
     }
 
+    /**
+     * Returns an allergy set containing the list of strings given.
+     */
+    public static Set<Allergy> getAllergySet(String... strings) {
+        HashSet<Allergy> allergies = new HashSet<>();
+        for (String s : strings) {
+            allergies.add(new Allergy(s));
+        }
+
+        return allergies;
+    }
 }

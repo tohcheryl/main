@@ -17,6 +17,7 @@ import seedu.address.model.food.exceptions.DuplicateFoodException;
 import seedu.address.model.food.exceptions.FoodNotFoundException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
+import seedu.address.model.user.UserProfile;
 
 /**
  * Wraps all data at the address-book level
@@ -26,6 +27,7 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     private final UniqueFoodList foods;
     private final UniqueTagList tags;
+    private UserProfile profile;
 
     /*
      * The 'unusual' code block below is an non-static initialization block, sometimes used to avoid duplication
@@ -115,6 +117,13 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     /**
+     * Replaces the old profile with the new profile {@code newProfile}.
+     */
+    public void updateUserProfile(UserProfile newProfile) {
+        profile = newProfile;
+    }
+
+    /**
      *  Updates the master tag list to include tags in {@code food} that are not in the list.
      *  @return a copy of this {@code food} such that every tag in this food points to a Tag object in the master
      *  list.
@@ -170,6 +179,11 @@ public class AddressBook implements ReadOnlyAddressBook {
     @Override
     public ObservableList<Tag> getTagList() {
         return tags.asObservableList();
+    }
+
+    @Override
+    public UserProfile getUserProfile() {
+        return profile;
     }
 
     @Override
