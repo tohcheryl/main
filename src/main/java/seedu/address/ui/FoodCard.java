@@ -37,6 +37,8 @@ public class FoodCard extends UiPart<Region> {
     @FXML
     private Label email;
     @FXML
+    private Label price;
+    @FXML
     private FlowPane tags;
 
     public FoodCard(Food food, int displayedIndex) {
@@ -46,6 +48,7 @@ public class FoodCard extends UiPart<Region> {
         name.setText(food.getName().fullName);
         phone.setText(food.getPhone().value);
         address.setText(food.getAddress().value);
+        price.setText(food.getPrice().getValue());
         email.setText(food.getEmail().value);
         food.getTags().forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
     }
