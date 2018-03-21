@@ -119,6 +119,13 @@ public class AddCommandParserTest {
         assertParseSuccess(parser, NAME_DESC_APPLE + PHONE_DESC_APPLE + EMAIL_DESC_APPLE + PRICE_DESC_APPLE,
                 new AddCommand(expectedFoodNoAddress));
 
+        // missing price prefix
+        Food expectedFoodNoPrice = new FoodBuilder().withName(VALID_NAME_APPLE).withPhone(VALID_PHONE_APPLE)
+                .withEmail(VALID_EMAIL_APPLE).withAddress(VALID_ADDRESS_APPLE).withRating(VALID_RATING_APPLE)
+                .withTags().build();
+        assertParseSuccess(parser, NAME_DESC_APPLE + PHONE_DESC_APPLE + EMAIL_DESC_APPLE + ADDRESS_DESC_APPLE
+                        + RATING_DESC_APPLE,
+                new AddCommand(expectedFoodNoPrice));
 
         // missing rating
         Food expectedFoodNoRating = new FoodBuilder().withName(VALID_NAME_APPLE).withPhone(VALID_PHONE_APPLE)
