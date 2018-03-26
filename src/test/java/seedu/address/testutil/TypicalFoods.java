@@ -20,6 +20,7 @@ import java.util.List;
 import seedu.address.model.AddressBook;
 import seedu.address.model.food.Food;
 import seedu.address.model.food.exceptions.DuplicateFoodException;
+import seedu.address.model.util.SampleDataUtil;
 
 /**
  * A utility class containing a list of {@code Food} objects to be used in tests.
@@ -69,10 +70,11 @@ public class TypicalFoods {
     private TypicalFoods() {} // prevents instantiation
 
     /**
-     * Returns an {@code AddressBook} with all the typical foods.
+     * Returns an {@code AddressBook} with all the typical foods and default user profile
      */
     public static AddressBook getTypicalAddressBook() {
         AddressBook ab = new AddressBook();
+        ab.setUserProfile(SampleDataUtil.getSampleProfile());
         for (Food food : getTypicalFoods()) {
             try {
                 ab.addFood(food);
