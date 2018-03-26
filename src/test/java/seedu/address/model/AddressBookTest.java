@@ -95,7 +95,9 @@ public class AddressBookTest {
         }
 
         @Override
-        public UserProfile getUserProfile() { return profile; }
+        public UserProfile getUserProfile() {
+            return profile;
+        }
     }
 
 }

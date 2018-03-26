@@ -15,7 +15,6 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import seedu.address.model.AddressBook;
-import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.food.UniqueFoodList;
 import seedu.address.model.tag.UniqueTagList;
 import seedu.address.model.user.UserProfile;
@@ -157,7 +156,7 @@ public class XmlUtilTest {
     private class AddressBookStub extends AddressBook {
         final UniqueFoodList foods;
         final UniqueTagList tags;
-        UserProfile profile;
+        private UserProfile profile;
 
         public AddressBookStub() {
             this.foods = new UniqueFoodList();
