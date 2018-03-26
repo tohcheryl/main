@@ -18,6 +18,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.model.food.Food;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.user.UserProfile;
+import seedu.address.model.util.SampleDataUtil;
 
 public class AddressBookTest {
 
@@ -74,8 +76,10 @@ public class AddressBookTest {
     private static class AddressBookStub implements ReadOnlyAddressBook {
         private final ObservableList<Food> foods = FXCollections.observableArrayList();
         private final ObservableList<Tag> tags = FXCollections.observableArrayList();
+        private UserProfile profile;
 
         AddressBookStub(Collection<Food> foods, Collection<? extends Tag> tags) {
+            this.profile = SampleDataUtil.getSampleProfile();
             this.foods.setAll(foods);
             this.tags.setAll(tags);
         }
@@ -89,6 +93,9 @@ public class AddressBookTest {
         public ObservableList<Tag> getTagList() {
             return tags;
         }
+
+        @Override
+        public UserProfile getUserProfile() { return profile; }
     }
 
 }
