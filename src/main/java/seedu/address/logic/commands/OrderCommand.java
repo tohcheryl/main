@@ -61,7 +61,7 @@ public class OrderCommand extends UndoableCommand {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof OrderCommand // instanceof handles nulls
-                    );
+                    && index.equals(((OrderCommand) other).index));
     }
 
     // This entails the food selection algorithm - TODO: BRING OUT TO NEW CLASS
