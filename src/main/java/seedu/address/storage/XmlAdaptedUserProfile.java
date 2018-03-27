@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlElement;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.food.Address;
+import seedu.address.model.food.Food;
 import seedu.address.model.food.Name;
 import seedu.address.model.food.Phone;
 import seedu.address.model.food.allergy.Allergy;
@@ -31,6 +32,8 @@ public class XmlAdaptedUserProfile {
 
     @XmlElement
     private List<XmlAdaptedAllergy> allergies = new ArrayList<>();
+    @XmlElement
+    private List<XmlAdaptedFood> recentFoods = new ArrayList<>();
 
 
     /**
@@ -63,6 +66,9 @@ public class XmlAdaptedUserProfile {
         for (Allergy allergy: source.getAllergies()) {
             allergies.add(new XmlAdaptedAllergy(allergy));
         }
+        for (Food food: source.getRecentFoods()) {
+            recentFoods.add(new XmlAdaptedFood(food));
+        }
     }
 
     /**
@@ -72,8 +78,13 @@ public class XmlAdaptedUserProfile {
      */
     public UserProfile toModelType() throws IllegalValueException {
         final List<Allergy> allergiesList = new ArrayList<>();
+        final List<Food> recentFoodsList = new ArrayList<>();
         for (XmlAdaptedAllergy allergy : allergies) {
             allergiesList.add(allergy.toModelType());
+        }
+
+        for (XmlAdaptedFood food : recentFoods) {
+            recentFoodsList.add(food.toModelType());
         }
 
         if (this.name == null) {
@@ -101,7 +112,8 @@ public class XmlAdaptedUserProfile {
         final Address address = new Address(this.address);
 
         final Set<Allergy> allergies = new HashSet<>(allergiesList);
-        return new UserProfile(name, phone, address, allergies);
+        final Set<Food> recentFoods = new HashSet<>(recentFoodsList);
+        return new UserProfile(name, phone, address, allergies, recentFoods);
     }
 
     @Override
@@ -118,6 +130,7 @@ public class XmlAdaptedUserProfile {
         return Objects.equals(name, otherProfile.name)
                 && Objects.equals(phone, otherProfile.phone)
                 && Objects.equals(address, otherProfile.address)
-                && allergies.equals(otherProfile.allergies);
+                && allergies.equals(otherProfile.allergies)
+                && recentFoods.equals(otherProfile.recentFoods);
     }
 }
