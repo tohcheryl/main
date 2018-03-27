@@ -31,4 +31,6 @@ public interface Logic {
     SessionInterface getSessionManager();
 
     void createNewSession(String userInput);
+
+    void startSession();
 }

@@ -11,4 +11,6 @@ public interface SessionInterface {
     boolean isUserInActiveSession();
 
     void createNewSession(Command command);
+
+    void startSession();
 }

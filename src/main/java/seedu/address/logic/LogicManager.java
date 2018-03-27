@@ -71,4 +71,9 @@ public class LogicManager extends ComponentManager implements Logic {
         Command interactiveCommand = addressBookParser.getCommand(userInput);
         model.getSessionManager().createNewSession(interactiveCommand);
     }
+
+    @Override
+    public void startSession() {
+        model.getSessionManager().startSession();
+    }
 }

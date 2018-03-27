@@ -30,6 +30,11 @@ public class SessionManager extends ComponentManager implements SessionInterface
         isUserInActiveSession = true;
     }
 
+    @Override
+    public void startSession() {
+        activeSession.start();
+    }
+
     /**
      * Ends the current active Session and saves it
      * to the session history.
