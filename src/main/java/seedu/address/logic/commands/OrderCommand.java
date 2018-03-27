@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import java.util.List;
+import java.util.Random;
 
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
@@ -21,10 +22,10 @@ public class OrderCommand extends UndoableCommand {
     public static final String MESSAGE_ORDER_FAIL = "Ordering failed. Please try again later.";
 
     private Food toOrder;
-    private final Index index;
+    private Index index;
 
     /**
-     * Creates an AddCommand to add the specified {@code Food}
+     * Creates an Order command to the specified index of {@code Food}
      */
     public OrderCommand(Index index) {
         this.index = index;
@@ -33,7 +34,7 @@ public class OrderCommand extends UndoableCommand {
     @Override
     public CommandResult executeUndoableCommand() throws CommandException {
         try {
-            System.out.println("Food ordered. Index: " + index.getZeroBased() + " | Food: " + toOrder.getName().toString());
+            beginOrder();
             return new CommandResult(String.format(MESSAGE_SUCCESS, toOrder.getName()));
         } catch (Exception e) {
             throw new CommandException(MESSAGE_ORDER_FAIL);
@@ -44,6 +45,10 @@ public class OrderCommand extends UndoableCommand {
     @Override
     protected void preprocessUndoableCommand() throws CommandException {
         List<Food> lastShownList = model.getFilteredFoodList();
+
+        if (this.index == null) {
+            this.index = selectFood();
+        }
 
         if (index.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_FOOD_DISPLAYED_INDEX);
@@ -57,5 +62,24 @@ public class OrderCommand extends UndoableCommand {
         return other == this // short circuit if same object
                 || (other instanceof OrderCommand // instanceof handles nulls
                 && toOrder.equals(((OrderCommand) other).toOrder));
+    }
+
+    // This entails the food selection algorithm - TODO: BRING OUT TO NEW CLASS
+    /**
+     * Selects a {@code Food} based on the HackEat Algorithm
+     */
+    private Index selectFood() {
+        List<Food> lastShownList = model.getFilteredFoodList();
+        int listSize = lastShownList.size();
+        int randomIndex = (new Random()).nextInt(listSize);
+        return Index.fromZeroBased(randomIndex);
+    }
+
+    // Method responsible for beginning the phone call to order food. TODO: BRING OUT TO NEW CLASS
+    /**
+     * Begins phone call to order {@code Food}
+     */
+    private void beginOrder() {
+
     }
 }

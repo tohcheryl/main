@@ -17,7 +17,29 @@ public class OrderCommandParser implements Parser<OrderCommand> {
      * and returns an OrderCommand object for execution.
      * @throws ParseException if the user input does not conform the expected format
      */
-    public OrderCommand parse(String args)  throws ParseException {
+    public OrderCommand parse(String args) throws ParseException {
+
+        if (withIndexArgument(args)) {
+            return orderCommandWithIndex(args);
+        } else {
+            return orderCommandWithoutIndex();
+        }
+
+    }
+
+    /**
+     * Returns a default order command without a specific index to order
+     */
+    private OrderCommand orderCommandWithoutIndex() {
+        return new OrderCommand(null);
+    }
+
+    /**
+     * Given a {@code String} of arguments in the context of the OrderCommand
+     * and returns an OrderCommand object for execution.
+     * @throws ParseException if the user input does not conform the expected format
+     */
+    private OrderCommand orderCommandWithIndex(String args) throws ParseException {
         Index index;
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args);
@@ -26,8 +48,11 @@ public class OrderCommandParser implements Parser<OrderCommand> {
         } catch (IllegalValueException ive) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, OrderCommand.MESSAGE_USAGE));
         }
-
         return new OrderCommand(index);
+    }
+
+    private boolean withIndexArgument(String args) {
+        return !args.equals("");
     }
 }
 
