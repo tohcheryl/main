@@ -3,7 +3,10 @@ package seedu.address.model.session;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.eventbus.Subscribe;
+
 import seedu.address.commons.core.ComponentManager;
+import seedu.address.commons.events.ui.EndActiveSessionEvent;
 import seedu.address.logic.commands.Command;
 
 /**
@@ -35,12 +38,18 @@ public class SessionManager extends ComponentManager implements SessionInterface
         activeSession.start();
     }
 
+    @Subscribe
+    public void handleEndActiveSessionEvent(EndActiveSessionEvent e) {
+        endActiveSession();
+    }
+
     /**
      * Ends the current active Session and saves it
      * to the session history.
      */
-    public void endActiveSession() {
+    private void endActiveSession() {
         // replace with a NoSessionException later
+        activeSession.end();
         if (activeSession == null) {
             return;
         }
