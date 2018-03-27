@@ -2,7 +2,6 @@ package seedu.address.logic.commands;
 
 import static org.junit.Assert.assertEquals;
 import static seedu.address.model.util.SampleDataUtil.getAllergySet;
-import static seedu.address.testutil.TypicalFoods.getTypicalAddressBook;
 
 import org.junit.Test;
 
@@ -15,7 +14,7 @@ import seedu.address.model.user.UserProfile;
 public class UserConfigCommandTest {
 
 
-    private AddressBook addressBook = getTypicalAddressBook();
+    private AddressBook addressBook = new AddressBook();
     private UserProfile validUserProfile = new UserProfile(new Name("Wei wei"), new Phone("92304333"),
                 new Address("Blk 343 Serangoon Ave 3 #23-23 Singapore 349343"), getAllergySet("banana"));
 
