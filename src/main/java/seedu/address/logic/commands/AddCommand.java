@@ -42,7 +42,7 @@ public class AddCommand extends UndoableCommand {
     public static final String MESSAGE_SUCCESS = "New food added: %1$s";
     public static final String MESSAGE_DUPLICATE_FOOD = "This food already exists in HackEat";
 
-    private final Food toAdd;
+    private Food toAdd;
 
     /**
      * Creates an AddCommand to add the specified {@code Food}
