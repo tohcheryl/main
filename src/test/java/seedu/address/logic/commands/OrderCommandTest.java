@@ -20,8 +20,8 @@ public class OrderCommandTest {
     // TODO: Add stub class to test the order success
     @Test
     public void execute_order_success() throws CommandException {
-         OrderCommand orderCommand = new OrderCommand(VALID_INDEX);
-         // Below should be orderCommand.execute()
-         assertEquals(OrderCommand.MESSAGE_SUCCESS, OrderCommand.MESSAGE_SUCCESS);
+        OrderCommand orderCommand = new OrderCommand(VALID_INDEX);
+        // Below should be orderCommand.execute()
+        assertEquals(OrderCommand.MESSAGE_SUCCESS, OrderCommand.MESSAGE_SUCCESS);
     }
 }
