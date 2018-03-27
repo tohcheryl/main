@@ -45,12 +45,17 @@ public class XmlAdaptedUserProfile {
     /**
      * Constructs an {@code XmlAdaptedUserProfile} with the given food details.
      */
-    public XmlAdaptedUserProfile(String name, String phone, String address, List<XmlAdaptedAllergy> allergies) {
+    public XmlAdaptedUserProfile(String name, String phone, String address, List<XmlAdaptedAllergy> allergies,
+                                 List<XmlAdaptedFood> foods) {
         this.name = name;
         this.phone = phone;
         this.address = address;
         if (allergies != null) {
             this.allergies = new ArrayList<>(allergies);
+        }
+
+        if (foods != null) {
+            this.recentFoods = new ArrayList<>(foods);
         }
     }
 
