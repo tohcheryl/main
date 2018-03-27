@@ -1,5 +1,7 @@
 package seedu.address.logic.commands;
 
+import java.util.List;
+
 import seedu.address.commons.core.Messages;
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.UndoRedoStack;
@@ -13,6 +15,7 @@ public abstract class Command {
     protected Model model;
     protected CommandHistory history;
     protected UndoRedoStack undoRedoStack;
+    protected List<Prompt> prompts;
 
     /**
      * Constructs a feedback message to summarise an operation that displayed a listing of foods.
@@ -39,5 +42,9 @@ public abstract class Command {
      */
     public void setData(Model model, CommandHistory history, UndoRedoStack undoRedoStack) {
         this.model = model;
+    }
+
+    public List<Prompt> getPrompts() {
+        return null;
     }
 }

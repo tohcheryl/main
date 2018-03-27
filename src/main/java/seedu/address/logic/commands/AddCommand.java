@@ -9,9 +9,19 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PRICE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_RATING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.food.Address;
+import seedu.address.model.food.Email;
 import seedu.address.model.food.Food;
+import seedu.address.model.food.Name;
+import seedu.address.model.food.Phone;
+import seedu.address.model.food.Price;
 import seedu.address.model.food.exceptions.DuplicateFoodException;
+import seedu.address.model.tag.Tag;
 
 /**
  * Adds a food to HackEat.
@@ -42,6 +52,14 @@ public class AddCommand extends UndoableCommand {
     public static final String MESSAGE_SUCCESS = "New food added: %1$s";
     public static final String MESSAGE_DUPLICATE_FOOD = "This food already exists in HackEat";
 
+    private static final List<Prompt> prompts = Arrays.asList(
+            new Prompt(Name.class, "What's the food called?"),
+            new Prompt(Phone.class, "Restaurant phone number?"),
+            new Prompt(Email.class, "And their email?"),
+            new Prompt(Address.class, "Where they located @ fam? Give us the address, we'll give you the cheese."),
+            new Prompt(Price.class, "$$$?"),
+            new Prompt(Tag.class, "Where those tags at?"));
+
     private Food toAdd;
 
     /**
@@ -50,6 +68,11 @@ public class AddCommand extends UndoableCommand {
     public AddCommand(Food food) {
         // requireNonNull(food);
         toAdd = food;
+    }
+
+    @Override
+    public List<Prompt> getPrompts() {
+        return prompts;
     }
 
     @Override
@@ -62,6 +85,10 @@ public class AddCommand extends UndoableCommand {
             throw new CommandException(MESSAGE_DUPLICATE_FOOD);
         }
 
+    }
+
+    public void setFood(Food food) {
+        toAdd = food;
     }
 
     @Override
