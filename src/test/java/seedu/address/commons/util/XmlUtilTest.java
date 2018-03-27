@@ -15,6 +15,10 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import seedu.address.model.AddressBook;
+import seedu.address.model.food.UniqueFoodList;
+import seedu.address.model.tag.UniqueTagList;
+import seedu.address.model.user.UserProfile;
+import seedu.address.model.util.SampleDataUtil;
 import seedu.address.storage.XmlAdaptedFood;
 import seedu.address.storage.XmlAdaptedTag;
 import seedu.address.storage.XmlSerializableAddressBook;
@@ -125,12 +129,12 @@ public class XmlUtilTest {
     @Test
     public void saveDataToFile_validFile_dataSaved() throws Exception {
         TEMP_FILE.createNewFile();
-        XmlSerializableAddressBook dataToWrite = new XmlSerializableAddressBook(new AddressBook());
+        XmlSerializableAddressBook dataToWrite = new XmlSerializableAddressBook(new AddressBookStub());
         XmlUtil.saveDataToFile(TEMP_FILE, dataToWrite);
         XmlSerializableAddressBook dataFromFile = XmlUtil.getDataFromFile(TEMP_FILE, XmlSerializableAddressBook.class);
         assertEquals(dataToWrite, dataFromFile);
 
-        AddressBookBuilder builder = new AddressBookBuilder(new AddressBook());
+        AddressBookBuilder builder = new AddressBookBuilder(new AddressBookStub());
         dataToWrite = new XmlSerializableAddressBook(
                 builder.withFood(new FoodBuilder().build()).withTag("Friends").build());
 
@@ -145,4 +149,24 @@ public class XmlUtilTest {
      */
     @XmlRootElement(name = "food")
     private static class XmlAdaptedFoodWithRootElement extends XmlAdaptedFood {}
+
+    /**
+     * An AddressBookStub with a default user profile
+     */
+    private class AddressBookStub extends AddressBook {
+        final UniqueFoodList foods;
+        final UniqueTagList tags;
+        private UserProfile profile;
+
+        public AddressBookStub() {
+            this.foods = new UniqueFoodList();
+            this.tags = new UniqueTagList();
+            this.profile = SampleDataUtil.getSampleProfile();
+        }
+
+        @Override
+        public UserProfile getUserProfile() {
+            return profile;
+        }
+    }
 }
