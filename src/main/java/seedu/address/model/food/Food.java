@@ -23,7 +23,6 @@ public class Food {
     private final Address address;
     private final Price price;
     private final Rating rating;
-    private int timesOrdered;
 
     private final UniqueAllergyList allergies;
     private final UniqueTagList tags;
@@ -42,7 +41,6 @@ public class Food {
         this.rating = rating;
         // protect internal tags from changes in the arg list
         this.tags = new UniqueTagList(tags);
-        this.timesOrdered = 0;
         this.allergies = new UniqueAllergyList(allergies);
     }
 
@@ -68,10 +66,6 @@ public class Food {
 
     public Rating getRating() {
         return rating;
-    }
-
-    public int getTimesOrdered() {
-        return timesOrdered;
     }
 
     /**
@@ -112,7 +106,7 @@ public class Food {
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, price, rating, tags, timesOrdered, allergies);
+        return Objects.hash(name, phone, email, address, price, rating, tags, allergies);
     }
 
     @Override
@@ -129,8 +123,6 @@ public class Food {
                 .append(getPrice())
                 .append(" Rating: ")
                 .append(getRating())
-                .append(" Times ordered: ")
-                .append(getTimesOrdered())
                 .append(" Allergies: ");
         getAllergies().forEach(builder::append);
         builder.append(" Tags: ");
