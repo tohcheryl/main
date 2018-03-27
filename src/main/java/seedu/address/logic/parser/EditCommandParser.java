@@ -57,7 +57,8 @@ public class EditCommandParser implements Parser<EditCommand> {
             ParserUtil.parsePrice(argMultimap.getValue(PREFIX_PRICE)).ifPresent(editFoodDescriptor::setPrice);
             ParserUtil.parseRating(argMultimap.getValue(PREFIX_RATING)).ifPresent(editFoodDescriptor::setRating);
             parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editFoodDescriptor::setTags);
-            parseAllergiesForEdit(argMultimap.getAllValues(PREFIX_ALLERGIES)).ifPresent(editFoodDescriptor::setAllergies);
+            parseAllergiesForEdit(argMultimap.getAllValues(PREFIX_ALLERGIES))
+                    .ifPresent(editFoodDescriptor::setAllergies);
         } catch (IllegalValueException ive) {
             throw new ParseException(ive.getMessage(), ive);
         }
@@ -95,8 +96,9 @@ public class EditCommandParser implements Parser<EditCommand> {
         if (allergies.isEmpty()) {
             return Optional.empty();
         }
-        Collection<String> AllergySet = allergies.size() == 1 && allergies.contains("") ? Collections.emptySet() : allergies;
-        return Optional.of(ParserUtil.parseAllergies(AllergySet));
+        Collection<String> allergySet = allergies.size() == 1 && allergies.contains("")
+                ? Collections.emptySet() : allergies;
+        return Optional.of(ParserUtil.parseAllergies(allergySet));
     }
 
 }
