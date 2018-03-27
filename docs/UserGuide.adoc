@@ -221,6 +221,21 @@ The `redo` command fails as there are no `undo` commands executed previously.
 `redo` (reapplies the `clear` command) +
 // end::undoredo[]
 
+// tag::userconfig[]
+=== Setting user profile: `userconfig`
+Sets user details to personalise the HackEat application so that food
+can be delivered to the correct address and deliverers can contact the user via his/her phone number.
+Users can also specify their allergies so that certain foods can removed from HackEat's smart food
+recommendations.
+Format: `userconfig n/NAME p/PHONE a/ADDRESS [alg/ALLERGY]`
+
+Examples:
+
+* `userconfig n/Herbert Williams p/02142433532 a/12 Maccas Drive Singapore 4210 alg/lactose alg/gluten`
+
+Sets user profile of Herbert Williams.
+// end::userconfig[]
+
 === Clearing all entries : `clear`
 
 Clears all entries from HackEat. +

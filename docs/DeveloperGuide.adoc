@@ -382,6 +382,56 @@ image::UpdatedLogicCommandClassDiagram.png[width="800"]
 ** Cons: Less user friendly
 //end::addshortcuts[]
 
+// tag:: userconfig[]
+=== Configuring the User Profile
+==== Motivation
+It's nice to have someone greet you as your friend. HackEat makes its users comfortable and feel
+welcomed whenever they open their app. This is possible because a new feature has been implemented that
+takes in the user's name and other information. The user is then greeted upon opening the app.
+
+==== Changes to Commands
+A new Command class `UserConfigCommand` is created which allows the user to type in `userconfig n/NAME p/PHONE a/ADDRESS [alg/ALLERGY]` to update
+their profile. Thus a new `UserConfigCommandParser` class was also created to handle the parsing of the user input:
+
+[source,java]
+----
+case UserConfigCommand.COMMAND_WORD:
+    return new UserConfigCommandParser().parse(arguments);
+----
+
+==== Changes to the Model
+In order to support the user profile, a new package was created under the `Model` component, specifically a `user` package.
+Inside it contains a `UserProfile` class, which holds the app state of the user's profile. `Allergy` is also a new object
+in HackEat, and so an `Allergy` class was created in a new `allergy` package of the `Model` component. In order to support
+multiple allergies for a single user, a `UniqueAllergyList` was also created under the same package.
+
+==== Saving to Storage
+Executing the `UserConfigCommand` triggers the `model#updateUserProfile` method, which then posts an event to the `EventCenter`
+indicating that `HackEat` data has changed. The model data is then saved to XML format for persistent data.
+
+New classes required to support XML of User Profile:
+
+* `XMLAdaptedUserProfile`
+* `XMLAdaptedAllergy`
+
+==== Loading from storage
+This was quite simple. Only one new method was required to be added to the `AddressBook` class to initialize
+an `AddressBook` with the loaded `UserProfile`.
+
+
+==== Design Considerations
+
+===== `Update` instead of `Add`
+It was simpler to implement a single `AddressBook#updateUserProfile` method instead of
+an `AddressBook#addUserProfile` and an update method. The update method simply sets the current `profile`
+property in `AddressBook` to the new incoming `profile`.
+
+By simply replacing the property, you don't need to check if the property is not null before
+updating the profile. You also don't need to check if the profile is null before choosing to add a new
+profile to the application. Separating add and update functionalities works for Food, but not for profile as the
+additional complexity is unnecessary.
+//end::userconfig[]
+
 // tag::dataencryption[]
 === [Proposed] Data Encryption
 
