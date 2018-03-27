@@ -18,6 +18,7 @@ import seedu.address.model.food.exceptions.FoodNotFoundException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 import seedu.address.model.user.UserProfile;
+import seedu.address.model.util.SampleDataUtil;
 
 /**
  * Wraps all data at the address-book level
@@ -39,6 +40,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     {
         foods = new UniqueFoodList();
         tags = new UniqueTagList();
+        profile = SampleDataUtil.getSampleProfile();
     }
 
     public AddressBook() {}
