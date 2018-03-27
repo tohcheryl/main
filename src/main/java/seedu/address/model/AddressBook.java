@@ -17,6 +17,8 @@ import seedu.address.model.food.exceptions.DuplicateFoodException;
 import seedu.address.model.food.exceptions.FoodNotFoundException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
+import seedu.address.model.user.UserProfile;
+import seedu.address.model.util.SampleDataUtil;
 
 /**
  * Wraps all data at the address-book level
@@ -26,6 +28,7 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     private final UniqueFoodList foods;
     private final UniqueTagList tags;
+    private UserProfile profile;
 
     /*
      * The 'unusual' code block below is an non-static initialization block, sometimes used to avoid duplication
@@ -37,12 +40,13 @@ public class AddressBook implements ReadOnlyAddressBook {
     {
         foods = new UniqueFoodList();
         tags = new UniqueTagList();
+        profile = SampleDataUtil.getSampleProfile();
     }
 
     public AddressBook() {}
 
     /**
-     * Creates an AddressBook using the Foods and Tags in the {@code toBeCopied}
+     * Creates an AddressBook using the Foods, Tags, and User Profile in the {@code toBeCopied}
      */
     public AddressBook(ReadOnlyAddressBook toBeCopied) {
         this();
@@ -59,6 +63,10 @@ public class AddressBook implements ReadOnlyAddressBook {
         this.tags.setTags(tags);
     }
 
+    public void setUserProfile(UserProfile profile) {
+        this.profile = profile;
+    }
+
     /**
      * Resets the existing data of this {@code AddressBook} with {@code newData}.
      */
@@ -68,6 +76,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         List<Food> syncedFoodList = newData.getFoodList().stream()
                 .map(this::syncWithMasterTagList)
                 .collect(Collectors.toList());
+        setUserProfile(newData.getUserProfile());
 
         try {
             setFoods(syncedFoodList);
@@ -112,6 +121,13 @@ public class AddressBook implements ReadOnlyAddressBook {
         // This can cause the tags master list to have additional tags that are not tagged to any food
         // in the food list.
         foods.setFood(target, syncedEditedFood);
+    }
+
+    /**
+     * Replaces the old profile with the new profile {@code newProfile}.
+     */
+    public void updateUserProfile(UserProfile newProfile) {
+        profile = newProfile;
     }
 
     /**
@@ -170,6 +186,11 @@ public class AddressBook implements ReadOnlyAddressBook {
     @Override
     public ObservableList<Tag> getTagList() {
         return tags.asObservableList();
+    }
+
+    @Override
+    public UserProfile getUserProfile() {
+        return profile;
     }
 
     @Override

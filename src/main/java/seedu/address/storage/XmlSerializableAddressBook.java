@@ -21,6 +21,8 @@ public class XmlSerializableAddressBook {
     private List<XmlAdaptedFood> foods;
     @XmlElement
     private List<XmlAdaptedTag> tags;
+    @XmlElement
+    private XmlAdaptedUserProfile profile;
 
     /**
      * Creates an empty XmlSerializableAddressBook.
@@ -36,8 +38,10 @@ public class XmlSerializableAddressBook {
      */
     public XmlSerializableAddressBook(ReadOnlyAddressBook src) {
         this();
+
         foods.addAll(src.getFoodList().stream().map(XmlAdaptedFood::new).collect(Collectors.toList()));
         tags.addAll(src.getTagList().stream().map(XmlAdaptedTag::new).collect(Collectors.toList()));
+        profile = new XmlAdaptedUserProfile(src.getUserProfile());
     }
 
     /**
@@ -54,6 +58,7 @@ public class XmlSerializableAddressBook {
         for (XmlAdaptedFood p : foods) {
             addressBook.addFood(p.toModelType());
         }
+        addressBook.updateUserProfile(profile.toModelType());
         return addressBook;
     }
 
@@ -68,6 +73,6 @@ public class XmlSerializableAddressBook {
         }
 
         XmlSerializableAddressBook otherAb = (XmlSerializableAddressBook) other;
-        return foods.equals(otherAb.foods) && tags.equals(otherAb.tags);
+        return foods.equals(otherAb.foods) && tags.equals(otherAb.tags) && profile.equals(otherAb.profile);
     }
 }

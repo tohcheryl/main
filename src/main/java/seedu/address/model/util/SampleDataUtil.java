@@ -12,8 +12,10 @@ import seedu.address.model.food.Name;
 import seedu.address.model.food.Phone;
 import seedu.address.model.food.Price;
 import seedu.address.model.food.Rating;
+import seedu.address.model.food.allergy.Allergy;
 import seedu.address.model.food.exceptions.DuplicateFoodException;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.user.UserProfile;
 
 /**
  * Contains utility methods for populating {@code AddressBook} with sample data.
@@ -42,6 +44,11 @@ public class SampleDataUtil {
         };
     }
 
+    public static UserProfile getSampleProfile() {
+        return new UserProfile(new Name("Hacker"), new Phone("123456"),
+                new Address("Blk 71 One North MRT Station"), getAllergySet("lactose", "peanut", "cinnamon"));
+    }
+
     public static ReadOnlyAddressBook getSampleAddressBook() {
         try {
             AddressBook sampleAb = new AddressBook();
@@ -66,4 +73,15 @@ public class SampleDataUtil {
         return tags;
     }
 
+    /**
+     * Returns an allergy set containing the list of strings given.
+     */
+    public static Set<Allergy> getAllergySet(String... strings) {
+        HashSet<Allergy> allergies = new HashSet<>();
+        for (String s : strings) {
+            allergies.add(new Allergy(s));
+        }
+
+        return allergies;
+    }
 }

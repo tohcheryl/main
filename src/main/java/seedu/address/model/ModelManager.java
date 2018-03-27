@@ -15,6 +15,7 @@ import seedu.address.commons.events.model.AddressBookChangedEvent;
 import seedu.address.model.food.Food;
 import seedu.address.model.food.exceptions.DuplicateFoodException;
 import seedu.address.model.food.exceptions.FoodNotFoundException;
+import seedu.address.model.user.UserProfile;
 
 /**
  * Represents the in-memory model of HackEat data.
@@ -25,6 +26,7 @@ public class ModelManager extends ComponentManager implements Model {
 
     private final AddressBook addressBook;
     private final FilteredList<Food> filteredFoods;
+    private UserProfile profile;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -37,6 +39,7 @@ public class ModelManager extends ComponentManager implements Model {
 
         this.addressBook = new AddressBook(addressBook);
         filteredFoods = new FilteredList<>(this.addressBook.getFoodList());
+        profile = this.addressBook.getUserProfile();
     }
 
     public ModelManager() {
@@ -69,6 +72,12 @@ public class ModelManager extends ComponentManager implements Model {
     public synchronized void addFood(Food food) throws DuplicateFoodException {
         addressBook.addFood(food);
         updateFilteredFoodList(PREDICATE_SHOW_ALL_FOODS);
+        indicateAddressBookChanged();
+    }
+
+    @Override
+    public void updateUserProfile(UserProfile toAdd) {
+        addressBook.updateUserProfile(toAdd);
         indicateAddressBookChanged();
     }
 

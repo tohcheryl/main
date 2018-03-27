@@ -63,4 +63,12 @@
     </foods>
     <tags>fried</tags>
     <tags>avoid</tags>
+    <profile>
+        <name>Hacker</name>
+        <phone>123456</phone>
+        <address>Blk 71 One North MRT Station</address>
+        <allergies>cinnamon</allergies>
+        <allergies>peanut</allergies>
+        <allergies>lactose</allergies>
+    </profile>
 </addressbook>
