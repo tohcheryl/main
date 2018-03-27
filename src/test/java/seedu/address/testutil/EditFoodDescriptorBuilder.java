@@ -42,6 +42,7 @@ public class EditFoodDescriptorBuilder {
         descriptor.setPrice(food.getPrice());
         descriptor.setRating(food.getRating());
         descriptor.setTags(food.getTags());
+        descriptor.setAllergies(food.getAllergies());
     }
 
     /**
