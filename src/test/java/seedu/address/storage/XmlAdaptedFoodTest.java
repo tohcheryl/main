@@ -120,7 +120,7 @@ public class XmlAdaptedFoodTest {
     public void toModelType_invalidPrice_throwsIllegalValueException() {
         XmlAdaptedFood food =
                 new XmlAdaptedFood(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, INVALID_PRICE, VALID_RATING,
-                        VALID_TAGS);
+                        VALID_TAGS, VALID_ALLERGIES);
         String expectedMessage = Price.MESSAGE_PRICE_CONSTRAINTS;
         Assert.assertThrows(IllegalValueException.class, expectedMessage, food::toModelType);
     }
@@ -128,7 +128,7 @@ public class XmlAdaptedFoodTest {
     @Test
     public void toModelType_nullPrice_throwsIllegalValueException() {
         XmlAdaptedFood food = new XmlAdaptedFood(VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, null,
-                VALID_RATING, VALID_TAGS);
+                VALID_RATING, VALID_TAGS, VALID_ALLERGIES);
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Price.class.getSimpleName());
         Assert.assertThrows(IllegalValueException.class, expectedMessage, food::toModelType);
     }
