@@ -86,7 +86,7 @@ public class XmlUtilTest {
         XmlAdaptedFood actualFood = XmlUtil.getDataFromFile(
                 MISSING_FOOD_FIELD_FILE, XmlAdaptedFoodWithRootElement.class);
         XmlAdaptedFood expectedFood = new XmlAdaptedFood(
-                null, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_PRICE, VALID_RATING, VALID_TAGS);
+                null, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_PRICE, VALID_RATING, VALID_TAGS, );
         assertEquals(expectedFood, actualFood);
     }
 
@@ -95,7 +95,7 @@ public class XmlUtilTest {
         XmlAdaptedFood actualFood = XmlUtil.getDataFromFile(
                 INVALID_FOOD_FIELD_FILE, XmlAdaptedFoodWithRootElement.class);
         XmlAdaptedFood expectedFood = new XmlAdaptedFood(
-                VALID_NAME, INVALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_PRICE, VALID_RATING, VALID_TAGS);
+                VALID_NAME, INVALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_PRICE, VALID_RATING, VALID_TAGS, );
         assertEquals(expectedFood, actualFood);
     }
 
@@ -104,7 +104,7 @@ public class XmlUtilTest {
         XmlAdaptedFood actualFood = XmlUtil.getDataFromFile(
                 VALID_FOOD_FILE, XmlAdaptedFoodWithRootElement.class);
         XmlAdaptedFood expectedFood = new XmlAdaptedFood(
-                VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_PRICE, VALID_RATING, VALID_TAGS);
+                VALID_NAME, VALID_PHONE, VALID_EMAIL, VALID_ADDRESS, VALID_PRICE, VALID_RATING, VALID_TAGS, );
         assertEquals(expectedFood, actualFood);
     }
 
