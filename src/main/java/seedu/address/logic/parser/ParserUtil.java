@@ -47,6 +47,19 @@ public class ParserUtil {
     }
 
     /**
+     *
+     * @param c
+     * @return
+     */
+    public static Object parseClass(Class c, String text) throws IllegalValueException{
+        if (c.getName().equals(Name.class.getName())) {
+            return parseName(text);
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * Parses a {@code String name} into a {@code Name}.
      * Leading and trailing whitespaces will be trimmed.
      *
