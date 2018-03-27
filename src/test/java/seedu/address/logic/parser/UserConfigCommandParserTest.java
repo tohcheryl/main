@@ -1,6 +1,5 @@
 package seedu.address.logic.parser;
 
-import static org.junit.Assert.*;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_APPLE;
 import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_BANANA;
@@ -83,7 +82,4 @@ public class UserConfigCommandParserTest {
         assertParseFailure(parser, NAME_DESC_BANANA + PHONE_DESC_BANANA + ADDRESS_DESC_BANANA
                 + INVALID_ALLERGIES_DESC, Allergy.MESSAGE_ALLERGY_CONSTRAINTS);
     }
-
-
-
 }

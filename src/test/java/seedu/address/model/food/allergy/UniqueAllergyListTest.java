@@ -14,5 +14,4 @@ public class UniqueAllergyListTest {
         thrown.expect(UnsupportedOperationException.class);
         uniqueAllergyList.asObservableList().remove(0);
     }
-
 }
