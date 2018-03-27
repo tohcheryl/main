@@ -1,6 +1,9 @@
 package seedu.address.logic.commands;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+
 import static seedu.address.testutil.TypicalFoods.getTypicalAddressBook;
 
 import org.junit.Test;
@@ -21,16 +24,29 @@ public class OrderCommandTest {
 
     @Test
     public void constructor_index_success() {
-        new OrderCommand(VALID_INDEX);
-        new OrderCommand(NULL_INDEX);
+        OrderCommand indexedOrderCommand = new OrderCommand(VALID_INDEX);
+        OrderCommand indexedOrderCommand2 = new OrderCommand(VALID_INDEX);
+
+        OrderCommand nullOrderCommand = new OrderCommand(NULL_INDEX);
+        OrderCommand nullOrderCommand2 = new OrderCommand(NULL_INDEX);
+
+        assertEquals(indexedOrderCommand, indexedOrderCommand2);
+        assertEquals(nullOrderCommand, nullOrderCommand2);
     }
 
     @Test
-    public void execute_order_success() throws CommandException {
+    public void execute_orderWithIndex_success() throws CommandException {
         OrderCommand orderCommand = getOrderCommandForIndex(VALID_INDEX, model);
         String expectedMessage = String.format(OrderCommand.MESSAGE_SUCCESS,
                 model.getAddressBook().getFoodList().get(VALID_INDEX.getZeroBased()).getName());
         assertCommandSuccess(orderCommand, model, expectedMessage);
+    }
+
+    @Test
+    public void execute_orderWithoutIndex_success() throws CommandException {
+        OrderCommand orderCommand = getOrderCommandForIndex(NULL_INDEX, model);
+        CommandResult result = orderCommand.execute();
+        assertThat(result.feedbackToUser, containsString(String.format(OrderCommand.MESSAGE_SUCCESS, "")));
     }
 
     /**
