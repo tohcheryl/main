@@ -65,4 +65,10 @@ public class LogicManager extends ComponentManager implements Logic {
     public SessionInterface getSessionManager() {
         return model.getSessionManager();
     }
+
+    @Override
+    public void createNewSession(String userInput) {
+        Command interactiveCommand = addressBookParser.getCommand(userInput);
+        model.getSessionManager().createNewSession(interactiveCommand);
+    }
 }

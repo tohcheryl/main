@@ -48,7 +48,7 @@ public class AddCommand extends UndoableCommand {
      * Creates an AddCommand to add the specified {@code Food}
      */
     public AddCommand(Food food) {
-        requireNonNull(food);
+        // requireNonNull(food);
         toAdd = food;
     }
 

@@ -29,4 +29,6 @@ public interface Logic {
     ListElementPointer getHistorySnapshot();
 
     SessionInterface getSessionManager();
+
+    void createNewSession(String userInput);
 }

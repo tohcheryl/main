@@ -107,13 +107,13 @@ public class CommandBox extends UiPart<Region> {
             sessionManager.getActiveSession().interpretUserInput(commandTextField.getText());
         } else {
             logger.info("User is NOT in a session.");
-            // create a new session
             try {
-                // create a new Session
                 CommandResult commandResult;
                 if (logic.isCommandInteractive(commandTextField.getText())) {
                     logger.info("Command is interactive.");
-                    commandResult = new CommandResult("Stub right now.");
+                    // start a new session
+                    logic.createNewSession(commandTextField.getText());
+                    commandResult = new CommandResult("Interactive command");
                 } else {
                     // non-interactive parsing
                     commandResult = logic.execute(commandTextField.getText());
