@@ -113,18 +113,18 @@ public class CommandBox extends UiPart<Region> {
                     logger.info("Command is interactive.");
                     // start a new session
                     logic.createNewSession(commandTextField.getText());
-                    commandResult = new CommandResult("Interactive command");
+                    logic.startSession();
                 } else {
                     // non-interactive parsing
                     commandResult = logic.execute(commandTextField.getText());
+                    logger.info("Result: " + commandResult.feedbackToUser);
+                    raise(new NewResultAvailableEvent(commandResult.feedbackToUser, true));
                 }
 
                 initHistory();
                 historySnapshot.next();
                 // process result of the command
                 commandTextField.setText("");
-                logger.info("Result: " + commandResult.feedbackToUser);
-                raise(new NewResultAvailableEvent(commandResult.feedbackToUser, true));
 
             } catch (CommandException | ParseException e) {
                 initHistory();
