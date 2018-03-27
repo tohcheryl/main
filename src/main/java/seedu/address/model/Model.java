@@ -7,8 +7,8 @@ import seedu.address.model.food.Food;
 import seedu.address.model.food.exceptions.DuplicateFoodException;
 import seedu.address.model.food.exceptions.FoodNotFoundException;
 import seedu.address.model.user.UserProfile;
-import seedu.address.model.util.Session;
-import seedu.address.model.util.SessionInterface;
+import seedu.address.model.session.Session;
+import seedu.address.model.session.SessionInterface;
 
 /**
  * The API of the Model component.
@@ -54,8 +54,5 @@ public interface Model {
      */
     void updateUserProfile(UserProfile profile);
 
-    Session getActiveSession();
-
-    boolean isUserInActiveSession();
     SessionInterface getSessionManager();
 }
