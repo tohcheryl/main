@@ -53,12 +53,12 @@ public class AddCommand extends UndoableCommand {
     public static final String MESSAGE_DUPLICATE_FOOD = "This food already exists in HackEat";
 
     private static final List<Prompt> prompts = Arrays.asList(
-            new Prompt(Name.class, "What's the food called?"),
-            new Prompt(Phone.class, "Restaurant phone number?"),
-            new Prompt(Email.class, "And their email?"),
-            new Prompt(Address.class, "Where they located @ fam? Give us the address, we'll give you the cheese."),
-            new Prompt(Price.class, "$$$?"),
-            new Prompt(Tag.class, "Where those tags at?"));
+            new Prompt(Name.class, "What's the food called?", false),
+            new Prompt(Phone.class, "Restaurant phone number?", false),
+            new Prompt(Email.class, "And their email?", false),
+            new Prompt(Address.class, "Where they located @ fam? Give us the address, we'll give you the cheese.", false),
+            new Prompt(Price.class, "$$$?", false),
+            new Prompt(Tag.class, "Where those tags at?", true));
 
     private Food toAdd;
 
