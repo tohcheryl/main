@@ -26,7 +26,7 @@ public class SessionManager extends ComponentManager implements SessionInterface
      * Makes a new Session.
      */
     public void createNewSession(Command command) {
-        activeSession = new Session(command);
+        activeSession = new Session(command, eventsCenter);
         isUserInActiveSession = true;
     }
 
