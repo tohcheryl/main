@@ -34,6 +34,48 @@ public class AddressBookParser {
     private static final Pattern BASIC_COMMAND_FORMAT = Pattern.compile("(?<commandWord>\\S+)(?<arguments>.*)");
 
     /**
+     * Returns whether userInput is a command for interactive or non-interactive usage.
+     *
+     * @param userInput
+     * @return
+     * @throws ParseException
+     */
+    public boolean isCommandInteractive(String userInput) throws ParseException {
+        Matcher matcher = match(userInput);
+        final String arguments = matcher.group("arguments");
+        // command must be interactive type if no arguments are provided
+        return arguments.equals("");
+    }
+
+    /**
+     * Returns the command word.
+     *
+     * @param userInput
+     * @return
+     * @throws ParseException
+     */
+    public String parseCommandWord(String userInput) throws ParseException {
+        Matcher matcher = match(userInput);
+        final String commandWord = matcher.group("commandWord");
+        return commandWord;
+    }
+
+    /**
+     * Matches user input string with a basic command regex.
+     *
+     * @param userInput
+     * @return
+     * @throws ParseException
+     */
+    private Matcher match(String userInput) throws ParseException {
+        final Matcher matcher = BASIC_COMMAND_FORMAT.matcher(userInput.trim());
+        if (!matcher.matches()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE));
+        }
+        return matcher;
+    }
+
+    /**
      * Parses user input into command for execution.
      *
      * @param userInput full user input string
@@ -41,10 +83,7 @@ public class AddressBookParser {
      * @throws ParseException if the user input does not conform the expected format
      */
     public Command parseCommand(String userInput) throws ParseException {
-        final Matcher matcher = BASIC_COMMAND_FORMAT.matcher(userInput.trim());
-        if (!matcher.matches()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE));
-        }
+        Matcher matcher = match(userInput);
 
         final String commandWord = matcher.group("commandWord");
         final String arguments = matcher.group("arguments");

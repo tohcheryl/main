@@ -14,6 +14,7 @@ import seedu.address.logic.Logic;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.session.SessionInterface;
 
 /**
  * The UI component that is responsible for receiving user command inputs.
@@ -100,22 +101,41 @@ public class CommandBox extends UiPart<Region> {
      */
     @FXML
     private void handleCommandInputChanged() {
-        try {
-            CommandResult commandResult = logic.execute(commandTextField.getText());
-            initHistory();
-            historySnapshot.next();
-            // process result of the command
-            commandTextField.setText("");
-            logger.info("Result: " + commandResult.feedbackToUser);
-            raise(new NewResultAvailableEvent(commandResult.feedbackToUser, true));
+        SessionInterface sessionManager = logic.getSessionManager();
+        if (sessionManager.isUserInActiveSession()) {
+            logger.info("User is in an active session with the system.");
+            sessionManager.getActiveSession().interpretUserInput(commandTextField.getText());
+        } else {
+            logger.info("User is NOT in a session.");
+            // create a new session
+            try {
+                // create a new Session
+                CommandResult commandResult;
+                if (logic.isCommandInteractive(commandTextField.getText())) {
+                    logger.info("Command is interactive.");
+                    commandResult = new CommandResult("Stub right now.");
+                } else {
+                    // non-interactive parsing
+                    commandResult = logic.execute(commandTextField.getText());
+                }
 
-        } catch (CommandException | ParseException e) {
-            initHistory();
-            // handle command failure
-            setStyleToIndicateCommandFailure();
-            logger.info("Invalid command: " + commandTextField.getText());
-            raise(new NewResultAvailableEvent(e.getMessage(), false));
+                initHistory();
+                historySnapshot.next();
+                // process result of the command
+                commandTextField.setText("");
+                logger.info("Result: " + commandResult.feedbackToUser);
+                raise(new NewResultAvailableEvent(commandResult.feedbackToUser, true));
+
+            } catch (CommandException | ParseException e) {
+                initHistory();
+                // handle command failure
+                setStyleToIndicateCommandFailure();
+                logger.info("Invalid command: " + commandTextField.getText());
+                raise(new NewResultAvailableEvent(e.getMessage(), false));
+            }
         }
+
+
     }
 
     /**

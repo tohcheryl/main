@@ -47,6 +47,11 @@ public class LogicManager extends ComponentManager implements Logic {
     }
 
     @Override
+    public boolean isCommandInteractive(String commandText) throws ParseException {
+        return addressBookParser.isCommandInteractive(commandText);
+    }
+
+    @Override
     public ObservableList<Food> getFilteredFoodList() {
         return model.getFilteredFoodList();
     }

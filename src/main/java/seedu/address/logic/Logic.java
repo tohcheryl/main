@@ -20,6 +20,8 @@ public interface Logic {
      */
     CommandResult execute(String commandText) throws CommandException, ParseException;
 
+    boolean isCommandInteractive(String commandText) throws ParseException;
+
     /** Returns an unmodifiable view of the filtered list of foods */
     ObservableList<Food> getFilteredFoodList();
 
