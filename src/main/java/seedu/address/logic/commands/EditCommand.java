@@ -117,7 +117,7 @@ public class EditCommand extends UndoableCommand {
         Set<Tag> updatedTags = editFoodDescriptor.getTags().orElse(foodToEdit.getTags());
 
         return new Food(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedPrice, updatedRating,
-                updatedTags);
+                updatedTags, );
     }
 
     @Override

@@ -141,7 +141,7 @@ public class XmlAdaptedFood {
         final Rating rating = new Rating(this.rating);
 
         final Set<Tag> tags = new HashSet<>(personTags);
-        return new Food(name, phone, email, address, price, rating, tags);
+        return new Food(name, phone, email, address, price, rating, tags, );
     }
 
     @Override
