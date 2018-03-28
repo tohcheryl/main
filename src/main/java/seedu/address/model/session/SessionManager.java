@@ -8,6 +8,7 @@ import com.google.common.eventbus.Subscribe;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.events.ui.EndActiveSessionEvent;
 import seedu.address.logic.commands.Command;
+import seedu.address.logic.commands.exceptions.CommandException;
 
 /**
  * Manages sessions (interactions) between user and system for chat-like
@@ -40,7 +41,7 @@ public class SessionManager extends ComponentManager implements SessionInterface
     }
 
     @Subscribe
-    public void handleEndActiveSessionEvent(EndActiveSessionEvent e) {
+    public void handleEndActiveSessionEvent(EndActiveSessionEvent e) throws CommandException {
         endActiveSession();
     }
 
@@ -48,7 +49,7 @@ public class SessionManager extends ComponentManager implements SessionInterface
      * Ends the current active Session and saves it
      * to the session history.
      */
-    private void endActiveSession() {
+    private void endActiveSession() throws CommandException {
         // replace with a NoSessionException later
         activeSession.end();
         if (activeSession == null) {
