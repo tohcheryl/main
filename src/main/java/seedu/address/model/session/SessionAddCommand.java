@@ -4,7 +4,6 @@ import java.util.Optional;
 import java.util.Set;
 
 import seedu.address.commons.core.EventsCenter;
-import seedu.address.commons.events.ui.NewResultAvailableEvent;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.Command;
@@ -59,30 +58,30 @@ public class SessionAddCommand extends Session {
     public void parseInputForField(Class field, String userInput)
             throws IllegalValueException, IllegalArgumentException {
         switch (field.getSimpleName()) {
-            case "Name":
-                name = ParserUtil.parseName(Optional.of(userInput)).get();
-                break;
-            case "Phone":
-                phone = ParserUtil.parsePhone(Optional.of(userInput)).get();
-                break;
-            case "Email":
-                email = ParserUtil.parseEmail(Optional.of(userInput))
-                        .orElse(new Email(Email.DEFAULT_EMAIL));;
-                break;
-            case "Address":
-                address = ParserUtil.parseAddress(Optional.of(userInput))
-                        .orElse(new Address(Address.DEFAULT_ADDRESS));
-                break;
-            case "Price":
-                price = ParserUtil.parsePrice(Optional.of(userInput))
-                        .orElse(new Price(Price.DEFAULT_PRICE));
-                break;
-            case "Rating":
-                rating = ParserUtil.parseRating(Optional.of(userInput))
-                        .orElse(new Rating(Rating.DEFAULT_RATING));
-                break;
-            default:
-                throw new IllegalArgumentException();
+        case "Name":
+            name = ParserUtil.parseName(Optional.of(userInput)).get();
+            break;
+        case "Phone":
+            phone = ParserUtil.parsePhone(Optional.of(userInput)).get();
+            break;
+        case "Email":
+            email = ParserUtil.parseEmail(Optional.of(userInput))
+                    .orElse(new Email(Email.DEFAULT_EMAIL));;
+            break;
+        case "Address":
+            address = ParserUtil.parseAddress(Optional.of(userInput))
+                      .orElse(new Address(Address.DEFAULT_ADDRESS));
+            break;
+        case "Price":
+            price = ParserUtil.parsePrice(Optional.of(userInput))
+                    .orElse(new Price(Price.DEFAULT_PRICE));
+            break;
+        case "Rating":
+            rating = ParserUtil.parseRating(Optional.of(userInput))
+                     .orElse(new Rating(Rating.DEFAULT_RATING));
+            break;
+        default:
+            throw new IllegalArgumentException();
         }
     }
 }
