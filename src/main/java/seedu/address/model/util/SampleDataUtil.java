@@ -25,22 +25,22 @@ public class SampleDataUtil {
         return new Food[] {
             new Food(new Name("Almond Biscuit"), new Phone("87438807"), new Email("almondhouse@example.com"),
                 new Address("Blk 30 Geylang Street 29, #06-40"), new Price("$0.50"), new Rating("3"),
-                    getTagSet("friends"), getAllergySet("peanut")),
+                    getTagSet("snack"), getAllergySet("peanut")),
             new Food(new Name("Banana Smoothie"), new Phone("99272758"), new Email("bananastand@example.com"),
                 new Address("Blk 30 Lorong 3 Serangoon Gardens, #07-18"), new Price("$5"), new Rating("4"),
-                    getTagSet("colleagues", "friends"), getAllergySet("lactose")),
+                    getTagSet("drink", "fruity"), getAllergySet("lactose")),
             new Food(new Name("Cheesecake"), new Phone("93210283"), new Email("cheesecakestore@example.com"),
                 new Address("Blk 11 Ang Mo Kio Street 74, #11-04"), new Price("$3"), new Rating("5"),
-                    getTagSet("neighbours"), getAllergySet("lactose")),
+                    getTagSet("dessert"), getAllergySet("lactose")),
             new Food(new Name("Durian Milkshake"), new Phone("91031282"), new Email("durianmarket@example.com"),
                 new Address("Blk 436 Serangoon Gardens Street 26, #16-43"), new Price("$10"), new Rating("2"),
-                    getTagSet("family"), getAllergySet("lactose")),
+                    getTagSet("drink"), getAllergySet("lactose")),
             new Food(new Name("Ice cream"), new Phone("92492021"), new Email("icecreamshop@example.com"),
                 new Address("Blk 47 Tampines Street 20, #17-35"), new Price("$2.5"), new Rating("5"),
-                    getTagSet("classmates"), getAllergySet("lactose")),
+                    getTagSet("dessert"), getAllergySet("lactose")),
             new Food(new Name("Roti"), new Phone("92624417"), new Email("rotirestraunt@example.com"),
                 new Address("Blk 45 Aljunied Street 85, #11-31"), new Price("$0.8"), new Rating("3"),
-                    getTagSet("colleagues"), getAllergySet("peanut"))
+                    getTagSet("snack"), getAllergySet("peanut"))
         };
     }
 
