@@ -114,6 +114,7 @@ public class CommandBox extends UiPart<Region> {
                     // start a new session
                     logic.createNewSession(commandTextField.getText());
                     logic.startSession();
+                    commandTextField.setText("");
                 } else {
                     // non-interactive parsing
                     commandResult = logic.execute(commandTextField.getText());
@@ -123,8 +124,6 @@ public class CommandBox extends UiPart<Region> {
 
                 initHistory();
                 historySnapshot.next();
-                // process result of the command
-                commandTextField.setText("");
 
             } catch (CommandException | ParseException e) {
                 initHistory();
@@ -134,8 +133,7 @@ public class CommandBox extends UiPart<Region> {
                 raise(new NewResultAvailableEvent(e.getMessage(), false));
             }
         }
-
-
+        commandTextField.setText("");
     }
 
     /**
