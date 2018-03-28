@@ -29,7 +29,8 @@ public class SessionManager extends ComponentManager implements SessionInterface
      * Makes a new Session.
      */
     public void createNewSession(Command command) {
-        activeSession = new Session(command, eventsCenter);
+        assert command.getClass().getSimpleName().equals("AddCommand");
+        activeSession = new SessionAddCommand(command, eventsCenter);
         isUserInActiveSession = true;
     }
 
