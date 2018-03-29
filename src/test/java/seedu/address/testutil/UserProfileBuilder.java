@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import seedu.address.model.food.Address;
-import seedu.address.model.food.Food;
 import seedu.address.model.food.Name;
 import seedu.address.model.food.Phone;
 import seedu.address.model.food.allergy.Allergy;
@@ -36,7 +35,7 @@ public class UserProfileBuilder {
     /**
      * Initializes the UserProfileBuilder with the data of {@code userProfileToCopy}.
      */
-    public UserProfileBuilder(Food userProfileToCopy) {
+    public UserProfileBuilder(UserProfile userProfileToCopy) {
         name = userProfileToCopy.getName();
         phone = userProfileToCopy.getPhone();
         address = userProfileToCopy.getAddress();
@@ -44,7 +43,7 @@ public class UserProfileBuilder {
     }
 
     /**
-     * Sets the {@code Name} of the {@code Food} that we are building.
+     * Sets the {@code Name} of the {@code UserProfile} that we are building.
      */
     public UserProfileBuilder withName(String name) {
         this.name = new Name(name);
