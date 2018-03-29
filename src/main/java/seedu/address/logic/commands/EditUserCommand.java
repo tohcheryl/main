@@ -60,7 +60,7 @@ public class EditUserCommand extends UndoableCommand {
     @Override
     public CommandResult executeUndoableCommand() throws CommandException {
         try {
-            model.updateUserProfile(userToEdit, editedUser);
+            model.updateUserProfile(editedUser);
         } catch (DuplicateUserException dpe) {
             throw new CommandException(MESSAGE_DUPLICATE_USER);
         }
