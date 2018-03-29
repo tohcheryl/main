@@ -58,7 +58,7 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public UserProfile getUserProfile() {
+    public UserProfile getUserProfile() throws NullPointerException {
         return profile;
     }
 

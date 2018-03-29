@@ -55,5 +55,5 @@ public interface Model {
     /**
      * Returns the current user profile.
      */
-    UserProfile getUserProfile();
+    UserProfile getUserProfile() throws NullPointerException;
 }
