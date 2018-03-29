@@ -18,6 +18,7 @@ import seedu.address.model.food.exceptions.FoodNotFoundException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 import seedu.address.model.user.UserProfile;
+import seedu.address.model.user.exceptions.DuplicateUserException;
 import seedu.address.model.util.SampleDataUtil;
 
 /**
@@ -63,8 +64,24 @@ public class AddressBook implements ReadOnlyAddressBook {
         this.tags.setTags(tags);
     }
 
+    /**
+     * Initialises user profile with {@code profile}.
+     */
     public void initUserProfile(UserProfile profile) {
         this.profile = profile;
+    }
+
+    /**
+     * Replaces current user profile {@code target} with {@code editedProfile}.
+     * @throws DuplicateUserException if there is no change in user profile
+     */
+    public void updateUserProfile(UserProfile editedProfile) throws DuplicateUserException {
+        assert profile != null;
+        if (!profile.equals(editedProfile)) {
+            profile = editedProfile;
+        } else {
+            throw new DuplicateUserException();
+        }
     }
 
     /**
