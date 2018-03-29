@@ -136,7 +136,12 @@ public class AddCommandTest {
         }
 
         @Override
-        public void updateUserProfile(UserProfile target, UserProfile userProfile) {
+        public void initUserProfile(UserProfile userProfile) {
+            fail("This method should not be called.");
+        }
+
+        @Override
+        public void updateUserProfile(UserProfile userProfile) {
             fail("This method should not be called.");
         }
 
