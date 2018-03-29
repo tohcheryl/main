@@ -57,6 +57,11 @@ public class ModelManager extends ComponentManager implements Model {
         return addressBook;
     }
 
+    @Override
+    public UserProfile getUserProfile() {
+        return profile;
+    }
+
     /** Raises an event to indicate the model has changed */
     private void indicateAddressBookChanged() {
         raise(new AddressBookChangedEvent(addressBook));
@@ -76,7 +81,7 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public void updateUserProfile(UserProfile toAdd) {
+    public void updateUserProfile(UserProfile target, UserProfile toAdd) {
         addressBook.updateUserProfile(toAdd);
         indicateAddressBookChanged();
     }
