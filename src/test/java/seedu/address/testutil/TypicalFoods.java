@@ -78,7 +78,7 @@ public class TypicalFoods {
      */
     public static AddressBook getTypicalAddressBook() {
         AddressBook ab = new AddressBook();
-        ab.setUserProfile(SampleDataUtil.getSampleProfile());
+        ab.initUserProfile(SampleDataUtil.getSampleProfile());
         for (Food food : getTypicalFoods()) {
             try {
                 ab.addFood(food);

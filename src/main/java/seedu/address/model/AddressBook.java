@@ -63,7 +63,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         this.tags.setTags(tags);
     }
 
-    public void setUserProfile(UserProfile profile) {
+    public void initUserProfile(UserProfile profile) {
         this.profile = profile;
     }
 
@@ -76,7 +76,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         List<Food> syncedFoodList = newData.getFoodList().stream()
                 .map(this::syncWithMasterTagList)
                 .collect(Collectors.toList());
-        setUserProfile(newData.getUserProfile());
+        initUserProfile(newData.getUserProfile());
 
         try {
             setFoods(syncedFoodList);
@@ -121,13 +121,6 @@ public class AddressBook implements ReadOnlyAddressBook {
         // This can cause the tags master list to have additional tags that are not tagged to any food
         // in the food list.
         foods.setFood(target, syncedEditedFood);
-    }
-
-    /**
-     * Replaces the old profile with the new profile {@code newProfile}.
-     */
-    public void updateUserProfile(UserProfile newProfile) {
-        profile = newProfile;
     }
 
     /**

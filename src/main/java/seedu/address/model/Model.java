@@ -50,10 +50,15 @@ public interface Model {
     /**
      * Replaces the current user profile {@code target} with {@code editedProfile}.
      */
-    void updateUserProfile(UserProfile target, UserProfile editedProfile) throws DuplicateUserException;
+    void initUserProfile(UserProfile target);
 
     /**
      * Returns the current user profile.
      */
     UserProfile getUserProfile() throws NullPointerException;
+
+    /**
+     * Replaces the current user profile {@code target} with {@code editedProfile}.
+     */
+    void updateUserProfile(UserProfile target, UserProfile editedProfile) throws DuplicateUserException;
 }

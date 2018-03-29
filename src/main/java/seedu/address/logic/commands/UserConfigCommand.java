@@ -44,7 +44,7 @@ public class UserConfigCommand extends UndoableCommand {
     @Override
     public CommandResult executeUndoableCommand() throws CommandException {
         requireNonNull(model);
-        model.updateUserProfile(toAdd);
+        model.initUserProfile(toAdd);
         return new CommandResult(MESSAGE_SUCCESS);
     }
 
