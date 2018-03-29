@@ -86,7 +86,7 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public void updateUserProfile(UserProfile target, UserProfile toAdd) throws DuplicateUserException {
+    public void updateUserProfile(UserProfile toAdd) throws DuplicateUserException {
         addressBook.updateUserProfile(toAdd);
         indicateAddressBookChanged();
     }

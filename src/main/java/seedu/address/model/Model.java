@@ -60,5 +60,5 @@ public interface Model {
     /**
      * Replaces the current user profile {@code target} with {@code editedProfile}.
      */
-    void updateUserProfile(UserProfile target, UserProfile editedProfile) throws DuplicateUserException;
+    void updateUserProfile(UserProfile editedProfile) throws DuplicateUserException;
 }
