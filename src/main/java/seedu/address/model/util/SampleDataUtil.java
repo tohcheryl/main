@@ -23,24 +23,24 @@ import seedu.address.model.user.UserProfile;
 public class SampleDataUtil {
     public static Food[] getSampleFoods() {
         return new Food[] {
-            new Food(new Name("Alex Yeoh"), new Phone("87438807"), new Email("alexyeoh@example.com"),
-                new Address("Blk 30 Geylang Street 29, #06-40"), new Price("$0"), new Rating("0"),
-                    getTagSet("friends"), getAllergySet("lactose")),
-            new Food(new Name("Bernice Yu"), new Phone("99272758"), new Email("berniceyu@example.com"),
-                new Address("Blk 30 Lorong 3 Serangoon Gardens, #07-18"), new Price("$0"), new Rating("0"),
-                    getTagSet("colleagues", "friends"), getAllergySet("lactose")),
-            new Food(new Name("Charlotte Oliveiro"), new Phone("93210283"), new Email("charlotte@example.com"),
-                new Address("Blk 11 Ang Mo Kio Street 74, #11-04"), new Price("$0"), new Rating("0"),
-                    getTagSet("neighbours"), getAllergySet("lactose")),
-            new Food(new Name("David Li"), new Phone("91031282"), new Email("lidavid@example.com"),
-                new Address("Blk 436 Serangoon Gardens Street 26, #16-43"), new Price("$0"), new Rating("0"),
-                    getTagSet("family"), getAllergySet("lactose")),
-            new Food(new Name("Irfan Ibrahim"), new Phone("92492021"), new Email("irfan@example.com"),
-                new Address("Blk 47 Tampines Street 20, #17-35"), new Price("$0"), new Rating("0"),
-                    getTagSet("classmates"), getAllergySet("lactose")),
-            new Food(new Name("Roy Balakrishnan"), new Phone("92624417"), new Email("royb@example.com"),
-                new Address("Blk 45 Aljunied Street 85, #11-31"), new Price("$0"), new Rating("0"),
-                    getTagSet("colleagues"), getAllergySet("lactose"))
+            new Food(new Name("Almond Biscuit"), new Phone("87438807"), new Email("almondhouse@example.com"),
+                new Address("Blk 30 Geylang Street 29, #06-40"), new Price("$0.50"), new Rating("3"),
+                    getTagSet("snack"), getAllergySet("peanut")),
+            new Food(new Name("Banana Smoothie"), new Phone("99272758"), new Email("bananastand@example.com"),
+                new Address("Blk 30 Lorong 3 Serangoon Gardens, #07-18"), new Price("$5"), new Rating("4"),
+                    getTagSet("drink", "fruity"), getAllergySet("lactose")),
+            new Food(new Name("Cheesecake"), new Phone("93210283"), new Email("cheesecakestore@example.com"),
+                new Address("Blk 11 Ang Mo Kio Street 74, #11-04"), new Price("$3"), new Rating("5"),
+                    getTagSet("dessert"), getAllergySet("lactose")),
+            new Food(new Name("Durian Milkshake"), new Phone("91031282"), new Email("durianmarket@example.com"),
+                new Address("Blk 436 Serangoon Gardens Street 26, #16-43"), new Price("$10"), new Rating("2"),
+                    getTagSet("drink"), getAllergySet("lactose")),
+            new Food(new Name("Ice cream"), new Phone("92492021"), new Email("icecreamshop@example.com"),
+                new Address("Blk 47 Tampines Street 20, #17-35"), new Price("$2.5"), new Rating("5"),
+                    getTagSet("dessert"), getAllergySet("lactose")),
+            new Food(new Name("Roti"), new Phone("92624417"), new Email("rotirestraunt@example.com"),
+                new Address("Blk 45 Aljunied Street 85, #11-31"), new Price("$0.8"), new Rating("3"),
+                    getTagSet("snack"), getAllergySet("peanut"))
         };
     }
 
