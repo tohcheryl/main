@@ -47,6 +47,7 @@ public class CommandTestUtil {
     public static final String VALID_TAG_NUTS = "nuts";
     public static final String VALID_TAG_FRIED = "fried";
     public static final String VALID_ALLERGY_LACTOSE = "lactose";
+    public static final String VALID_ALLERGY_POLLEN = "pollen";
 
     public static final String NAME_DESC_APPLE = " " + PREFIX_NAME + VALID_NAME_APPLE;
     public static final String NAME_DESC_BANANA = " " + PREFIX_NAME + VALID_NAME_BANANA;
@@ -63,6 +64,7 @@ public class CommandTestUtil {
     public static final String TAG_DESC_FRIED = " " + PREFIX_TAG + VALID_TAG_FRIED;
     public static final String TAG_DESC_NUTS = " " + PREFIX_TAG + VALID_TAG_NUTS;
     public static final String ALLERGY_DESC_LACTOSE = " " + PREFIX_ALLERGIES + VALID_ALLERGY_LACTOSE;
+    public static final String ALLERGY_DESC_POLLEN = " " + PREFIX_ALLERGIES + VALID_ALLERGY_POLLEN;
 
     public static final String INVALID_NAME_DESC = " " + PREFIX_NAME + "Panc&ke"; // '&' not allowed in names
     public static final String INVALID_PHONE_DESC = " " + PREFIX_PHONE + "911a"; // 'a' not allowed in phones
