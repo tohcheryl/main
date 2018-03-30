@@ -48,7 +48,7 @@ public interface Model {
     void updateFilteredFoodList(Predicate<Food> predicate);
 
     /**
-     * Replaces the current user profile {@code target} with {@code editedProfile}.
+     * Initialises user profile of address book with {@code target}.
      */
     void initUserProfile(UserProfile target);
 
