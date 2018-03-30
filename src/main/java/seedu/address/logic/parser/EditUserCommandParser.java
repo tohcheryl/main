@@ -19,7 +19,7 @@ import seedu.address.model.food.allergy.Allergy;
 /**
  * Parses input arguments and creates a new EditUserCommand object
  */
-public class EditUserCommandParser {
+public class EditUserCommandParser implements Parser<EditUserCommand> {
 
     /**
      * Parses the given {@code String} of arguments in the context of the EditCommand
