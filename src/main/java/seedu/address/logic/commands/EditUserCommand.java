@@ -97,7 +97,7 @@ public class EditUserCommand extends UndoableCommand {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof EditCommand)) {
+        if (!(other instanceof EditUserCommand)) {
             return false;
         }
 
