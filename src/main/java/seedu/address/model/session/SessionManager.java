@@ -51,7 +51,6 @@ public class SessionManager extends ComponentManager implements SessionInterface
      */
     private void endActiveSession() throws CommandException {
         // replace with a NoSessionException later
-        activeSession.end();
         if (activeSession == null) {
             return;
         }
