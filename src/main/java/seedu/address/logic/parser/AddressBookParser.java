@@ -23,7 +23,6 @@ import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.UndoCommand;
 import seedu.address.logic.commands.UserConfigCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * Parses user input.
@@ -160,7 +159,7 @@ public class AddressBookParser {
         }
     }
 
-    public Command getCommand(String userInput) throws NotImplementedException {
+    public Command getCommand(String userInput) throws IllegalArgumentException {
         return CommandFactory.createCommand(userInput);
     }
 }
