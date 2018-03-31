@@ -102,12 +102,13 @@ public class CommandBox extends UiPart<Region> {
     @FXML
     private void handleCommandInputChanged() {
         SessionInterface sessionManager = logic.getSessionManager();
-        if (sessionManager.isUserInActiveSession()) {
-            logger.info("User is in an active session with the system.");
-            sessionManager.getActiveSession().interpretUserInput(commandTextField.getText());
-        } else {
-            logger.info("User is NOT in a session.");
-            try {
+        try {
+            if (sessionManager.isUserInActiveSession()) {
+                logger.info("User is in an active session with the system.");
+                sessionManager.getActiveSession().interpretUserInput(commandTextField.getText());
+            } else {
+                logger.info("User is NOT in a session.");
+
                 CommandResult commandResult;
                 if (logic.isCommandInteractive(commandTextField.getText())) {
                     logger.info("Command is interactive.");
@@ -123,14 +124,13 @@ public class CommandBox extends UiPart<Region> {
 
                 initHistory();
                 historySnapshot.next();
-
-            } catch (CommandException | ParseException e) {
-                initHistory();
-                // handle command failure
-                setStyleToIndicateCommandFailure();
-                logger.info("Invalid command: " + commandTextField.getText());
-                raise(new NewResultAvailableEvent(e.getMessage(), false));
             }
+        } catch (CommandException | ParseException e) {
+            initHistory();
+            // handle command failure
+            setStyleToIndicateCommandFailure();
+            logger.info("Invalid command: " + commandTextField.getText());
+            raise(new NewResultAvailableEvent(e.getMessage(), false));
         }
         commandTextField.setText("");
     }
