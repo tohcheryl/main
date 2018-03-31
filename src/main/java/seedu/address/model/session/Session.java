@@ -26,7 +26,6 @@ public abstract class Session {
     protected Command command;
     private int promptIndex;
     private final List<Prompt> prompts;
-    private final Map<String, Object> results;
     private final Logger logger = LogsCenter.getLogger(Session.class);
     private boolean isParsingMultivaluedField;
 
@@ -35,7 +34,6 @@ public abstract class Session {
         promptIndex = 0;
         prompts = this.command.getPrompts();
         this.eventsCenter = eventsCenter;
-        results = new HashMap<>();
         isParsingMultivaluedField = false;
     }
 
@@ -57,7 +55,6 @@ public abstract class Session {
      */
     public void end() throws CommandException {
         finishCommand();
-        command.execute();
         eventsCenter.post(new EndActiveSessionEvent());
     }
 
