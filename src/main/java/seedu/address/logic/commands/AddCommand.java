@@ -20,6 +20,8 @@ import seedu.address.model.food.Food;
 import seedu.address.model.food.Name;
 import seedu.address.model.food.Phone;
 import seedu.address.model.food.Price;
+import seedu.address.model.food.Rating;
+import seedu.address.model.food.allergy.Allergy;
 import seedu.address.model.food.exceptions.DuplicateFoodException;
 import seedu.address.model.tag.Tag;
 
@@ -58,7 +60,9 @@ public class AddCommand extends UndoableCommand {
             new Prompt(Email.class, "And their email?", false),
             new Prompt(Address.class, "Where they located @ fam? Give us the address, we'll give you the cheese.", false),
             new Prompt(Price.class, "$$$?", false),
-            new Prompt(Tag.class, "Where those tags at?", true));
+            new Prompt(Rating.class, "U rate or what?", false),
+            new Prompt(Tag.class, "Where those tags at?", true),
+            new Prompt(Allergy.class, "Does this food have any allergies?", true));
 
     private Food toAdd;
 

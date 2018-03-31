@@ -16,6 +16,7 @@ import seedu.address.model.food.Name;
 import seedu.address.model.food.Phone;
 import seedu.address.model.food.Price;
 import seedu.address.model.food.Rating;
+import seedu.address.model.food.allergy.Allergy;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -30,6 +31,7 @@ public class SessionAddCommand extends Session {
     private Price price;
     private Rating rating;
     private Set<Tag> tagSet;
+    private Set<Allergy> allergySet;
 
     public SessionAddCommand(Command command, EventsCenter eventsCenter) {
         super(command, eventsCenter);
@@ -41,6 +43,9 @@ public class SessionAddCommand extends Session {
         case "Tag":
             tagSet = ParserUtil.parseTags(temporaryStrings);
             break;
+        case "Allergy":
+            allergySet = ParserUtil.parseAllergies(temporaryStrings);
+            break;
         default:
             throw new IllegalArgumentException();
         }
@@ -49,7 +54,7 @@ public class SessionAddCommand extends Session {
     @Override
     protected void finishCommand() throws CommandException {
         AddCommand addCommand = (AddCommand) command;
-        Food food = new Food(name, phone, email, address, price, rating, tagSet);
+        Food food = new Food(name, phone, email, address, price, rating, tagSet, allergySet);
         addCommand.setFood(food);
         addCommand.execute();
     }
