@@ -35,19 +35,21 @@ public class AddressBookParser {
     private static final Pattern BASIC_COMMAND_FORMAT = Pattern.compile("(?<commandWord>\\S+)(?<arguments>.*)");
 
     /**
-     * Returns whether userInput is a command for interactive or non-interactive usage.
+     * Checks whether userInput specifies a command that is interactive.
+     * Currently only AddCommand supports interactive mode.
      *
      * @param userInput
-     * @return
-     * @throws ParseException
+     * @return false if the command is valid but not interactive
+     * @throws ParseException if the command is invalid
      */
     public boolean isCommandInteractive(String userInput) throws ParseException {
         Matcher matcher = match(userInput);
         final String arguments = matcher.group("arguments");
         // command must be interactive type if no arguments are provided
-        boolean isCommandValid;
+        // only AddCommand is interactive right now
         switch (matcher.group("commandWord")) {
         case AddCommand.COMMAND_WORD:
+            break;
         case EditCommand.COMMAND_WORD:
         case SelectCommand.COMMAND_WORD:
         case DeleteCommand.COMMAND_WORD:
@@ -61,13 +63,11 @@ public class AddressBookParser {
         case UndoCommand.COMMAND_WORD:
         case RedoCommand.COMMAND_WORD:
         case UserConfigCommand.COMMAND_WORD:
-            isCommandValid = true;
-            break;
+            return false;
         default:
-            isCommandValid = false;
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
         }
-        return arguments.equals("") && isCommandValid;
+        return arguments.equals("");
     }
 
     /**
