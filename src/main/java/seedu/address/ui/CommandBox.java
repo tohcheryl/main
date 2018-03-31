@@ -125,6 +125,7 @@ public class CommandBox extends UiPart<Region> {
                 initHistory();
                 historySnapshot.next();
             }
+            commandTextField.setText("");
         } catch (CommandException | ParseException e) {
             initHistory();
             // handle command failure
@@ -132,7 +133,6 @@ public class CommandBox extends UiPart<Region> {
             logger.info("Invalid command: " + commandTextField.getText());
             raise(new NewResultAvailableEvent(e.getMessage(), false));
         }
-        commandTextField.setText("");
     }
 
     /**
