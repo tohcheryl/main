@@ -76,13 +76,15 @@ public abstract class Session {
                         promptIndex++;
                         showPrompt();
                     } else {
-                        temporaryStrings.add(userInput);
+                        addAsMultivalue(userInput);
                         askForNextMultivalue();
                     }
                 } else {
                     // start multivalue parsing
                     temporaryStrings = new HashSet<>();
                     isParsingMultivaluedField = true;
+
+                    addAsMultivalue(userInput);
                 }
             } else {
                 parseInputForField(p.getField(), userInput);
@@ -93,6 +95,11 @@ public abstract class Session {
             eventsCenter.post(
                     new NewResultAvailableEvent("Please try again: " + ive.getMessage(), false));
         }
+    }
+
+    private void addAsMultivalue(String userInput) {
+        temporaryStrings.add(userInput);
+        logger.info("Added " + userInput + " as a multivalue field");
     }
 
     protected abstract void parseInputForMultivaluedField(Class field) throws IllegalValueException;
