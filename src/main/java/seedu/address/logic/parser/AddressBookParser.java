@@ -46,7 +46,29 @@ public class AddressBookParser {
         Matcher matcher = match(userInput);
         final String arguments = matcher.group("arguments");
         // command must be interactive type if no arguments are provided
-        return arguments.equals("");
+        boolean isCommandValid;
+        switch (matcher.group("commandWord")) {
+        case AddCommand.COMMAND_WORD:
+        case EditCommand.COMMAND_WORD:
+        case SelectCommand.COMMAND_WORD:
+        case DeleteCommand.COMMAND_WORD:
+        case ClearCommand.COMMAND_WORD:
+        case FindCommand.COMMAND_WORD:
+        case ListCommand.COMMAND_WORD:
+        case OrderCommand.COMMAND_WORD:
+        case HistoryCommand.COMMAND_WORD:
+        case ExitCommand.COMMAND_WORD:
+        case HelpCommand.COMMAND_WORD:
+        case UndoCommand.COMMAND_WORD:
+        case RedoCommand.COMMAND_WORD:
+        case UserConfigCommand.COMMAND_WORD:
+            isCommandValid = true;
+            break;
+        default:
+            isCommandValid = false;
+            throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
+        }
+        return arguments.equals("") && isCommandValid;
     }
 
     /**
