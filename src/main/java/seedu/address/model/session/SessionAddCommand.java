@@ -7,6 +7,7 @@ import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.Command;
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.ParserUtil;
 import seedu.address.model.food.Address;
 import seedu.address.model.food.Email;
@@ -46,10 +47,11 @@ public class SessionAddCommand extends Session {
     }
 
     @Override
-    protected void finishCommand() {
+    protected void finishCommand() throws CommandException {
         AddCommand addCommand = (AddCommand) command;
         Food food = new Food(name, phone, email, address, price, rating, tagSet);
         addCommand.setFood(food);
+        addCommand.execute();
     }
 
     /**

@@ -42,12 +42,13 @@ public abstract class Session {
     /**
      *
      */
-    private void showPrompt() {
-        try {
+    private void showPrompt() throws CommandException {
+        if (promptIndex < prompts.size()) {
             Prompt p = prompts.get(promptIndex);
             eventsCenter.post(new NewResultAvailableEvent(p.getMessage(), true));
-        } catch (IndexOutOfBoundsException e) {
+        } else {
             eventsCenter.post(new NewResultAvailableEvent("Thanks!", true));
+            end();
         }
     }
 
@@ -60,12 +61,12 @@ public abstract class Session {
         eventsCenter.post(new EndActiveSessionEvent());
     }
 
-    protected abstract void finishCommand();
+    protected abstract void finishCommand() throws CommandException;
 
     /**
      * @param userInput
      */
-    public void interpretUserInput(String userInput) {
+    public void interpretUserInput(String userInput) throws CommandException {
         logger.info("Received user input in current Session: " + userInput);
         Prompt p = prompts.get(promptIndex);
 
@@ -108,7 +109,7 @@ public abstract class Session {
     /**
      *
      */
-    public void start() {
+    public void start() throws CommandException {
         showPrompt();
     }
 }

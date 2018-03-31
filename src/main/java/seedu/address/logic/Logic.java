@@ -32,5 +32,5 @@ public interface Logic {
 
     void createNewSession(String userInput);
 
-    void startSession();
+    void startSession() throws CommandException;
 }

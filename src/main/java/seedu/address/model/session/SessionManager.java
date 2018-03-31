@@ -36,7 +36,7 @@ public class SessionManager extends ComponentManager implements SessionInterface
     }
 
     @Override
-    public void startSession() {
+    public void startSession() throws CommandException {
         activeSession.start();
     }
 

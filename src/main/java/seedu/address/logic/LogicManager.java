@@ -73,7 +73,7 @@ public class LogicManager extends ComponentManager implements Logic {
     }
 
     @Override
-    public void startSession() {
+    public void startSession() throws CommandException {
         model.getSessionManager().startSession();
     }
 }
