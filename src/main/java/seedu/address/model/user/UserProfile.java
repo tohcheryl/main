@@ -21,7 +21,7 @@ public class UserProfile {
     private Phone phone;
     private Address address;
     private final UniqueAllergyList allergies;
-    private final UniqueFoodList recentFoods;
+    private UniqueFoodList recentFoods;
 
 
     /**
@@ -79,6 +79,13 @@ public class UserProfile {
      */
     public Set<Food> getRecentFoods() {
         return Collections.unmodifiableSet(recentFoods.toSet());
+    }
+
+    /**
+     * Sets recentFoods to the UniqueFoodList provided
+     */
+    public void setRecentFoods(UniqueFoodList recentFoodsList) {
+        this.recentFoods = recentFoodsList;
     }
 
     @Override
