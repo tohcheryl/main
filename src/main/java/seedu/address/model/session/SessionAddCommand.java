@@ -38,7 +38,7 @@ public class SessionAddCommand extends Session {
     }
 
     @Override
-    protected void parseInputForMultivaluedField(Class field) throws IllegalValueException, IllegalArgumentException {
+    public void parseInputForMultivaluedField(Class field) throws IllegalValueException, IllegalArgumentException {
         switch (field.getSimpleName()) {
         case "Tag":
             tagSet = ParserUtil.parseTags(temporaryStrings);
@@ -73,7 +73,7 @@ public class SessionAddCommand extends Session {
             break;
         case "Email":
             email = ParserUtil.parseEmail(Optional.of(userInput))
-                    .orElse(new Email(Email.DEFAULT_EMAIL));;
+                    .orElse(new Email(Email.DEFAULT_EMAIL));
             break;
         case "Address":
             address = ParserUtil.parseAddress(Optional.of(userInput))
