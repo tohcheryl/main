@@ -1,7 +1,5 @@
 package seedu.address.model.session;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -21,7 +19,8 @@ public class SessionAddCommandTest {
     }
 
     @Test
-    public void parseInputForField_invalidClass_throwsIllegalArgumentException() throws IllegalArgumentException, IllegalValueException {
+    public void parseInputForField_invalidClass_throwsIllegalArgumentException()
+            throws IllegalArgumentException, IllegalValueException {
         thrown.expect(IllegalArgumentException.class);
         SessionAddCommand session = new SessionAddCommand(new AddCommand(null), null);
         session.parseInputForField(String.class, "Some Input");
