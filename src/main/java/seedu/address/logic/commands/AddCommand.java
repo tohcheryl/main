@@ -70,7 +70,6 @@ public class AddCommand extends UndoableCommand {
      * Creates an AddCommand to add the specified {@code Food}
      */
     public AddCommand(Food food) {
-        // requireNonNull(food);
         toAdd = food;
     }
 
@@ -82,6 +81,7 @@ public class AddCommand extends UndoableCommand {
     @Override
     public CommandResult executeUndoableCommand() throws CommandException {
         requireNonNull(model);
+        requireNonNull(toAdd);
         try {
             model.addFood(toAdd);
             return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
