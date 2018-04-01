@@ -72,7 +72,7 @@ public class LogicManager extends ComponentManager implements Logic {
     }
 
     @Override
-    public void createNewSession(String userInput) {
+    public void createNewSession(String userInput) throws IllegalArgumentException {
         Command interactiveCommand = addressBookParser.getCommand(userInput);
         interactiveCommand.setData(model, null, null);
         model.createNewSession(interactiveCommand);
