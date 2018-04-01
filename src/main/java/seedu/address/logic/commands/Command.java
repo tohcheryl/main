@@ -15,7 +15,6 @@ public abstract class Command {
     protected Model model;
     protected CommandHistory history;
     protected UndoRedoStack undoRedoStack;
-    protected List<Prompt> prompts;
 
     /**
      * Constructs a feedback message to summarise an operation that displayed a listing of foods.
