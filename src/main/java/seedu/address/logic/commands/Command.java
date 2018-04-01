@@ -44,7 +44,5 @@ public abstract class Command {
         this.model = model;
     }
 
-    public List<Prompt> getPrompts() {
-        return null;
-    }
+    public abstract List<Prompt> getPrompts();
 }
