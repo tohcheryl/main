@@ -34,12 +34,6 @@ public class AddCommandTest {
     public ExpectedException thrown = ExpectedException.none();
 
     @Test
-    public void constructor_nullFood_throwsNullPointerException() {
-        thrown.expect(NullPointerException.class);
-        new AddCommand(null);
-    }
-
-    @Test
     public void execute_foodAcceptedByModel_addSuccessful() throws Exception {
         ModelStubAcceptingFoodAdded modelStub = new ModelStubAcceptingFoodAdded();
         Food validFood = new FoodBuilder().build();
