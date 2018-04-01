@@ -10,7 +10,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_RATING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -58,7 +57,7 @@ public class AddCommand extends UndoableCommand {
             new Prompt(Name.class, "What's the food called?", false),
             new Prompt(Phone.class, "Restaurant phone number?", false),
             new Prompt(Email.class, "And their email?", false),
-            new Prompt(Address.class, "Where they located @ fam? Give us the address, we'll give you the cheese.", false),
+            new Prompt(Address.class, "Where they located @ fam?.", false),
             new Prompt(Price.class, "$$$?", false),
             new Prompt(Rating.class, "U rate or what?", false),
             new Prompt(Tag.class, "Where those tags at?", true),
