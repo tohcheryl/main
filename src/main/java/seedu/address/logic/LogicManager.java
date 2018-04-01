@@ -36,10 +36,21 @@ public class LogicManager extends ComponentManager implements Logic {
     public CommandResult execute(String commandText) throws CommandException, ParseException {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
         try {
-            Command command = addressBookParser.parseCommand(commandText);
-            command.setData(model, history, undoRedoStack);
-            CommandResult result = command.execute();
-            undoRedoStack.push(command);
+            CommandResult result;
+            if (getSessionManager().isUserInActiveSession()) {
+                logger.info("User is in an active session with the system.");
+                result = getSessionManager().getActiveSession().interpretUserInput(commandText);
+            } else if (isCommandInteractive(commandText)) {
+                logger.info("Command is interactive.");
+                // start a new session
+                createNewSession(commandText);
+                result = startSession();
+            } else {
+                Command command = addressBookParser.parseCommand(commandText);
+                command.setData(model, history, undoRedoStack);
+                result = command.execute();
+                undoRedoStack.push(command);
+            }
             return result;
         } finally {
             history.add(commandText);
@@ -74,7 +85,7 @@ public class LogicManager extends ComponentManager implements Logic {
     }
 
     @Override
-    public void startSession() throws CommandException {
-        model.getSessionManager().startSession();
+    public CommandResult startSession() throws CommandException {
+        return model.getSessionManager().startSession();
     }
 }

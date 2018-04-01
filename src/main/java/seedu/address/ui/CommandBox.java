@@ -103,28 +103,15 @@ public class CommandBox extends UiPart<Region> {
     private void handleCommandInputChanged() {
         SessionInterface sessionManager = logic.getSessionManager();
         try {
-            if (sessionManager.isUserInActiveSession()) {
-                logger.info("User is in an active session with the system.");
-                sessionManager.getActiveSession().interpretUserInput(commandTextField.getText());
-            } else {
-                logger.info("User is NOT in a session.");
-
-                CommandResult commandResult;
-                if (logic.isCommandInteractive(commandTextField.getText())) {
-                    logger.info("Command is interactive.");
-                    // start a new session
-                    logic.createNewSession(commandTextField.getText());
-                    logic.startSession();
-                } else {
-                    // non-interactive parsing
-                    commandResult = logic.execute(commandTextField.getText());
-                    logger.info("Result: " + commandResult.feedbackToUser);
-                    raise(new NewResultAvailableEvent(commandResult.feedbackToUser, true));
-                }
-            }
+            // non-interactive parsing
+            CommandResult commandResult = logic.execute(commandTextField.getText());
             initHistory();
             historySnapshot.next();
+            // process result of the command
             commandTextField.setText("");
+            logger.info("Result: " + commandResult.feedbackToUser);
+            raise(new NewResultAvailableEvent(commandResult.feedbackToUser, true));
+
         } catch (CommandException | ParseException e) {
             initHistory();
             // handle command failure

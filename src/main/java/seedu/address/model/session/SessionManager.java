@@ -8,6 +8,7 @@ import com.google.common.eventbus.Subscribe;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.events.ui.EndActiveSessionEvent;
 import seedu.address.logic.commands.Command;
+import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 
 /**
@@ -36,8 +37,8 @@ public class SessionManager extends ComponentManager implements SessionInterface
     }
 
     @Override
-    public void startSession() throws CommandException {
-        activeSession.start();
+    public CommandResult startSession() throws CommandException {
+        return activeSession.start();
     }
 
     @Subscribe

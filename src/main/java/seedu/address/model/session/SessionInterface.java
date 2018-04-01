@@ -1,6 +1,7 @@
 package seedu.address.model.session;
 
 import seedu.address.logic.commands.Command;
+import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 
 /**
@@ -13,5 +14,5 @@ public interface SessionInterface {
 
     void createNewSession(Command command);
 
-    void startSession() throws CommandException;
+    CommandResult startSession() throws CommandException;
 }

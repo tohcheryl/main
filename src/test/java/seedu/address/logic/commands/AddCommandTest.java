@@ -24,6 +24,7 @@ import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.food.Food;
 import seedu.address.model.food.exceptions.DuplicateFoodException;
 import seedu.address.model.food.exceptions.FoodNotFoundException;
+import seedu.address.model.session.SessionInterface;
 import seedu.address.model.user.UserProfile;
 import seedu.address.testutil.FoodBuilder;
 
@@ -138,6 +139,11 @@ public class AddCommandTest {
         @Override
         public void updateUserProfile(UserProfile userProfile) {
             fail("This method should not be called.");
+        }
+
+        @Override
+        public SessionInterface getSessionManager() {
+            return null;
         }
     }
 
