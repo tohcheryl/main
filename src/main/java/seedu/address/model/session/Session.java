@@ -15,11 +15,13 @@ import seedu.address.logic.commands.Prompt;
 import seedu.address.logic.commands.exceptions.CommandException;
 
 /**
- *
+ * Represents a continuous chat or interaction between the user
+ * and the system.
  */
 public abstract class Session {
-    public static final String END_MULTIVALUE_FIELD = "n";
+    public static final String END_MULTI_VALUE_FIELD = "n";
     public static final String SUCCESS_MESSAGE = "Success!";
+    public static final String ANYTHING_ELSE_MESSAGE = "And anything else? Type (n/N) to stop here.";
     protected final EventsCenter eventsCenter;
     protected Collection<String> temporaryStrings;
     protected Command command;
@@ -39,8 +41,8 @@ public abstract class Session {
     /**
      * Gets the next prompt message in the interactive session.
      *
-     * @return CommandResult with feedback
-     * @throws CommandException
+     * @return feedback to the user
+     * @throws CommandException If end() throws exception
      */
     private CommandResult getNextPrompt() throws CommandException {
         if (promptIndex < prompts.size()) {
@@ -53,9 +55,11 @@ public abstract class Session {
     }
 
     /**
+     * Ends the active Session.
      *
+     * @throws CommandException If finishCommand() throws exception
      */
-    public void end() throws CommandException {
+    private void end() throws CommandException {
         finishCommand();
         eventsCenter.post(new EndActiveSessionEvent());
     }
@@ -63,7 +67,11 @@ public abstract class Session {
     protected abstract void finishCommand() throws CommandException;
 
     /**
-     * @param userInput
+     * Interprets user input in the CommandBox.
+     *
+     * @param userInput Text typed in by the user in the CommandBox
+     * @return feedback to user
+     * @throws CommandException
      */
     public CommandResult interpretUserInput(String userInput) throws CommandException {
         logger.info("Received user input in current Session: " + userInput);
@@ -72,20 +80,20 @@ public abstract class Session {
         try {
             if (p.isMultiValued) {
                 if (isParsingMultivaluedField) {
-                    if (userInput.toLowerCase().equals(END_MULTIVALUE_FIELD)) {
+                    if (userInput.toLowerCase().equals(END_MULTI_VALUE_FIELD)) {
                         parseInputForMultivaluedField(p.getField());
                         isParsingMultivaluedField = false;
                         promptIndex++;
                         return getNextPrompt();
                     } else {
-                        addAsMultivalue(userInput);
+                        addAsMultiValue(userInput);
                         return askForNextMultivalue();
                     }
                 } else {
                     // start multivalue parsing
                     temporaryStrings = new HashSet<>();
                     isParsingMultivaluedField = true;
-                    addAsMultivalue(userInput);
+                    addAsMultiValue(userInput);
                     return askForNextMultivalue();
                 }
             } else {
@@ -98,9 +106,15 @@ public abstract class Session {
         }
     }
 
-    private void addAsMultivalue(String userInput) {
+    /**
+     * Adds user input to a collection of strings for processing later
+     * when all input has been collected from the user.
+     *
+     * @param userInput
+     */
+    private void addAsMultiValue(String userInput) {
         temporaryStrings.add(userInput);
-        logger.info("Added " + userInput + " as a multivalue field");
+        logger.info("Added " + userInput + " as a multi value field");
     }
 
     protected abstract void parseInputForMultivaluedField(Class field) throws IllegalValueException;
@@ -108,7 +122,7 @@ public abstract class Session {
     protected abstract void parseInputForField(Class field, String userInput) throws IllegalValueException;
 
     private CommandResult askForNextMultivalue() {
-        return new CommandResult("And anything else? Type (n/N) to stop here.");
+        return new CommandResult(ANYTHING_ELSE_MESSAGE);
     }
 
     /**
