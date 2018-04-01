@@ -12,7 +12,6 @@ import seedu.address.logic.parser.AddressBookParser;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Model;
 import seedu.address.model.food.Food;
-import seedu.address.model.session.SessionInterface;
 
 /**
  * The main LogicManager of the app.
@@ -37,9 +36,9 @@ public class LogicManager extends ComponentManager implements Logic {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
         try {
             CommandResult result;
-            if (getSessionManager().isUserInActiveSession()) {
+            if (model.isUserInActiveSession()) {
                 logger.info("User is in an active session with the system.");
-                result = getSessionManager().getActiveSession().interpretUserInput(commandText);
+                result = model.interpretInteractiveUserInput(commandText);
             } else if (isCommandInteractive(commandText)) {
                 logger.info("Command is interactive.");
                 // start a new session
@@ -73,19 +72,14 @@ public class LogicManager extends ComponentManager implements Logic {
     }
 
     @Override
-    public SessionInterface getSessionManager() {
-        return model.getSessionManager();
-    }
-
-    @Override
     public void createNewSession(String userInput) {
         Command interactiveCommand = addressBookParser.getCommand(userInput);
         interactiveCommand.setData(model, null, null);
-        model.getSessionManager().createNewSession(interactiveCommand);
+        model.createNewSession(interactiveCommand);
     }
 
     @Override
     public CommandResult startSession() throws CommandException {
-        return model.getSessionManager().startSession();
+        return model.startSession();
     }
 }

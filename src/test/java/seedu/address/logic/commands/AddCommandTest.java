@@ -24,7 +24,6 @@ import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.food.Food;
 import seedu.address.model.food.exceptions.DuplicateFoodException;
 import seedu.address.model.food.exceptions.FoodNotFoundException;
-import seedu.address.model.session.SessionInterface;
 import seedu.address.model.user.UserProfile;
 import seedu.address.testutil.FoodBuilder;
 
@@ -136,7 +135,25 @@ public class AddCommandTest {
         }
 
         @Override
-        public SessionInterface getSessionManager() {
+        public boolean isUserInActiveSession() {
+            fail("This method should not be called.");
+            return false;
+        }
+
+        @Override
+        public void createNewSession(Command interactiveCommand) {
+            fail("This method should not be called.");
+        }
+
+        @Override
+        public CommandResult startSession() throws CommandException {
+            fail("This method should not be called.");
+            return null;
+        }
+
+        @Override
+        public CommandResult interpretInteractiveUserInput(String commandText) throws CommandException {
+            fail("This method should not be called.");
             return null;
         }
     }

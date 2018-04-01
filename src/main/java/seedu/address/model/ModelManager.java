@@ -12,6 +12,9 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
+import seedu.address.logic.commands.Command;
+import seedu.address.logic.commands.CommandResult;
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.food.Food;
 import seedu.address.model.food.exceptions.DuplicateFoodException;
 import seedu.address.model.food.exceptions.FoodNotFoundException;
@@ -86,6 +89,26 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
+    public boolean isUserInActiveSession() {
+        return sessionManager.isUserInActiveSession();
+    }
+
+    @Override
+    public void createNewSession(Command interactiveCommand) {
+        sessionManager.createNewSession(interactiveCommand);
+    }
+
+    @Override
+    public CommandResult startSession() throws CommandException {
+        return sessionManager.startSession();
+    }
+
+    @Override
+    public CommandResult interpretInteractiveUserInput(String commandText) throws CommandException {
+        return sessionManager.interpretUserInput(commandText);
+    }
+
+    @Override
     public void updateFood(Food target, Food editedFood)
             throws DuplicateFoodException, FoodNotFoundException {
         requireAllNonNull(target, editedFood);
@@ -109,11 +132,6 @@ public class ModelManager extends ComponentManager implements Model {
     public void updateFilteredFoodList(Predicate<Food> predicate) {
         requireNonNull(predicate);
         filteredFoods.setPredicate(predicate);
-    }
-
-    @Override
-    public SessionInterface getSessionManager() {
-        return sessionManager;
     }
 
     @Override

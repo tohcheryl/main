@@ -41,6 +41,11 @@ public class SessionManager extends ComponentManager implements SessionInterface
         return activeSession.start();
     }
 
+    @Override
+    public CommandResult interpretUserInput(String userInput) throws CommandException {
+        return activeSession.interpretUserInput(userInput);
+    }
+
     @Subscribe
     public void handleEndActiveSessionEvent(EndActiveSessionEvent e) throws CommandException {
         endActiveSession();
@@ -57,11 +62,6 @@ public class SessionManager extends ComponentManager implements SessionInterface
         }
         sessionHistory.add(activeSession);
         activeSession = null;
-    }
-
-    @Override
-    public Session getActiveSession() {
-        return activeSession;
     }
 
     @Override

@@ -5,7 +5,6 @@ import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.food.Food;
-import seedu.address.model.session.SessionInterface;
 
 /**
  * API of the Logic component
@@ -27,8 +26,6 @@ public interface Logic {
 
     /** Returns the list of input entered by the user, encapsulated in a {@code ListElementPointer} object */
     ListElementPointer getHistorySnapshot();
-
-    SessionInterface getSessionManager();
 
     void createNewSession(String userInput);
 
