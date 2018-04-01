@@ -1,6 +1,8 @@
 package seedu.address.logic;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_FOOD_DISPLAYED_INDEX;
 import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 
@@ -61,6 +63,22 @@ public class LogicManagerTest {
     @Test
     public void createNewSession_addCommand_success() {
         logic.createNewSession("add");
+    }
+
+    @Test
+    public void isCommandInteractive_validCommand_true() throws ParseException {
+        assertTrue(logic.isCommandInteractive("add"));
+    }
+
+    @Test
+    public void isCommandInteractive_validCommand_false() throws ParseException {
+        assertFalse(logic.isCommandInteractive("edit"));
+    }
+
+    @Test
+    public void isCommandInteractive_invalidCommand_throwsParseException() throws ParseException {
+        thrown.expect(ParseException.class);
+        logic.isCommandInteractive("asdad");
     }
 
     /**
