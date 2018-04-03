@@ -1,5 +1,7 @@
 package seedu.address.logic.commands;
 
+import java.util.List;
+
 import seedu.address.commons.core.Messages;
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.UndoRedoStack;
@@ -39,5 +41,10 @@ public abstract class Command {
      */
     public void setData(Model model, CommandHistory history, UndoRedoStack undoRedoStack) {
         this.model = model;
+    }
+
+    //@@author {jaxony}
+    public List<Prompt> getPrompts() {
+        return null;
     }
 }

@@ -3,6 +3,9 @@ package seedu.address.model;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
+import seedu.address.logic.commands.Command;
+import seedu.address.logic.commands.CommandResult;
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.food.Food;
 import seedu.address.model.food.exceptions.DuplicateFoodException;
 import seedu.address.model.food.exceptions.FoodNotFoundException;
@@ -47,6 +50,34 @@ public interface Model {
      */
     void updateFilteredFoodList(Predicate<Food> predicate);
 
+    //@@author {jaxony}
+    /**
+     * Checks if the user is engaged in an interactive session.
+     * @return boolean
+     */
+    boolean isUserInActiveSession();
+
+    /**
+     * Creates a new interactive session.
+     * @param interactiveCommand A Command that supports interactive mode.
+     */
+    void createNewSession(Command interactiveCommand);
+
+    /**
+     * Starts the new session by prompting the user.
+     * @return feedback or messages to the user in the form of a CommandResult.
+     */
+    CommandResult startSession() throws CommandException;
+
+    /**
+     * Processes the user input for an interactive session.
+     *
+     * @param commandText user input string
+     * @return feedback to the user
+     */
+    CommandResult interpretInteractiveUserInput(String commandText) throws CommandException;
+
+    //@@author {tohcheryl}
     /**
      * Initialises user profile of address book with {@code target}.
      */

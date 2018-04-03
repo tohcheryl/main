@@ -9,9 +9,20 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PRICE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_RATING;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
+import java.util.Arrays;
+import java.util.List;
+
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.food.Address;
+import seedu.address.model.food.Email;
 import seedu.address.model.food.Food;
+import seedu.address.model.food.Name;
+import seedu.address.model.food.Phone;
+import seedu.address.model.food.Price;
+import seedu.address.model.food.Rating;
+import seedu.address.model.food.allergy.Allergy;
 import seedu.address.model.food.exceptions.DuplicateFoodException;
+import seedu.address.model.tag.Tag;
 
 /**
  * Adds a food to HackEat.
@@ -42,19 +53,37 @@ public class AddCommand extends UndoableCommand {
     public static final String MESSAGE_SUCCESS = "New food added: %1$s";
     public static final String MESSAGE_DUPLICATE_FOOD = "This food already exists in HackEat";
 
-    private final Food toAdd;
+    //@@author {jaxony}
+    public static final List<Prompt> prompts = Arrays.asList(
+            new Prompt(Name.class, "What's the food called?", false),
+            new Prompt(Phone.class, "Restaurant phone number?", false),
+            new Prompt(Email.class, "And their email?", false),
+            new Prompt(Address.class, "Where they located @ fam?.", false),
+            new Prompt(Price.class, "$$$?", false),
+            new Prompt(Rating.class, "U rate or what?", false),
+            new Prompt(Tag.class, "Where those tags at?", true),
+            new Prompt(Allergy.class, "Does this food have any allergies?", true));
+    //@@author
+    private Food toAdd;
 
     /**
      * Creates an AddCommand to add the specified {@code Food}
      */
     public AddCommand(Food food) {
-        requireNonNull(food);
         toAdd = food;
     }
+
+    //@@author {jaxony}
+    @Override
+    public List<Prompt> getPrompts() {
+        return prompts;
+    }
+    //@author
 
     @Override
     public CommandResult executeUndoableCommand() throws CommandException {
         requireNonNull(model);
+        requireNonNull(toAdd);
         try {
             model.addFood(toAdd);
             return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
@@ -63,6 +92,12 @@ public class AddCommand extends UndoableCommand {
         }
 
     }
+
+    //@@author {jaxony}
+    public void setFood(Food food) {
+        toAdd = food;
+    }
+    //@@author
 
     @Override
     public boolean equals(Object other) {

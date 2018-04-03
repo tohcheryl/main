@@ -35,10 +35,23 @@ public class LogicManager extends ComponentManager implements Logic {
     public CommandResult execute(String commandText) throws CommandException, ParseException {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
         try {
-            Command command = addressBookParser.parseCommand(commandText);
-            command.setData(model, history, undoRedoStack);
-            CommandResult result = command.execute();
-            undoRedoStack.push(command);
+            //@@author {jaxony}
+            CommandResult result;
+            if (model.isUserInActiveSession()) {
+                logger.info("User is in an active session with the system.");
+                result = model.interpretInteractiveUserInput(commandText);
+            } else if (isCommandInteractive(commandText)) {
+                logger.info("Command is interactive.");
+                // start a new session
+                createNewSession(commandText);
+                result = startSession();
+            } else {
+                //@@author
+                Command command = addressBookParser.parseCommand(commandText);
+                command.setData(model, history, undoRedoStack);
+                result = command.execute();
+                undoRedoStack.push(command);
+            }
             return result;
         } finally {
             history.add(commandText);
@@ -53,5 +66,23 @@ public class LogicManager extends ComponentManager implements Logic {
     @Override
     public ListElementPointer getHistorySnapshot() {
         return new ListElementPointer(history.getHistory());
+    }
+
+    //@@author {jaxony}
+    @Override
+    public void createNewSession(String userInput) throws IllegalArgumentException {
+        Command interactiveCommand = addressBookParser.getCommand(userInput);
+        interactiveCommand.setData(model, null, null);
+        model.createNewSession(interactiveCommand);
+    }
+
+    @Override
+    public CommandResult startSession() throws CommandException {
+        return model.startSession();
+    }
+
+    @Override
+    public boolean isCommandInteractive(String commandText) throws ParseException {
+        return addressBookParser.isCommandInteractive(commandText);
     }
 }

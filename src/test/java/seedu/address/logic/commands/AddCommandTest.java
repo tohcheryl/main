@@ -33,12 +33,6 @@ public class AddCommandTest {
     public ExpectedException thrown = ExpectedException.none();
 
     @Test
-    public void constructor_nullFood_throwsNullPointerException() {
-        thrown.expect(NullPointerException.class);
-        new AddCommand(null);
-    }
-
-    @Test
     public void execute_foodAcceptedByModel_addSuccessful() throws Exception {
         ModelStubAcceptingFoodAdded modelStub = new ModelStubAcceptingFoodAdded();
         Food validFood = new FoodBuilder().build();
@@ -145,6 +139,31 @@ public class AddCommandTest {
             fail("This method should not be called.");
         }
 
+        //@@author {jaxony}
+        @Override
+        public boolean isUserInActiveSession() {
+            fail("This method should not be called.");
+            return false;
+        }
+
+        @Override
+        public void createNewSession(Command interactiveCommand) {
+            fail("This method should not be called.");
+        }
+
+        @Override
+        public CommandResult startSession() throws CommandException {
+            fail("This method should not be called.");
+            return null;
+        }
+
+        @Override
+        public CommandResult interpretInteractiveUserInput(String commandText) throws CommandException {
+            fail("This method should not be called.");
+            return null;
+        }
+
+        //@@author {tohcheryl}
         @Override
         public UserProfile getUserProfile() throws NullPointerException {
             fail("This method should not be called.");

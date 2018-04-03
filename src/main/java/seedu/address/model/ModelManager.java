@@ -12,9 +12,14 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
+import seedu.address.logic.commands.Command;
+import seedu.address.logic.commands.CommandResult;
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.food.Food;
 import seedu.address.model.food.exceptions.DuplicateFoodException;
 import seedu.address.model.food.exceptions.FoodNotFoundException;
+import seedu.address.model.session.SessionInterface;
+import seedu.address.model.session.SessionManager;
 import seedu.address.model.user.UserProfile;
 import seedu.address.model.user.exceptions.DuplicateUserException;
 
@@ -27,6 +32,7 @@ public class ModelManager extends ComponentManager implements Model {
 
     private final AddressBook addressBook;
     private final FilteredList<Food> filteredFoods;
+    private final SessionInterface sessionManager;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -39,6 +45,7 @@ public class ModelManager extends ComponentManager implements Model {
 
         this.addressBook = new AddressBook(addressBook);
         filteredFoods = new FilteredList<>(this.addressBook.getFoodList());
+        sessionManager = new SessionManager();
     }
 
     public ModelManager() {
@@ -87,11 +94,33 @@ public class ModelManager extends ComponentManager implements Model {
         indicateAddressBookChanged();
     }
 
+    //@@author {jaxony}
     @Override
     public void updateUserProfile(UserProfile toAdd) throws DuplicateUserException {
         addressBook.updateUserProfile(toAdd);
         indicateAddressBookChanged();
     }
+
+    @Override
+    public boolean isUserInActiveSession() {
+        return sessionManager.isUserInActiveSession();
+    }
+
+    @Override
+    public void createNewSession(Command interactiveCommand) {
+        sessionManager.createNewSession(interactiveCommand);
+    }
+
+    @Override
+    public CommandResult startSession() throws CommandException {
+        return sessionManager.startSession();
+    }
+
+    @Override
+    public CommandResult interpretInteractiveUserInput(String commandText) throws CommandException {
+        return sessionManager.interpretUserInput(commandText);
+    }
+    //@@author
 
     @Override
     public void updateFood(Food target, Food editedFood)
@@ -136,5 +165,4 @@ public class ModelManager extends ComponentManager implements Model {
         return addressBook.equals(other.addressBook)
                 && filteredFoods.equals(other.filteredFoods);
     }
-
 }

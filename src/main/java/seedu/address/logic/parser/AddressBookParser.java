@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.Command;
+import seedu.address.logic.commands.CommandFactory;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditUserCommand;
@@ -34,18 +35,66 @@ public class AddressBookParser {
      */
     private static final Pattern BASIC_COMMAND_FORMAT = Pattern.compile("(?<commandWord>\\S+)(?<arguments>.*)");
 
+    //@@author {jaxony}
     /**
-     * Parses user input into command for execution.
-     *
-     * @param userInput full user input string
-     * @return the command based on the user input
-     * @throws ParseException if the user input does not conform the expected format
+     * Checks whether userInput specifies a command that is interactive.
+     * Currently only AddCommand supports interactive mode.
+     * @param userInput Text input from user.
+     * @return True if the command is interactive, false if the command is valid but not interactive.
+     * @throws ParseException If the command is invalid.
      */
-    public Command parseCommand(String userInput) throws ParseException {
+    public boolean isCommandInteractive(String userInput) throws ParseException {
+        Matcher matcher = match(userInput);
+        final String arguments = matcher.group("arguments");
+        // command must be interactive type if no arguments are provided
+        // only AddCommand is interactive right now
+        switch (matcher.group("commandWord")) {
+        case AddCommand.COMMAND_WORD:
+            break;
+        case EditCommand.COMMAND_WORD:
+        case SelectCommand.COMMAND_WORD:
+        case DeleteCommand.COMMAND_WORD:
+        case ClearCommand.COMMAND_WORD:
+        case FindCommand.COMMAND_WORD:
+        case ListCommand.COMMAND_WORD:
+        case OrderCommand.COMMAND_WORD:
+        case HistoryCommand.COMMAND_WORD:
+        case ExitCommand.COMMAND_WORD:
+        case HelpCommand.COMMAND_WORD:
+        case UndoCommand.COMMAND_WORD:
+        case RedoCommand.COMMAND_WORD:
+        case UserConfigCommand.COMMAND_WORD:
+            return false;
+        default:
+            throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
+        }
+        return arguments.equals("");
+    }
+
+    /**
+     * Matches user input string with a basic command regex.
+     *
+     * @param userInput Text input from user.
+     * @return Matcher object produced from regex pattern.
+     * @throws ParseException If error arises during parsing of {@code userInput}.
+     */
+    private Matcher match(String userInput) throws ParseException {
         final Matcher matcher = BASIC_COMMAND_FORMAT.matcher(userInput.trim());
         if (!matcher.matches()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE));
         }
+        return matcher;
+    }
+    //@@author
+
+    /**
+     * Parses user input into command for execution.
+     * @param userInput full user input string.
+     * @return The command based on the user input.
+     * @throws ParseException If the user input does not conform the expected format.
+     */
+    public Command parseCommand(String userInput) throws ParseException {
+        Matcher matcher = match(userInput);
 
         final String commandWord = matcher.group("commandWord");
         final String arguments = matcher.group("arguments");
@@ -101,4 +150,15 @@ public class AddressBookParser {
         }
     }
 
+    //@@author {jaxony}
+    /**
+     * Create a new command object.
+     * @param userInput Text input from user.
+     * @return New Command object.
+     * @throws IllegalArgumentException If the command in {@code userInput} is not supported.
+     */
+    public Command getCommand(String userInput) throws IllegalArgumentException {
+        return CommandFactory.createCommand(userInput);
+    }
+    //@@author
 }

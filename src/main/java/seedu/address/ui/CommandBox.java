@@ -101,6 +101,7 @@ public class CommandBox extends UiPart<Region> {
     @FXML
     private void handleCommandInputChanged() {
         try {
+            // non-interactive parsing
             CommandResult commandResult = logic.execute(commandTextField.getText());
             initHistory();
             historySnapshot.next();

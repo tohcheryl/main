@@ -24,4 +24,26 @@ public interface Logic {
 
     /** Returns the list of input entered by the user, encapsulated in a {@code ListElementPointer} object */
     ListElementPointer getHistorySnapshot();
+
+    //@@author {jaxony}
+    /**
+     * Creates a new Session for chat-like interaction with system.
+     * @param userInput Text input from user.
+     */
+    void createNewSession(String userInput);
+
+    /**
+     * Starts the active Session.
+     * @return Feedback to user.
+     * @throws CommandException If command execution fails.
+     */
+    CommandResult startSession() throws CommandException;
+
+    /**
+     * Checks if command is an interactive command.
+     * @param commandText Text input from user.
+     * @return Feedback to user.
+     * @throws ParseException If {@code commandText} is not a valid command.
+     */
+    boolean isCommandInteractive(String commandText) throws ParseException;
 }
