@@ -38,10 +38,9 @@ public class AddressBookParser {
     /**
      * Checks whether userInput specifies a command that is interactive.
      * Currently only AddCommand supports interactive mode.
-     *
-     * @param userInput
-     * @return false if the command is valid but not interactive
-     * @throws ParseException if the command is invalid
+     * @param userInput Text input from user.
+     * @return True if the command is interactive, false if the command is valid but not interactive.
+     * @throws ParseException If the command is invalid.
      */
     public boolean isCommandInteractive(String userInput) throws ParseException {
         Matcher matcher = match(userInput);
@@ -87,9 +86,9 @@ public class AddressBookParser {
     /**
      * Matches user input string with a basic command regex.
      *
-     * @param userInput
-     * @return
-     * @throws ParseException
+     * @param userInput Text input from user.
+     * @return Matcher object produced from regex pattern.
+     * @throws ParseException If error arises during parsing of {@code userInput}.
      */
     private Matcher match(String userInput) throws ParseException {
         final Matcher matcher = BASIC_COMMAND_FORMAT.matcher(userInput.trim());
@@ -101,10 +100,9 @@ public class AddressBookParser {
 
     /**
      * Parses user input into command for execution.
-     *
-     * @param userInput full user input string
-     * @return the command based on the user input
-     * @throws ParseException if the user input does not conform the expected format
+     * @param userInput full user input string.
+     * @return The command based on the user input.
+     * @throws ParseException If the user input does not conform the expected format.
      */
     public Command parseCommand(String userInput) throws ParseException {
         Matcher matcher = match(userInput);
@@ -163,6 +161,12 @@ public class AddressBookParser {
         }
     }
 
+    /**
+     * Create a new command object.
+     * @param userInput Text input from user.
+     * @return New Command object.
+     * @throws IllegalArgumentException If the command in {@code userInput} is not supported.
+     */
     public Command getCommand(String userInput) throws IllegalArgumentException {
         return CommandFactory.createCommand(userInput);
     }
