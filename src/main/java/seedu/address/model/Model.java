@@ -51,13 +51,6 @@ public interface Model {
     void updateFilteredFoodList(Predicate<Food> predicate);
 
     /**
-
-     * Updates user's profile
-     * @param profile UserProfile
-     */
-    void updateUserProfile(UserProfile profile);
-
-    /**
      * Checks if the user is engaged in an interactive session.
      * @return boolean
      */
@@ -83,6 +76,7 @@ public interface Model {
      */
     CommandResult interpretInteractiveUserInput(String commandText) throws CommandException;
 
+    /**
      * Initialises user profile of address book with {@code target}.
      */
     void initUserProfile(UserProfile target);
