@@ -22,6 +22,7 @@ public abstract class Session {
     public static final String END_MULTI_VALUE_FIELD = "n";
     public static final String SUCCESS_MESSAGE = "Success!";
     public static final String ANYTHING_ELSE_MESSAGE = "And anything else? Type (n/N) to stop here.";
+    public static final String TRY_AGAIN_MESSAGE = "Please try again: ";
     protected final EventsCenter eventsCenter;
     protected Collection<String> temporaryStrings;
     protected Command command;
@@ -102,7 +103,7 @@ public abstract class Session {
                 return getNextPrompt();
             }
         } catch (IllegalValueException ive) {
-            return new CommandResult("Please try again: " + ive.getMessage());
+            return new CommandResult(TRY_AGAIN_MESSAGE + ive.getMessage());
         }
     }
 
