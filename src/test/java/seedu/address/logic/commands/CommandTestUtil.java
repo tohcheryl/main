@@ -26,6 +26,7 @@ import seedu.address.model.food.Food;
 import seedu.address.model.food.NameContainsKeywordsPredicate;
 import seedu.address.model.food.exceptions.FoodNotFoundException;
 import seedu.address.testutil.EditFoodDescriptorBuilder;
+import seedu.address.testutil.EditUserDescriptorBuilder;
 
 /**
  * Contains helper methods for testing commands.
@@ -47,6 +48,7 @@ public class CommandTestUtil {
     public static final String VALID_TAG_NUTS = "nuts";
     public static final String VALID_TAG_FRIED = "fried";
     public static final String VALID_ALLERGY_LACTOSE = "lactose";
+    public static final String VALID_ALLERGY_POLLEN = "pollen";
 
     public static final String NAME_DESC_APPLE = " " + PREFIX_NAME + VALID_NAME_APPLE;
     public static final String NAME_DESC_BANANA = " " + PREFIX_NAME + VALID_NAME_BANANA;
@@ -63,6 +65,21 @@ public class CommandTestUtil {
     public static final String TAG_DESC_FRIED = " " + PREFIX_TAG + VALID_TAG_FRIED;
     public static final String TAG_DESC_NUTS = " " + PREFIX_TAG + VALID_TAG_NUTS;
     public static final String ALLERGY_DESC_LACTOSE = " " + PREFIX_ALLERGIES + VALID_ALLERGY_LACTOSE;
+    public static final String ALLERGY_DESC_POLLEN = " " + PREFIX_ALLERGIES + VALID_ALLERGY_POLLEN;
+
+    public static final String VALID_NAME_AARON = "Aaron Chen";
+    public static final String VALID_NAME_BERNICE = "Bernice Zhang";
+    public static final String VALID_PHONE_AARON = "33333333";
+    public static final String VALID_PHONE_BERNICE = "44444444";
+    public static final String VALID_ADDRESS_AARON = "Block 31, Bishan Street 31";
+    public static final String VALID_ADDRESS_BERNICE = "Block 32, Ban Mian Street 32";
+
+    public static final String NAME_DESC_AARON = " " + PREFIX_NAME + VALID_NAME_AARON;
+    public static final String NAME_DESC_BERNICE = " " + PREFIX_NAME + VALID_NAME_BERNICE;
+    public static final String PHONE_DESC_AARON = " " + PREFIX_PHONE + VALID_PHONE_AARON;
+    public static final String PHONE_DESC_BERNICE = " " + PREFIX_PHONE + VALID_PHONE_BERNICE;
+    public static final String ADDRESS_DESC_AARON = " " + PREFIX_ADDRESS + VALID_ADDRESS_AARON;
+    public static final String ADDRESS_DESC_BERNICE = " " + PREFIX_ADDRESS + VALID_ADDRESS_BERNICE;
 
     public static final String INVALID_NAME_DESC = " " + PREFIX_NAME + "Panc&ke"; // '&' not allowed in names
     public static final String INVALID_PHONE_DESC = " " + PREFIX_PHONE + "911a"; // 'a' not allowed in phones
@@ -78,6 +95,8 @@ public class CommandTestUtil {
 
     public static final EditCommand.EditFoodDescriptor DESC_APPLE;
     public static final EditCommand.EditFoodDescriptor DESC_BANANA;
+    public static final EditUserCommand.EditUserDescriptor DESC_AARON;
+    public static final EditUserCommand.EditUserDescriptor DESC_BERNICE;
 
     static {
         DESC_APPLE = new EditFoodDescriptorBuilder().withName(VALID_NAME_APPLE)
@@ -88,6 +107,13 @@ public class CommandTestUtil {
                 .withPhone(VALID_PHONE_BANANA).withEmail(VALID_EMAIL_BANANA).withAddress(VALID_ADDRESS_BANANA)
                 .withPrice(VALID_PRICE_BANANA).withRating(VALID_RATING_BANANA)
                 .withTags(VALID_TAG_NUTS, VALID_TAG_FRIED).withAllergies(VALID_ALLERGY_LACTOSE).build();
+
+        DESC_AARON = new EditUserDescriptorBuilder().withName(VALID_NAME_AARON)
+                .withPhone(VALID_PHONE_AARON).withAddress(VALID_ADDRESS_AARON)
+                .withAllergies(VALID_ALLERGY_LACTOSE).build();
+        DESC_BERNICE = new EditUserDescriptorBuilder().withName(VALID_NAME_BERNICE)
+                .withPhone(VALID_PHONE_BERNICE).withAddress(VALID_ADDRESS_BERNICE)
+                .withAllergies(VALID_ALLERGY_LACTOSE).build();
     }
 
     /**

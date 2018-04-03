@@ -9,6 +9,7 @@ import java.util.Locale;
 import org.apache.commons.validator.routines.BigDecimalValidator;
 import org.apache.commons.validator.routines.CurrencyValidator;
 
+//@@ author {tohcheryl}
 /**
  * Represents a Food's price in HackEat.
  * Guarantees: immutable; is valid as declared in {@link #isValidPrice(String)}
@@ -59,6 +60,7 @@ public class Price {
         value = validator.validate(inputPrice, currentLocale).toString();
     }
 
+    //@@author {samzx}
     /**
      * Method to display price with pre-fix symbol '$'
      * @return a string with '$' prefix
@@ -67,6 +69,7 @@ public class Price {
         return "$" + value;
     }
 
+    //@@author {tohcheryl}
     /**
      * Returns price of Food as a BigDecimal.
      */

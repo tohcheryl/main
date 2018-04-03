@@ -136,8 +136,19 @@ public class AddCommandTest {
         }
 
         @Override
+        public void initUserProfile(UserProfile userProfile) {
+            fail("This method should not be called.");
+        }
+
+        @Override
         public void updateUserProfile(UserProfile userProfile) {
             fail("This method should not be called.");
+        }
+
+        @Override
+        public UserProfile getUserProfile() throws NullPointerException {
+            fail("This method should not be called.");
+            return null;
         }
     }
 

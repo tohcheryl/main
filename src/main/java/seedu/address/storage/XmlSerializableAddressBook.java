@@ -58,7 +58,7 @@ public class XmlSerializableAddressBook {
         for (XmlAdaptedFood p : foods) {
             addressBook.addFood(p.toModelType());
         }
-        addressBook.updateUserProfile(profile.toModelType());
+        addressBook.initUserProfile(profile.toModelType());
         return addressBook;
     }
 

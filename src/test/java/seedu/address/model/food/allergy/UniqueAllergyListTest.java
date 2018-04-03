@@ -4,6 +4,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+//@@author {tohcheryl}
 public class UniqueAllergyListTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();

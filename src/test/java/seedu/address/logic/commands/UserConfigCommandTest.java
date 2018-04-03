@@ -16,6 +16,7 @@ import seedu.address.model.food.Name;
 import seedu.address.model.food.Phone;
 import seedu.address.model.user.UserProfile;
 
+//@@author {tohcheryl}
 public class UserConfigCommandTest {
 
     private Model model = new ModelManager(new AddressBook(), new UserPrefs());

@@ -29,6 +29,7 @@ import seedu.address.model.food.Phone;
 import seedu.address.model.food.allergy.Allergy;
 import seedu.address.model.user.UserProfile;
 
+//@@author {tohcheryl}
 public class UserConfigCommandParserTest {
 
     // temp fix

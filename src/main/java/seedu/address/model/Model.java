@@ -7,6 +7,7 @@ import seedu.address.model.food.Food;
 import seedu.address.model.food.exceptions.DuplicateFoodException;
 import seedu.address.model.food.exceptions.FoodNotFoundException;
 import seedu.address.model.user.UserProfile;
+import seedu.address.model.user.exceptions.DuplicateUserException;
 
 /**
  * The API of the Model component.
@@ -47,8 +48,17 @@ public interface Model {
     void updateFilteredFoodList(Predicate<Food> predicate);
 
     /**
-     * Update user's profile
-     * @param profile UserProfile
+     * Initialises user profile of address book with {@code target}.
      */
-    void updateUserProfile(UserProfile profile);
+    void initUserProfile(UserProfile target);
+
+    /**
+     * Returns the current user profile.
+     */
+    UserProfile getUserProfile() throws NullPointerException;
+
+    /**
+     * Replaces the current user profile {@code target} with {@code editedProfile}.
+     */
+    void updateUserProfile(UserProfile editedProfile) throws DuplicateUserException;
 }
