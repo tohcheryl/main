@@ -15,6 +15,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.food.Food;
 
 public class OrderCommandTest {
     private static final Index VALID_INDEX = Index.fromZeroBased(1);
@@ -37,16 +38,30 @@ public class OrderCommandTest {
     @Test
     public void execute_orderWithIndex_success() throws CommandException {
         OrderCommand orderCommand = getOrderCommandForIndex(VALID_INDEX, model);
-        String expectedMessage = String.format(OrderCommand.MESSAGE_SUCCESS,
-                model.getAddressBook().getFoodList().get(VALID_INDEX.getZeroBased()).getName());
-        assertCommandSuccess(orderCommand, model, expectedMessage);
+        Food food = model.getAddressBook().getFoodList().get(VALID_INDEX.getZeroBased());
+        try {
+            CommandResult result = orderCommand.execute();
+            assertThat(result.feedbackToUser, containsString(String.format(OrderCommand.MESSAGE_SUCCESS,
+                    food.getName(), food.getName())));
+        } catch (Exception e) {
+            assertThat(e.getMessage(), containsString(String.format(OrderCommand.MESSAGE_DIAL_FAIL,
+                    food.getName(), food.getPhone())));
+        }
+
+
     }
 
     @Test
     public void execute_orderWithoutIndex_success() throws CommandException {
         OrderCommand orderCommand = getOrderCommandForIndex(NULL_INDEX, model);
-        CommandResult result = orderCommand.execute();
-        assertThat(result.feedbackToUser, containsString(String.format(OrderCommand.MESSAGE_SUCCESS, "")));
+        try {
+            CommandResult result = orderCommand.execute();
+            assertThat(result.feedbackToUser, containsString(String.format(OrderCommand.MESSAGE_SUCCESS,
+                    "", "")));
+        } catch (Exception e) {
+            assertThat(e.getMessage(), containsString(String.format(OrderCommand.MESSAGE_DIAL_FAIL_FOOD, "")));
+            assertThat(e.getMessage(), containsString(String.format(OrderCommand.MESSAGE_DIAL_FAIL_PHONE, "")));
+        }
     }
 
     /**
