@@ -139,6 +139,7 @@ public class AddCommandTest {
             fail("This method should not be called.");
         }
 
+        //@@author {jaxony}
         @Override
         public boolean isUserInActiveSession() {
             fail("This method should not be called.");
@@ -162,6 +163,7 @@ public class AddCommandTest {
             return null;
         }
 
+        //@@author {tohcheryl}
         @Override
         public UserProfile getUserProfile() throws NullPointerException {
             fail("This method should not be called.");

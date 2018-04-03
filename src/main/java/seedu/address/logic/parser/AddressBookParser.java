@@ -35,6 +35,7 @@ public class AddressBookParser {
      */
     private static final Pattern BASIC_COMMAND_FORMAT = Pattern.compile("(?<commandWord>\\S+)(?<arguments>.*)");
 
+    //@@author {jaxony}
     /**
      * Checks whether userInput specifies a command that is interactive.
      * Currently only AddCommand supports interactive mode.
@@ -84,6 +85,7 @@ public class AddressBookParser {
         }
         return matcher;
     }
+    //@@author
 
     /**
      * Parses user input into command for execution.
@@ -148,6 +150,7 @@ public class AddressBookParser {
         }
     }
 
+    //@@author {jaxony}
     /**
      * Create a new command object.
      * @param userInput Text input from user.
@@ -157,4 +160,5 @@ public class AddressBookParser {
     public Command getCommand(String userInput) throws IllegalArgumentException {
         return CommandFactory.createCommand(userInput);
     }
+    //@@author
 }

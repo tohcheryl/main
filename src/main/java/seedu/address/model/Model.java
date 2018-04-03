@@ -50,6 +50,7 @@ public interface Model {
      */
     void updateFilteredFoodList(Predicate<Food> predicate);
 
+    //@@author {jaxony}
     /**
      * Checks if the user is engaged in an interactive session.
      * @return boolean
@@ -76,6 +77,7 @@ public interface Model {
      */
     CommandResult interpretInteractiveUserInput(String commandText) throws CommandException;
 
+    //@@author {tohcheryl}
     /**
      * Initialises user profile of address book with {@code target}.
      */

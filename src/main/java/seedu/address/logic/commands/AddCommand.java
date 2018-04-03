@@ -53,6 +53,7 @@ public class AddCommand extends UndoableCommand {
     public static final String MESSAGE_SUCCESS = "New food added: %1$s";
     public static final String MESSAGE_DUPLICATE_FOOD = "This food already exists in HackEat";
 
+    //@@author {jaxony}
     public static final List<Prompt> prompts = Arrays.asList(
             new Prompt(Name.class, "What's the food called?", false),
             new Prompt(Phone.class, "Restaurant phone number?", false),
@@ -62,7 +63,7 @@ public class AddCommand extends UndoableCommand {
             new Prompt(Rating.class, "U rate or what?", false),
             new Prompt(Tag.class, "Where those tags at?", true),
             new Prompt(Allergy.class, "Does this food have any allergies?", true));
-
+    //@@author
     private Food toAdd;
 
     /**
@@ -72,10 +73,12 @@ public class AddCommand extends UndoableCommand {
         toAdd = food;
     }
 
+    //@@author {jaxony}
     @Override
     public List<Prompt> getPrompts() {
         return prompts;
     }
+    //@author
 
     @Override
     public CommandResult executeUndoableCommand() throws CommandException {
@@ -90,9 +93,11 @@ public class AddCommand extends UndoableCommand {
 
     }
 
+    //@@author {jaxony}
     public void setFood(Food food) {
         toAdd = food;
     }
+    //@@author
 
     @Override
     public boolean equals(Object other) {

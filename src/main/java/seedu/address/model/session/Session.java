@@ -14,6 +14,7 @@ import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.Prompt;
 import seedu.address.logic.commands.exceptions.CommandException;
 
+//@@author {jaxony}
 /**
  * Represents a continuous chat or interaction between the user
  * and the system.

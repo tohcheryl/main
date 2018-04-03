@@ -54,6 +54,7 @@ public class LogicManagerTest {
         logic.getFilteredFoodList().remove(0);
     }
 
+    //@@author {jaxony}
     @Test
     public void createNewSession_editCommand_throwsIllegalArgumentException() {
         thrown.expect(IllegalArgumentException.class);
@@ -80,6 +81,7 @@ public class LogicManagerTest {
         thrown.expect(ParseException.class);
         logic.isCommandInteractive("asdad");
     }
+    //@@author
 
     /**
      * Executes the command, confirms that no exceptions are thrown and that the result message is correct.

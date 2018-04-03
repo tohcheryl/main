@@ -10,6 +10,7 @@ import seedu.address.logic.commands.AddCommand;
 import seedu.address.model.session.SessionInterface;
 import seedu.address.model.session.SessionManager;
 
+//@author {jaxony}
 public class EndActiveSessionEventTest {
 
     @Test

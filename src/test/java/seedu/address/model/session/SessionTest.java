@@ -12,6 +12,7 @@ import seedu.address.model.ModelManager;
 import seedu.address.model.food.Phone;
 import seedu.address.testutil.TypicalFoods;
 
+//@@author {jaxony}
 public class SessionTest {
     private static final String BACON_NAME = TypicalFoods.BACON.getName().toString();
     private static final String BACON_WRONG_PHONE = "asdadn";

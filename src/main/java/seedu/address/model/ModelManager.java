@@ -94,6 +94,7 @@ public class ModelManager extends ComponentManager implements Model {
         indicateAddressBookChanged();
     }
 
+    //@@author {jaxony}
     @Override
     public void updateUserProfile(UserProfile toAdd) throws DuplicateUserException {
         addressBook.updateUserProfile(toAdd);
@@ -119,6 +120,7 @@ public class ModelManager extends ComponentManager implements Model {
     public CommandResult interpretInteractiveUserInput(String commandText) throws CommandException {
         return sessionManager.interpretUserInput(commandText);
     }
+    //@@author
 
     @Override
     public void updateFood(Food target, Food editedFood)
