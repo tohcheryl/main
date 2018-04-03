@@ -38,7 +38,8 @@ public class OrderCommandTest {
     public void execute_orderWithIndex_success() throws CommandException {
         OrderCommand orderCommand = getOrderCommandForIndex(VALID_INDEX, model);
         String expectedMessage = String.format(OrderCommand.MESSAGE_SUCCESS,
-                model.getAddressBook().getFoodList().get(VALID_INDEX.getZeroBased()).getName());
+                model.getAddressBook().getFoodList().get(VALID_INDEX.getZeroBased()).getName(),
+                model.getAddressBook().getFoodList().get(VALID_INDEX.getZeroBased()).getPhone());
         assertCommandSuccess(orderCommand, model, expectedMessage);
     }
 

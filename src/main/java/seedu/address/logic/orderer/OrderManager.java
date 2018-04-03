@@ -26,6 +26,7 @@ public class OrderManager {
     public static final String AUTH_TOKEN = "97fbd0228fa8419cb931583626039e00";
     public static final String LOCAL_COUNTRY_CODE = "+65";
     public static final String TEMP_FROM_PHONE = "+16123245532";
+    public static final String CANNED_SPEECH_MESSAGE = "Hello, my name is %s. Could I order a %s to %s?";
 
     private UserProfile user;
     private Food toOrder;
@@ -52,8 +53,10 @@ public class OrderManager {
 
         String from = TEMP_FROM_PHONE;
 
-        updateSpeech(String.format("Hello. Could I order a %1$s to %2$s?", toOrder.getName(), user.getAddress()));
+        updateSpeech(String.format(CANNED_SPEECH_MESSAGE,
+                user.getName(), toOrder.getName(), user.getAddress()));
 
+        // TODO: Currently ngrok is staticlly copied from ngrok instance on computer
         Call.creator(new PhoneNumber(to), new PhoneNumber(from),
                 new URI("http://33cc3524.ngrok.io/")).create();
     }
