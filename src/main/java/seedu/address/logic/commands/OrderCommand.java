@@ -1,11 +1,12 @@
 package seedu.address.logic.commands;
 
 import java.util.List;
-import java.util.Random;
 
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.logic.orderer.FoodSelector;
+import seedu.address.logic.orderer.OrderManager;
 import seedu.address.model.food.Food;
 
 /**
@@ -34,12 +35,11 @@ public class OrderCommand extends UndoableCommand {
     @Override
     public CommandResult executeUndoableCommand() throws CommandException {
         try {
-            beginOrder();
+            OrderManager.beginOrder(model);
             return new CommandResult(String.format(MESSAGE_SUCCESS, toOrder.getName()));
         } catch (Exception e) {
             throw new CommandException(MESSAGE_ORDER_FAIL);
         }
-
     }
 
     @Override
@@ -47,7 +47,7 @@ public class OrderCommand extends UndoableCommand {
         List<Food> lastShownList = model.getFilteredFoodList();
 
         if (this.index == null) {
-            this.index = selectFood();
+            this.index = FoodSelector.selectFood(model);
         }
 
         if (index.getZeroBased() >= lastShownList.size()) {
@@ -72,22 +72,4 @@ public class OrderCommand extends UndoableCommand {
 
     }
 
-    // This entails the food selection algorithm - TODO: BRING OUT TO NEW CLASS
-    /**
-     * Selects a {@code Food} based on the HackEat Algorithm
-     */
-    private Index selectFood() {
-        List<Food> lastShownList = model.getFilteredFoodList();
-        int listSize = lastShownList.size();
-        int randomIndex = (new Random()).nextInt(listSize);
-        return Index.fromZeroBased(randomIndex);
-    }
-
-    // Method responsible for beginning the phone call to order food. TODO: BRING OUT TO NEW CLASS
-    /**
-     * Begins phone call to order {@code Food}
-     */
-    private void beginOrder() {
-
-    }
 }
