@@ -28,7 +28,8 @@ public class SessionManager extends ComponentManager implements SessionInterface
     }
 
     /**
-     * Makes a new Session.
+     * Makes a new Session
+     * @param command Must support interactive mode.
      */
     public void createNewSession(Command command) {
         assert command.getClass().getSimpleName().equals("AddCommand");

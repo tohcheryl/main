@@ -327,6 +327,7 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
      * 1. Result display box displays {@code expectedResultMessage}.<br>
      * 2. {@code Model}, {@code Storage} and {@code FoodListPanel} equal to the corresponding components in
      * {@code expectedModel}.<br>
+     * 3. Status bar does not change.<br>
      * @see AddCommandSystemTest#assertCommandSuccess(String, Food)
      */
     private void assertCommandSuccessWithoutSync(String command, Model expectedModel, String expectedResultMessage) {
