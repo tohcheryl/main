@@ -57,7 +57,7 @@ public class SessionManager extends ComponentManager implements SessionInterface
      * Ends the current active Session and saves it
      * to the session history.
      */
-    private void endActiveSession() throws CommandException {
+    private void endActiveSession() {
         // replace with a NoSessionException later
         if (activeSession == null) {
             return;
