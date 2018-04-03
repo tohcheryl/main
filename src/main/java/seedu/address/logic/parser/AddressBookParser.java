@@ -71,19 +71,6 @@ public class AddressBookParser {
     }
 
     /**
-     * Returns the command word.
-     *
-     * @param userInput
-     * @return
-     * @throws ParseException
-     */
-    public String parseCommandWord(String userInput) throws ParseException {
-        Matcher matcher = match(userInput);
-        final String commandWord = matcher.group("commandWord");
-        return commandWord;
-    }
-
-    /**
      * Matches user input string with a basic command regex.
      *
      * @param userInput Text input from user.
