@@ -21,6 +21,7 @@ import seedu.address.model.user.UserProfile;
 import seedu.address.testutil.EditUserDescriptorBuilder;
 import seedu.address.testutil.UserProfileBuilder;
 
+//@@author {tohcheryl}
 public class EditUserCommandTest {
 
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());

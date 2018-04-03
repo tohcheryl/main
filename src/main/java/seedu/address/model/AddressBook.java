@@ -64,6 +64,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         this.tags.setTags(tags);
     }
 
+    //@@author {tohcheryl}
     /**
      * Initialises user profile with {@code profile}.
      */
@@ -84,6 +85,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         }
     }
 
+    //@@author
     /**
      * Resets the existing data of this {@code AddressBook} with {@code newData}.
      */

@@ -56,6 +56,7 @@ public class ModelManager extends ComponentManager implements Model {
         return addressBook;
     }
 
+    //@@author {tohcheryl}
     @Override
     public UserProfile getUserProfile() throws NullPointerException {
         return addressBook.getUserProfile();
@@ -67,6 +68,7 @@ public class ModelManager extends ComponentManager implements Model {
         indicateAddressBookChanged();
     }
 
+    //@@author
     /** Raises an event to indicate the model has changed */
     private void indicateAddressBookChanged() {
         raise(new AddressBookChangedEvent(addressBook));

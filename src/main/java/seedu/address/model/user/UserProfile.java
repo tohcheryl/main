@@ -12,6 +12,7 @@ import seedu.address.model.food.UniqueFoodList;
 import seedu.address.model.food.allergy.Allergy;
 import seedu.address.model.food.allergy.UniqueAllergyList;
 
+//@@author {jaxony}
 /**
  * Represents the profile of the HackEat user and contains
  * personal information such as name, phone and physical address.
@@ -38,6 +39,7 @@ public class UserProfile {
         this.recentFoods = new UniqueFoodList();
     }
 
+    //@@author {tohcheryl}
     /**
      * Constructs a {@code UserProfile} object.
      *  @param name    Name of user
@@ -53,6 +55,7 @@ public class UserProfile {
         this.recentFoods = new UniqueFoodList(recentFoods);
     }
 
+    //@@author {jaxony}
     public Name getName() {
         return name;
     }
@@ -73,6 +76,7 @@ public class UserProfile {
         return Collections.unmodifiableSet(allergies.toSet());
     }
 
+    //@@author {tohcheryl}
     /**
      * Returns an immutable Food set, which throws {@code UnsupportedOperationException}
      * if modification is attempted.
@@ -88,6 +92,7 @@ public class UserProfile {
         this.recentFoods = recentFoodsList;
     }
 
+    //@@author {jaxony}
     @Override
     public boolean equals(Object other) {
         if (other == this) {
