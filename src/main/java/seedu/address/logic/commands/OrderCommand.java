@@ -20,7 +20,9 @@ public class OrderCommand extends UndoableCommand {
             + "Parameters: INDEX (must be a positive integer) ";
 
     public static final String MESSAGE_SUCCESS = "Beginning to order %1$s. Ringing %2$s. Please wait.";
-    public static final String MESSAGE_DIAL_FAIL = "Ordering %1$s failed. Failed to dial %2$s.";
+    public static final String MESSAGE_DIAL_FAIL_FOOD = "Order failure for: %s";
+    public static final String MESSAGE_DIAL_FAIL_PHONE = "Failed to dial %s";
+    public static final String MESSAGE_DIAL_FAIL = MESSAGE_DIAL_FAIL_FOOD + ". " + MESSAGE_DIAL_FAIL_PHONE + ".";
 
     private Food toOrder;
     private Index index;
