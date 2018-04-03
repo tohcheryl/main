@@ -6,7 +6,7 @@ import java.util.List;
 import com.google.common.eventbus.Subscribe;
 
 import seedu.address.commons.core.ComponentManager;
-import seedu.address.commons.events.ui.EndActiveSessionEvent;
+import seedu.address.commons.events.model.EndActiveSessionEvent;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
