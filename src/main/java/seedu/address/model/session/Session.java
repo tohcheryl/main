@@ -25,8 +25,8 @@ public abstract class Session {
     protected final EventsCenter eventsCenter;
     protected Collection<String> temporaryStrings;
     protected Command command;
-    private int promptIndex;
-    private final List<Prompt> prompts;
+    protected int promptIndex;
+    protected final List<Prompt> prompts;
     private final Logger logger = LogsCenter.getLogger(Session.class);
     private boolean isParsingMultivaluedField;
 
