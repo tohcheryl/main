@@ -21,6 +21,7 @@ import seedu.address.model.food.exceptions.FoodNotFoundException;
 import seedu.address.model.session.SessionInterface;
 import seedu.address.model.session.SessionManager;
 import seedu.address.model.user.UserProfile;
+import seedu.address.model.user.exceptions.DuplicateUserException;
 
 /**
  * Represents the in-memory model of HackEat data.
@@ -31,7 +32,6 @@ public class ModelManager extends ComponentManager implements Model {
 
     private final AddressBook addressBook;
     private final FilteredList<Food> filteredFoods;
-    private UserProfile profile;
     private final SessionInterface sessionManager;
 
     /**
@@ -45,7 +45,6 @@ public class ModelManager extends ComponentManager implements Model {
 
         this.addressBook = new AddressBook(addressBook);
         filteredFoods = new FilteredList<>(this.addressBook.getFoodList());
-        profile = this.addressBook.getUserProfile();
         sessionManager = new SessionManager();
     }
 
@@ -64,6 +63,19 @@ public class ModelManager extends ComponentManager implements Model {
         return addressBook;
     }
 
+    //@@author {tohcheryl}
+    @Override
+    public UserProfile getUserProfile() throws NullPointerException {
+        return addressBook.getUserProfile();
+    }
+
+    @Override
+    public void initUserProfile(UserProfile userProfile) {
+        addressBook.initUserProfile(userProfile);
+        indicateAddressBookChanged();
+    }
+
+    //@@author
     /** Raises an event to indicate the model has changed */
     private void indicateAddressBookChanged() {
         raise(new AddressBookChangedEvent(addressBook));
@@ -83,7 +95,7 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public void updateUserProfile(UserProfile toAdd) {
+    public void updateUserProfile(UserProfile toAdd) throws DuplicateUserException {
         addressBook.updateUserProfile(toAdd);
         indicateAddressBookChanged();
     }

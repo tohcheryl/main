@@ -18,6 +18,7 @@ import seedu.address.model.food.exceptions.FoodNotFoundException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 import seedu.address.model.user.UserProfile;
+import seedu.address.model.user.exceptions.DuplicateUserException;
 import seedu.address.model.util.SampleDataUtil;
 
 /**
@@ -63,10 +64,28 @@ public class AddressBook implements ReadOnlyAddressBook {
         this.tags.setTags(tags);
     }
 
-    public void setUserProfile(UserProfile profile) {
+    //@@author {tohcheryl}
+    /**
+     * Initialises user profile with {@code profile}.
+     */
+    public void initUserProfile(UserProfile profile) {
         this.profile = profile;
     }
 
+    /**
+     * Replaces current user profile {@code target} with {@code editedProfile}.
+     * @throws DuplicateUserException if there is no change in user profile
+     */
+    public void updateUserProfile(UserProfile editedProfile) throws DuplicateUserException {
+        assert profile != null;
+        if (!profile.equals(editedProfile)) {
+            profile = editedProfile;
+        } else {
+            throw new DuplicateUserException();
+        }
+    }
+
+    //@@author
     /**
      * Resets the existing data of this {@code AddressBook} with {@code newData}.
      */
@@ -76,7 +95,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         List<Food> syncedFoodList = newData.getFoodList().stream()
                 .map(this::syncWithMasterTagList)
                 .collect(Collectors.toList());
-        setUserProfile(newData.getUserProfile());
+        initUserProfile(newData.getUserProfile());
 
         try {
             setFoods(syncedFoodList);
@@ -121,13 +140,6 @@ public class AddressBook implements ReadOnlyAddressBook {
         // This can cause the tags master list to have additional tags that are not tagged to any food
         // in the food list.
         foods.setFood(target, syncedEditedFood);
-    }
-
-    /**
-     * Replaces the old profile with the new profile {@code newProfile}.
-     */
-    public void updateUserProfile(UserProfile newProfile) {
-        profile = newProfile;
     }
 
     /**

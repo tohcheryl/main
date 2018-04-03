@@ -130,6 +130,11 @@ public class AddCommandTest {
         }
 
         @Override
+        public void initUserProfile(UserProfile userProfile) {
+            fail("This method should not be called.");
+        }
+
+        @Override
         public void updateUserProfile(UserProfile userProfile) {
             fail("This method should not be called.");
         }
@@ -153,6 +158,11 @@ public class AddCommandTest {
 
         @Override
         public CommandResult interpretInteractiveUserInput(String commandText) throws CommandException {
+            fail("This method should not be called.");
+            return null;
+        }
+      
+        public UserProfile getUserProfile() throws NullPointerException {
             fail("This method should not be called.");
             return null;
         }

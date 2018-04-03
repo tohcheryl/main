@@ -20,6 +20,7 @@ import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditCommand.EditFoodDescriptor;
+import seedu.address.logic.commands.EditUserCommand;
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
@@ -29,12 +30,17 @@ import seedu.address.logic.commands.OrderCommand;
 import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.UndoCommand;
+import seedu.address.logic.commands.UserConfigCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.food.Food;
 import seedu.address.model.food.NameContainsKeywordsPredicate;
+import seedu.address.model.user.UserProfile;
 import seedu.address.testutil.EditFoodDescriptorBuilder;
+import seedu.address.testutil.EditUserDescriptorBuilder;
 import seedu.address.testutil.FoodBuilder;
 import seedu.address.testutil.FoodUtil;
+import seedu.address.testutil.UserProfileBuilder;
+import seedu.address.testutil.UserProfileUtil;
 
 public class AddressBookParserTest {
     @Rule
@@ -121,6 +127,23 @@ public class AddressBookParserTest {
         SelectCommand command = (SelectCommand) parser.parseCommand(
                 SelectCommand.COMMAND_WORD + " " + INDEX_FIRST_FOOD.getOneBased());
         assertEquals(new SelectCommand(INDEX_FIRST_FOOD), command);
+    }
+
+    @Test
+    public void parseCommand_userConfig() throws Exception {
+        UserProfile userProfile = new UserProfileBuilder().build();
+        UserConfigCommand command = (UserConfigCommand) parser.parseCommand(
+                UserProfileUtil.getUserConfigCommand(userProfile));
+        assertEquals(new UserConfigCommand(userProfile), command);
+    }
+
+    @Test
+    public void parseCommand_editUser() throws Exception {
+        UserProfile userProfile = new UserProfileBuilder().build();
+        EditUserCommand.EditUserDescriptor descriptor = new EditUserDescriptorBuilder(userProfile).build();
+        EditUserCommand command = (EditUserCommand) parser.parseCommand(EditUserCommand.COMMAND_WORD + " "
+                + UserProfileUtil.getUserDetails(userProfile));
+        assertEquals(new EditUserCommand(descriptor), command);
     }
 
     @Test
