@@ -101,7 +101,7 @@ public class SessionAddCommandTest {
     /**
      * A stub used to test SessionAddCommand with hardcoded values
      */
-    public class SessionAddCommandStub extends SessionAddCommand {
+    private class SessionAddCommandStub extends SessionAddCommand {
 
         public SessionAddCommandStub(Command command, EventsCenter eventsCenter) {
             super(command, eventsCenter);
@@ -115,11 +115,6 @@ public class SessionAddCommandTest {
             rating = TypicalFoods.BACON.getRating();
             tagSet = TypicalFoods.BACON.getTags();
             allergySet = TypicalFoods.BACON.getAllergies();
-        }
-
-        public void setPromptIndex() {
-            promptIndex = 6;
-            assert prompts.get(promptIndex).getField().getSimpleName().equals(Tag.class.getSimpleName());
         }
     }
 }
