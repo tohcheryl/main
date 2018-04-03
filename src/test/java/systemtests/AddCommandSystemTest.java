@@ -264,6 +264,12 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
         assertCommandFailure(command, Tag.MESSAGE_TAG_CONSTRAINTS);
     }
 
+    @Test
+    public void addInteractive() {
+        /* -------------------------- Perform add in interactive mode ------------------------------ */
+        assertCommandSuccessWithoutSync(AddCommand.COMMAND_WORD, getModel(), AddCommand.prompts.get(0).getMessage());
+    }
+
     /**
      * Executes the {@code AddCommand} that adds {@code toAdd} to the model and asserts that the,<br>
      * 1. Command box displays an empty string.<br>
@@ -313,6 +319,22 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
         assertSelectedCardUnchanged();
         assertCommandBoxShowsDefaultStyle();
         assertStatusBarUnchangedExceptSyncStatus();
+    }
+
+    /**
+     * Performs the same verification as {@code assertCommandSuccess(String, Food)} except asserts that
+     * the,<br>
+     * 1. Result display box displays {@code expectedResultMessage}.<br>
+     * 2. {@code Model}, {@code Storage} and {@code FoodListPanel} equal to the corresponding components in
+     * {@code expectedModel}.<br>
+     * @see AddCommandSystemTest#assertCommandSuccess(String, Food)
+     */
+    private void assertCommandSuccessWithoutSync(String command, Model expectedModel, String expectedResultMessage) {
+        executeCommand(command);
+        assertApplicationDisplaysExpected("", expectedResultMessage, expectedModel);
+        assertSelectedCardUnchanged();
+        assertCommandBoxShowsDefaultStyle();
+        assertStatusBarUnchanged();
     }
 
     /**
