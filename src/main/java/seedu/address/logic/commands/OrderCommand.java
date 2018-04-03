@@ -19,7 +19,7 @@ public class OrderCommand extends UndoableCommand {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Orders a food "
             + "Parameters: INDEX (must be a positive integer) ";
 
-    public static final String MESSAGE_SUCCESS = "Food ordered: %1$s";
+    public static final String MESSAGE_SUCCESS = "Beginning to order %1$s. Please wait.";
     public static final String MESSAGE_ORDER_FAIL = "Ordering failed. Please try again later.";
 
     private Food toOrder;
@@ -35,7 +35,7 @@ public class OrderCommand extends UndoableCommand {
     @Override
     public CommandResult executeUndoableCommand() throws CommandException {
         try {
-            OrderManager.beginOrder(model);
+            OrderManager.order(model);
             return new CommandResult(String.format(MESSAGE_SUCCESS, toOrder.getName()));
         } catch (Exception e) {
             throw new CommandException(MESSAGE_ORDER_FAIL);
@@ -47,7 +47,7 @@ public class OrderCommand extends UndoableCommand {
         List<Food> lastShownList = model.getFilteredFoodList();
 
         if (this.index == null) {
-            this.index = FoodSelector.selectFood(model);
+            this.index = FoodSelector.select(model);
         }
 
         if (index.getZeroBased() >= lastShownList.size()) {

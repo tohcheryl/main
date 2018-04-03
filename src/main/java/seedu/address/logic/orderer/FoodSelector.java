@@ -15,7 +15,7 @@ public class FoodSelector {
     /**
      * Selects a {@code Food} based on the HackEat Algorithm
      */
-    public static Index selectFood(Model model) {
+    public static Index select(Model model) {
         List<Food> lastShownList = model.getFilteredFoodList();
         // Map each food to a score
         int listSize = lastShownList.size();
