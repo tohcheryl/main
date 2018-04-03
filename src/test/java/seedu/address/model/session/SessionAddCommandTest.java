@@ -80,7 +80,7 @@ public class SessionAddCommandTest {
     }
 
     @Test
-    public void parseInputForMultivaluedField_tag_throwsIllegalArgumentException()
+    public void parseInputForMultivaluedField_string_throwsIllegalArgumentException()
             throws IllegalArgumentException, IllegalValueException {
         thrown.expect(IllegalArgumentException.class);
         SessionAddCommandStub session = new SessionAddCommandStub(new AddCommand(null), null);
