@@ -10,6 +10,8 @@ import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.Command;
+import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.ModelManager;
 import seedu.address.model.food.Address;
 import seedu.address.model.food.Email;
 import seedu.address.model.food.Name;
@@ -18,6 +20,7 @@ import seedu.address.model.food.Price;
 import seedu.address.model.food.Rating;
 import seedu.address.model.food.allergy.Allergy;
 import seedu.address.model.tag.Tag;
+import seedu.address.testutil.TypicalFoods;
 
 public class SessionAddCommandTest {
     @Rule
@@ -87,11 +90,31 @@ public class SessionAddCommandTest {
         session.parseInputForMultivaluedField(String.class);
     }
 
+    @Test
+    public void finishCommand_success() throws CommandException {
+        Command command = new AddCommand(null);
+        command.setData(new ModelManager(), null, null);
+        SessionAddCommandStub session = new SessionAddCommandStub(command, null);
+        session.finishCommand();
+    }
+
+    /**
+     * A stub used to test SessionAddCommand with hardcoded values
+     */
     public class SessionAddCommandStub extends SessionAddCommand {
 
         public SessionAddCommandStub(Command command, EventsCenter eventsCenter) {
             super(command, eventsCenter);
             temporaryStrings = Arrays.asList("peruvian", "seafood");
+
+            name = TypicalFoods.BACON.getName();
+            phone = TypicalFoods.BACON.getPhone();
+            email = TypicalFoods.BACON.getEmail();
+            address = TypicalFoods.BACON.getAddress();
+            price = TypicalFoods.BACON.getPrice();
+            rating = TypicalFoods.BACON.getRating();
+            tagSet = TypicalFoods.BACON.getTags();
+            allergySet = TypicalFoods.BACON.getAllergies();
         }
 
         public void setPromptIndex() {

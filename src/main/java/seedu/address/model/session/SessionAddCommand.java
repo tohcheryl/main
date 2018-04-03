@@ -24,14 +24,14 @@ import seedu.address.model.tag.Tag;
  */
 public class SessionAddCommand extends Session {
 
-    private Name name;
-    private Phone phone;
-    private Email email;
-    private Address address;
-    private Price price;
-    private Rating rating;
-    private Set<Tag> tagSet;
-    private Set<Allergy> allergySet;
+    protected Name name;
+    protected Phone phone;
+    protected Email email;
+    protected Address address;
+    protected Price price;
+    protected Rating rating;
+    protected Set<Tag> tagSet;
+    protected Set<Allergy> allergySet;
 
     public SessionAddCommand(Command command, EventsCenter eventsCenter) {
         super(command, eventsCenter);
