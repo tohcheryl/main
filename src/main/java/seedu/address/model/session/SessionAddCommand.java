@@ -20,7 +20,7 @@ import seedu.address.model.food.allergy.Allergy;
 import seedu.address.model.tag.Tag;
 
 /**
- *
+ * Session controlling the interaction for the AddCommand
  */
 public class SessionAddCommand extends Session {
 
@@ -60,7 +60,12 @@ public class SessionAddCommand extends Session {
     }
 
     /**
+     * Parses the {@code userInput} for a specific {@code field}
      *
+     * @param field class used to parse the {@code userInput}
+     * @param userInput test input from the user
+     * @throws IllegalValueException parsing of {@code userInput} causes an error
+     * @throws IllegalArgumentException {@code field} is not allowed
      */
     public void parseInputForField(Class field, String userInput)
             throws IllegalValueException, IllegalArgumentException {
