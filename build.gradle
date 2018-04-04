@@ -61,7 +61,7 @@ dependencies {
 }
 
 shadowJar {
-    archiveName = "addressbook.jar"
+    archiveName = "hackeat.jar"
 
     destinationDir = file("${buildDir}/jar/")
 }
