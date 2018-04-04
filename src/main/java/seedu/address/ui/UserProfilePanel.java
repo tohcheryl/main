@@ -14,7 +14,6 @@ import javafx.scene.layout.Region;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
 import seedu.address.model.ReadOnlyAddressBook;
-import seedu.address.model.user.ProfilePicturePath;
 import seedu.address.model.user.UserProfile;
 
 //@@author {tohcheryl}
@@ -26,6 +25,8 @@ public class UserProfilePanel extends UiPart<Region> {
     private static final String FXML = "UserProfilePanel.fxml";
 
     private static final Logger logger = LogsCenter.getLogger(UserProfilePanel.class);
+
+    private static final String PROFILE_PICTURE_PATH = "file:src/main/resources/images/profilepic.png";
 
     private ReadOnlyAddressBook addressBook;
 
@@ -57,12 +58,7 @@ public class UserProfilePanel extends UiPart<Region> {
         address.setText(userProfile.getAddress().value);
         allergies.getChildren().clear();
         userProfile.getAllergies().forEach(allergy -> allergies.getChildren().add(new Label(allergy.allergyName)));
-        String profilePicPath = getProfilePicString(userProfile.getProfilePicturePath());
-        profilepic.setImage(new Image(profilePicPath));
-    }
-
-    public String getProfilePicString(ProfilePicturePath path) {
-        return "file:" + path;
+        profilepic.setImage(new Image(PROFILE_PICTURE_PATH));
     }
 
     @Subscribe

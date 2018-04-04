@@ -1,7 +1,5 @@
 package seedu.address.logic.commands;
 
-//@@author {tohcheryl}
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -9,6 +7,7 @@ import java.io.IOException;
 
 import javafx.stage.FileChooser;
 
+//@@author {tohcheryl}
 /**
  * Changes the profile picture of the user
  */
