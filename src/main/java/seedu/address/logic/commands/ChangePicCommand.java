@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import javafx.stage.FileChooser;
+import seedu.address.commons.core.EventsCenter;
+import seedu.address.commons.events.ui.ProfilePictureChangedEvent;
 
 //@@author {tohcheryl}
 /**
@@ -39,7 +41,6 @@ public class ChangePicCommand extends Command {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
@@ -53,6 +54,7 @@ public class ChangePicCommand extends Command {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        EventsCenter.getInstance().post(new ProfilePictureChangedEvent());
         return new CommandResult(MESSAGE_PIC_CHANGED_ACKNOWLEDGEMENT);
     }
 }

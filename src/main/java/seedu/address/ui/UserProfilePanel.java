@@ -13,6 +13,7 @@ import javafx.scene.layout.Region;
 
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
+import seedu.address.commons.events.ui.ProfilePictureChangedEvent;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.user.UserProfile;
 
@@ -49,6 +50,7 @@ public class UserProfilePanel extends UiPart<Region> {
         super(FXML);
         this.addressBook = addressBook;
         setUserProfile(addressBook.getUserProfile());
+        setProfilePicture();
         registerAsAnEventHandler(this);
     }
 
@@ -58,13 +60,20 @@ public class UserProfilePanel extends UiPart<Region> {
         address.setText(userProfile.getAddress().value);
         allergies.getChildren().clear();
         userProfile.getAllergies().forEach(allergy -> allergies.getChildren().add(new Label(allergy.allergyName)));
-        profilepic.setImage(new Image(PROFILE_PICTURE_PATH));
     }
 
+    public void setProfilePicture() {
+        profilepic.setImage(new Image(PROFILE_PICTURE_PATH));
+    }
     @Subscribe
     public void handleAddressBookChangedEvent(AddressBookChangedEvent abce) {
         UserProfile newUserProfile = addressBook.getUserProfile();
         logger.info(LogsCenter.getEventHandlingLogMessage(abce, "User Profile updated to: " + newUserProfile));
         setUserProfile(newUserProfile);
+    }
+
+    @Subscribe
+    public void handleProfilePictureChangedEvent(ProfilePictureChangedEvent ppce) {
+        setProfilePicture();
     }
 }
