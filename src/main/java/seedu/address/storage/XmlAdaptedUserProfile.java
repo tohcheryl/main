@@ -14,7 +14,6 @@ import seedu.address.model.food.Food;
 import seedu.address.model.food.Name;
 import seedu.address.model.food.Phone;
 import seedu.address.model.food.allergy.Allergy;
-import seedu.address.model.user.ProfilePicturePath;
 import seedu.address.model.user.UserProfile;
 
 /**
@@ -36,9 +35,6 @@ public class XmlAdaptedUserProfile {
     @XmlElement
     private List<XmlAdaptedFood> recentFoods = new ArrayList<>();
 
-    @XmlElement
-    private String profilePicPath;
-
 
     /**
      * Constructs an XmlAdaptedUserProfile.
@@ -50,7 +46,7 @@ public class XmlAdaptedUserProfile {
      * Constructs an {@code XmlAdaptedUserProfile} with the given food details.
      */
     public XmlAdaptedUserProfile(String name, String phone, String address, List<XmlAdaptedAllergy> allergies,
-                                 List<XmlAdaptedFood> foods, String profilePicPath) {
+                                 List<XmlAdaptedFood> foods) {
         this.name = name;
         this.phone = phone;
         this.address = address;
@@ -61,7 +57,6 @@ public class XmlAdaptedUserProfile {
         if (foods != null) {
             this.recentFoods = new ArrayList<>(foods);
         }
-        this.profilePicPath = profilePicPath;
     }
 
     /**
@@ -79,7 +74,6 @@ public class XmlAdaptedUserProfile {
         for (Food food: source.getRecentFoods()) {
             recentFoods.add(new XmlAdaptedFood(food));
         }
-        profilePicPath = source.getProfilePicturePath().filePath;
     }
 
     /**
@@ -121,11 +115,10 @@ public class XmlAdaptedUserProfile {
             throw new IllegalValueException(Address.MESSAGE_ADDRESS_CONSTRAINTS);
         }
         final Address address = new Address(this.address);
-        final ProfilePicturePath profilePicturePath = new ProfilePicturePath(this.profilePicPath);
 
         final Set<Allergy> allergies = new HashSet<>(allergiesList);
         final Set<Food> recentFoods = new HashSet<>(recentFoodsList);
-        return new UserProfile(name, phone, address, allergies, recentFoods, profilePicturePath);
+        return new UserProfile(name, phone, address, allergies, recentFoods);
     }
 
     @Override
@@ -142,7 +135,6 @@ public class XmlAdaptedUserProfile {
         return Objects.equals(name, otherProfile.name)
                 && Objects.equals(phone, otherProfile.phone)
                 && Objects.equals(address, otherProfile.address)
-                && Objects.equals(profilePicPath, otherProfile.profilePicPath)
                 && allergies.equals(otherProfile.allergies)
                 && recentFoods.equals(otherProfile.recentFoods);
     }

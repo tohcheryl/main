@@ -23,7 +23,6 @@ public class UserProfile {
     private Address address;
     private final UniqueAllergyList allergies;
     private UniqueFoodList recentFoods;
-    private ProfilePicturePath profilePicturePath;
 
 
     /**
@@ -33,7 +32,6 @@ public class UserProfile {
      * @param address Address of user for food delivery
      */
     public UserProfile(Name name, Phone phone, Address address, Set<Allergy> allergies) {
-        this.profilePicturePath = new ProfilePicturePath();
         this.name = name;
         this.phone = phone;
         this.address = address;
@@ -48,16 +46,13 @@ public class UserProfile {
      * @param phone   Phone number of user
      * @param address Address of user for food delivery
      * @param recentFoods Food eaten recently
-     * @param profilePicturePath Path to profile picture
      */
-    public UserProfile(Name name, Phone phone, Address address, Set<Allergy> allergies, Set<Food> recentFoods,
-                       ProfilePicturePath profilePicturePath) {
+    public UserProfile(Name name, Phone phone, Address address, Set<Allergy> allergies, Set<Food> recentFoods) {
         this.name = name;
         this.phone = phone;
         this.address = address;
         this.allergies = new UniqueAllergyList(allergies);
         this.recentFoods = new UniqueFoodList(recentFoods);
-        this.profilePicturePath = profilePicturePath;
     }
 
     //@@author {jaxony}
@@ -97,9 +92,6 @@ public class UserProfile {
         this.recentFoods = recentFoodsList;
     }
 
-    public ProfilePicturePath getProfilePicturePath() {
-        return this.profilePicturePath;
-    }
 
     //@@author {jaxony}
     @Override
@@ -117,14 +109,13 @@ public class UserProfile {
                 && otherUserProfile.getPhone().equals(this.getPhone())
                 && otherUserProfile.getAddress().equals(this.getAddress())
                 && otherUserProfile.getAllergies().equals(this.getAllergies())
-                && otherUserProfile.getRecentFoods().equals(this.getRecentFoods())
-                && otherUserProfile.getProfilePicturePath().equals(this.getProfilePicturePath());
+                && otherUserProfile.getRecentFoods().equals(this.getRecentFoods());
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, address, allergies, recentFoods, profilePicturePath);
+        return Objects.hash(name, phone, address, allergies, recentFoods);
     }
 
     @Override
