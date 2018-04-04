@@ -11,7 +11,7 @@ ifdef::env-github[]
 :tip-caption: :bulb:
 :note-caption: :information_source:
 endif::[]
-:repoURL: https://github.com/se-edu/addressbook-level4
+:repoURL: https://github.com/CS2103JAN2018-W10-B3/main
 
 By: `Team SE-EDU`      Since: `Jun 2016`      Licence: `MIT`
 
@@ -27,7 +27,7 @@ HackEat is for those who *prefer to use a desktop app for ordering food*. More i
 Having any Java 8 version is not enough. +
 This app will not work with earlier versions of Java 8.
 +
-.  Download the latest `addressbook.jar` link:{repoURL}/releases[here].
+.  Download the latest `hackeat.jar` link:{repoURL}/releases[here].
 .  Copy the file to the folder you want to use as the home folder for your Address Book.
 .  Double-click the file to start the app. The GUI should appear in a few seconds.
 +
@@ -60,21 +60,45 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 
 Format: `help`
 
-=== Adding a food: `add`
+=== Adding a food in a single line: `add`
 
 Adds a food to HackEat +
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...`
+Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG] [alg/ALLERGY]...`
 
 [NOTE]
 Name and phone fields must not be left blank
 
 [TIP]
-A food can have any number of tags (including 0)
+A food can have any number of tags and allergies (including 0)
 
 Examples:
 
 * `add n/Sweet Chili Fish Burger p/67773777 e/hanbaobao@mcds.sg a/10 Jalan Serene, #01-01, Serene Centre`
-* `add n/Hainanese Chicken Rice t/chinese e/tiantianchicken@maxwell.sg a/Maxwell Food Centre p/96914852 t/protein`
+* `add n/Hainanese Chicken Rice t/chinese e/tiantianchicken@maxwell.sg a/Maxwell Food Centre p/96914852 t/protein alg/msg`
+
+=== Adding a food interactively: `add` [Proposed to finish in v1.5]
+
+Adds a food to HackEat using an interactive, chat-like experience where HackEat asks you questions about your food
+so you never have to remember the format for `add` again! +
+Format: `add`
+
+[NOTE]
+All fields are required in the interactive `add` command.
+
+[TIP]
+A food should have 1 or more tags and allergies. Currently 0 tags and allergies is not supported for interactive mode.
+
+Example:
+
+* `add` [Press Enter] > `What's the name of your food?`
+* `Sweet Chili Fish Burger` [Press Enter] > `And phone number of restaurant?`
+* `123133123` [Press Enter] > `Is there an email?`
+* `email@email.com` [Press Enter] > `Where it @ fam?`
+* `2 Clementi Road` [Press Enter] > `Any tags?`
+* `burger` [Press Enter] > `Anything else? Type (n/N) to stop.`
+* `n` [Press Enter] > `Any allergies?`
+* `peanut` [Press Enter] > `Anything else? Type (n/N) to stop.`
+* `n` [Press Enter] > `Success!`
 
 === Listing all foods : `list`
 
@@ -281,6 +305,15 @@ There is no need to save manually.
 
 _{explain how the user can enable/disable data encryption}_
 // end::dataencryption[]
+
+=== Natural Language Chatbot `[coming in v2.0]`
+
+You can chat with HackEat without using strictly-formatted commands. Just like chatting with a human :)
+Our smart AI algorithm will understand what you mean, and what you want to eat (really!).
+
+Example:
+
+* `Yo HackEat, add McDonald's McSpicy` > HackEat looks up the nearest McDonald's to your current location and fills in all the other details.
 
 == FAQ
 
