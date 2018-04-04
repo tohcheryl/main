@@ -236,6 +236,24 @@ Examples:
 Sets user profile of Herbert Williams.
 // end::userconfig[]
 
+// tag:edituser[]
+=== Editing user profile: `edituser`
+Edits user details
+Format: `edituser [n/NAME] [p/PHONE] [a/ADDRESS] [alg/ALLERGIES]`
+
+****
+* At least one of the optional fields must be provided.
+* Existing values will be updated to the input values.
+* When editing allergies, the existing allergies of the user will be removed i.e adding of allergies is not cumulative.
+* You can remove all allergies by typing `alg/` without specifying any allergies after it.
+****
+
+Example:
+
+* `edituser p/61234567 e/anthony@example.com` +
+Edits the phone number and email address of the user to be `61234567` and `anthony@example.com` respectively.
+// end::edituser[]
+
 === Clearing all entries : `clear`
 
 Clears all entries from HackEat. +
