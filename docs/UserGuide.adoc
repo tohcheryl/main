@@ -63,13 +63,13 @@ Format: `help`
 === Adding a food: `add`
 
 Adds a food to HackEat +
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...`
+Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG] [alg/ALLERGY]...`
 
 [NOTE]
 Name and phone fields must not be left blank
 
 [TIP]
-A food can have any number of tags (including 0)
+A food can have any number of tags and allergies (including 0)
 
 Examples:
 
