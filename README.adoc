@@ -16,15 +16,12 @@ image::images/Ui.png[width="600"]
 endif::[]
 
 Welcome to the home of HackEat! HackEat is a next-gen food recommendation and ordering app for the hackers, the programmers, the creators of world bustling and bursting with world-changing ideas but running short on time ⏰⏳.
+
 * Perfect for the busy software developer or desk hermit: Use _CLI commands_ to accelerate the chore of finding the right food.
 * HackEat takes the stress, thinking and time-waste out of deciding what to eat. Order your food in style with developer-friendly commands like `ls` and `mkfood` to stay _in the zone_ even when you're not programming.
 
 == How to Use
-Hackers don't need manuals. But here it is for you anyway.
-* `ls`: list the favourite foods you've added to your trusty collection
-* `order rand`: order a random dish from your collection to save time when you need to make that PR deadline before your Wednesday tutorial!
-* `mkfood`: add a new food item to your collection of scrumptious dishes for those energy-consuming hack sessions we all know and dread/love
-* `rm <food>`: remove food item from your collection. Maybe the McChicken just isn't the same as it used to be?
+Hackers don't need manuals. But there is a User Guide for you to check out. See the links below :)
 
 == Site Map
 
