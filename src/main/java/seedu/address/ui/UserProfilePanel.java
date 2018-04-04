@@ -47,11 +47,8 @@ public class UserProfilePanel extends UiPart<Region> {
     public UserProfilePanel(ReadOnlyAddressBook addressBook) {
         super(FXML);
         this.addressBook = addressBook;
-        // temporary image
-        setProfilePicture(new Image("file:docs/images/tohcheryl.png"));
         setUserProfile(addressBook.getUserProfile());
         registerAsAnEventHandler(this);
-
     }
 
     public void setUserProfile(UserProfile userProfile) {
@@ -60,11 +57,12 @@ public class UserProfilePanel extends UiPart<Region> {
         address.setText(userProfile.getAddress().value);
         allergies.getChildren().clear();
         userProfile.getAllergies().forEach(allergy -> allergies.getChildren().add(new Label(allergy.allergyName)));
-
+        String profilePicPath = getProfilePicString(userProfile.getProfilePicturePath());
+        profilepic.setImage(new Image(profilePicPath));
     }
 
     public String getProfilePicString(ProfilePicturePath path) {
-        String pathString = "file:" + path;
+        return "file:" + path;
     }
 
     @Subscribe
