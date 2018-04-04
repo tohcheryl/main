@@ -5,7 +5,7 @@ package seedu.address.model.user;
  */
 public class ProfilePicturePath {
 
-    private String filePath;
+    public final String filePath;
 
     public ProfilePicturePath() {
         filePath = "docs/images/tohcheryl.png";
