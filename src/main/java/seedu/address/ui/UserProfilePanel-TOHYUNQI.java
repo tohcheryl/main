@@ -48,10 +48,8 @@ public class UserProfilePanel extends UiPart<Region> {
         super(FXML);
         this.addressBook = addressBook;
         // temporary image
-        setProfilePicture(new Image("file:docs/images/tohcheryl.png"));
         setUserProfile(addressBook.getUserProfile());
         registerAsAnEventHandler(this);
-
     }
 
     public void setUserProfile(UserProfile userProfile) {
@@ -60,6 +58,7 @@ public class UserProfilePanel extends UiPart<Region> {
         address.setText(userProfile.getAddress().value);
         allergies.getChildren().clear();
         userProfile.getAllergies().forEach(allergy -> allergies.getChildren().add(new Label(allergy.allergyName)));
+        profilepic.setImage(new Image(getProfilePicString(userProfile.getProfilePicturePath())));
 
     }
 
