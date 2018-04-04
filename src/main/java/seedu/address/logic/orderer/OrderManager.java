@@ -1,10 +1,11 @@
 package seedu.address.logic.orderer;
 
-import static spark.Spark.post;
-
+import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.UnknownHostException;
+import java.net.URL;
+import java.util.UUID;
 
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Call;
@@ -21,59 +22,70 @@ import seedu.address.model.user.UserProfile;
  */
 public class OrderManager {
 
-    // Find your Account Sid and Token at twilio.com/console
+    // Find your Account Sid, Token and phone number used at twilio.com/console
     public static final String ACCOUNT_SID = "AC08ed603e3a4de8c0055e27ed8f5e8a3e";
     public static final String AUTH_TOKEN = "97fbd0228fa8419cb931583626039e00";
-    public static final String LOCAL_COUNTRY_CODE = "+65";
-    public static final String TEMP_FROM_PHONE = "+16123245532";
-    public static final String CANNED_SPEECH_MESSAGE = "Hello, my name is %s. Could I order a %s to %s?";
+    public static final String OUTGOING_PHONE = "+16123245532";
 
+    // Country code specific to Singapore at the moment
+    public static final String LOCAL_COUNTRY_CODE = "+65";
+    public static final String CANNED_SPEECH_MESSAGE = "Hello, my name is %s. Could I order a %s to %s?";
+    public static final String ORDER_PATH = "order/";
+    public static final String CREATE_PATH = "create/";
+    public static final String REMOTE_SERVER = "http://localhost:4568/";
+
+    private String orderId;
     private UserProfile user;
     private Food toOrder;
 
     public OrderManager(UserProfile user, Food food) {
         this.user = user;
         this.toOrder = food;
+        this.orderId = UUID.randomUUID().toString();
+        System.out.println(orderId);
     }
 
     /**
-     * Sets up variables to begin ordering {@code Food}
+     * Uses Twilio API to begin call and order {@code Food}
      */
-    public void order() throws URISyntaxException, UnknownHostException {
-        String localPhoneNumber = LOCAL_COUNTRY_CODE + toOrder.getPhone();
-        beginCall(localPhoneNumber);
-    }
-
-    /**
-     * Uses Twilio API to begin call
-     * @throws URISyntaxException
-     */
-    private void beginCall(String to) throws URISyntaxException, UnknownHostException {
+    public void order() throws URISyntaxException, IOException {
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
 
-        String from = TEMP_FROM_PHONE;
+        String to = LOCAL_COUNTRY_CODE + toOrder.getPhone();
+        String from = OUTGOING_PHONE;
 
-        updateSpeech(String.format(CANNED_SPEECH_MESSAGE,
-                user.getName(), toOrder.getName(), user.getAddress()));
+        createOrder(String.format(CANNED_SPEECH_MESSAGE, user.getName(), toOrder.getName(), user.getAddress()));
 
-        // TODO: Currently ngrok is staticlly copied from ngrok instance on computer
         Call.creator(new PhoneNumber(to), new PhoneNumber(from),
-                new URI("http://33cc3524.ngrok.io/")).create();
+                new URI(REMOTE_SERVER + ORDER_PATH + orderId)).create();
     }
 
     /**
      *  Use TwiML to generate speech
+     *  Say Hello. Wait for response. Say order. Wait for response. Say Thank you.
      */
-    private static void updateSpeech(String speech) {
+    private void createOrder(String speech) throws IOException {
 
-        post("/", (request, response) -> {
-            Say say  = new Say.Builder(
-                    speech)
-                    .build();
-            VoiceResponse voiceResponse = new VoiceResponse.Builder()
-                    .say(say)
-                    .build();
-            return voiceResponse.toXml();
-        });
+        Say say  = new Say.Builder(
+                speech)
+                .build();
+        VoiceResponse voiceResponse = new VoiceResponse.Builder()
+                .say(say)
+                .build();
+
+        sendOrder(voiceResponse.toXml());
+    }
+
+    /**
+     * Sends order to REST API for TwiML to pick up
+     */
+    private void sendOrder(String body) throws IOException {
+        URL url = new URL(REMOTE_SERVER + CREATE_PATH + orderId);
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestMethod("POST");
+        con.setDoOutput(true);
+        con.getOutputStream().write(body.getBytes("UTF-8"));
+        con.getInputStream();
+        con.disconnect();
     }
 }
