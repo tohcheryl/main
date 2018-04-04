@@ -167,10 +167,10 @@ public class ParserUtil {
     }
 
     /**
-     * Parses a {@code String price} into an {@code Price}.
+     * Parses a {@code String Rating} into an {@code Rating}.
      * Leading and trailing whitespaces will be trimmed.
      *
-     * @throws IllegalValueException if the given {@code price} is invalid.
+     * @throws IllegalValueException if the given {@code rating} is invalid.
      */
     public static Rating parseRating(String rating) throws IllegalValueException {
         requireNonNull(rating);
@@ -182,7 +182,7 @@ public class ParserUtil {
     }
 
     /**
-     * Parses a {@code Optional<String> price} into an {@code Optional<Price>} if {@code price} is present.
+     * Parses a {@code Optional<String> rating} into an {@code Optional<Rating>} if {@code rating} is present.
      * See header comment of this class regarding the use of {@code Optional} parameters.
      */
     public static Optional<Rating> parseRating(Optional<String> rating) throws IllegalValueException {
