@@ -32,7 +32,7 @@ public class OrderManager {
     public static final String CANNED_SPEECH_MESSAGE = "Hello, my name is %s. Could I order a %s to %s?";
     public static final String ORDER_PATH = "order/";
     public static final String CREATE_PATH = "create/";
-    public static final String REMOTE_SERVER = "http://localhost:4568/";
+    public static final String REMOTE_SERVER = "https://mysterious-temple-83678.herokuapp.com/";
 
     private String orderId;
     private UserProfile user;
