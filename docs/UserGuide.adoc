@@ -76,7 +76,7 @@ Examples:
 * `add n/Sweet Chili Fish Burger p/67773777 e/hanbaobao@mcds.sg a/10 Jalan Serene, #01-01, Serene Centre`
 * `add n/Hainanese Chicken Rice t/chinese e/tiantianchicken@maxwell.sg a/Maxwell Food Centre p/96914852 t/protein alg/msg`
 
-=== Adding a food interactively: `add`
+=== Adding a food interactively: `add` [Proposed to finish in v1.5]
 
 Adds a food to HackEat using an interactive, chat-like experience where HackEat asks you questions about your food
 so you never have to remember the format for `add` again! +
