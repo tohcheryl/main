@@ -2,7 +2,10 @@ package seedu.address.ui;
 
 import java.util.logging.Logger;
 
+import javax.jws.soap.SOAPBinding;
+
 import com.google.common.eventbus.Subscribe;
+import com.twilio.rest.chat.v1.service.User;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,6 +15,7 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import jdk.nashorn.internal.runtime.UserAccessorProperty;
 import seedu.address.commons.core.Config;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
@@ -19,6 +23,7 @@ import seedu.address.commons.events.ui.ExitAppRequestEvent;
 import seedu.address.commons.events.ui.ShowHelpRequestEvent;
 import seedu.address.logic.Logic;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.user.UserProfile;
 
 /**
  * The Main Window. Provides the basic application layout containing
@@ -56,6 +61,9 @@ public class MainWindow extends UiPart<Stage> {
 
     @FXML
     private StackPane statusbarPlaceholder;
+
+    @FXML
+    private StackPane userProfilePlaceholder;
 
     public MainWindow(Stage primaryStage, Config config, UserPrefs prefs, Logic logic) {
         super(FXML, primaryStage);
@@ -130,6 +138,9 @@ public class MainWindow extends UiPart<Stage> {
 
         CommandBox commandBox = new CommandBox(logic);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
+
+        UserProfilePanel userProfilePanel = new UserProfilePanel(logic.getAddressBook());
+        userProfilePlaceholder.getChildren().add(userProfilePanel.getRoot());
     }
 
     void hide() {
