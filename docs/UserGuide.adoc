@@ -306,6 +306,15 @@ There is no need to save manually.
 _{explain how the user can enable/disable data encryption}_
 // end::dataencryption[]
 
+=== Natural Language Chatbot `[coming in v2.0]`
+
+You can chat with HackEat without using strictly-formatted commands. Just like chatting with a human :)
+Our smart AI algorithm will understand what you mean, and what you want to eat (really!).
+
+Example:
+
+* `Yo HackEat, add McDonald's McSpicy` > HackEat looks up the nearest McDonald's to your current location and fills in all the other details.
+
 == FAQ
 
 *Q*: How do I transfer my data to another Computer? +
