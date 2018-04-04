@@ -6,6 +6,8 @@ import com.google.common.eventbus.Subscribe;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Region;
 
@@ -27,6 +29,9 @@ public class UserProfilePanel extends UiPart<Region> {
     private ReadOnlyAddressBook addressBook;
 
     @FXML
+    private ImageView profilepic;
+
+    @FXML
     private Label name;
 
     @FXML
@@ -41,6 +46,8 @@ public class UserProfilePanel extends UiPart<Region> {
     public UserProfilePanel(ReadOnlyAddressBook addressBook) {
         super(FXML);
         this.addressBook = addressBook;
+        // temporary image
+        setProfilePicture(new Image("file:docs/images/tohcheryl.png"));
         setUserProfile(addressBook.getUserProfile());
         registerAsAnEventHandler(this);
 
@@ -52,7 +59,10 @@ public class UserProfilePanel extends UiPart<Region> {
         address.setText(userProfile.getAddress().value);
         allergies.getChildren().clear();
         userProfile.getAllergies().forEach(allergy -> allergies.getChildren().add(new Label(allergy.allergyName)));
+    }
 
+    public void setProfilePicture(Image image) {
+        profilepic.setImage(image);
     }
 
     @Subscribe
