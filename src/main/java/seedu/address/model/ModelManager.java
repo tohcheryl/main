@@ -73,7 +73,8 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public void initUserProfile(UserProfile userProfile) {
         addressBook.initUserProfile(userProfile);
-        indicateUserProfileChanged();
+        //indicateUserProfileChanged();
+        indicateAddressBookChanged();
     }
 
     private void indicateUserProfileChanged() {
@@ -103,7 +104,8 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public void updateUserProfile(UserProfile toAdd) throws DuplicateUserException {
         addressBook.updateUserProfile(toAdd);
-        indicateUserProfileChanged();
+        //indicateUserProfileChanged();
+        indicateAddressBookChanged();
     }
 
     @Override
