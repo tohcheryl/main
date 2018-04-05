@@ -336,6 +336,12 @@
     -fx-background-radius: 0;
 }
 
+#profilePane {
+    -fx-background-color: #ffffff;
+    -fx-padding: 5 5 5 5;
+    -fx-alignment: top-center;
+}
+
 #tags {
     -fx-hgap: 7;
     -fx-vgap: 3;
