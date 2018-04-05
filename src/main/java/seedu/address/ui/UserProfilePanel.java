@@ -28,9 +28,9 @@ public class UserProfilePanel extends UiPart<Region> {
 
     private static final Logger logger = LogsCenter.getLogger(UserProfilePanel.class);
 
-    private static final String PROFILE_PICTURE_PATH = "src/main/resources/images/profilepic.png";
+    private static final String PROFILE_PICTURE_PATH = "data/profilepic.png";
 
-    private static final String DEFAULT_PROFILE_PICTURE_PATH = "src/main/resources/images/defaultprofilepic.png";
+    private static final String DEFAULT_PROFILE_PICTURE_PATH = "data/defaultprofilepic.png";
 
     private ReadOnlyAddressBook addressBook;
 

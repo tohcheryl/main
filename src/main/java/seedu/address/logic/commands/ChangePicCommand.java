@@ -26,7 +26,7 @@ public class ChangePicCommand extends Command {
         int numBytes;
         FileInputStream fis = null;
         FileOutputStream fos = null;
-        File outputFile = new File("src/main/resources/images/profilepic.png");
+        File outputFile = new File("data/profilepic.png");
         if (!outputFile.exists()) {
             outputFile.createNewFile();
         }
