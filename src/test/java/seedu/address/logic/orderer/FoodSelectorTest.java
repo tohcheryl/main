@@ -15,6 +15,7 @@ public class FoodSelectorTest {
 
     @Test
     public void constructor_withArguments_success() {
-        Index index = FoodSelector.select(model);
+        FoodSelector fs = new FoodSelector();
+        Index index = fs.select(model);
     }
 }
