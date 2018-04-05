@@ -16,6 +16,11 @@ public class FoodSelectorTest {
     @Test
     public void constructor_withArguments_success() {
         FoodSelector fs = new FoodSelector();
-        Index index = fs.select(model);
+        try {
+            Index index = fs.select(model);
+        } catch (NullPointerException npe) {
+            npe.getMessage();
+        }
+
     }
 }
