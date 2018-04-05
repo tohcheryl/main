@@ -49,8 +49,8 @@ public class FoodSelector {
             }
         }
 
-        // No food was chosen
-        return null;
+        // TODO: FIX - No food was chosen - not null - probably all allergic. Do not order.
+        return foodScores.get(foodScores.size() - 1);
     }
 
     /**
@@ -85,7 +85,7 @@ public class FoodSelector {
             }
         }
 
-        score += Integer.parseInt(food.getRating().value);
+        score += 1.0 + Integer.parseInt(food.getRating().value);
         score /= 1.0 + Float.parseFloat(food.getPrice().getValue());
 
         return score;
