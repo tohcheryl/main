@@ -1,5 +1,6 @@
 package seedu.address.ui;
 
+import java.io.File;
 import java.util.logging.Logger;
 
 import com.google.common.eventbus.Subscribe;
@@ -12,7 +13,6 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Region;
 
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.commons.events.model.AddressBookChangedEvent;
 import seedu.address.commons.events.model.UserProfileChangedEvent;
 import seedu.address.commons.events.ui.ProfilePictureChangedEvent;
 import seedu.address.model.ReadOnlyAddressBook;
@@ -28,7 +28,9 @@ public class UserProfilePanel extends UiPart<Region> {
 
     private static final Logger logger = LogsCenter.getLogger(UserProfilePanel.class);
 
-    private static final String PROFILE_PICTURE_PATH = "file:src/main/resources/images/profilepic.png";
+    private static final String PROFILE_PICTURE_PATH = "src/main/resources/images/profilepic.png";
+
+    private static final String DEFAULT_PROFILE_PICTURE_PATH = "src/main/resources/images/defaultprofilepic.png";
 
     private ReadOnlyAddressBook addressBook;
 
@@ -64,20 +66,25 @@ public class UserProfilePanel extends UiPart<Region> {
     }
 
     public void setProfilePicture() {
-        profilepic.setImage(new Image(PROFILE_PICTURE_PATH));
+        if (profilePicPresent()) {
+            profilepic.setImage(new Image("file:" + PROFILE_PICTURE_PATH));
+        } else {
+            profilepic.setImage(new Image("file:" + DEFAULT_PROFILE_PICTURE_PATH));
+        }
     }
 
-   /* @Subscribe
+    /**
+     * Checks if user has his/her own profile picture saved.
+     */
+    private boolean profilePicPresent() {
+        File file = new File(PROFILE_PICTURE_PATH);
+        return file.exists();
+    }
+
+    @Subscribe
     public void handleUserProfileChangedEvent(UserProfileChangedEvent abce) {
         UserProfile newUserProfile = addressBook.getUserProfile();
         logger.info(LogsCenter.getEventHandlingLogMessage(abce, "User Profile updated to: " + newUserProfile));
-        setUserProfile(newUserProfile);
-    } */
-
-    @Subscribe
-    public void handleAddressBookChangedEvent(AddressBookChangedEvent abce) {
-        UserProfile newUserProfile = addressBook.getUserProfile();
-        //logger.info(LogsCenter.getEventHandlingLogMessage(abce, "User Profile updated to: " + newUserProfile));
         setUserProfile(newUserProfile);
     }
 
