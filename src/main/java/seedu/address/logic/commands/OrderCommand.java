@@ -38,7 +38,7 @@ public class OrderCommand extends UndoableCommand {
     public CommandResult executeUndoableCommand() throws CommandException {
         try {
             OrderManager manager = new OrderManager(model.getAddressBook().getUserProfile(), toOrder);
-            manager.order();
+//            manager.order();
 
             return new CommandResult(String.format(MESSAGE_SUCCESS, toOrder.getName(), toOrder.getPhone()));
         } catch (Exception e) {
@@ -51,7 +51,8 @@ public class OrderCommand extends UndoableCommand {
         List<Food> lastShownList = model.getFilteredFoodList();
 
         if (this.index == null) {
-            this.index = FoodSelector.select(model);
+            FoodSelector fs = new FoodSelector();
+            this.index = fs.select(model);
         }
 
         if (index.getZeroBased() >= lastShownList.size()) {
