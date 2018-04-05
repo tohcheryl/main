@@ -13,7 +13,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Region;
 
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.commons.events.model.UserProfileChangedEvent;
+import seedu.address.commons.events.model.AddressBookChangedEvent;
 import seedu.address.commons.events.ui.ProfilePictureChangedEvent;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.user.UserProfile;
@@ -82,7 +82,7 @@ public class UserProfilePanel extends UiPart<Region> {
     }
 
     @Subscribe
-    public void handleUserProfileChangedEvent(UserProfileChangedEvent abce) {
+    public void handleAddressBookChangedEvent(AddressBookChangedEvent abce) {
         UserProfile newUserProfile = addressBook.getUserProfile();
         logger.info(LogsCenter.getEventHandlingLogMessage(abce, "User Profile updated to: " + newUserProfile));
         setUserProfile(newUserProfile);
