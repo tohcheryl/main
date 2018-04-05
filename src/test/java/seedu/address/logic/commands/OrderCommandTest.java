@@ -58,6 +58,8 @@ public class OrderCommandTest {
             CommandResult result = orderCommand.execute();
             assertThat(result.feedbackToUser, containsString(String.format(OrderCommand.MESSAGE_SUCCESS,
                     "", "")));
+        } catch (CommandException e) {
+            assertThat(e.getMessage(), containsString(String.format(OrderCommand.MESSAGE_SELECT_FAIL)));
         } catch (Exception e) {
             assertThat(e.getMessage(), containsString(String.format(OrderCommand.MESSAGE_DIAL_FAIL_FOOD, "")));
             assertThat(e.getMessage(), containsString(String.format(OrderCommand.MESSAGE_DIAL_FAIL_PHONE, "")));
