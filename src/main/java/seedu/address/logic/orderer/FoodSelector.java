@@ -4,11 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
-import java.util.logging.Logger;
 
-import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.index.Index;
-import seedu.address.logic.LogicManager;
 import seedu.address.model.Model;
 import seedu.address.model.food.Food;
 import seedu.address.model.food.allergy.Allergy;
@@ -17,9 +14,6 @@ import seedu.address.model.food.allergy.Allergy;
  * Orders food in HackEat.
  */
 public class FoodSelector {
-
-    private final Logger logger = LogsCenter.getLogger(LogicManager.class);
-    private String logBuffer = "";
     /**
      * Selects a {@code Food} based on the HackEat Algorithm
      * @param model the current model of the program
@@ -28,8 +22,6 @@ public class FoodSelector {
     public Index select(Model model) {
         ArrayList<FoodScore> foodScores = generateFoodList(model);
         FoodScore fs = pickFood(foodScores);
-        logBuffer += String.format("Selected Food: %s at index %s", fs.food.getName(), fs.index.getOneBased());
-        printLog();
         return fs.index;
     }
 
@@ -40,24 +32,25 @@ public class FoodSelector {
      */
     private FoodScore pickFood(ArrayList<FoodScore> foodScores) {
 
+        // Position foods at a number, weighted to their score
         float runningScore = 0;
         for (FoodScore foodScore : foodScores) {
             runningScore += foodScore.score;
             foodScore.runningScore = runningScore;
-            logBuffer += String.format("Food: %3s, score: %3s, running score: %3s \n",
-                    foodScore.food.getName(), foodScore.score, foodScore.runningScore);
         }
 
+        // Randomly choose number
         float decidingNumber = (new Random()).nextFloat() * runningScore;
-        logBuffer += String.format("Selected number: %s\n", decidingNumber);
-        // Already sorted
+
+        // Already sorted, choose first food that number falls within range
         for (FoodScore foodScore : foodScores) {
             if (decidingNumber < foodScore.runningScore) {
                 return foodScore;
             }
         }
 
-        return foodScores.get(foodScores.size() - 1);
+        // No food was chosen
+        return null;
     }
 
     /**
@@ -96,12 +89,6 @@ public class FoodSelector {
         score /= 1.0 + Float.parseFloat(food.getPrice().getValue());
 
         return score;
-    }
-
-    private void printLog() {
-        logBuffer = "\n" + logBuffer;
-        logger.info(logBuffer);
-        logBuffer = "";
     }
 
     /**
