@@ -38,7 +38,7 @@ public class OrderCommand extends UndoableCommand {
     public CommandResult executeUndoableCommand() throws CommandException {
         try {
             OrderManager manager = new OrderManager(model.getAddressBook().getUserProfile(), toOrder);
-//            manager.order();
+            manager.order();
 
             return new CommandResult(String.format(MESSAGE_SUCCESS, toOrder.getName(), toOrder.getPhone()));
         } catch (Exception e) {
