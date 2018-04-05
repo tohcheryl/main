@@ -40,9 +40,6 @@ public class MainWindow extends UiPart<Stage> {
     private UserPrefs prefs;
 
     @FXML
-    private StackPane browserPlaceholder;
-
-    @FXML
     private StackPane commandBoxPlaceholder;
 
     @FXML
@@ -119,8 +116,6 @@ public class MainWindow extends UiPart<Stage> {
      * Fills up all the placeholders of this window.
      */
     void fillInnerParts() {
-        browserPanel = new BrowserPanel();
-        browserPlaceholder.getChildren().add(browserPanel.getRoot());
 
         personListPanel = new FoodListPanel(logic.getFilteredFoodList());
         personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
