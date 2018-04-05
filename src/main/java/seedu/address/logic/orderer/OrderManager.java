@@ -42,7 +42,6 @@ public class OrderManager {
         this.user = user;
         this.toOrder = food;
         this.orderId = UUID.randomUUID().toString();
-        System.out.println(orderId);
     }
 
     /**
