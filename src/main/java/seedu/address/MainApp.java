@@ -1,6 +1,10 @@
 package seedu.address;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -42,6 +46,8 @@ public class MainApp extends Application {
 
     public static final Version VERSION = new Version(0, 6, 0, true);
 
+    private static final String PROFILE_PICTURE_PATH = "profilepic.png";
+
     private static final Logger logger = LogsCenter.getLogger(MainApp.class);
 
     protected Ui ui;
@@ -65,6 +71,8 @@ public class MainApp extends Application {
         storage = new StorageManager(addressBookStorage, userPrefsStorage);
 
         initLogging(config);
+
+        initDefaultProfilePic();
 
         model = initModelManager(storage, userPrefs);
 
@@ -175,6 +183,36 @@ public class MainApp extends Application {
         }
 
         return initializedPrefs;
+    }
+
+    /**
+     * Saves default profile picture
+     */
+    private void initDefaultProfilePic() {
+        int numBytes;
+        FileInputStream fis = null;
+        FileOutputStream fos = null;
+        File outputFile = new File("profilepic.png");
+        logger.info("path: " + outputFile.getAbsolutePath());
+        URL url = getClass().getResource("profilepic.png");
+        boolean result = (url == null);
+        logger.info("output file exists: " + result);
+        if (url == null) {
+            try {
+                outputFile.createNewFile();
+                url = MainApp.class.getResource("/images/defaultprofilepic.png");
+                fis = new FileInputStream(new File(url.getPath()));
+                fos = new FileOutputStream(outputFile);
+                while ((numBytes = fis.read()) != -1) {
+                    fos.write(numBytes);
+                }
+                fis.close();
+                fos.close();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void initEventsCenter() {

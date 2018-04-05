@@ -1,6 +1,5 @@
 package seedu.address.ui;
 
-import java.io.File;
 import java.util.logging.Logger;
 
 import com.google.common.eventbus.Subscribe;
@@ -28,9 +27,7 @@ public class UserProfilePanel extends UiPart<Region> {
 
     private static final Logger logger = LogsCenter.getLogger(UserProfilePanel.class);
 
-    private static final String PROFILE_PICTURE_PATH = "data/profilepic.png";
-
-    private static final String DEFAULT_PROFILE_PICTURE_PATH = "data/defaultprofilepic.png";
+    private static final String PROFILE_PICTURE_PATH = "profilepic.png";
 
     private ReadOnlyAddressBook addressBook;
 
@@ -66,19 +63,7 @@ public class UserProfilePanel extends UiPart<Region> {
     }
 
     public void setProfilePicture() {
-        if (profilePicPresent()) {
-            profilepic.setImage(new Image("file:" + PROFILE_PICTURE_PATH));
-        } else {
-            profilepic.setImage(new Image("file:" + DEFAULT_PROFILE_PICTURE_PATH));
-        }
-    }
-
-    /**
-     * Checks if user has his/her own profile picture saved.
-     */
-    private boolean profilePicPresent() {
-        File file = new File(PROFILE_PICTURE_PATH);
-        return file.exists();
+        profilepic.setImage(new Image("file:" + PROFILE_PICTURE_PATH));
     }
 
     @Subscribe

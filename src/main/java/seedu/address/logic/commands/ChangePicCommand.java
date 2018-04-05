@@ -20,16 +20,13 @@ public class ChangePicCommand extends Command {
     public static final String MESSAGE_PIC_CHANGED_ACKNOWLEDGEMENT = "Profile picture has been changed!";
 
     /**
-     * Copies profile image file set by user and saves it into images folder
+     * Copies profile image file set by user and saves it
      */
-    public void copyFile(File file) throws IOException {
+    public void copyFile(File file) {
         int numBytes;
         FileInputStream fis = null;
         FileOutputStream fos = null;
-        File outputFile = new File("data/profilepic.png");
-        if (!outputFile.exists()) {
-            outputFile.createNewFile();
-        }
+        File outputFile = new File("profilepic.png");
         try {
             fis = new FileInputStream(file);
             fos = new FileOutputStream(outputFile);
@@ -49,11 +46,7 @@ public class ChangePicCommand extends Command {
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files",
                 "*.png", "*.jpg", "*.gif"));
         File selectedFile = fileChooser.showOpenDialog(null);
-        try {
-            copyFile(selectedFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        copyFile(selectedFile);
         EventsCenter.getInstance().post(new ProfilePictureChangedEvent());
         return new CommandResult(MESSAGE_PIC_CHANGED_ACKNOWLEDGEMENT);
     }
