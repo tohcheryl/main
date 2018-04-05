@@ -1,8 +1,6 @@
 package seedu.address;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
@@ -21,6 +19,7 @@ import seedu.address.commons.core.Version;
 import seedu.address.commons.events.ui.ExitAppRequestEvent;
 import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.commons.util.ConfigUtil;
+import seedu.address.commons.util.FileUtil;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.Logic;
 import seedu.address.logic.LogicManager;
@@ -189,29 +188,18 @@ public class MainApp extends Application {
      * Saves default profile picture
      */
     private void initDefaultProfilePic() {
-        int numBytes;
-        FileInputStream fis = null;
-        FileOutputStream fos = null;
-        File outputFile = new File("profilepic.png");
-        logger.info("path: " + outputFile.getAbsolutePath());
-        URL url = getClass().getResource("profilepic.png");
-        boolean result = (url == null);
-        logger.info("output file exists: " + result);
-        if (url == null) {
-            try {
-                outputFile.createNewFile();
-                url = MainApp.class.getResource("/images/defaultprofilepic.png");
-                fis = new FileInputStream(new File(url.getPath()));
-                fos = new FileOutputStream(outputFile);
-                while ((numBytes = fis.read()) != -1) {
-                    fos.write(numBytes);
-                }
-                fis.close();
-                fos.close();
+        File profilePicFile = new File("profilepic.png");
+        boolean wasProfilePicFileAbsent = true;
+        try {
+            wasProfilePicFileAbsent = FileUtil.createFile(profilePicFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        if (wasProfilePicFileAbsent) {
+            URL defaultProfilePicUrl = MainApp.class.getResource("/images/defaultprofilepic.png");
+            File defaultProfilePicFile = new File(defaultProfilePicUrl.getPath());
+            FileUtil.copyFile(defaultProfilePicFile, profilePicFile);
         }
     }
 
