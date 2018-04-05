@@ -49,22 +49,23 @@ public class OrderCommand extends UndoableCommand {
 
     @Override
     protected void preprocessUndoableCommand() throws CommandException {
-        List<Food> lastShownList = model.getFilteredFoodList();
+        try {
+            List<Food> lastShownList = model.getFilteredFoodList();
 
-        if (this.index == null) {
-            FoodSelector fs = new FoodSelector();
-            this.index = fs.select(model);
-        }
+            if (this.index == null) {
+                FoodSelector fs = new FoodSelector();
+                this.index = fs.select(model);
+            }
 
-        if (this.index == null) {
+            if (index.getZeroBased() >= lastShownList.size()) {
+                throw new CommandException(Messages.MESSAGE_INVALID_FOOD_DISPLAYED_INDEX);
+            }
+
+            toOrder = lastShownList.get(index.getZeroBased());
+        } catch (Exception e) {
             throw new CommandException(MESSAGE_SELECT_FAIL);
         }
 
-        if (index.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_FOOD_DISPLAYED_INDEX);
-        }
-
-        toOrder = lastShownList.get(index.getZeroBased());
     }
 
     @Override
