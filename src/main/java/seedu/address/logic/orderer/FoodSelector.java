@@ -49,8 +49,8 @@ public class FoodSelector {
             }
         }
 
-        // TODO: FIX - No food was chosen - not null - probably all allergic. Do not order.
-        return foodScores.get(foodScores.size() - 1);
+        // Null chosen - probably all foods are allergic. Throw error and do not order.
+        return null;
     }
 
     /**
