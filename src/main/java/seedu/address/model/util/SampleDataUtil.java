@@ -45,7 +45,7 @@ public class SampleDataUtil {
     }
 
     public static UserProfile getSampleProfile() {
-        return new UserProfile(new Name("Hacker"), new Phone("123456"),
+        return new UserProfile(new Name("Hacker"), new Phone("97002333"),
                 new Address("Blk 71 One North MRT Station"), getAllergySet("lactose", "peanut", "cinnamon"));
     }
 
