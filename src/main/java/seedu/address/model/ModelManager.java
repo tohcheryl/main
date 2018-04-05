@@ -12,6 +12,7 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
+import seedu.address.commons.events.model.UserProfileChangedEvent;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -72,7 +73,11 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public void initUserProfile(UserProfile userProfile) {
         addressBook.initUserProfile(userProfile);
-        indicateAddressBookChanged();
+        indicateUserProfileChanged();
+    }
+
+    private void indicateUserProfileChanged() {
+        raise(new UserProfileChangedEvent(addressBook.getUserProfile()));
     }
 
     //@@author
@@ -98,7 +103,7 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public void updateUserProfile(UserProfile toAdd) throws DuplicateUserException {
         addressBook.updateUserProfile(toAdd);
-        indicateAddressBookChanged();
+        indicateUserProfileChanged();
     }
 
     @Override
