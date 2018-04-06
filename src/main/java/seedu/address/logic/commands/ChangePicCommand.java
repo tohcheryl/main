@@ -1,11 +1,13 @@
 package seedu.address.logic.commands;
 
 import java.io.File;
+import java.io.IOException;
+
+import org.apache.commons.io.FileUtils;
 
 import javafx.stage.FileChooser;
 import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.events.ui.ProfilePictureChangedEvent;
-import seedu.address.commons.util.FileUtil;
 
 //@@author {tohcheryl}
 /**
@@ -32,7 +34,11 @@ public class ChangePicCommand extends Command {
     public CommandResult execute() {
         File outputFile = new File("profilepic.png");
         File selectedFile = selectProfilePic();
-        FileUtil.copyFile(selectedFile, outputFile);
+        try {
+            FileUtils.copyFile(selectedFile, outputFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         EventsCenter.getInstance().post(new ProfilePictureChangedEvent());
         return new CommandResult(MESSAGE_PIC_CHANGED_ACKNOWLEDGEMENT);
     }

@@ -3,8 +3,6 @@ package seedu.address.commons.util;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 
@@ -91,26 +89,4 @@ public class FileUtil {
         checkArgument(pathWithForwardSlash.contains("/"));
         return pathWithForwardSlash.replace("/", File.separator);
     }
-
-    //@@author {tohcheryl}
-    /**
-     * Copies inputFile to outputFile
-     */
-    public static void copyFile(File inputFile, File outputFile) {
-        int numBytes;
-        FileInputStream fis = null;
-        FileOutputStream fos = null;
-        try {
-            fis = new FileInputStream(inputFile);
-            fos = new FileOutputStream(outputFile);
-            while ((numBytes = fis.read()) != -1) {
-                fos.write(numBytes);
-            }
-            fis.close();
-            fos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
 }
