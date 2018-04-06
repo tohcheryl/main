@@ -32,6 +32,7 @@ _End of Extract [from: Read Me] written by Jackson Huang_
 * Added Order Command
 * Implemented server-side REST API for ordering
 ** Found here: https://github.com/CS2103JAN2018-W10-B3/hackeat-server
+** Configured to be hosted on Heroku on https://mysterious-temple-83678.herokuapp.com/
 * Implemented a Food selection algorithm
 
 
