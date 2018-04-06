@@ -17,7 +17,6 @@ public class FoodSelector {
      */
     public static Index select(Model model) {
         List<Food> lastShownList = model.getFilteredFoodList();
-        // Map each food to a score
         int listSize = lastShownList.size();
         int randomIndex = (new Random()).nextInt(listSize);
         return Index.fromZeroBased(randomIndex);
