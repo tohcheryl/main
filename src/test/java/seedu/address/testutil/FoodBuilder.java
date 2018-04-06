@@ -26,8 +26,8 @@ public class FoodBuilder {
     public static final String DEFAULT_ADDRESS = Address.DEFAULT_ADDRESS;
     public static final String DEFAULT_PRICE = Price.DEFAULT_PRICE;
     public static final String DEFAULT_RATING = Rating.DEFAULT_RATING;
-    public static final String DEFAULT_TAGS = "fried";
-    public static final String DEFAULT_ALLERGIES = "lactose";
+    public static final String DEFAULT_TAGS = "Tagless";
+    public static final String DEFAULT_ALLERGIES = "none";
 
     private Name name;
     private Phone phone;
