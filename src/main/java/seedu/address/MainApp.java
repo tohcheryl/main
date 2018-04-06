@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Logger;
 
+import org.apache.commons.io.FileUtils;
+
 import com.google.common.eventbus.Subscribe;
 
 import javafx.application.Application;
@@ -19,7 +21,6 @@ import seedu.address.commons.core.Version;
 import seedu.address.commons.events.ui.ExitAppRequestEvent;
 import seedu.address.commons.exceptions.DataConversionException;
 import seedu.address.commons.util.ConfigUtil;
-import seedu.address.commons.util.FileUtil;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.Logic;
 import seedu.address.logic.LogicManager;
@@ -71,7 +72,7 @@ public class MainApp extends Application {
 
         initLogging(config);
 
-        initDefaultProfilePic();
+        initProfilePic();
 
         model = initModelManager(storage, userPrefs);
 
@@ -185,21 +186,25 @@ public class MainApp extends Application {
     }
 
     /**
-     * Saves default profile picture
+     * Creates new profilepic.png when app is first started
+     */
+    private void initProfilePic() {
+        File profilePicFile = new File("profilepic.png");
+        if (!profilePicFile.exists()) {
+            initDefaultProfilePic();
+        }
+    }
+
+    /**
+     * Saves default profile picture to profilepic.png
      */
     private void initDefaultProfilePic() {
-        File profilePicFile = new File("profilepic.png");
-        boolean wasProfilePicFileAbsent = true;
         try {
-            wasProfilePicFileAbsent = FileUtil.createFile(profilePicFile);
+            File profilePicFile = new File("profilepic.png");
+            URL defaultPicUrl = new URL("http://i63.tinypic.com/10f545k.png");
+            FileUtils.copyURLToFile(defaultPicUrl, profilePicFile);
         } catch (IOException e) {
             e.printStackTrace();
-        }
-
-        if (wasProfilePicFileAbsent) {
-            URL defaultProfilePicUrl = MainApp.class.getResource("/images/defaultprofilepic.png");
-            File defaultProfilePicFile = new File(defaultProfilePicUrl.getPath());
-            FileUtil.copyFile(defaultProfilePicFile, profilePicFile);
         }
     }
 
