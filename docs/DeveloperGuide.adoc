@@ -459,6 +459,7 @@ We are using `java.util.logging` package for logging. The `LogsCenter` class is 
 
 Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: `config.json`).
 
+// tag::order[]
 === `order` command feature
 
 ==== What
@@ -515,6 +516,7 @@ no have Uber Eats or Food Panda service.
 ==== Alternatives and future considerations
 A promising alternative is to use an existing API from UberEats or other food ordering services to allow more services
 added such as: delivery time tracking, more restaurants. This would guarantee the service more reliably.
+// end::order[]
 
 == Documentation
 

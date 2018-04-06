@@ -1,0 +1,32 @@
+= Sam Xie - Project Portfolio
+:imagesDir: ../images
+:stylesDir: ../stylesheets
+
+== PROJECT: AddressBook - Level 4
+
+---
+
+== Overview
+
+AddressBook - Level 4 is a desktop address book application used for teaching Software Engineering principles. The user interacts with it using a CLI, and it has a GUI created with JavaFX. It is written in Java, and has about 10 kLoC.
+
+== Summary of contributions
+
+* Optional email and address fields
+* Revamped test cases to be Food instead of Persons
+* Display price and ratings in UI
+* Changed Logo
+* Added Ratings field
+* Added Order Command
+* Implemented server-side REST API for ordering
+* Implemented a Food selection algorithm
+
+
+== Contributions to the User Guide
+include::../UserGuide.adoc[tag=orderfood]
+
+== Contributions to the Developer Guide
+include::../DeveloperGuide.adoc[tag=order]
+// Example
+
+
