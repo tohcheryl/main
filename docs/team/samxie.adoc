@@ -2,13 +2,21 @@
 :imagesDir: ../images
 :stylesDir: ../stylesheets
 
-== PROJECT: AddressBook - Level 4
+== PROJECT: HackEat
 
 ---
 
 == Overview
 
-AddressBook - Level 4 is a desktop address book application used for teaching Software Engineering principles. The user interacts with it using a CLI, and it has a GUI created with JavaFX. It is written in Java, and has about 10 kLoC.
+Formerly AddressBook - Level 4, a desktop address book application used for teaching Software Engineering principles. The user interacts with it using a CLI, and it has a GUI created with JavaFX. It is written in Java, and has about 10 kLoC.
+
+Through a 6 week transformation, this software is now known as HackEat.
+
+HackEat is a next-gen food recommendation and ordering app for the hackers, the programmers, the creators of world bustling and bursting with world-changing ideas but running short on time ⏰⏳.
+
+Perfect for the busy software developer or desk hermit: Use CLI commands to accelerate the chore of finding the right food.
+
+HackEat takes the stress, thinking and time-waste out of deciding what to eat. Order your food in style with commands like `order` to stay in the zone even when you’re not programming.
 
 == Summary of contributions
 
