@@ -471,16 +471,46 @@ This command automates the food ordering process with a quick command, that is t
 food selecting and ordering process.
 
 ==== How
-image::order-command-flow-chart.png[width="450"]
+image::order-command-flow-chart.png[width="600"]
 . Order command searches through existing Foods in the HackEat book
 .. Within each Food, a score is derived based on number of factors such as: times ordered, mood, rating, price and
  allergies.
 . The foods with a score that is similar (within a given threshold) is randomly or heuristically chosen.
 . The program will initiate a phone call via Twillio (or an equivalent service) to the chosen food's phone number.
 . TwiML (or equivalent service) will be used to translate text to voice to communicate with the restaurant on the
-other end and order a food with a pre-canned message.
+other end and order a food with a pre-canned message. Shown below:
 
 The restaurant will then send the food over and the user will pay for the food.
+
+==== Current implementations
+
+===== Food Selector
+image::order-command--food-selector.png[width="600"]
+
+- Foods are given scores based on ratings and price
+- They are aligned together with a running score value and added to a list
+- They are automatically ordered by size this way
+- A random number is selected between 0 and the max running score
+- This will select a food probabilistically, based on the scores.
+
+===== Order Manager
+image::order-command--order-manager.png[width="600"]
+Architecture to allow dynamic voice calls to restaurants based on user profile and food.
+
+- Client first sends XML data to REST API path /create/
+- REST API parses the data, and generates a handler at a mirror address eg. /order/
+- Once a response is received from server, the client then creates a call using the Twilio API, specifying the path of
+XML data to fetch, under /order/:id
+- This will prompt Twilio to call the specified phone from the client, using the API keys etc.
+- Twilio API will visit the URL specified and fetch the XML data and parse into computer generated voice via TwiML API.
+- Restaurant will pick up and receive message of the order, prepare food, and send to address.
+
+
+==== Design considerations
+
+- Voice call for ordering food was chosen as it is Universal to all restaurants that deliver food. Some restaurants do
+no have Uber Eats or Food Panda service.
+- A REST API was chosen as the server to relay XML data instead of allowing a tunnel to localhost as it is more secure.
 
 ==== Alternatives and future considerations
 A promising alternative is to use an existing API from UberEats or other food ordering services to allow more services
