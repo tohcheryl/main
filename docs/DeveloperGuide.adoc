@@ -391,19 +391,15 @@ takes in the user's name and other information. The user is then greeted upon op
 
 ==== Changes to Commands
 A new Command class `UserConfigCommand` is created which allows the user to type in `userconfig n/NAME p/PHONE a/ADDRESS [alg/ALLERGY]` to update
-their profile. Thus a new `UserConfigCommandParser` class was also created to handle the parsing of the user input:
-
-[source,java]
-----
-case UserConfigCommand.COMMAND_WORD:
-    return new UserConfigCommandParser().parse(arguments);
-----
+their profile.
 
 ==== Changes to the Model
 In order to support the user profile, a new package was created under the `Model` component, specifically a `user` package.
 Inside it contains a `UserProfile` class, which holds the app state of the user's profile. `Allergy` is also a new object
 in HackEat, and so an `Allergy` class was created in a new `allergy` package of the `Model` component. In order to support
 multiple allergies for a single user, a `UniqueAllergyList` was also created under the same package.
+
+image::model-component-with-user-profile.png[width="600"]
 
 ==== Saving to Storage
 Executing the `UserConfigCommand` triggers the `model#updateUserProfile` method, which then posts an event to the `EventCenter`
