@@ -260,7 +260,7 @@ Examples:
 Sets user profile of Herbert Williams.
 // end::userconfig[]
 
-// tag:edituser[]
+// tag::edituser[]
 === Editing user profile: `edituser`
 Edits user details
 Format: `edituser [n/NAME] [p/PHONE] [a/ADDRESS] [alg/ALLERGIES]`
@@ -274,8 +274,8 @@ Format: `edituser [n/NAME] [p/PHONE] [a/ADDRESS] [alg/ALLERGIES]`
 
 Example:
 
-* `edituser p/61234567 e/anthony@example.com` +
-Edits the phone number and email address of the user to be `61234567` and `anthony@example.com` respectively.
+* `edituser p/61234567 a/Blk 566 Choa Chu Kang Ave 6 #08-23 Singapore 879566` +
+Edits the phone number and address of the user to be `61234567` and `Blk 566 Choa Chu Kang Ave 6 #08-23 Singapore 879566` respectively.
 // end::edituser[]
 
 === Clearing all entries : `clear`
