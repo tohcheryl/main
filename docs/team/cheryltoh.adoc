@@ -1,4 +1,4 @@
-= John Doe - Project Portfolio
+= Cheryl Toh - Project Portfolio
 :imagesDir: ../images
 :stylesDir: ../stylesheets
 
