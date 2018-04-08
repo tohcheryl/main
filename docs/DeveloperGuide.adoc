@@ -391,19 +391,15 @@ takes in the user's name and other information. The user is then greeted upon op
 
 ==== Changes to Commands
 A new Command class `UserConfigCommand` is created which allows the user to type in `userconfig n/NAME p/PHONE a/ADDRESS [alg/ALLERGY]` to update
-their profile. Thus a new `UserConfigCommandParser` class was also created to handle the parsing of the user input:
-
-[source,java]
-----
-case UserConfigCommand.COMMAND_WORD:
-    return new UserConfigCommandParser().parse(arguments);
-----
+their profile.
 
 ==== Changes to the Model
 In order to support the user profile, a new package was created under the `Model` component, specifically a `user` package.
 Inside it contains a `UserProfile` class, which holds the app state of the user's profile. `Allergy` is also a new object
 in HackEat, and so an `Allergy` class was created in a new `allergy` package of the `Model` component. In order to support
 multiple allergies for a single user, a `UniqueAllergyList` was also created under the same package.
+
+image::model-component-with-user-profile.png[width="600"]
 
 ==== Saving to Storage
 Executing the `UserConfigCommand` triggers the `model#updateUserProfile` method, which then posts an event to the `EventCenter`
@@ -515,6 +511,53 @@ no have Uber Eats or Food Panda service.
 ==== Alternatives and future considerations
 A promising alternative is to use an existing API from UberEats or other food ordering services to allow more services
 added such as: delivery time tracking, more restaurants. This would guarantee the service more reliably.
+
+=== Interactive `add` feature
+
+==== What
+Users can type in `add`, and then the system will take the user through a set of prompts to get the information. This
+is a more natural way of using the CLI to get food.
+
+==== Why
+Our goal is to reduce the amount of thinking that programmers have to do to get the food that they want. Memorising and
+typing out the entire `add` command requires extra cognitive effort.
+
+==== How
+It was quickly realised that extra application state was necessary for managing interactive flows between a user and the
+system. This extra state includes:
+
+- Knowing if a user is actively engaged in an interaction, so that new inputs are interpreted in the context of this
+existing interaction
+- Knowing how far a user has progressed in the active interaction
+- Intermediate application data that has not yet been committed to storage (e.g. the first attribute `Name` needs to
+be stored in memory until the last attribute is read from the user, at which point the whole `Food` with all its
+attributes can be saved in the `Storage` component)
+
+==== Current implementation
+The state and logic that handle the above requirements are implemented in the abstract `Session` class as well as its
+concrete, command-specific child classes (e.g. `SessionAddCommand`).
+
+===== Simplified sequence diagram for starting or continuing a `Session`
+image::add-command-interactive-start.png[width="600"]
+
+
+The abstract `Session` class provides the shared methods that control the logical flow of any interaction.
+The abstract methods `Session#parseInputForMultivaluedField` and `Session#parseInputForField` are overidden
+by concrete subclasses of `Session` because each type of `Command` needs to parse and store its
+
+==== Design considerations
+It was difficult to choose where to place the `Session`, `SessionAddCommand`, `SessionManager` and `SessionInterface`
+interface and classes. These classes and interface handle both application data (i.e. they should belong in the `Model`)
+as well as text parsing (i.e. they could also belong in the `Logic` component). We opted for the simplistic solution of
+placing it all in the `Model` component, with some coupling with the `Command` class which belongs to the `Logic`
+component.
+
+An alternative architectural design would be to have `SessionData` and `SessionLogic` separated across `Model` and
+`Logic` components. The advantage of this design is that it adheres to the strict definitions of the functions
+of each of these components. The disadvantage, which is much more costly, is the increased coupling between these
+separate components and classes. It is much more convenient to simply combine the state and logic for `Session`s in a
+single component to reduce coupling and increase cohesion, making developer efficiency higher and code organisation more
+simple.
 
 == Documentation
 
