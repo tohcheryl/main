@@ -263,7 +263,7 @@ Sets user profile of Herbert Williams.
 // tag:edituser[]
 === Editing user profile: `edituser`
 Edits user details
-Format: `edituser [n/NAME] [p/PHONE] [a/ADDRESS] [alg/ALLERGIES]`
+Format: `edituser [n/NAME] [p/PHONE] [a/ADDRESS] [alg/ALLERGY]`
 
 ****
 * At least one of the optional fields must be provided.
