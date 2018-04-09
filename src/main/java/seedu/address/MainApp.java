@@ -201,7 +201,7 @@ public class MainApp extends Application {
     private void initDefaultProfilePic() {
         try {
             File profilePicFile = new File("profilepic.png");
-            URL defaultPicUrl = new URL("http://i63.tinypic.com/10f545k.png");
+            URL defaultPicUrl = new URL("http://i64.tinypic.com/vo385x.png");
             FileUtils.copyURLToFile(defaultPicUrl, profilePicFile);
         } catch (IOException e) {
             e.printStackTrace();
