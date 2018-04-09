@@ -292,6 +292,11 @@ Currently, makes a phone call to the specified phone number (must be a singapore
 
 Format: `order [INDEX]` or `order`
 
+Example:
+
+- `order 2` orders the second listed food
+- `order` orders a heuristically selected food from listed food
+
 === Exiting the program : `exit`
 
 Exits the program. +

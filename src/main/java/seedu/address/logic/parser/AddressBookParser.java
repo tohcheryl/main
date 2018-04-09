@@ -63,6 +63,7 @@ public class AddressBookParser {
         case HelpCommand.COMMAND_WORD:
         case UndoCommand.COMMAND_WORD:
         case RedoCommand.COMMAND_WORD:
+        case EditUserCommand.COMMAND_WORD:
         case UserConfigCommand.COMMAND_WORD:
             return false;
         default:
