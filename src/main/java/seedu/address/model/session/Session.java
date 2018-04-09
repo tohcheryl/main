@@ -163,8 +163,7 @@ public abstract class Session {
     /**
      * Adds user input to a collection of strings for processing later
      * when all input has been collected from the user.
-     *
-     * @param userInput
+     * @param userInput String from user.
      */
     private void addAsMultiValue(String userInput) {
         stringBuffer.add(userInput);
