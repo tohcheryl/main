@@ -10,6 +10,8 @@ import seedu.address.model.Model;
 import seedu.address.model.food.Food;
 import seedu.address.model.food.allergy.Allergy;
 
+//@@author {samzx}
+
 /**
  * Orders food in HackEat.
  */
@@ -26,30 +28,26 @@ public class FoodSelector {
     }
 
     /**
-     * Selects a food weighted randomly from a list of food with scores {@code FoodScore}
+     * Selects a food randomly with weighting from a list of food with scores {@code FoodScore}
      * @param foodScores an ArrayList of {@code FoodScore}
      * @return the selected {@code FoodScore}
      */
     private FoodScore pickFood(ArrayList<FoodScore> foodScores) {
 
-        // Position foods at a number, weighted to their score
         float runningScore = 0;
         for (FoodScore foodScore : foodScores) {
             runningScore += foodScore.score;
             foodScore.runningScore = runningScore;
         }
 
-        // Randomly choose number
         float decidingNumber = (new Random()).nextFloat() * runningScore;
 
-        // Already sorted, choose first food that number falls within range
         for (FoodScore foodScore : foodScores) {
             if (decidingNumber < foodScore.runningScore) {
                 return foodScore;
             }
         }
 
-        // Null chosen - probably all foods are allergic. Throw error and do not order.
         return null;
     }
 

@@ -9,6 +9,7 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 
+//@@author {samzx}
 
 public class FoodSelectorTest {
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
