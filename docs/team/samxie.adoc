@@ -1,0 +1,59 @@
+= Sam Xie - Project Portfolio
+:imagesDir: ../images
+:stylesDir: ../stylesheets
+
+== PROJECT: HackEat
+
+---
+
+== Overview
+
+Formerly AddressBook - Level 4, a desktop address book application used for teaching Software Engineering principles. The user interacts with it using a CLI, and it has a GUI created with JavaFX. It is written in Java, and has about 10 kLoC.
+
+Through a 6 week transformation, this software is now known as HackEat.
+
+_Start of Extract [from: Read Me] written by Jackson Huang_
+
+HackEat is a next-gen food recommendation and ordering app for the hackers, the programmers, the creators of world bustling and bursting with world-changing ideas but running short on time ⏰⏳.
+
+Perfect for the busy software developer or desk hermit: Use CLI commands to accelerate the chore of finding the right food.
+
+HackEat takes the stress, thinking and time-waste out of deciding what to eat. Order your food in style with commands like `order` to stay in the zone even when you’re not programming.
+
+_End of Extract [from: Read Me] written by Jackson Huang_
+
+== Summary of contributions
+
+* Optional email and address fields
+* Revamped test cases to be Food instead of Persons
+* Display price and ratings in UI
+* Changed Logo
+* Added Ratings field
+* Added Order Command
+* Implemented server-side REST API for ordering
+** Found here: https://github.com/CS2103JAN2018-W10-B3/hackeat-server
+** Configured to be hosted on Heroku on https://mysterious-temple-83678.herokuapp.com/
+* Implemented a Food selection algorithm
+
+
+== Contributions to the User Guide
+include::../UserGuide.adoc[tag=orderfood]
+
+== Contributions to the Developer Guide
+include::../DeveloperGuide.adoc[tag=order]
+
+== Future proposals
+
+=== Smarter ordering AI agent
+Possibly implement smarter speech with `<Gather>` and `<Redirect>`.
+
+1. `<Gather>` gathers data from user in form of speech, and posts to the url /create/:id/response at the REST API.
+2. API parses the information and generates new XML data specific to the response at /order/:id/response.
+3. `<Redirect>` redirects chat flow to /order/:id/response and retrieves XML data and confirms, repeats or declines the order.
+
+API Links:
+
+* `<Gather>`
+** https://www.twilio.com/docs/voice/twiml/gather
+* `<Redirect>`
+** https://www.twilio.com/docs/voice/twiml/redirect

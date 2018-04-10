@@ -290,6 +290,7 @@ Format: `changepic`
 Clears all entries from HackEat. +
 Format: `clear`
 
+// tag::orderfood[]
 === Order food: `order` [Proposed to finish in v1.5]
 
 Orders food given with or without an index. If no index is given, a food will be chosen for you. May take some time as
@@ -301,6 +302,7 @@ Example:
 
 - `order 2` orders the second listed food
 - `order` orders a heuristically selected food from listed food
+// end::orderfood[]
 
 === Exiting the program : `exit`
 
