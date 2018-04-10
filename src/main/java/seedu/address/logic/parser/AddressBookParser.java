@@ -159,7 +159,7 @@ public class AddressBookParser {
      * @throws IllegalArgumentException If the command in {@code userInput} is not supported.
      */
     public Command getCommand(String userInput) throws IllegalArgumentException {
-        return CommandFactory.createCommand(userInput);
+        return CommandFactory.createCommand(userInput.trim());
     }
     //@@author
 }

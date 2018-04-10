@@ -7,14 +7,23 @@ package seedu.address.logic.commands;
  */
 public class Prompt {
     public final boolean isMultiValued;
+    public final boolean isOptional;
 
     private Class field;
     private String message;
+
+    public Prompt(Class field, String message, boolean isMultiValued, boolean isOptional) {
+        this.field = field;
+        this.message = message;
+        this.isMultiValued = isMultiValued;
+        this.isOptional = isOptional;
+    }
 
     public Prompt(Class field, String message, boolean isMultiValued) {
         this.field = field;
         this.message = message;
         this.isMultiValued = isMultiValued;
+        this.isOptional = false;
     }
 
     public Class getField() {
