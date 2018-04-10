@@ -28,7 +28,6 @@ This is an essential feature so that the ordered food can be delivered to the ri
 personalisation is important nowadays. What users appreciate is an emotionally tangible link between the user and the
 app. Having a profile picture is the first step to achieving this.
 ** Highlights: This enhancement resulted in the implementation of two new commands - `changepic` and `edituser`.
-** Credits: _{mention here if you reused any code/ideas from elsewhere or if a third-party library is heavily used in the feature so that a reader can make a more accurate judgement of how much effort went into the feature}_
 
 * *Minor enhancement*: added a price attribute to Food.
 
@@ -40,9 +39,6 @@ app. Having a profile picture is the first step to achieving this.
 *** Wrote additional tests for existing features to increase coverage
 ** Community:
 *** Reported bugs and suggestions for other teams in the class
-** Tools:
-
-_{you can add/remove categories in the list above}_
 
 == Contributions to the User Guide
 
@@ -52,6 +48,9 @@ _{you can add/remove categories in the list above}_
 |===
 
 include::../UserGuide.adoc[tag=edituser]
+
+include::../UserGuide.adoc[tag=changepic]
+
 == Contributions to the Developer Guide
 
 |===
