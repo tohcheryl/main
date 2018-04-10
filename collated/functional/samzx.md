@@ -2,10 +2,6 @@
 ###### /java/seedu/address/logic/orderer/OrderManager.java
 ``` java
 
-```
-###### /java/seedu/address/logic/orderer/OrderManager.java
-``` java
-
 /**
  * Orders food in HackEat.
  */
