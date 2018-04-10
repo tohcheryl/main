@@ -262,7 +262,7 @@ Examples:
 Sets user profile of Herbert Williams.
 // end::userconfig[]
 
-// tag:edituser[]
+// tag::edituser[]
 === Editing user profile: `edituser`
 Edits user details
 Format: `edituser [n/NAME] [p/PHONE] [a/ADDRESS] [alg/ALLERGY]`
@@ -280,12 +280,13 @@ Example:
 Edits the phone number and address of the user to be `61234567` and `Blk 654 Cashew Road #03-92 Singapore 978654` respectively.
 // end::edituser[]
 
-// tag:changepic[]
+// tag::changepic[]
 === Setting a profile picture: `changepic`
 
 Changes a user's profile picture to one that the user has selected. Works best for square images.
 
 Format: `changepic`
+// end::changepic[]
 
 === Clearing all entries : `clear`
 

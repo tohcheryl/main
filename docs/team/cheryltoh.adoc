@@ -1,0 +1,62 @@
+= Cheryl Toh - Project Portfolio
+:imagesDir: ../images
+:stylesDir: ../stylesheets
+
+== PROJECT: HackEat
+
+---
+
+== Overview
+HackEat was created based on a fork of AddressBook - Level 4 which is used
+for teaching Software Engineering Principles. The user interacts with it using a CLI, and it has a GUI created with JavaFX.
+It is written in Java, and has about 10 kLoC.
+
+_Start of Extract [from: Read Me] written by Jackson Huang_
+
+HackEat is a next-gen food recommendation and ordering app for the hackers, the programmers, the creators of world bustling and bursting with world-changing ideas but running short on time ⏰⏳.
+Perfect for the busy software developer or desk hermit: Use CLI commands to accelerate the chore of finding the right food.
+HackEat takes the stress, thinking and time-waste out of deciding what to eat. Order your food in style with commands like `order` to stay in the zone even when you’re not programming.
+
+_End of Extract [from: Read Me] written by Jackson Huang_
+
+== Summary of contributions
+
+* *Major enhancement*: added *the ability to customise a user's profile*
+** What it does: allows the user to modify his/her contact details and sets his/her profile picture.
+** Justification: This feature improves the product significantly because a user can update his/her contact details.
+This is an essential feature so that the ordered food can be delivered to the right place. Moreover, user
+personalisation is important nowadays. What users appreciate is an emotionally tangible link between the user and the
+app. Having a profile picture is the first step to achieving this.
+** Highlights: This enhancement resulted in the implementation of two new commands - `changepic` and `edituser`.
+
+* *Minor enhancement*: added a price attribute to Food.
+
+* *Code contributed*: [https://github.com[Functional code]] [https://github.com[Test code]] _{give links to collated code files}_
+
+* *Other contributions*:
+
+** Enhancements to existing features:
+*** Wrote additional tests for existing features to increase coverage
+** Community:
+*** Reported bugs and suggestions for other teams in the class
+
+== Contributions to the User Guide
+
+
+|===
+|_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
+|===
+
+include::../UserGuide.adoc[tag=edituser]
+
+include::../UserGuide.adoc[tag=changepic]
+
+== Contributions to the Developer Guide
+
+|===
+|_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
+|===
+
+include::../DeveloperGuide.adoc[tag=addshortcuts]
+
+include::../DeveloperGuide.adoc[tag=dataencryption]
