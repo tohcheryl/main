@@ -47,8 +47,6 @@ public class OrderCommandTest {
             assertThat(e.getMessage(), containsString(String.format(OrderCommand.MESSAGE_DIAL_FAIL,
                     food.getName(), food.getPhone())));
         }
-
-
     }
 
     @Test

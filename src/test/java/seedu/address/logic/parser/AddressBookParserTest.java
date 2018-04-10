@@ -16,6 +16,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import seedu.address.logic.commands.AddCommand;
+import seedu.address.logic.commands.ChangePicCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.EditCommand;
@@ -144,6 +145,12 @@ public class AddressBookParserTest {
         EditUserCommand command = (EditUserCommand) parser.parseCommand(EditUserCommand.COMMAND_WORD + " "
                 + UserProfileUtil.getUserDetails(userProfile));
         assertEquals(new EditUserCommand(descriptor), command);
+    }
+
+    @Test
+    public void parseCommand_changePicCommand() throws Exception {
+        assertTrue(parser.parseCommand(ChangePicCommand.COMMAND_WORD) instanceof ChangePicCommand);
+        assertTrue(parser.parseCommand(ChangePicCommand.COMMAND_WORD + " 3") instanceof ChangePicCommand);
     }
 
     @Test

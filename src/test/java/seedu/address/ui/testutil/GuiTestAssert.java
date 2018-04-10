@@ -8,7 +8,9 @@ import java.util.stream.Collectors;
 import guitests.guihandles.FoodCardHandle;
 import guitests.guihandles.FoodListPanelHandle;
 import guitests.guihandles.ResultDisplayHandle;
+import guitests.guihandles.UserProfilePanelHandle;
 import seedu.address.model.food.Food;
+import seedu.address.model.user.UserProfile;
 
 /**
  * A set of assertion methods useful for writing GUI tests.
@@ -69,5 +71,18 @@ public class GuiTestAssert {
      */
     public static void assertResultMessage(ResultDisplayHandle resultDisplayHandle, String expected) {
         assertEquals(expected, resultDisplayHandle.getText());
+    }
+
+    //@@author {tohcheryl}
+    /**
+     * Asserts that {@code actualPanel} displays the details of {@code expectedUser}.
+     */
+    public static void assertPanelDisplaysUser(UserProfile userProfile, UserProfilePanelHandle actualPanel) {
+        assertEquals(userProfile.getName().fullName, actualPanel.getName());
+        assertEquals(userProfile.getPhone().value, actualPanel.getPhone());
+        assertEquals(userProfile.getAddress().value, actualPanel.getAddress());
+        assertEquals(userProfile.getAllergies().stream().map(allergy -> allergy.allergyName)
+                        .collect(Collectors.toList()),
+                actualPanel.getAllergies());
     }
 }

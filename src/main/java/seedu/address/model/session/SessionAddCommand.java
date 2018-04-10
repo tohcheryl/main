@@ -42,10 +42,10 @@ public class SessionAddCommand extends Session {
     public void parseInputForMultivaluedField(Class field) throws IllegalValueException, IllegalArgumentException {
         switch (field.getSimpleName()) {
         case "Tag":
-            tagSet = ParserUtil.parseTags(temporaryStrings);
+            tagSet = ParserUtil.parseTags(stringBuffer);
             break;
         case "Allergy":
-            allergySet = ParserUtil.parseAllergies(temporaryStrings);
+            allergySet = ParserUtil.parseAllergies(stringBuffer);
             break;
         default:
             throw new IllegalArgumentException();

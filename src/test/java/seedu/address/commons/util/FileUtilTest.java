@@ -27,5 +27,4 @@ public class FileUtilTest {
         thrown.expect(AssertionError.class);
         FileUtil.getPath("folder");
     }
-
 }

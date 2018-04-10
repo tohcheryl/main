@@ -108,7 +108,7 @@ Format: `list`
 === Editing a food : `edit`
 
 Edits an existing food in HackEat. +
-Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]...`
+Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/RATING] [pr/PRICE] [t/TAG]...`
 
 ****
 * Edits the food at the specified `INDEX`. The index refers to the index number shown in the last food listing. The index *must be a positive integer* 1, 2, 3, ...
@@ -263,7 +263,7 @@ Sets user profile of Herbert Williams.
 // tag:edituser[]
 === Editing user profile: `edituser`
 Edits user details
-Format: `edituser [n/NAME] [p/PHONE] [a/ADDRESS] [alg/ALLERGIES]`
+Format: `edituser [n/NAME] [p/PHONE] [a/ADDRESS] [alg/ALLERGY]`
 
 ****
 * At least one of the optional fields must be provided.
@@ -274,19 +274,29 @@ Format: `edituser [n/NAME] [p/PHONE] [a/ADDRESS] [alg/ALLERGIES]`
 
 Example:
 
-* `edituser p/61234567 e/anthony@example.com` +
-Edits the phone number and email address of the user to be `61234567` and `anthony@example.com` respectively.
+* `edituser p/61234567 a/Blk 654 Cashew Road #03-92 Singapore 978654` +
+Edits the phone number and address of the user to be `61234567` and `Blk 654 Cashew Road #03-92 Singapore 978654` respectively.
 // end::edituser[]
+
+// tag:changepic[]
+=== Setting a profile picture: `changepic`
+
+Changes a user's profile picture to one that the user has selected. Works best for square images.
+
+Format: `changepic`
 
 === Clearing all entries : `clear`
 
 Clears all entries from HackEat. +
 Format: `clear`
 
+// tag::orderfood[]
 === Order food: `order` [Proposed to finish in v1.5]
 
 Orders food given with or without an index. If no index is given, a food will be chosen for you. May take some time as
 phone call is in progress. Otherwise, will order the food at the specified index.
+
+Currently, makes a phone call to the specified phone number (must be a singaporean number) associated with the food.
 
 Format: `order [INDEX]` or `order`
 
@@ -294,6 +304,7 @@ Example:
 
 - `order 2` orders the second listed food
 - `order` orders a heuristically selected food from listed food
+// end::orderfood[]
 
 === Exiting the program : `exit`
 

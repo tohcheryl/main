@@ -106,7 +106,7 @@ public class SessionAddCommandTest {
 
         public SessionAddCommandStub(Command command, EventsCenter eventsCenter) {
             super(command, eventsCenter);
-            temporaryStrings = Arrays.asList("peruvian", "seafood");
+            stringBuffer = Arrays.asList("peruvian", "seafood");
 
             name = TypicalFoods.BACON.getName();
             phone = TypicalFoods.BACON.getPhone();

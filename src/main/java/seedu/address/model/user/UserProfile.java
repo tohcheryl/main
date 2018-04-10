@@ -42,7 +42,7 @@ public class UserProfile {
     //@@author {tohcheryl}
     /**
      * Constructs a {@code UserProfile} object.
-     *  @param name    Name of user
+     * @param name    Name of user
      * @param phone   Phone number of user
      * @param address Address of user for food delivery
      * @param recentFoods Food eaten recently
@@ -91,6 +91,7 @@ public class UserProfile {
     public void setRecentFoods(UniqueFoodList recentFoodsList) {
         this.recentFoods = recentFoodsList;
     }
+
 
     //@@author {jaxony}
     @Override

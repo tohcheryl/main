@@ -24,6 +24,7 @@ import static seedu.address.logic.commands.CommandTestUtil.RATING_DESC_BANANA;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_FRIED;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_NUTS;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BANANA;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_ALLERGY_LACTOSE;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BANANA;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BANANA;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BANANA;
@@ -76,7 +77,7 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
                 +  "  " + PRICE_DESC_BANANA + " " + RATING_DESC_BANANA + " " + TAG_DESC_NUTS + " ";
         Food editedFood = new FoodBuilder().withName(VALID_NAME_BANANA).withPhone(VALID_PHONE_BANANA)
                 .withEmail(VALID_EMAIL_BANANA).withAddress(VALID_ADDRESS_BANANA).withPrice(VALID_PRICE_BANANA)
-                .withRating(VALID_RATING_BANANA).withTags(VALID_TAG_NUTS).build();
+                .withRating(VALID_RATING_BANANA).withTags(VALID_TAG_NUTS).withAllergies(VALID_ALLERGY_LACTOSE).build();
         assertCommandSuccess(command, index, editedFood);
 
         /* Case: undo editing the last food in the list -> last food restored */

@@ -7,6 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import seedu.address.logic.commands.AddCommand;
+import seedu.address.logic.commands.ChangePicCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandFactory;
@@ -63,6 +64,7 @@ public class AddressBookParser {
         case HelpCommand.COMMAND_WORD:
         case UndoCommand.COMMAND_WORD:
         case RedoCommand.COMMAND_WORD:
+        case ChangePicCommand.COMMAND_WORD:
         case EditUserCommand.COMMAND_WORD:
         case UserConfigCommand.COMMAND_WORD:
             return false;
@@ -140,6 +142,9 @@ public class AddressBookParser {
         case RedoCommand.COMMAND_WORD:
             return new RedoCommand();
 
+        case ChangePicCommand.COMMAND_WORD:
+            return new ChangePicCommand();
+
         case UserConfigCommand.COMMAND_WORD:
             return new UserConfigCommandParser().parse(arguments);
 
@@ -159,7 +164,7 @@ public class AddressBookParser {
      * @throws IllegalArgumentException If the command in {@code userInput} is not supported.
      */
     public Command getCommand(String userInput) throws IllegalArgumentException {
-        return CommandFactory.createCommand(userInput);
+        return CommandFactory.createCommand(userInput.trim());
     }
     //@@author
 }
