@@ -1,4 +1,86 @@
 # tohcheryl
+###### /java/seedu/address/ui/UserProfilePanel.java
+``` java
+/**
+ * The User Profile panel of the App.
+ */
+public class UserProfilePanel extends UiPart<Region> {
+
+    private static final String FXML = "UserProfilePanel.fxml";
+
+    private static final Logger logger = LogsCenter.getLogger(UserProfilePanel.class);
+
+    private static final String PROFILE_PICTURE_PATH = "profilepic.png";
+
+    final Circle clip = new Circle(75, 75, 75);
+
+    private ReadOnlyAddressBook addressBook;
+
+    @FXML
+    private ImageView profilepic;
+
+    @FXML
+    private Label name;
+
+    @FXML
+    private Label phone;
+
+    @FXML
+    private Label address;
+
+    @FXML
+    private FlowPane allergies;
+
+    public UserProfilePanel(ReadOnlyAddressBook addressBook) {
+        super(FXML);
+        this.addressBook = addressBook;
+        name.setWrapText(true);
+        phone.setWrapText(true);
+        address.setWrapText(true);
+        setUserProfile(addressBook.getUserProfile());
+        setProfilePicture();
+        registerAsAnEventHandler(this);
+    }
+
+    public void setUserProfile(UserProfile userProfile) {
+        name.setText(userProfile.getName().fullName);
+        phone.setText(userProfile.getPhone().value);
+        address.setText(userProfile.getAddress().value);
+        allergies.getChildren().clear();
+        userProfile.getAllergies().forEach(allergy -> allergies.getChildren().add(new Label(allergy.allergyName)));
+    }
+
+    public void setProfilePicture() {
+        profilepic.setImage(new Image("file:" + PROFILE_PICTURE_PATH));
+        profilepic.setClip(clip);
+    }
+
+    @Subscribe
+    public void handleAddressBookChangedEvent(AddressBookChangedEvent abce) {
+        UserProfile newUserProfile = addressBook.getUserProfile();
+        logger.info(LogsCenter.getEventHandlingLogMessage(abce, "User Profile updated to: " + newUserProfile));
+        setUserProfile(newUserProfile);
+    }
+
+    @Subscribe
+    public void handleProfilePictureChangedEvent(ProfilePictureChangedEvent ppce) {
+        setProfilePicture();
+    }
+}
+```
+###### /java/seedu/address/commons/events/ui/ProfilePictureChangedEvent.java
+``` java
+/**
+ * Indicates profile picture of user has changed
+ */
+public class ProfilePictureChangedEvent extends BaseEvent {
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName();
+    }
+}
+```
 ###### /java/seedu/address/logic/parser/EditUserCommandParser.java
 ``` java
 /**
@@ -236,11 +318,55 @@ public class EditUserCommand extends UndoableCommand {
     }
 }
 ```
+###### /java/seedu/address/logic/commands/ChangePicCommand.java
+``` java
+/**
+ * Changes the profile picture of the user
+ */
+public class ChangePicCommand extends Command {
+
+    public static final String COMMAND_WORD = "changepic";
+
+    public static final String MESSAGE_PIC_CHANGED_ACKNOWLEDGEMENT = "Profile picture has been changed!";
+
+    /**
+     * Selects a profile picture
+     */
+    public File selectProfilePic() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files",
+                "*.png", "*.jpg", "*.gif"));
+        File selectedFile = fileChooser.showOpenDialog(null);
+        return selectedFile;
+    }
+
+    @Override
+    public CommandResult execute() {
+        File outputFile = new File("profilepic.png");
+        File selectedFile = selectProfilePic();
+        try {
+            FileUtils.copyFile(selectedFile, outputFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        EventsCenter.getInstance().post(new ProfilePictureChangedEvent());
+        return new CommandResult(MESSAGE_PIC_CHANGED_ACKNOWLEDGEMENT);
+    }
+}
+```
+###### /java/seedu/address/logic/LogicManager.java
+``` java
+    @Override
+    public ReadOnlyAddressBook getAddressBook() {
+        return model.getAddressBook();
+    }
+}
+```
 ###### /java/seedu/address/model/user/UserProfile.java
 ``` java
     /**
      * Constructs a {@code UserProfile} object.
-     *  @param name    Name of user
+     * @param name    Name of user
      * @param phone   Phone number of user
      * @param address Address of user for food delivery
      * @param recentFoods Food eaten recently
@@ -270,6 +396,7 @@ public class EditUserCommand extends UndoableCommand {
     public void setRecentFoods(UniqueFoodList recentFoodsList) {
         this.recentFoods = recentFoodsList;
     }
+
 
 ```
 ###### /java/seedu/address/model/AddressBook.java

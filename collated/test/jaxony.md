@@ -167,7 +167,7 @@ public class SessionAddCommandTest {
 
         public SessionAddCommandStub(Command command, EventsCenter eventsCenter) {
             super(command, eventsCenter);
-            temporaryStrings = Arrays.asList("peruvian", "seafood");
+            stringBuffer = Arrays.asList("peruvian", "seafood");
 
             name = TypicalFoods.BACON.getName();
             phone = TypicalFoods.BACON.getPhone();
@@ -211,7 +211,7 @@ public class SessionTest {
             AddCommand.prompts.get(INDEX_AFTER_PRICE).getMessage();
     private static final int INDEX_AFTER_RATING = 6;
     private static final String SUCCESS_MESSAGE_AFTER_RATING =
-            AddCommand.prompts.get(INDEX_AFTER_RATING).getMessage();
+            AddCommand.prompts.get(INDEX_AFTER_RATING).getMessage() + " " + Session.OPTIONAL_MESSAGE;
 
     private static final String SUCCESS_MESSAGE_AFTER_FIRST_TAG =
             Session.ANYTHING_ELSE_MESSAGE;
@@ -220,7 +220,7 @@ public class SessionTest {
 
     private static final int INDEX_AFTER_TAGS = 7;
     private static final String SUCCESS_MESSAGE_AFTER_TAGS =
-            AddCommand.prompts.get(INDEX_AFTER_TAGS).getMessage();
+            AddCommand.prompts.get(INDEX_AFTER_TAGS).getMessage() + " " + Session.OPTIONAL_MESSAGE;
 
     private static final String SUCCESS_MESSAGE_AFTER_FIRST_ALLERGY =
             Session.ANYTHING_ELSE_MESSAGE;
