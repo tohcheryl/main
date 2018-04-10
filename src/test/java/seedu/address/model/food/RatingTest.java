@@ -8,6 +8,8 @@ import org.junit.Test;
 
 import seedu.address.testutil.Assert;
 
+//@@author {samzx}
+
 public class RatingTest {
 
     @Test
