@@ -358,8 +358,8 @@ image::UndoRedoActivityDiagram.png[width="650"]
 ** Cons: Requires dealing with commands that have already been undone: We must remember to skip these commands. Violates Single Responsibility Principle and Separation of Concerns as `HistoryManager` now needs to do two * different things.
 // end::undoredo[]
 
-// tag:: makeshortcuts[]
-=== [Proposed] Add Shortcuts
+// tag::addshortcuts[]
+=== [V2.0] Add Shortcuts
 ==== Proposed Implementation
 A new Command class `AddShortcutCommand` will be created. A `Shortcut` class will be added to Model. An ArrayList of Commands that is linked to a particular shortcut will be saved. Every `Person` object will have a HashMap which stores the different Shortcuts they have created.
 
@@ -380,9 +380,9 @@ image::UpdatedLogicCommandClassDiagram.png[width="800"]
 ** Pros: Easier to implement
 
 ** Cons: Less user friendly
-//end::addshortcuts[]
+// end::addshortcuts[]
 
-// tag:: userconfig[]
+// tag::userconfig[]
 === Configuring the User Profile
 ==== Motivation
 It's nice to have someone greet you as your friend. HackEat makes its users comfortable and feel
@@ -398,7 +398,6 @@ In order to support the user profile, a new package was created under the `Model
 Inside it contains a `UserProfile` class, which holds the app state of the user's profile. `Allergy` is also a new object
 in HackEat, and so an `Allergy` class was created in a new `allergy` package of the `Model` component. In order to support
 multiple allergies for a single user, a `UniqueAllergyList` was also created under the same package.
-
 image::model-component-with-user-profile.png[width="600"]
 
 ==== Saving to Storage
@@ -426,7 +425,7 @@ By simply replacing the property, you don't need to check if the property is not
 updating the profile. You also don't need to check if the profile is null before choosing to add a new
 profile to the application. Separating add and update functionalities works for Food, but not for profile as the
 additional complexity is unnecessary.
-//end::userconfig[]
+// end::userconfig[]
 
 // tag::dataencryption[]
 === [Proposed] Data Encryption
