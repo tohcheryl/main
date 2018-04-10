@@ -83,7 +83,7 @@ public class OrderManager {
      * @return the String format of the body
      */
     private String createBody() {
-        return String.format(CANNED_SPEECH_MESSAGE, user.getName(), toOrder.getName(), toOrder.getAddress());
+        return String.format(CANNED_SPEECH_MESSAGE, user.getName(), toOrder.getName(), user.getAddress());
     }
 
     /**

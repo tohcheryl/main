@@ -13,7 +13,7 @@ import seedu.address.model.food.allergy.Allergy;
 //@@author {samzx}
 
 /**
- * Orders food in HackEat.
+ * Selects food in HackEat.
  */
 public class FoodSelector {
     /**
