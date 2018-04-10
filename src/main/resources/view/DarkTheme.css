@@ -6,7 +6,7 @@
 .label {
     -fx-font-size: 11pt;
     -fx-font-family: "Segoe UI Semibold";
-    -fx-text-fill: #555555;
+    -fx-text-fill: #3f373c;
     -fx-opacity: 0.9;
 }
 
@@ -334,6 +334,13 @@
 #resultDisplay .content {
     -fx-background-color: transparent, #383838, transparent, #383838;
     -fx-background-radius: 0;
+}
+
+#profilePane {
+    -fx-background-color: #f2efe8;
+    -fx-padding: 30 10 10 10;
+    -fx-alignment: top-center;
+    -fx-spacing: 5;
 }
 
 #tags {

@@ -1,9 +1,13 @@
 package seedu.address;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Logger;
+
+import org.apache.commons.io.FileUtils;
 
 import com.google.common.eventbus.Subscribe;
 
@@ -42,6 +46,8 @@ public class MainApp extends Application {
 
     public static final Version VERSION = new Version(0, 6, 0, true);
 
+    private static final String PROFILE_PICTURE_PATH = "profilepic.png";
+
     private static final Logger logger = LogsCenter.getLogger(MainApp.class);
 
     protected Ui ui;
@@ -65,6 +71,8 @@ public class MainApp extends Application {
         storage = new StorageManager(addressBookStorage, userPrefsStorage);
 
         initLogging(config);
+
+        initProfilePic();
 
         model = initModelManager(storage, userPrefs);
 
@@ -175,6 +183,29 @@ public class MainApp extends Application {
         }
 
         return initializedPrefs;
+    }
+
+    /**
+     * Creates new profilepic.png when app is first started
+     */
+    private void initProfilePic() {
+        File profilePicFile = new File("profilepic.png");
+        if (!profilePicFile.exists()) {
+            initDefaultProfilePic();
+        }
+    }
+
+    /**
+     * Saves default profile picture to profilepic.png
+     */
+    private void initDefaultProfilePic() {
+        try {
+            File profilePicFile = new File("profilepic.png");
+            URL defaultPicUrl = new URL("http://i64.tinypic.com/vo385x.png");
+            FileUtils.copyURLToFile(defaultPicUrl, profilePicFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void initEventsCenter() {

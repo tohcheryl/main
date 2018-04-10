@@ -89,5 +89,4 @@ public class FileUtil {
         checkArgument(pathWithForwardSlash.contains("/"));
         return pathWithForwardSlash.replace("/", File.separator);
     }
-
 }

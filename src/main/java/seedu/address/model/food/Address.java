@@ -11,7 +11,7 @@ public class Address {
 
     public static final String DEFAULT_ADDRESS = "unknown address";
     public static final String MESSAGE_ADDRESS_CONSTRAINTS =
-            "Food addresses can take any values, and it should not be blank";
+            "Addresses can take any values, and it should not be blank";
 
     /*
      * The first character of the address must not be a whitespace,

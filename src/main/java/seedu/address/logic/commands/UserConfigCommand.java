@@ -7,9 +7,9 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_ALLERGIES;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 
-import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.user.UserProfile;
 
+//@@author {jaxony}
 /**
  * Sets User Profile of HackEat user.
  */
@@ -22,12 +22,13 @@ public class UserConfigCommand extends UndoableCommand {
             + PREFIX_NAME + "NAME "
             + PREFIX_PHONE + "PHONE "
             + PREFIX_ADDRESS + "ADDRESS "
-            + "[" + PREFIX_ALLERGIES + "ALLERGIES]...\n"
+            + "[" + PREFIX_ALLERGIES + "ALLERGY]...\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_NAME + "John Doe "
             + PREFIX_PHONE + "98765432 "
             + PREFIX_ADDRESS + "311, Clementi Ave 2, #02-25 "
-            + PREFIX_ALLERGIES + "lactose gluten peanut";
+            + PREFIX_ALLERGIES + "lactose "
+            + PREFIX_ALLERGIES + "gluten";
 
     public static final String MESSAGE_SUCCESS = "User profile updated";
 
@@ -42,7 +43,7 @@ public class UserConfigCommand extends UndoableCommand {
     }
 
     @Override
-    public CommandResult executeUndoableCommand() throws CommandException {
+    public CommandResult executeUndoableCommand() {
         requireNonNull(model);
         model.initUserProfile(toAdd);
         return new CommandResult(MESSAGE_SUCCESS);

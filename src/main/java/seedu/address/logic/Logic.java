@@ -4,6 +4,7 @@ import javafx.collections.ObservableList;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.food.Food;
 
 /**
@@ -46,4 +47,9 @@ public interface Logic {
      * @throws ParseException If {@code commandText} is not a valid command.
      */
     boolean isCommandInteractive(String commandText) throws ParseException;
+
+    /**
+     * Returns ReadOnlyAddressBook
+     */
+    ReadOnlyAddressBook getAddressBook();
 }
