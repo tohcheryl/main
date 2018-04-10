@@ -296,6 +296,8 @@ Format: `clear`
 Orders food given with or without an index. If no index is given, a food will be chosen for you. May take some time as
 phone call is in progress. Otherwise, will order the food at the specified index.
 
+Currently, makes a phone call to the specified phone number (must be a singaporean number) associated with the food.
+
 Format: `order [INDEX]` or `order`
 
 Example:

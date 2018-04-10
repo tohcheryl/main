@@ -20,6 +20,7 @@ public class OrderCommand extends UndoableCommand {
             + "Parameters: INDEX (must be a positive integer) ";
 
     public static final String MESSAGE_SUCCESS = "Beginning to order %1$s. Ringing %2$s. Please wait.";
+    public static final String MESSAGE_SELECT_FAIL = "Unable to select food at random.";
     public static final String MESSAGE_DIAL_FAIL_FOOD = "Order failure for: %s";
     public static final String MESSAGE_DIAL_FAIL_PHONE = "Failed to dial %s";
     public static final String MESSAGE_DIAL_FAIL = MESSAGE_DIAL_FAIL_FOOD + ". " + MESSAGE_DIAL_FAIL_PHONE + ".";
@@ -48,17 +49,23 @@ public class OrderCommand extends UndoableCommand {
 
     @Override
     protected void preprocessUndoableCommand() throws CommandException {
-        List<Food> lastShownList = model.getFilteredFoodList();
+        try {
+            List<Food> lastShownList = model.getFilteredFoodList();
 
-        if (this.index == null) {
-            this.index = FoodSelector.select(model);
+            if (this.index == null) {
+                FoodSelector fs = new FoodSelector();
+                this.index = fs.select(model);
+            }
+
+            if (index.getZeroBased() >= lastShownList.size()) {
+                throw new CommandException(Messages.MESSAGE_INVALID_FOOD_DISPLAYED_INDEX);
+            }
+
+            toOrder = lastShownList.get(index.getZeroBased());
+        } catch (Exception e) {
+            throw new CommandException(MESSAGE_SELECT_FAIL);
         }
 
-        if (index.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_FOOD_DISPLAYED_INDEX);
-        }
-
-        toOrder = lastShownList.get(index.getZeroBased());
     }
 
     @Override
