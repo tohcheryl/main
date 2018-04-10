@@ -382,7 +382,7 @@ image::UpdatedLogicCommandClassDiagram.png[width="800"]
 ** Cons: Less user friendly
 //end::addshortcuts[]
 
-// tag:: userconfig[]
+// tag::userconfig[]
 === Configuring the User Profile
 ==== Motivation
 It's nice to have someone greet you as your friend. HackEat makes its users comfortable and feel
@@ -426,7 +426,7 @@ By simply replacing the property, you don't need to check if the property is not
 updating the profile. You also don't need to check if the profile is null before choosing to add a new
 profile to the application. Separating add and update functionalities works for Food, but not for profile as the
 additional complexity is unnecessary.
-//end::userconfig[]
+// end::userconfig[]
 
 // tag::dataencryption[]
 === [Proposed] Data Encryption
@@ -514,6 +514,7 @@ A promising alternative is to use an existing API from UberEats or other food or
 added such as: delivery time tracking, more restaurants. This would guarantee the service more reliably.
 // end::order[]
 
+// tag::add[]
 === Interactive `add` feature
 
 ==== What
@@ -560,6 +561,7 @@ of each of these components. The disadvantage, which is much more costly, is the
 separate components and classes. It is much more convenient to simply combine the state and logic for `Session`s in a
 single component to reduce coupling and increase cohesion, making developer efficiency higher and code organisation more
 simple.
+// end::add[]
 
 == Documentation
 
@@ -975,9 +977,8 @@ See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-
 * Order command - Sam
 ** Allows users to order food from the HackEat book. Designed to choose a food that best suits the scenario, making it
 trustworthy enough for hackers that are too lazy to order themselves.
-* Food Profile - Jackson
-** Allows the user to browse through the HackEat book while showing visual statistics of the foods. Hackers, when not
-hacking can optimise their foods and get insightful knowledge through data visualisation.
+* Interactive, chat-like commands - Jackson
+** Allows the user to use commands without memorising their format. Simply respond to simple prompts given by the application.
 * User shortcuts - Cheryl
 ** Sometimes ordering can still be tedious. With the shortcut system, users can create new shortcuts which minmises the
 number of characters required to order foods. This is especially handy for the super users who need food ASAP. The
