@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ALLERGIES;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
@@ -37,18 +38,20 @@ public class AddCommand extends UndoableCommand {
             + PREFIX_PHONE + "PHONE "
             + PREFIX_EMAIL + "EMAIL "
             + PREFIX_ADDRESS + "ADDRESS "
-            + PREFIX_RATING + "RATING"
-            + PREFIX_PRICE + "PRICE"
-            + "[" + PREFIX_TAG + "TAG]...\n"
+            + PREFIX_RATING + "RATING "
+            + PREFIX_PRICE + "PRICE "
+            + "[" + PREFIX_TAG + "TAG]... "
+            + "[" + PREFIX_ALLERGIES + "ALLERGY]...\n"
             + "Example: " + COMMAND_WORD + " "
-            + PREFIX_NAME + "John Doe "
-            + PREFIX_PHONE + "98765432 "
-            + PREFIX_EMAIL + "johnd@example.com "
-            + PREFIX_ADDRESS + "311, Clementi Ave 2, #02-25 "
-            + PREFIX_RATING + "5"
-            + PREFIX_PRICE + "3.50"
-            + PREFIX_TAG + "friends "
-            + PREFIX_TAG + "owesMoney";
+            + PREFIX_NAME + "Tissue Prata "
+            + PREFIX_PHONE + "62895379 "
+            + PREFIX_EMAIL + "rkeatinghouse@gmail.com "
+            + PREFIX_ADDRESS + "1 Kensington Park Rd "
+            + PREFIX_RATING + "5 "
+            + PREFIX_PRICE + "3.50 "
+            + PREFIX_TAG + "sweet "
+            + PREFIX_TAG + "crispy "
+            + PREFIX_ALLERGIES + "lactose";
 
     public static final String MESSAGE_SUCCESS = "New food added: %1$s";
     public static final String MESSAGE_DUPLICATE_FOOD = "This food already exists in HackEat";
