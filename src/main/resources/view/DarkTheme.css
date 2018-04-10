@@ -158,6 +158,21 @@
     -fx-text-fill: black !important;
 }
 
+.chat-panel {
+    -fx-background-color: transparent;
+    -fx-font-family: "Segoe UI Light";
+    -fx-font-size: 32pt;
+    -fx-text-fill: white;
+}
+
+.chat-panel .label {
+    -fx-text-fill: white;
+    -fx-background-color: red;
+    -fx-border-radius: 5;
+    -fx-padding: 5 10 5 10;
+    -fx-background-radius: 5;
+}
+
 .status-bar .label {
     -fx-font-family: "Segoe UI Light";
     -fx-text-fill: white;
