@@ -499,9 +499,10 @@ image::order-command--food-selector.png[width="600"]
 
 ==== Design considerations
 
-- Voice call for ordering food was chosen as it is Universal to all restaurants that deliver food. Some restaurants do
-no have Uber Eats or Food Panda service.
-- A REST API was chosen as the server to relay XML data instead of allowing a tunnel to localhost as it is more secure.
+- Email was used to avoid importing a large library and can be used in conjunction to Email to Voice message services.
+- In future, voice call for ordering food will be chosen as it is Universal to all restaurants that deliver food.
+Some restaurants do nto have Uber Eats or Food Panda service.
+- A REST API was chosen as the server to relay XML data.
 
 ==== Alternatives and future considerations
 A promising alternative is to use an existing API from UberEats or other food ordering services to allow more services
