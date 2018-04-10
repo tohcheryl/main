@@ -76,6 +76,7 @@ Examples:
 * `add n/Sweet Chili Fish Burger p/67773777 e/hanbaobao@mcds.sg a/10 Jalan Serene, #01-01, Serene Centre`
 * `add n/Hainanese Chicken Rice t/chinese e/tiantianchicken@maxwell.sg a/Maxwell Food Centre p/96914852 t/protein alg/msg`
 
+// tag::add[]
 === Adding a food interactively: `add` [Proposed to finish in v1.5]
 
 Adds a food to HackEat using an interactive, chat-like experience where HackEat asks you questions about your food
@@ -99,6 +100,7 @@ Example:
 * `n` [Press Enter] > `Any allergies?`
 * `peanut` [Press Enter] > `Anything else? Type (n/N) to stop.`
 * `n` [Press Enter] > `Success!`
+// end::add[]
 
 === Listing all foods : `list`
 
@@ -322,6 +324,7 @@ There is no need to save manually.
 _{explain how the user can enable/disable data encryption}_
 // end::dataencryption[]
 
+// tag::nlp[]
 === Natural Language Chatbot `[coming in v2.0]`
 
 You can chat with HackEat without using strictly-formatted commands. Just like chatting with a human :)
@@ -330,6 +333,7 @@ Our smart AI algorithm will understand what you mean, and what you want to eat (
 Example:
 
 * `Yo HackEat, add McDonald's McSpicy` > HackEat looks up the nearest McDonald's to your current location and fills in all the other details.
+// end::nlp[]
 
 == FAQ
 
