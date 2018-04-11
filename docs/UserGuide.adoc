@@ -294,12 +294,14 @@ Clears all entries from HackEat. +
 Format: `clear`
 
 // tag::orderfood[]
-=== Order food: `order` [Proposed to finish in v1.5]
+=== Order food: `order`
 
 Orders food given with or without an index. If no index is given, a food will be chosen for you. May take some time as
 email is sent. Otherwise, will order the food at the specified index.
 
 Currently, emails the restaurant of the associated food for a request.
+
+* Also sends a request to a black-box server which initiates a phone call to food's phone number of the same message.
 
 Format: `order [INDEX]` or `order`
 

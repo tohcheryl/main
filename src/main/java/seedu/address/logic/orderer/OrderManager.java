@@ -1,5 +1,8 @@
 package seedu.address.logic.orderer;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Properties;
 import java.util.UUID;
 
@@ -21,21 +24,26 @@ import seedu.address.model.user.UserProfile;
  */
 public class OrderManager {
 
-    static final String PROPERTY_AUTH_HEADER = "mail.smtp.auth";
-    static final String PROPERTY_AUTH = "true";
-    static final String PROPERTY_TLS_HEADER = "mail.smtp.starttls.enable";
-    static final String PROPERTY_TLS = "true";
-    static final String PROPERTY_HOST_HEADER = "mail.smtp.host";
-    static final String PROPERTY_HOST = "smtp.gmail.com";
-    static final String PROPERTY_PORT_HEADER = "mail.smtp.port";
-    static final String PROPERTY_PORT = "587";
+    public static final String CONTENT_SEPERATOR = "//";
 
-    static final String CANNED_SPEECH_MESSAGE = "Hello, my name is %s. Could I order a %s to %s?";
-    static final String SUBJECT_LINE = "Order from HackEat. Reference code: %s";
+    private static final String REMOTE_SERVER = "https://mysterious-temple-83678.herokuapp.com/";
+    private static final String CREATE_PATH = "create/";
 
-    final String username = "hackeatapp@gmail.com";
-    final String password = "hackeater";
-    final String from = username;
+    private static final String PROPERTY_AUTH_HEADER = "mail.smtp.auth";
+    private static final String PROPERTY_AUTH = "true";
+    private static final String PROPERTY_TLS_HEADER = "mail.smtp.starttls.enable";
+    private static final String PROPERTY_TLS = "true";
+    private static final String PROPERTY_HOST_HEADER = "mail.smtp.host";
+    private static final String PROPERTY_HOST = "smtp.gmail.com";
+    private static final String PROPERTY_PORT_HEADER = "mail.smtp.port";
+    private static final String PROPERTY_PORT = "587";
+
+    private static final String CANNED_SPEECH_MESSAGE = "Hello, my name is %s. Could I order a %s to %s?";
+    private static final String SUBJECT_LINE = "Order from HackEat. Reference code: %s";
+
+    private final String username = "hackeatapp@gmail.com";
+    private final String password = "hackeater";
+    private final String from = username;
 
     private Session session;
 
@@ -53,9 +61,13 @@ public class OrderManager {
     /**
      * Uses TLS email protocol to begin call and order {@code Food}
      */
-    public void order() {
+    public void order() throws IOException, MessagingException {
+        String message = createMessage();
+
         generateEmailSession();
-        sendEmail(createBody());
+        sendEmail(message);
+
+        sendOrder(toOrder.getPhone().toString(), message);
     }
 
     /**
@@ -82,7 +94,7 @@ public class OrderManager {
      * Creates the body based on a pre-defined message, the user and food values
      * @return the String format of the body
      */
-    private String createBody() {
+    private String createMessage() {
         return String.format(CANNED_SPEECH_MESSAGE, user.getName(), toOrder.getName(), user.getAddress());
     }
 
@@ -90,29 +102,27 @@ public class OrderManager {
      * Sends an email to a food's email address
      * @param body of the email sent
      */
-    private void sendEmail(String body) {
+    private void sendEmail(String body) throws MessagingException {
 
-        try {
-            // Create a default MimeMessage object.
-            MimeMessage message = new MimeMessage(session);
+        MimeMessage message = new MimeMessage(session);
+        message.setFrom(new InternetAddress(from));
+        message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+        message.setSubject(String.format(SUBJECT_LINE, orderId));
+        message.setText(body);
+        Transport.send(message);
+    }
 
-            // Set From: header field of the header.
-            message.setFrom(new InternetAddress(from));
-
-            // Set To: header field of the header.
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-
-            // Set Subject: header field
-            message.setSubject(String.format(SUBJECT_LINE, orderId));
-
-            // Now set the actual message
-            message.setText(body);
-
-            // Send message
-            Transport.send(message);
-
-        } catch (MessagingException mex) {
-            mex.printStackTrace();
-        }
+    /**
+      * Sends order to REST API for TwiML to pick up
+      */
+    private void sendOrder(String toPhone, String body) throws IOException {
+        String data = toPhone + CONTENT_SEPERATOR +  body;
+        URL url = new URL(REMOTE_SERVER + CREATE_PATH + orderId);
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestMethod("POST");
+        con.setDoOutput(true);
+        con.getOutputStream().write(data.getBytes("UTF-8"));
+        con.getInputStream();
+        con.disconnect();
     }
 }
