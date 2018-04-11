@@ -204,7 +204,8 @@ public class MainApp extends Application {
             URL defaultPicUrl = new URL("http://i64.tinypic.com/vo385x.png");
             FileUtils.copyURLToFile(defaultPicUrl, profilePicFile);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.warning("Unable to download default profile picture. "
+                    + "Starting HackEat without a profile picture.");
         }
     }
 
