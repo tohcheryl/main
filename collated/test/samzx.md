@@ -10,10 +10,10 @@ public class FoodSelectorTest {
         FoodSelector fs = new FoodSelector();
         try {
             Index index = fs.select(model);
-        } catch (NullPointerException npe) {
-            npe.getMessage();
+            assertNotNull(index);
+        } catch (CommandException ce) {
+            assertEquals(ce, OrderCommand.MESSAGE_SELECT_FAIL);
         }
-
     }
 }
 ```
@@ -25,10 +25,20 @@ public class OrderManagerTest {
 
     @Test
     public void constructor_withArguments_success() {
+        Food validFood = model.getAddressBook().getFoodList().get(0);
         OrderManager orderManager = new OrderManager(
                 model.getAddressBook().getUserProfile(),
-                model.getAddressBook().getFoodList().get(0)
+                validFood
         );
+        try {
+            orderManager.order();
+        } catch (MessagingException e) {
+            assertEquals(e, String.format(OrderCommand.MESSAGE_EMAIL_FAIL_FOOD, validFood.getName()));
+        } catch (IOException e) {
+            assertEquals(e, String.format(OrderCommand.MESSAGE_DIAL_FAIL_FOOD, validFood.getName()));
+        } catch (Exception e) {
+            assertEquals(e, String.format(OrderCommand.MESSAGE_FAIL_FOOD, validFood.getName()));
+        }
     }
 }
 ```
@@ -87,7 +97,7 @@ public class OrderCommandTest {
             assertThat(result.feedbackToUser, containsString(String.format(OrderCommand.MESSAGE_SUCCESS,
                     food.getName())));
         } catch (Exception e) {
-            assertThat(e.getMessage(), containsString(String.format(OrderCommand.MESSAGE_EMAIL_FAIL_FOOD,
+            assertThat(e.getMessage(), containsString(String.format(OrderCommand.MESSAGE_SELECT_INDEX_FAIL,
                     food.getName())));
         }
     }
