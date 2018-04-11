@@ -6,6 +6,8 @@ import java.util.Random;
 import java.util.Set;
 
 import seedu.address.commons.core.index.Index;
+import seedu.address.logic.commands.OrderCommand;
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.food.Food;
 import seedu.address.model.food.allergy.Allergy;
@@ -21,7 +23,7 @@ public class FoodSelector {
      * @param model the current model of the program
      * @return the index of the selected food
      */
-    public Index select(Model model) {
+    public Index select(Model model) throws CommandException {
         ArrayList<FoodScore> foodScores = generateFoodList(model);
         FoodScore fs = pickFood(foodScores);
         return fs.index;
@@ -32,7 +34,7 @@ public class FoodSelector {
      * @param foodScores an ArrayList of {@code FoodScore}
      * @return the selected {@code FoodScore}
      */
-    private FoodScore pickFood(ArrayList<FoodScore> foodScores) {
+    private FoodScore pickFood(ArrayList<FoodScore> foodScores) throws CommandException {
 
         float runningScore = 0;
         for (FoodScore foodScore : foodScores) {
@@ -48,7 +50,7 @@ public class FoodSelector {
             }
         }
 
-        return null;
+        throw new CommandException(OrderCommand.MESSAGE_SELECT_FAIL);
     }
 
     /**

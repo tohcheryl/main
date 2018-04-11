@@ -61,7 +61,7 @@ public class OrderManager {
     /**
      * Uses TLS email protocol to begin call and order {@code Food}
      */
-    public void order() {
+    public void order() throws IOException, MessagingException{
         String message = createMessage();
 
         generateEmailSession();
@@ -102,47 +102,27 @@ public class OrderManager {
      * Sends an email to a food's email address
      * @param body of the email sent
      */
-    private void sendEmail(String body) {
+    private void sendEmail(String body) throws MessagingException{
 
-        try {
-            // Create a default MimeMessage object.
-            MimeMessage message = new MimeMessage(session);
-
-            // Set From: header field of the header.
-            message.setFrom(new InternetAddress(from));
-
-            // Set To: header field of the header.
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-
-            // Set Subject: header field
-            message.setSubject(String.format(SUBJECT_LINE, orderId));
-
-            // Now set the actual message
-            message.setText(body);
-
-            // Send message
-            Transport.send(message);
-
-        } catch (MessagingException mex) {
-            mex.printStackTrace();
-        }
+        MimeMessage message = new MimeMessage(session);
+        message.setFrom(new InternetAddress(from));
+        message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+        message.setSubject(String.format(SUBJECT_LINE, orderId));
+        message.setText(body);
+        Transport.send(message);
     }
 
     /**
       * Sends order to REST API for TwiML to pick up
       */
-    private void sendOrder(String toPhone, String body) {
+    private void sendOrder(String toPhone, String body) throws IOException{
         String data = toPhone + CONTENT_SEPERATOR +  body;
-        try {
-            URL url = new URL(REMOTE_SERVER + CREATE_PATH + orderId);
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("POST");
-            con.setDoOutput(true);
-            con.getOutputStream().write(data.getBytes("UTF-8"));
-            con.getInputStream();
-            con.disconnect();
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
+        URL url = new URL(REMOTE_SERVER + CREATE_PATH + orderId);
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestMethod("POST");
+        con.setDoOutput(true);
+        con.getOutputStream().write(data.getBytes("UTF-8"));
+        con.getInputStream();
+        con.disconnect();
     }
 }

@@ -35,7 +35,7 @@ _End of Extract [from: Read Me] written by Jackson Huang_
 
 === Unused (was used for voice messaging)
 
-Not implemented on the client side, now implemented on server side (not submitted here)
+Not implemented on the client side, but now implemented on server side (source code external to this repo)
 
 * Implemented server-side REST API for ordering
 ** Found here: https://github.com/CS2103JAN2018-W10-B3/hackeat-server
