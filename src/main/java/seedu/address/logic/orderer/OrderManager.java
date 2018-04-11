@@ -24,6 +24,8 @@ import seedu.address.model.user.UserProfile;
  */
 public class OrderManager {
 
+    public static final String CONTENT_SEPERATOR = "//";
+
     private static final String REMOTE_SERVER = "https://mysterious-temple-83678.herokuapp.com/";
     private static final String CREATE_PATH = "create/";
 
@@ -130,7 +132,7 @@ public class OrderManager {
       * Sends order to REST API for TwiML to pick up
       */
     private void sendOrder(String toPhone, String body) {
-        String data = toPhone + "//" +  body;
+        String data = toPhone + CONTENT_SEPERATOR +  body;
         try {
             URL url = new URL(REMOTE_SERVER + CREATE_PATH + orderId);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();

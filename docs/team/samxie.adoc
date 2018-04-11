@@ -35,6 +35,8 @@ _End of Extract [from: Read Me] written by Jackson Huang_
 
 === Unused (was used for voice messaging)
 
+Not implemented on the client side, now implemented on server side (not submitted here)
+
 * Implemented server-side REST API for ordering
 ** Found here: https://github.com/CS2103JAN2018-W10-B3/hackeat-server
 ** Configured to be hosted on Heroku on https://mysterious-temple-83678.herokuapp.com/
