@@ -3,6 +3,8 @@ package seedu.address.logic.commands;
 import java.io.IOException;
 import java.util.List;
 
+import javax.mail.MessagingException;
+
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -10,8 +12,6 @@ import seedu.address.logic.orderer.FoodSelector;
 import seedu.address.logic.orderer.OrderManager;
 import seedu.address.model.food.Food;
 import seedu.address.model.food.allergy.Allergy;
-
-import javax.mail.MessagingException;
 
 //@@author {samzx}
 

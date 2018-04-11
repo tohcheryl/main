@@ -61,7 +61,7 @@ public class OrderManager {
     /**
      * Uses TLS email protocol to begin call and order {@code Food}
      */
-    public void order() throws IOException, MessagingException{
+    public void order() throws IOException, MessagingException {
         String message = createMessage();
 
         generateEmailSession();
@@ -102,7 +102,7 @@ public class OrderManager {
      * Sends an email to a food's email address
      * @param body of the email sent
      */
-    private void sendEmail(String body) throws MessagingException{
+    private void sendEmail(String body) throws MessagingException {
 
         MimeMessage message = new MimeMessage(session);
         message.setFrom(new InternetAddress(from));
@@ -115,7 +115,7 @@ public class OrderManager {
     /**
       * Sends order to REST API for TwiML to pick up
       */
-    private void sendOrder(String toPhone, String body) throws IOException{
+    private void sendOrder(String toPhone, String body) throws IOException {
         String data = toPhone + CONTENT_SEPERATOR +  body;
         URL url = new URL(REMOTE_SERVER + CREATE_PATH + orderId);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
