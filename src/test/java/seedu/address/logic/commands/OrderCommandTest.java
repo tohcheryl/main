@@ -46,7 +46,7 @@ public class OrderCommandTest {
             assertThat(result.feedbackToUser, containsString(String.format(OrderCommand.MESSAGE_SUCCESS,
                     food.getName())));
         } catch (Exception e) {
-            assertThat(e.getMessage(), containsString(String.format(OrderCommand.MESSAGE_EMAIL_FAIL_FOOD,
+            assertThat(e.getMessage(), containsString(String.format(OrderCommand.MESSAGE_SELECT_INDEX_FAIL,
                     food.getName())));
         }
     }
