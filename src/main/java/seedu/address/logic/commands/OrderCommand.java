@@ -9,6 +9,8 @@ import seedu.address.logic.orderer.FoodSelector;
 import seedu.address.logic.orderer.OrderManager;
 import seedu.address.model.food.Food;
 
+//@@author {samzx}
+
 /**
  * Orders food in HackEat.
  */
@@ -19,11 +21,9 @@ public class OrderCommand extends UndoableCommand {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Orders a food "
             + "Parameters: INDEX (must be a positive integer) ";
 
-    public static final String MESSAGE_SUCCESS = "Beginning to order %1$s. Ringing %2$s. Please wait.";
-    public static final String MESSAGE_SELECT_FAIL = "Unable to select food at random.";
-    public static final String MESSAGE_DIAL_FAIL_FOOD = "Order failure for: %s";
-    public static final String MESSAGE_DIAL_FAIL_PHONE = "Failed to dial %s";
-    public static final String MESSAGE_DIAL_FAIL = MESSAGE_DIAL_FAIL_FOOD + ". " + MESSAGE_DIAL_FAIL_PHONE + ".";
+    public static final String MESSAGE_SUCCESS = "Successfully emailed restaurant for %1$s";
+    public static final String MESSAGE_SELECT_FAIL = "Unable to select food at random";
+    public static final String MESSAGE_EMAIL_FAIL_FOOD = "Order failure for: %s";
 
     private Food toOrder;
     private Index index;
@@ -41,9 +41,9 @@ public class OrderCommand extends UndoableCommand {
             OrderManager manager = new OrderManager(model.getAddressBook().getUserProfile(), toOrder);
             manager.order();
 
-            return new CommandResult(String.format(MESSAGE_SUCCESS, toOrder.getName(), toOrder.getPhone()));
+            return new CommandResult(String.format(MESSAGE_SUCCESS, toOrder.getName()));
         } catch (Exception e) {
-            throw new CommandException(String.format(MESSAGE_DIAL_FAIL, toOrder.getName(), toOrder.getPhone()));
+            throw new CommandException(String.format(MESSAGE_EMAIL_FAIL_FOOD, toOrder.getName()));
         }
     }
 

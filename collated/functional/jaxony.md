@@ -21,6 +21,11 @@
      * @throws ParseException If {@code commandText} is not a valid command.
      */
     boolean isCommandInteractive(String commandText) throws ParseException;
+
+    /**
+     * Returns ReadOnlyAddressBook
+     */
+    ReadOnlyAddressBook getAddressBook();
 }
 ```
 ###### /java/seedu/address/logic/parser/AddressBookParser.java
@@ -52,6 +57,8 @@
         case HelpCommand.COMMAND_WORD:
         case UndoCommand.COMMAND_WORD:
         case RedoCommand.COMMAND_WORD:
+        case ChangePicCommand.COMMAND_WORD:
+        case EditUserCommand.COMMAND_WORD:
         case UserConfigCommand.COMMAND_WORD:
             return false;
         default:
@@ -84,7 +91,7 @@
      * @throws IllegalArgumentException If the command in {@code userInput} is not supported.
      */
     public Command getCommand(String userInput) throws IllegalArgumentException {
-        return CommandFactory.createCommand(userInput);
+        return CommandFactory.createCommand(userInput.trim());
     }
 ```
 ###### /java/seedu/address/logic/commands/Command.java
@@ -100,11 +107,11 @@
             new Prompt(Name.class, "What's the food called?", false),
             new Prompt(Phone.class, "Restaurant phone number?", false),
             new Prompt(Email.class, "And their email?", false),
-            new Prompt(Address.class, "Where they located @ fam?.", false),
+            new Prompt(Address.class, "Where they located @ fam?", false),
             new Prompt(Price.class, "$$$?", false),
             new Prompt(Rating.class, "U rate or what?", false),
-            new Prompt(Tag.class, "Where those tags at?", true),
-            new Prompt(Allergy.class, "Does this food have any allergies?", true));
+            new Prompt(Tag.class, "Where those tags at?", true, true),
+            new Prompt(Allergy.class, "Does this food have any allergies?", true, true));
 ```
 ###### /java/seedu/address/logic/commands/AddCommand.java
 ``` java
@@ -134,6 +141,55 @@
         toAdd = food;
     }
 ```
+###### /java/seedu/address/logic/commands/UserConfigCommand.java
+``` java
+/**
+ * Sets User Profile of HackEat user.
+ */
+public class UserConfigCommand extends UndoableCommand {
+
+    public static final String COMMAND_WORD = "userconfig";
+
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a user's personal details to HackEat. "
+            + "Parameters: "
+            + PREFIX_NAME + "NAME "
+            + PREFIX_PHONE + "PHONE "
+            + PREFIX_ADDRESS + "ADDRESS "
+            + "[" + PREFIX_ALLERGIES + "ALLERGY]...\n"
+            + "Example: " + COMMAND_WORD + " "
+            + PREFIX_NAME + "John Doe "
+            + PREFIX_PHONE + "98765432 "
+            + PREFIX_ADDRESS + "311, Clementi Ave 2, #02-25 "
+            + PREFIX_ALLERGIES + "lactose "
+            + PREFIX_ALLERGIES + "gluten";
+
+    public static final String MESSAGE_SUCCESS = "User profile updated";
+
+    private final UserProfile toAdd;
+
+    /**
+     * Creates a UserConfigCommand to add the specified {@code UserProfile}
+     */
+    public UserConfigCommand(UserProfile profile) {
+        requireNonNull(profile);
+        toAdd = profile;
+    }
+
+    @Override
+    public CommandResult executeUndoableCommand() {
+        requireNonNull(model);
+        model.initUserProfile(toAdd);
+        return new CommandResult(MESSAGE_SUCCESS);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof UserConfigCommand // instanceof handles nulls
+                && toAdd.equals(((UserConfigCommand) other).toAdd));
+    }
+}
+```
 ###### /java/seedu/address/logic/commands/Prompt.java
 ``` java
 /**
@@ -142,14 +198,23 @@
  */
 public class Prompt {
     public final boolean isMultiValued;
+    public final boolean isOptional;
 
     private Class field;
     private String message;
+
+    public Prompt(Class field, String message, boolean isMultiValued, boolean isOptional) {
+        this.field = field;
+        this.message = message;
+        this.isMultiValued = isMultiValued;
+        this.isOptional = isOptional;
+    }
 
     public Prompt(Class field, String message, boolean isMultiValued) {
         this.field = field;
         this.message = message;
         this.isMultiValued = isMultiValued;
+        this.isOptional = false;
     }
 
     public Class getField() {
@@ -215,7 +280,7 @@ public class CommandFactory {
     public boolean isCommandInteractive(String commandText) throws ParseException {
         return addressBookParser.isCommandInteractive(commandText);
     }
-}
+
 ```
 ###### /java/seedu/address/model/user/UserProfile.java
 ``` java
@@ -392,10 +457,10 @@ public class SessionAddCommand extends Session {
     public void parseInputForMultivaluedField(Class field) throws IllegalValueException, IllegalArgumentException {
         switch (field.getSimpleName()) {
         case "Tag":
-            tagSet = ParserUtil.parseTags(temporaryStrings);
+            tagSet = ParserUtil.parseTags(stringBuffer);
             break;
         case "Allergy":
-            allergySet = ParserUtil.parseAllergies(temporaryStrings);
+            allergySet = ParserUtil.parseAllergies(stringBuffer);
             break;
         default:
             throw new IllegalArgumentException();
@@ -546,17 +611,19 @@ public class SessionManager extends ComponentManager implements SessionInterface
 ```
 ###### /java/seedu/address/model/session/Session.java
 ``` java
+
 /**
  * Represents a continuous chat or interaction between the user
  * and the system.
  */
 public abstract class Session {
-    public static final String END_MULTI_VALUE_FIELD = "n";
+    public static final String END_MULTI_VALUE_FIELD = "";
+    public static final String OPTIONAL_MESSAGE = "Press [Enter] to skip this optional field.";
     public static final String SUCCESS_MESSAGE = "Success!";
-    public static final String ANYTHING_ELSE_MESSAGE = "And anything else? Type (n/N) to stop here.";
+    public static final String ANYTHING_ELSE_MESSAGE = "And anything else? Type [Enter] to stop.";
     public static final String TRY_AGAIN_MESSAGE = "Please try again: ";
     protected final EventsCenter eventsCenter;
-    protected Collection<String> temporaryStrings;
+    protected Collection<String> stringBuffer;
     protected Command command;
     protected int promptIndex;
     protected final List<Prompt> prompts;
@@ -577,14 +644,43 @@ public abstract class Session {
      * @return feedback to the user
      * @throws CommandException If end() throws exception
      */
-    private CommandResult getNextPrompt() throws CommandException {
-        if (promptIndex < prompts.size()) {
-            Prompt p = prompts.get(promptIndex);
-            return new CommandResult(p.getMessage());
-        } else {
+    private CommandResult getNextPromptMessage() throws CommandException {
+        promptIndex++;
+        if (!sessionHasPromptsLeft()) {
             end();
             return new CommandResult(SUCCESS_MESSAGE);
         }
+        Prompt prompt = getCurrentPrompt();
+        if (prompt.isMultiValued) {
+            setupForMultiValued();
+        }
+        return buildCommandResultFromPrompt(prompt);
+    }
+
+    /**
+     * Sets up Session state for processing multi valued field.
+     */
+    private void setupForMultiValued() {
+        isParsingMultivaluedField = true;
+        resetStringBuffer();
+    }
+
+    /**
+     * Constructs a CommandResult from a prompt.
+     *
+     * @param prompt What the system is asking from the user. May be optional.
+     * @return Feedback to user.
+     */
+    private CommandResult buildCommandResultFromPrompt(Prompt prompt) {
+        String message = prompt.getMessage();
+        if (prompt.isOptional) {
+            message += " " + OPTIONAL_MESSAGE;
+        }
+        return new CommandResult(message);
+    }
+
+    private boolean sessionHasPromptsLeft() {
+        return promptIndex < prompts.size();
     }
 
     /**
@@ -595,6 +691,10 @@ public abstract class Session {
     private void end() throws CommandException {
         finishCommand();
         eventsCenter.post(new EndActiveSessionEvent());
+    }
+
+    private Prompt getCurrentPrompt() {
+        return prompts.get(promptIndex);
     }
 
     protected abstract void finishCommand() throws CommandException;
@@ -608,45 +708,61 @@ public abstract class Session {
      */
     public CommandResult interpretUserInput(String userInput) throws CommandException {
         logger.info("Received user input in current Session: " + userInput);
-        Prompt p = prompts.get(promptIndex);
+        Prompt p = getCurrentPrompt();
 
         try {
             if (p.isMultiValued) {
-                if (isParsingMultivaluedField) {
-                    if (userInput.toLowerCase().equals(END_MULTI_VALUE_FIELD)) {
-                        parseInputForMultivaluedField(p.getField());
-                        isParsingMultivaluedField = false;
-                        promptIndex++;
-                        return getNextPrompt();
-                    } else {
-                        addAsMultiValue(userInput);
-                        return askForNextMultivalue();
-                    }
-                } else {
-                    // start multivalue parsing
-                    temporaryStrings = new HashSet<>();
-                    isParsingMultivaluedField = true;
-                    addAsMultiValue(userInput);
-                    return askForNextMultivalue();
-                }
+                return handleInputForMultiValuedField(userInput);
             } else {
                 parseInputForField(p.getField(), userInput);
-                promptIndex++;
-                return getNextPrompt();
+                return getNextPromptMessage();
             }
         } catch (IllegalValueException ive) {
+            if (p.isMultiValued) {
+                // a multi value thingo failed during parsing, need to refresh
+                resetStringBuffer();
+            }
             return new CommandResult(TRY_AGAIN_MESSAGE + ive.getMessage());
         }
     }
 
     /**
+     * Processes and responds to user input when processing a multi valued field.
+     *
+     * @param userInput String input from user.
+     * @return Feedback to the user.
+     * @throws CommandException If parsing goes wrong.
+     */
+    private CommandResult handleInputForMultiValuedField(String userInput)
+            throws CommandException, IllegalValueException {
+        Prompt p = getCurrentPrompt();
+        if (didUserEndPrompt(userInput)) {
+            // user wants to go to the next prompt now
+            parseInputForMultivaluedField(p.getField());
+            isParsingMultivaluedField = false;
+            return getNextPromptMessage();
+        }
+        // user entered input that can be processed
+        addAsMultiValue(userInput);
+        return askForNextMultivalue();
+
+    }
+
+    private void resetStringBuffer() {
+        stringBuffer = new HashSet<>();
+    }
+
+    private boolean didUserEndPrompt(String userInput) {
+        return userInput.equals(END_MULTI_VALUE_FIELD);
+    }
+
+    /**
      * Adds user input to a collection of strings for processing later
      * when all input has been collected from the user.
-     *
-     * @param userInput
+     * @param userInput String from user.
      */
     private void addAsMultiValue(String userInput) {
-        temporaryStrings.add(userInput);
+        stringBuffer.add(userInput);
         logger.info("Added " + userInput + " as a multi value field");
     }
 
@@ -662,7 +778,7 @@ public abstract class Session {
      * Start the session by giving the first prompt in the interaction.
      */
     public CommandResult start() throws CommandException {
-        return getNextPrompt();
+        return new CommandResult(getCurrentPrompt().getMessage());
     }
 }
 ```

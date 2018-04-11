@@ -30,10 +30,15 @@ _End of Extract [from: Read Me] written by Jackson Huang_
 * Changed Logo
 * Added Ratings field
 * Added Order Command
+* Added Order Manager which emails restaurant provider of food
+* Implemented a Food selection algorithm
+
+=== Unused (was used for voice messaging)
+
 * Implemented server-side REST API for ordering
 ** Found here: https://github.com/CS2103JAN2018-W10-B3/hackeat-server
 ** Configured to be hosted on Heroku on https://mysterious-temple-83678.herokuapp.com/
-* Implemented a Food selection algorithm
+
 
 
 == Contributions to the User Guide
@@ -43,6 +48,9 @@ include::../UserGuide.adoc[tag=orderfood]
 include::../DeveloperGuide.adoc[tag=order]
 
 == Future proposals
+
+The use of Twilio API to directly use voice messages.
+Can be seen in unused section.
 
 === Smarter ordering AI agent
 Possibly implement smarter speech with `<Gather>` and `<Redirect>`.

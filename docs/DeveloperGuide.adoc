@@ -490,23 +490,18 @@ image::order-command--food-selector.png[width="600"]
 - This will select a food probabilistically, based on the scores.
 
 ===== Order Manager
-image::order-command--order-manager.png[width="600"]
-Architecture to allow dynamic voice calls to restaurants based on user profile and food.
 
-- Client first sends XML data to REST API path /create/
-- REST API parses the data, and generates a handler at a mirror address eg. /order/
-- Once a response is received from server, the client then creates a call using the Twilio API, specifying the path of
-XML data to fetch, under /order/:id
-- This will prompt Twilio to call the specified phone from the client, using the API keys etc.
-- Twilio API will visit the URL specified and fetch the XML data and parse into computer generated voice via TwiML API.
-- Restaurant will pick up and receive message of the order, prepare food, and send to address.
-
+* Sets up a session and generates access to email server
+* Emails restaurant the order details
+** In future, this will also contact a server which uses text to voice to translates the email into voice a message.
+** v1.4 has implemented this via Twilio, but was changed due to current rejection of the use of the library
 
 ==== Design considerations
 
-- Voice call for ordering food was chosen as it is Universal to all restaurants that deliver food. Some restaurants do
-no have Uber Eats or Food Panda service.
-- A REST API was chosen as the server to relay XML data instead of allowing a tunnel to localhost as it is more secure.
+- Email was used to avoid importing a large library and can be used in conjunction to Email to Voice message services.
+- In future, voice call for ordering food will be chosen as it is Universal to all restaurants that deliver food.
+Some restaurants do nto have Uber Eats or Food Panda service.
+- A REST API was chosen as the server to relay XML data.
 
 ==== Alternatives and future considerations
 A promising alternative is to use an existing API from UberEats or other food ordering services to allow more services

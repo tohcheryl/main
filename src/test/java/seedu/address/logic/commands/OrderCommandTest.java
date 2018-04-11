@@ -17,6 +17,8 @@ import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.food.Food;
 
+//@@author {samzx}
+
 public class OrderCommandTest {
     private static final Index VALID_INDEX = Index.fromZeroBased(1);
     private static final Index NULL_INDEX = null;
@@ -42,10 +44,10 @@ public class OrderCommandTest {
         try {
             CommandResult result = orderCommand.execute();
             assertThat(result.feedbackToUser, containsString(String.format(OrderCommand.MESSAGE_SUCCESS,
-                    food.getName(), food.getName())));
+                    food.getName())));
         } catch (Exception e) {
-            assertThat(e.getMessage(), containsString(String.format(OrderCommand.MESSAGE_DIAL_FAIL,
-                    food.getName(), food.getPhone())));
+            assertThat(e.getMessage(), containsString(String.format(OrderCommand.MESSAGE_EMAIL_FAIL_FOOD,
+                    food.getName())));
         }
     }
 
@@ -57,8 +59,8 @@ public class OrderCommandTest {
             assertThat(result.feedbackToUser, containsString(String.format(OrderCommand.MESSAGE_SUCCESS,
                     "", "")));
         } catch (Exception e) {
-            assertThat(e.getMessage(), containsString(String.format(OrderCommand.MESSAGE_DIAL_FAIL_FOOD, "")));
-            assertThat(e.getMessage(), containsString(String.format(OrderCommand.MESSAGE_DIAL_FAIL_PHONE, "")));
+            assertThat(e.getMessage(), containsString(String.format(OrderCommand.MESSAGE_EMAIL_FAIL_FOOD, "")));
+            assertThat(e.getMessage(), containsString(String.format(OrderCommand.MESSAGE_EMAIL_FAIL_FOOD, "")));
         }
     }
 

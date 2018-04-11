@@ -1,4 +1,56 @@
 # tohcheryl
+###### /java/seedu/address/ui/UserProfilePanelTest.java
+``` java
+public class UserProfilePanelTest extends GuiUnitTest {
+
+    private static final ReadOnlyAddressBook ADDRESS_BOOK = SampleDataUtil.getSampleAddressBook();
+    private static final Logger logger = LogsCenter.getLogger(UserProfilePanelTest.class);
+
+    @Test
+    public void display() {
+        // no allergies
+        UserProfile userWithNoAllergy = new UserProfileBuilder().withAllergies(new String[0]).build();
+        UserProfilePanel userProfilePanel = new UserProfilePanel(ADDRESS_BOOK);
+        userProfilePanel.setUserProfile(userWithNoAllergy);
+        uiPartRule.setUiPart(userProfilePanel);
+        assertPanelDisplay(userProfilePanel, userWithNoAllergy);
+
+        // with allergies
+        UserProfile userWithAllergies = new UserProfileBuilder().build();
+        userProfilePanel = new UserProfilePanel(ADDRESS_BOOK);
+        userProfilePanel.setUserProfile(userWithAllergies);
+        uiPartRule.setUiPart(userProfilePanel);
+        assertPanelDisplay(userProfilePanel, userWithAllergies);
+    }
+
+    /**
+     * Asserts that {@code userProfilePanel} displays the details of {@code userProfile} correctly
+     */
+    private void assertPanelDisplay(UserProfilePanel userProfilePanel, UserProfile userProfile) {
+        guiRobot.pauseForHuman();
+
+        UserProfilePanelHandle userProfilePanelHandle = new UserProfilePanelHandle(userProfilePanel.getRoot());
+
+        // verify user details are displayed correctly
+        assertPanelDisplaysUser(userProfile, userProfilePanelHandle);
+    }
+}
+```
+###### /java/seedu/address/ui/testutil/GuiTestAssert.java
+``` java
+    /**
+     * Asserts that {@code actualPanel} displays the details of {@code expectedUser}.
+     */
+    public static void assertPanelDisplaysUser(UserProfile userProfile, UserProfilePanelHandle actualPanel) {
+        assertEquals(userProfile.getName().fullName, actualPanel.getName());
+        assertEquals(userProfile.getPhone().value, actualPanel.getPhone());
+        assertEquals(userProfile.getAddress().value, actualPanel.getAddress());
+        assertEquals(userProfile.getAllergies().stream().map(allergy -> allergy.allergyName)
+                        .collect(Collectors.toList()),
+                actualPanel.getAllergies());
+    }
+}
+```
 ###### /java/seedu/address/logic/parser/EditUserCommandParserTest.java
 ``` java
 public class EditUserCommandParserTest {
@@ -627,6 +679,65 @@ public class UserProfileUtil {
         userProfile.getAllergies().stream().forEach(s -> sb.append(PREFIX_ALLERGIES + s.allergyName + " ")
         );
         return sb.toString();
+    }
+}
+```
+###### /java/guitests/guihandles/UserProfilePanelHandle.java
+``` java
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.scene.layout.Region;
+
+/**
+ * A handle to the {@code UserProfilePanel} in the GUI.
+ */
+public class UserProfilePanelHandle extends NodeHandle<Node> {
+
+    private static final String NAME_FIELD_ID = "#name";
+    private static final String ADDRESS_FIELD_ID = "#address";
+    private static final String PHONE_FIELD_ID = "#phone";
+    private static final String ALLERGIES_FIELD_ID = "#allergies";
+
+    private final Label nameLabel;
+    private final Label addressLabel;
+    private final Label phoneLabel;
+    private final List<Label> allergyLabels;
+
+    public UserProfilePanelHandle(Node cardNode) {
+        super(cardNode);
+
+        this.nameLabel = getChildNode(NAME_FIELD_ID);
+        this.addressLabel = getChildNode(ADDRESS_FIELD_ID);
+        this.phoneLabel = getChildNode(PHONE_FIELD_ID);
+        Region allergiesContainer = getChildNode(ALLERGIES_FIELD_ID);
+        this.allergyLabels = allergiesContainer
+                .getChildrenUnmodifiable()
+                .stream()
+                .map(Label.class::cast)
+                .collect(Collectors.toList());
+    }
+
+    public String getName() {
+        return nameLabel.getText();
+    }
+
+    public String getAddress() {
+        return addressLabel.getText();
+    }
+
+    public String getPhone() {
+        return phoneLabel.getText();
+    }
+
+    public List<String> getAllergies() {
+        return allergyLabels
+                .stream()
+                .map(Label::getText)
+                .collect(Collectors.toList());
     }
 }
 ```

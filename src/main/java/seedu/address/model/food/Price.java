@@ -61,9 +61,11 @@ public class Price {
     }
 
     //@@author {samzx}
+
     /**
-     * Method to display price with pre-fix symbol '$'
-     * @return a string with '$' prefix
+     * Parses price value into more recognisable price format with $.
+     * @param value of price
+     * @return price value with $ prefixed
      */
     public static String displayString(String value) {
         return "$" + value;

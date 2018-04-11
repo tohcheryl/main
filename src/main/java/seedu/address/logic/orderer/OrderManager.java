@@ -1,42 +1,48 @@
 package seedu.address.logic.orderer;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
+import java.util.Properties;
 import java.util.UUID;
 
-import com.twilio.Twilio;
-import com.twilio.rest.api.v2010.account.Call;
-import com.twilio.twiml.VoiceResponse;
-import com.twilio.twiml.voice.Say;
-import com.twilio.type.PhoneNumber;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 import seedu.address.model.food.Food;
 import seedu.address.model.user.UserProfile;
 
+//@@author {samzx}
 
 /**
  * Orders food in HackEat.
  */
 public class OrderManager {
 
-    // Find your Account Sid, Token and phone number used at twilio.com/console
-    public static final String ACCOUNT_SID = "AC08ed603e3a4de8c0055e27ed8f5e8a3e";
-    public static final String AUTH_TOKEN = "97fbd0228fa8419cb931583626039e00";
-    public static final String OUTGOING_PHONE = "+16123245532";
+    static final String PROPERTY_AUTH_HEADER = "mail.smtp.auth";
+    static final String PROPERTY_AUTH = "true";
+    static final String PROPERTY_TLS_HEADER = "mail.smtp.starttls.enable";
+    static final String PROPERTY_TLS = "true";
+    static final String PROPERTY_HOST_HEADER = "mail.smtp.host";
+    static final String PROPERTY_HOST = "smtp.gmail.com";
+    static final String PROPERTY_PORT_HEADER = "mail.smtp.port";
+    static final String PROPERTY_PORT = "587";
 
-    // Country code specific to Singapore at the moment
-    public static final String LOCAL_COUNTRY_CODE = "+65";
-    public static final String CANNED_SPEECH_MESSAGE = "Hello, my name is %s. Could I order a %s to %s?";
-    public static final String ORDER_PATH = "order/";
-    public static final String CREATE_PATH = "create/";
-    public static final String REMOTE_SERVER = "https://mysterious-temple-83678.herokuapp.com/";
+    static final String CANNED_SPEECH_MESSAGE = "Hello, my name is %s. Could I order a %s to %s?";
+    static final String SUBJECT_LINE = "Order from HackEat. Reference code: %s";
+
+    final String username = "hackeatapp@gmail.com";
+    final String password = "hackeater";
+    final String from = username;
+
+    private Session session;
 
     private String orderId;
     private UserProfile user;
     private Food toOrder;
+    private String to;
 
     public OrderManager(UserProfile user, Food food) {
         this.user = user;
@@ -45,46 +51,68 @@ public class OrderManager {
     }
 
     /**
-     * Uses Twilio API to begin call and order {@code Food}
+     * Uses TLS email protocol to begin call and order {@code Food}
      */
-    public void order() throws URISyntaxException, IOException {
-        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
-
-        String to = LOCAL_COUNTRY_CODE + toOrder.getPhone();
-        String from = OUTGOING_PHONE;
-
-        createOrder(String.format(CANNED_SPEECH_MESSAGE, user.getName(), toOrder.getName(), user.getAddress()));
-
-        Call.creator(new PhoneNumber(to), new PhoneNumber(from),
-                new URI(REMOTE_SERVER + ORDER_PATH + orderId)).create();
+    public void order() {
+        generateEmailSession();
+        sendEmail(createBody());
     }
 
     /**
-     *  Use TwiML to generate speech
-     *  Say Hello. Wait for response. Say order. Wait for response. Say Thank you.
+     * Generates a new email session with pre-defined seetings
      */
-    private void createOrder(String speech) throws IOException {
+    private void generateEmailSession() {
+        to = toOrder.getEmail().toString();
 
-        Say say  = new Say.Builder(
-                speech)
-                .build();
-        VoiceResponse voiceResponse = new VoiceResponse.Builder()
-                .say(say)
-                .build();
+        Properties props = new Properties();
+        props.put(PROPERTY_AUTH_HEADER, PROPERTY_AUTH);
+        props.put(PROPERTY_TLS_HEADER, PROPERTY_TLS);
+        props.put(PROPERTY_HOST_HEADER, PROPERTY_HOST);
+        props.put(PROPERTY_PORT_HEADER, PROPERTY_PORT);
 
-        sendOrder(voiceResponse.toXml());
+        session = Session.getInstance(props,
+                new javax.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(username, password);
+                    }
+                });
     }
 
     /**
-     * Sends order to REST API for TwiML to pick up
+     * Creates the body based on a pre-defined message, the user and food values
+     * @return the String format of the body
      */
-    private void sendOrder(String body) throws IOException {
-        URL url = new URL(REMOTE_SERVER + CREATE_PATH + orderId);
-        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        con.setRequestMethod("POST");
-        con.setDoOutput(true);
-        con.getOutputStream().write(body.getBytes("UTF-8"));
-        con.getInputStream();
-        con.disconnect();
+    private String createBody() {
+        return String.format(CANNED_SPEECH_MESSAGE, user.getName(), toOrder.getName(), user.getAddress());
+    }
+
+    /**
+     * Sends an email to a food's email address
+     * @param body of the email sent
+     */
+    private void sendEmail(String body) {
+
+        try {
+            // Create a default MimeMessage object.
+            MimeMessage message = new MimeMessage(session);
+
+            // Set From: header field of the header.
+            message.setFrom(new InternetAddress(from));
+
+            // Set To: header field of the header.
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+
+            // Set Subject: header field
+            message.setSubject(String.format(SUBJECT_LINE, orderId));
+
+            // Now set the actual message
+            message.setText(body);
+
+            // Send message
+            Transport.send(message);
+
+        } catch (MessagingException mex) {
+            mex.printStackTrace();
+        }
     }
 }

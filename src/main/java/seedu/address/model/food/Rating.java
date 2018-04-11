@@ -3,6 +3,8 @@ package seedu.address.model.food;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
+//@@author {samzx}
+
 /**
  * Represents a Food's rating in HackEat.
  * Guarantees: immutable; is valid as declared in {@link #isValidRating(String)}
