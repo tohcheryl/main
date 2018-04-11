@@ -52,7 +52,7 @@ public class EditUserCommand extends UndoableCommand {
     private UserProfile editedUser;
 
     /**
-     * Creates a new EditUserCommand
+     * Creates a new EditUserCommand.
      * @param editUserDescriptor details to edit the food with
      */
     public EditUserCommand(EditUserCommand.EditUserDescriptor editUserDescriptor) {
