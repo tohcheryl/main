@@ -18,7 +18,7 @@ In charge of UI
 
 '''
 
-=== Sam Xie
+=== Sam Zhong Sheng Xie
 image::samzx.png[width="150", align="left"]
 {empty}[http://github.com/samzx[github]]
 
