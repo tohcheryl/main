@@ -58,7 +58,7 @@ public class Rating {
             if (count > 0) {
                 stringBuilder.append("★");
             } else {
-                stringBuilder.append("★");
+                stringBuilder.append("☆");
             }
             count--;
         }

@@ -39,6 +39,14 @@ public class RatingTest {
     }
 
     @Test
+    public void displayString_withStars_displaysStars() {
+        assertEquals(Rating.displayString("0"), "☆☆☆☆☆");
+        assertEquals(Rating.displayString("3"), "★★★☆☆");
+        assertEquals(Rating.displayString("5"), "★★★★★");
+
+    }
+
+    @Test
     public void getValue() {
 
         Rating rating = new Rating(VALID_RATING);
