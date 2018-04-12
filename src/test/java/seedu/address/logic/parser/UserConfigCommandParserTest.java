@@ -60,7 +60,9 @@ public class UserConfigCommandParserTest {
         assertParseFailure(parser, NAME_DESC_BANANA + VALID_PHONE_BANANA + ADDRESS_DESC_BANANA,
                 expectedMessage);
 
-        // missing address prefix - to be implemented
+        // missing address prefix
+        assertParseFailure(parser, NAME_DESC_BANANA + PHONE_DESC_BANANA + VALID_ADDRESS_BANANA,
+                expectedMessage);
 
         // all prefixes missing
         assertParseFailure(parser, VALID_NAME_BANANA + VALID_PHONE_BANANA + VALID_ADDRESS_BANANA,
