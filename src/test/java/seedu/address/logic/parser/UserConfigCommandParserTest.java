@@ -3,6 +3,7 @@ package seedu.address.logic.parser;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_APPLE;
 import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_BANANA;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_ADDRESS_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_PHONE_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_APPLE;
@@ -79,7 +80,9 @@ public class UserConfigCommandParserTest {
         assertParseFailure(parser, NAME_DESC_BANANA + INVALID_PHONE_DESC + ADDRESS_DESC_BANANA,
                 Phone.MESSAGE_PHONE_CONSTRAINTS);
 
-        // invalid address - to be implemented
+        // invalid address
+        assertParseFailure(parser, NAME_DESC_BANANA + PHONE_DESC_BANANA + INVALID_ADDRESS_DESC,
+                Address.MESSAGE_ADDRESS_CONSTRAINTS);
 
         // invalid allergies
         assertParseFailure(parser, NAME_DESC_BANANA + PHONE_DESC_BANANA + ADDRESS_DESC_BANANA
