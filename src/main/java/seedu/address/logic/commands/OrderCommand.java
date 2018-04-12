@@ -25,7 +25,7 @@ public class OrderCommand extends UndoableCommand {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Orders a food "
             + "Parameters: INDEX (must be a positive integer) ";
 
-    public static final String MESSAGE_SUCCESS = "%1$s has been successfully ordered.";
+    public static final String MESSAGE_SUCCESS = "%1$s has been requested to be ordered.";
     public static final String MESSAGE_SELECT_FAIL = "You seem to be allergic to all the foods listed here.";
     public static final String MESSAGE_SELECT_INDEX_FAIL = "Sorry, can't order that, you seem to be allergic to %s";
     public static final String MESSAGE_FAIL_FOOD = "Order failure for: %s";
