@@ -22,6 +22,8 @@ In charge of UI
 image::samzx.png[width="150", align="left"]
 {empty}[http://github.com/samzx[github]]
 
+https://cs2103jan2018-w10-b3.github.io/main/team/samxie.html[Project Portfolio Page]
+
 Role: Developer +
 In charge of Logic
 
