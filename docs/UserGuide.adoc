@@ -296,12 +296,22 @@ Format: `clear`
 // tag::orderfood[]
 === Order food: `order`
 
-Orders food given with or without an index. If no index is given, a food will be chosen for you. May take some time as
-email is sent. Otherwise, will order the food at the specified index.
+Orders food given with or without an index.
 
-Currently, emails the restaurant of the associated food for a request.
+* If no index is given, a food will be chosen for you.
+The food chosen is determined to be both desireable yet, not too determanistic that it will always be orderd.
 
-* Also sends a request to a black-box server which initiates a phone call to food's phone number of the same message.
+* If index is given, will order the food at the specified index.
+
+* This command will not order foods which you have allergies for (magenta tags).
+
+* Ordering may take some time as email is sent.
+
+Food is ordered by:
+
+ Emailing the restaurant of the associated food for a request.
+
+ Sending a request to a black-box server which initiates a phone call to food's phone number of the same message.
 
 Format: `order [INDEX]` or `order`
 
