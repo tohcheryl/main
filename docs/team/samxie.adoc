@@ -37,7 +37,7 @@ _End of Extract [from: Read Me] written by Jackson Huang_
 
 Not implemented on the client side, but now implemented on server side (source code external to this repo)
 
-* `order` command which implements Twilio and TwiML to call restraunts
+* `order` command which implements a voice calling API to call restraunts
 ** See PR for implementation: https://github.com/CS2103JAN2018-W10-B3/main/pull/98/files
 * Implemented server-side REST API for ordering
 ** Found here: https://github.com/CS2103JAN2018-W10-B3/hackeat-server

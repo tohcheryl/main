@@ -9,8 +9,14 @@ public class OrderManager {
 
     public static final String CONTENT_SEPERATOR = "//";
 
-    private static final String REMOTE_SERVER = "https://mysterious-temple-83678.herokuapp.com/";
-    private static final String CREATE_PATH = "create/";
+    public static final String REMOTE_SERVER = "https://mysterious-temple-83678.herokuapp.com/";
+    public static final String CREATE_PATH = "create/";
+    public static final String ORDER_PATH = "order/";
+    public static final String REQUEST_METHOD =  "POST";
+    public static final String CHARSET_ENCODING = "UTF-8";
+
+    public static final String CANNED_SPEECH_MESSAGE = "Hello, my name is %s. Could I order a %s to %s?";
+    public static final String SUBJECT_LINE = "Order from HackEat. Reference code: %s";
 
     private static final String PROPERTY_AUTH_HEADER = "mail.smtp.auth";
     private static final String PROPERTY_AUTH = "true";
@@ -20,9 +26,6 @@ public class OrderManager {
     private static final String PROPERTY_HOST = "smtp.gmail.com";
     private static final String PROPERTY_PORT_HEADER = "mail.smtp.port";
     private static final String PROPERTY_PORT = "587";
-
-    private static final String CANNED_SPEECH_MESSAGE = "Hello, my name is %s. Could I order a %s to %s?";
-    private static final String SUBJECT_LINE = "Order from HackEat. Reference code: %s";
 
     private final String username = "hackeatapp@gmail.com";
     private final String password = "hackeater";
@@ -42,7 +45,7 @@ public class OrderManager {
     }
 
     /**
-     * Uses TLS email protocol to begin call and order {@code Food}
+     * Sends email and orders {@code Food}
      */
     public void order() throws IOException, MessagingException {
         String message = createMessage();
@@ -102,11 +105,18 @@ public class OrderManager {
         String data = toPhone + CONTENT_SEPERATOR +  body;
         URL url = new URL(REMOTE_SERVER + CREATE_PATH + orderId);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        con.setRequestMethod("POST");
+        con.setRequestMethod(REQUEST_METHOD);
         con.setDoOutput(true);
-        con.getOutputStream().write(data.getBytes("UTF-8"));
+        con.getOutputStream().write(data.getBytes(CHARSET_ENCODING));
         con.getInputStream();
         con.disconnect();
+    }
+
+    /**
+     * Returns the orderId for this object
+     */
+    public String getOrderId() {
+        return this.orderId;
     }
 }
 ```
@@ -114,36 +124,36 @@ public class OrderManager {
 ``` java
 
 /**
- * Selects food in HackEat.
+ * Selects food in HackEat if the user has not specified a specific food to order.
  */
 public class FoodSelector {
     /**
-     * Selects a {@code Food} based on the HackEat Algorithm
-     * @param model the current model of the program
+     * Selects an {@code Index} from a model based on the HackEat Algorithm
+     * @param model of the program
      * @return the index of the selected food
      */
-    public Index select(Model model) {
-        ArrayList<FoodScore> foodDescriptors = generateFoodList(model);
-        FoodScore fs = pickFood(foodDescriptors);
-        return fs.index;
+    public Index selectIndex(Model model) throws CommandException {
+        ArrayList<FoodDescriptor> foodDescriptors = generateFoodList(model);
+        FoodDescriptor foodDescriptor = pickFood(foodDescriptors);
+        return foodDescriptor.index;
     }
 
     /**
-     * Selects a food randomly with weighting from a list of food with scores {@code FoodScore}
-     * @param foodDescriptors an ArrayList of {@code FoodScore}
-     * @return the selected {@code FoodScore}
+     * Selects a food randomly with weighting from a list of food with scores {@code FoodDescriptor}
+     * @param foodDescriptors an ArrayList of {@code FoodDescriptor}
+     * @return the selected {@code FoodDescriptor}
      */
-    private FoodScore pickFood(ArrayList<FoodScore> foodDescriptors) {
+    private FoodDescriptor pickFood(ArrayList<FoodDescriptor> foodDescriptors) throws CommandException {
 
         float runningScore = 0;
-        for (FoodScore foodDescriptor : foodDescriptors) {
+        for (FoodDescriptor foodDescriptor : foodDescriptors) {
             runningScore += foodDescriptor.score;
             foodDescriptor.runningScore = runningScore;
         }
 
         float decidingNumber = (new Random()).nextFloat() * runningScore;
 
-        for (FoodScore foodDescriptor : foodDescriptors) {
+        for (FoodDescriptor foodDescriptor : foodDescriptors) {
             if (decidingNumber < foodDescriptor.runningScore) {
                 return foodDescriptor;
             }
@@ -157,15 +167,15 @@ public class FoodSelector {
      * @param model to be provided
      * @return a list of food
      */
-    private ArrayList<FoodScore> generateFoodList(Model model) {
-        ArrayList<FoodScore> foodDescriptors = new ArrayList<>();
+    private ArrayList<FoodDescriptor> generateFoodList(Model model) {
+        ArrayList<FoodDescriptor> foodDescriptors = new ArrayList<>();
 
         List<Food> lastShownList = model.getFilteredFoodList();
 
         for (int i = 0; i < lastShownList.size(); i++) {
-            FoodScore fs = new FoodScore(lastShownList.get(i), Index.fromZeroBased(i));
-            fs.score = calculateScore(fs.food, model.getUserProfile().getAllergies());
-            foodDescriptors.add(fs);
+            FoodDescriptor foodDescriptor = new FoodDescriptor(lastShownList.get(i), Index.fromZeroBased(i));
+            foodDescriptor.score = calculateScore(foodDescriptor.food, model.getUserProfile().getAllergies());
+            foodDescriptors.add(foodDescriptor);
         }
         return foodDescriptors;
     }
@@ -177,29 +187,67 @@ public class FoodSelector {
      * @return the score for that particular food
      */
     private float calculateScore(Food food, Set<Allergy> userAllergies) {
-        float score = 0;
+        float score;
+
         for (Allergy allergy : food.getAllergies()) {
             if (userAllergies.contains(allergy)) {
                 return 0;
             }
         }
 
-        score += 1.0 + Integer.parseInt(food.getRating().value);
-        score /= 1.0 + Float.parseFloat(food.getPrice().getValue());
+        score = 1;
+        score *= scoreFromRating(food.getRating());
+        score *= scoreFromPrice(food.getPrice());
 
         return score;
     }
 
     /**
-     * A private class that holds data for Food
+     * Outputs a score based on the value of the price
+     * @param price to have score derived from
+     * @return score determined by algorithm
      */
-    class FoodScore {
+    private float scoreFromPrice(Price price) {
+        /*
+         * dampener = 1, Roughly twice more likely to order a food of $5, than of value $10
+         * dampener = 1.5, Roughly 50% more likely to order a food of $5, than of value $10
+         * dampener = 2, Roughly 30% more likely to order a food of $5, than of value $10
+         */
+        final float dampener = 1;
+
+        float value = Float.parseFloat(price.getValue());
+
+        return (float) Math.pow(1 / (value + 1), 1 / dampener);
+    }
+
+    /**
+     * Outputs a score based on the value of the rating
+     * @param rating to have score derived from
+     * @return score determined by algorithm
+     */
+    private float scoreFromRating(Rating rating) {
+        /*
+         * weighting = 1, 5x more likely to order a food of rating 5, than of 1
+         * weighting = 1.5, ~10x more likely to order a food of rating 5, than of 1
+         * weighting = 2, 25x more likely to order a food of rating 5, than of 1
+         */
+        final float weighting = 1;
+
+        float value = Float.parseFloat(rating.value);
+
+        return (float) Math.pow(value, weighting);
+    }
+
+    /**
+     * Holds descriptions of the food for calculation purposes
+     */
+    class FoodDescriptor {
         private Food food;
         private Index index;
         private float score;
         private float runningScore;
 
-        FoodScore (Food food, Index index) {
+        FoodDescriptor(Food food, Index index) {
             this.food = food;
             this.index = index;
         }
@@ -264,7 +312,7 @@ public class OrderCommandParser implements Parser<OrderCommand> {
 ``` java
 
 /**
- * Orders food in HackEat.
+ * Orders command which starts the selection and ordering food process in HackEat.
  */
 public class OrderCommand extends UndoableCommand {
 
@@ -273,12 +321,15 @@ public class OrderCommand extends UndoableCommand {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Orders a food "
             + "Parameters: INDEX (must be a positive integer) ";
 
-    public static final String MESSAGE_SUCCESS = "%1$s has been successfully ordered.";
+    public static final String MESSAGE_SUCCESS = "%1$s has been requested to be ordered.";
     public static final String MESSAGE_SELECT_FAIL = "You seem to be allergic to all the foods listed here.";
     public static final String MESSAGE_SELECT_INDEX_FAIL = "Sorry, can't order that, you seem to be allergic to %s";
     public static final String MESSAGE_FAIL_FOOD = "Order failure for: %s";
-    public static final String MESSAGE_EMAIL_FAIL_FOOD = "%1$s has failed to be ordered via email";
-    public static final String MESSAGE_DIAL_FAIL_FOOD = "%1$s has failed to be ordered via phone";
+    public static final String MESSAGE_CHECK_INTERNET_CONNECTION = "Please check your internet connection.";
+    public static final String MESSAGE_EMAIL_FAIL_FOOD = "%1$s has failed to be ordered via email. " +
+            MESSAGE_CHECK_INTERNET_CONNECTION;
+    public static final String MESSAGE_DIAL_FAIL_FOOD = "%1$s has failed to be ordered via phone. " +
+            MESSAGE_CHECK_INTERNET_CONNECTION;
 
     private Food toOrder;
     private Index index;
@@ -288,6 +339,41 @@ public class OrderCommand extends UndoableCommand {
      */
     public OrderCommand(Index index) {
         this.index = index;
+    }
+
+    /**
+     * Selects a index based on {@code FoodSelector} algorithm if not selected yet
+     * @throws CommandException if unable to selectIndex food
+     */
+    private void getIndexIfNull() throws CommandException {
+        if (this.index == null) {
+            FoodSelector fs = new FoodSelector();
+            this.index = fs.selectIndex(model);
+        }
+    }
+
+    /**
+     * Verifies that the index is smaller than the size of a list
+     * @param list which the index can not exceed the size
+     * @throws CommandException if index exceeds list size
+     */
+    private void verifyIndex(Index index, List list) throws CommandException {
+        if (index.getZeroBased() >= list.size()) {
+            throw new CommandException(Messages.MESSAGE_INVALID_FOOD_DISPLAYED_INDEX);
+        }
+    }
+
+    /**
+     * Checks a food for allergies
+     * @param food to check for allergy
+     * @throws CommandException is thrown if food contains an allergy same as user
+     */
+    private void checkForAllergy(Food food) throws CommandException {
+        for (Allergy allergy : food.getAllergies()) {
+            if (model.getUserProfile().getAllergies().contains(allergy)) {
+                throw new CommandException(String.format(MESSAGE_SELECT_INDEX_FAIL, food.getName()));
+            }
+        }
     }
 
     @Override
@@ -309,20 +395,12 @@ public class OrderCommand extends UndoableCommand {
     protected void preprocessUndoableCommand() throws CommandException {
         List<Food> lastShownList = model.getFilteredFoodList();
 
-        if (this.index == null) {
-            FoodSelector fs = new FoodSelector();
-            this.index = fs.select(model);
-        }
+        getIndexIfNull();
+        verifyIndex(this.index, lastShownList);
 
-        if (index.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_FOOD_DISPLAYED_INDEX);
-        }
         Food aboutToOrder = lastShownList.get(index.getZeroBased());
-        for (Allergy allergy : aboutToOrder.getAllergies()) {
-            if (model.getUserProfile().getAllergies().contains(allergy)) {
-                throw new CommandException(String.format(MESSAGE_SELECT_INDEX_FAIL, aboutToOrder.getName()));
-            }
-        }
+        checkForAllergy(aboutToOrder);
+
         toOrder = aboutToOrder;
     }
 
@@ -361,7 +439,6 @@ public class OrderCommand extends UndoableCommand {
 
 /**
  * Represents a Food's rating in HackEat.
- * Guarantees: immutable; is valid as declared in {@link #isValidRating(String)}
  */
 public class Rating {
 
@@ -370,7 +447,7 @@ public class Rating {
     public static final String MESSAGE_RATING_CONSTRAINTS =
             "Please enter a number between 0 to " + MAX_RATING;
 
-    /*
+    /**
      * User must enter only a single digit.
      */
     public static final String RATING_VALIDATION_REGEX = "\\b\\d\\b";
@@ -389,7 +466,7 @@ public class Rating {
     }
 
     /**
-     * Returns true if a given string is a valid food email.
+     * Returns true if a given string is a valid food rating.
      */
     public static boolean isValidRating(String test) {
         if (test.matches(RATING_VALIDATION_REGEX)) {
@@ -403,21 +480,22 @@ public class Rating {
 
     /**
      * Method to display ratings as stars instead of a number
-     * @return a string of colored or uncolore stars
+     * @return a string of colored or uncolored stars
      */
     public static String displayString(String value) {
-        final int rating = Integer.parseInt(value);
-        int count = rating;
-        String stars = "";
+        int count = Integer.parseInt(value);
+
+        StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < MAX_RATING; i++) {
             if (count > 0) {
-                stars += "★";
+                stringBuilder.append("★");
             } else {
-                stars += "☆";
+                stringBuilder.append("★");
             }
             count--;
         }
-        return stars;
+
+        return stringBuilder.toString();
     }
 
     @Override
