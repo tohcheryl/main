@@ -8,6 +8,8 @@ import java.io.File;
 
 import org.junit.Test;
 
+import seedu.address.logic.commands.exceptions.CommandException;
+
 
 public class ChangePicCommandTest {
 
@@ -15,7 +17,7 @@ public class ChangePicCommandTest {
     private ChangePicCommand changePicCommand = mock(ChangePicCommand.class);
 
     @Test
-    public void execute_fileSelected_success() {
+    public void execute_fileSelected_success() throws CommandException {
         File tempFile = new File(imageFilePath);
         when(changePicCommand.selectProfilePic()).thenReturn(tempFile);
         when(changePicCommand.execute()).thenCallRealMethod();
