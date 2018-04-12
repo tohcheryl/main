@@ -26,8 +26,14 @@ public class OrderManager {
 
     public static final String CONTENT_SEPERATOR = "//";
 
-    private static final String REMOTE_SERVER = "https://mysterious-temple-83678.herokuapp.com/";
-    private static final String CREATE_PATH = "create/";
+    public static final String REMOTE_SERVER = "https://mysterious-temple-83678.herokuapp.com/";
+    public static final String CREATE_PATH = "create/";
+    public static final String ORDER_PATH = "order/";
+    public static final String REQUEST_METHOD =  "POST";
+    public static final String CHARSET_ENCODING = "UTF-8";
+
+    public static final String CANNED_SPEECH_MESSAGE = "Hello, my name is %s. Could I order a %s to %s?";
+    public static final String SUBJECT_LINE = "Order from HackEat. Reference code: %s";
 
     private static final String PROPERTY_AUTH_HEADER = "mail.smtp.auth";
     private static final String PROPERTY_AUTH = "true";
@@ -37,9 +43,6 @@ public class OrderManager {
     private static final String PROPERTY_HOST = "smtp.gmail.com";
     private static final String PROPERTY_PORT_HEADER = "mail.smtp.port";
     private static final String PROPERTY_PORT = "587";
-
-    private static final String CANNED_SPEECH_MESSAGE = "Hello, my name is %s. Could I order a %s to %s?";
-    private static final String SUBJECT_LINE = "Order from HackEat. Reference code: %s";
 
     private final String username = "hackeatapp@gmail.com";
     private final String password = "hackeater";
@@ -119,10 +122,17 @@ public class OrderManager {
         String data = toPhone + CONTENT_SEPERATOR +  body;
         URL url = new URL(REMOTE_SERVER + CREATE_PATH + orderId);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        con.setRequestMethod("POST");
+        con.setRequestMethod(REQUEST_METHOD);
         con.setDoOutput(true);
-        con.getOutputStream().write(data.getBytes("UTF-8"));
+        con.getOutputStream().write(data.getBytes(CHARSET_ENCODING));
         con.getInputStream();
         con.disconnect();
+    }
+
+    /**
+     * Returns the orderId for this object
+     */
+    public String getOrderId() {
+        return this.orderId;
     }
 }
