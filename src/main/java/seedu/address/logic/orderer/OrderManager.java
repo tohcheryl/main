@@ -59,7 +59,7 @@ public class OrderManager {
     }
 
     /**
-     * Uses TLS email protocol to begin call and order {@code Food}
+     * Sends email and orders {@code Food}
      */
     public void order() throws IOException, MessagingException {
         String message = createMessage();
