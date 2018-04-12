@@ -30,10 +30,10 @@ public class OrderCommand extends UndoableCommand {
     public static final String MESSAGE_SELECT_INDEX_FAIL = "Sorry, can't order that, you seem to be allergic to %s";
     public static final String MESSAGE_FAIL_FOOD = "Order failure for: %s";
     public static final String MESSAGE_CHECK_INTERNET_CONNECTION = "Please check your internet connection.";
-    public static final String MESSAGE_EMAIL_FAIL_FOOD = "%1$s has failed to be ordered via email. " +
-            MESSAGE_CHECK_INTERNET_CONNECTION;
-    public static final String MESSAGE_DIAL_FAIL_FOOD = "%1$s has failed to be ordered via phone. " +
-            MESSAGE_CHECK_INTERNET_CONNECTION;
+    public static final String MESSAGE_EMAIL_FAIL_FOOD = "%1$s has failed to be ordered via email. "
+            + MESSAGE_CHECK_INTERNET_CONNECTION;
+    public static final String MESSAGE_DIAL_FAIL_FOOD = "%1$s has failed to be ordered via phone. "
+            + MESSAGE_CHECK_INTERNET_CONNECTION;
 
     private Food toOrder;
     private Index index;

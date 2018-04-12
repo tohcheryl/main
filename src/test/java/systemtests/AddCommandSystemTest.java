@@ -268,7 +268,7 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
     @Test
     public void addInteractive() {
         /* -------------------------- Perform add in interactive mode ------------------------------ */
-        assertCommandSuccessWithoutSync(AddCommand.COMMAND_WORD, getModel(), AddCommand.prompts.get(0).getMessage());
+        assertCommandSuccessWithoutSync(AddCommand.COMMAND_WORD, getModel(), AddCommand.PROMPTS.get(0).getMessage());
     }
     //@@author
 

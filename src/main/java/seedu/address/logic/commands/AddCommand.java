@@ -57,7 +57,7 @@ public class AddCommand extends UndoableCommand {
     public static final String MESSAGE_DUPLICATE_FOOD = "This food already exists in HackEat";
 
     //@@author {jaxony}
-    public static final List<Prompt> prompts = Arrays.asList(
+    public static final List<Prompt> PROMPTS = Arrays.asList(
             new Prompt(Name.class, "What's the food called?", false),
             new Prompt(Phone.class, "Restaurant phone number?", false),
             new Prompt(Email.class, "And their email?", false),
@@ -79,7 +79,7 @@ public class AddCommand extends UndoableCommand {
     //@@author {jaxony}
     @Override
     public List<Prompt> getPrompts() {
-        return prompts;
+        return PROMPTS;
     }
     //@author
 
