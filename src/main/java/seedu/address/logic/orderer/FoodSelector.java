@@ -10,43 +10,45 @@ import seedu.address.logic.commands.OrderCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.food.Food;
+import seedu.address.model.food.Price;
+import seedu.address.model.food.Rating;
 import seedu.address.model.food.allergy.Allergy;
 
 //@@author {samzx}
 
 /**
- * Selects food in HackEat.
+ * Selects food in HackEat if the user has not specified a specific food to order.
  */
 public class FoodSelector {
     /**
-     * Selects a {@code Food} based on the HackEat Algorithm
-     * @param model the current model of the program
+     * Selects an {@code Index} from a model based on the HackEat Algorithm
+     * @param model of the program
      * @return the index of the selected food
      */
-    public Index select(Model model) throws CommandException {
-        ArrayList<FoodScore> foodScores = generateFoodList(model);
-        FoodScore fs = pickFood(foodScores);
-        return fs.index;
+    public Index selectIndex(Model model) throws CommandException {
+        ArrayList<FoodDescriptor> foodDescriptors = generateFoodList(model);
+        FoodDescriptor foodDescriptor = pickFood(foodDescriptors);
+        return foodDescriptor.index;
     }
 
     /**
-     * Selects a food randomly with weighting from a list of food with scores {@code FoodScore}
-     * @param foodScores an ArrayList of {@code FoodScore}
-     * @return the selected {@code FoodScore}
+     * Selects a food randomly with weighting from a list of food with scores {@code FoodDescriptor}
+     * @param foodDescriptors an ArrayList of {@code FoodDescriptor}
+     * @return the selected {@code FoodDescriptor}
      */
-    private FoodScore pickFood(ArrayList<FoodScore> foodScores) throws CommandException {
+    private FoodDescriptor pickFood(ArrayList<FoodDescriptor> foodDescriptors) throws CommandException {
 
         float runningScore = 0;
-        for (FoodScore foodScore : foodScores) {
-            runningScore += foodScore.score;
-            foodScore.runningScore = runningScore;
+        for (FoodDescriptor foodDescriptor : foodDescriptors) {
+            runningScore += foodDescriptor.score;
+            foodDescriptor.runningScore = runningScore;
         }
 
         float decidingNumber = (new Random()).nextFloat() * runningScore;
 
-        for (FoodScore foodScore : foodScores) {
-            if (decidingNumber < foodScore.runningScore) {
-                return foodScore;
+        for (FoodDescriptor foodDescriptor : foodDescriptors) {
+            if (decidingNumber < foodDescriptor.runningScore) {
+                return foodDescriptor;
             }
         }
 
@@ -58,17 +60,17 @@ public class FoodSelector {
      * @param model to be provided
      * @return a list of food
      */
-    private ArrayList<FoodScore> generateFoodList(Model model) {
-        ArrayList<FoodScore> foodScores = new ArrayList<>();
+    private ArrayList<FoodDescriptor> generateFoodList(Model model) {
+        ArrayList<FoodDescriptor> foodDescriptors = new ArrayList<>();
 
         List<Food> lastShownList = model.getFilteredFoodList();
 
         for (int i = 0; i < lastShownList.size(); i++) {
-            FoodScore fs = new FoodScore(lastShownList.get(i), Index.fromZeroBased(i));
-            fs.score = calculateScore(fs.food, model.getUserProfile().getAllergies());
-            foodScores.add(fs);
+            FoodDescriptor foodDescriptor = new FoodDescriptor(lastShownList.get(i), Index.fromZeroBased(i));
+            foodDescriptor.score = calculateScore(foodDescriptor.food, model.getUserProfile().getAllergies());
+            foodDescriptors.add(foodDescriptor);
         }
-        return foodScores;
+        return foodDescriptors;
     }
 
     /**
@@ -78,29 +80,67 @@ public class FoodSelector {
      * @return the score for that particular food
      */
     private float calculateScore(Food food, Set<Allergy> userAllergies) {
-        float score = 0;
+        float score;
+
         for (Allergy allergy : food.getAllergies()) {
             if (userAllergies.contains(allergy)) {
                 return 0;
             }
         }
 
-        score += 1.0 + Integer.parseInt(food.getRating().value);
-        score /= 1.0 + Float.parseFloat(food.getPrice().getValue());
+        score = 1;
+        score *= scoreFromRating(food.getRating());
+        score *= scoreFromPrice(food.getPrice());
 
         return score;
     }
 
     /**
-     * A private class that holds data for Food
+     * Outputs a score based on the value of the price
+     * @param price to have score derived from
+     * @return score determined by algorithm
      */
-    class FoodScore {
+    private float scoreFromPrice(Price price) {
+        /*
+         * dampener = 1, Roughly twice more likely to order a food of $5, than of value $10
+         * dampener = 1.5, Roughly 50% more likely to order a food of $5, than of value $10
+         * dampener = 2, Roughly 30% more likely to order a food of $5, than of value $10
+         */
+        final float dampener = 1;
+
+        float value = Float.parseFloat(price.getValue());
+
+        return (float) Math.pow(1 / (value + 1), 1 / dampener);
+    }
+
+    /**
+     * Outputs a score based on the value of the rating
+     * @param rating to have score derived from
+     * @return score determined by algorithm
+     */
+    private float scoreFromRating(Rating rating) {
+        /*
+         * weighting = 1, 5x more likely to order a food of rating 5, than of 1
+         * weighting = 1.5, ~10x more likely to order a food of rating 5, than of 1
+         * weighting = 2, 25x more likely to order a food of rating 5, than of 1
+         */
+        final float weighting = 1;
+
+        float value = Float.parseFloat(rating.value);
+
+        return (float) Math.pow(value, weighting);
+    }
+
+    /**
+     * Holds descriptions of the food for calculation purposes
+     */
+    class FoodDescriptor {
         private Food food;
         private Index index;
         private float score;
         private float runningScore;
 
-        FoodScore (Food food, Index index) {
+        FoodDescriptor(Food food, Index index) {
             this.food = food;
             this.index = index;
         }

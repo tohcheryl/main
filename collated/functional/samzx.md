@@ -116,29 +116,29 @@ public class FoodSelector {
      * @return the index of the selected food
      */
     public Index select(Model model) {
-        ArrayList<FoodScore> foodScores = generateFoodList(model);
-        FoodScore fs = pickFood(foodScores);
+        ArrayList<FoodScore> foodDescriptors = generateFoodList(model);
+        FoodScore fs = pickFood(foodDescriptors);
         return fs.index;
     }
 
     /**
      * Selects a food randomly with weighting from a list of food with scores {@code FoodScore}
-     * @param foodScores an ArrayList of {@code FoodScore}
+     * @param foodDescriptors an ArrayList of {@code FoodScore}
      * @return the selected {@code FoodScore}
      */
-    private FoodScore pickFood(ArrayList<FoodScore> foodScores) {
+    private FoodScore pickFood(ArrayList<FoodScore> foodDescriptors) {
 
         float runningScore = 0;
-        for (FoodScore foodScore : foodScores) {
-            runningScore += foodScore.score;
-            foodScore.runningScore = runningScore;
+        for (FoodScore foodDescriptor : foodDescriptors) {
+            runningScore += foodDescriptor.score;
+            foodDescriptor.runningScore = runningScore;
         }
 
         float decidingNumber = (new Random()).nextFloat() * runningScore;
 
-        for (FoodScore foodScore : foodScores) {
-            if (decidingNumber < foodScore.runningScore) {
-                return foodScore;
+        for (FoodScore foodDescriptor : foodDescriptors) {
+            if (decidingNumber < foodDescriptor.runningScore) {
+                return foodDescriptor;
             }
         }
 
@@ -151,16 +151,16 @@ public class FoodSelector {
      * @return a list of food
      */
     private ArrayList<FoodScore> generateFoodList(Model model) {
-        ArrayList<FoodScore> foodScores = new ArrayList<>();
+        ArrayList<FoodScore> foodDescriptors = new ArrayList<>();
 
         List<Food> lastShownList = model.getFilteredFoodList();
 
         for (int i = 0; i < lastShownList.size(); i++) {
             FoodScore fs = new FoodScore(lastShownList.get(i), Index.fromZeroBased(i));
             fs.score = calculateScore(fs.food, model.getUserProfile().getAllergies());
-            foodScores.add(fs);
+            foodDescriptors.add(fs);
         }
-        return foodScores;
+        return foodDescriptors;
     }
 
     /**

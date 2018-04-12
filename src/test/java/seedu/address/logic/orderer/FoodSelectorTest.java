@@ -23,7 +23,7 @@ public class FoodSelectorTest {
     public void constructor_withArguments_success() {
         FoodSelector fs = new FoodSelector();
         try {
-            Index index = fs.select(model);
+            Index index = fs.selectIndex(model);
             assertNotNull(index);
         } catch (CommandException ce) {
             assertEquals(ce, OrderCommand.MESSAGE_SELECT_FAIL);

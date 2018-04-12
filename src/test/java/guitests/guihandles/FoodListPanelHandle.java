@@ -55,7 +55,7 @@ public class FoodListPanelHandle extends NodeHandle<ListView<FoodCard>> {
     }
 
     /**
-     * Navigates the listview to display and select the food.
+     * Navigates the listview to display and selectIndex the food.
      */
     public void navigateToCard(Food food) {
         List<FoodCard> cards = getRootNode().getItems();
