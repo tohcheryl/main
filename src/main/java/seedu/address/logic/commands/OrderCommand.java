@@ -16,7 +16,7 @@ import seedu.address.model.food.allergy.Allergy;
 //@@author {samzx}
 
 /**
- * Orders food in HackEat.
+ * Orders command which starts the selection and ordering food process in HackEat.
  */
 public class OrderCommand extends UndoableCommand {
 
@@ -29,8 +29,11 @@ public class OrderCommand extends UndoableCommand {
     public static final String MESSAGE_SELECT_FAIL = "You seem to be allergic to all the foods listed here.";
     public static final String MESSAGE_SELECT_INDEX_FAIL = "Sorry, can't order that, you seem to be allergic to %s";
     public static final String MESSAGE_FAIL_FOOD = "Order failure for: %s";
-    public static final String MESSAGE_EMAIL_FAIL_FOOD = "%1$s has failed to be ordered via email";
-    public static final String MESSAGE_DIAL_FAIL_FOOD = "%1$s has failed to be ordered via phone";
+    public static final String MESSAGE_CHECK_INTERNET_CONNECTION = "Please check your internet connection.";
+    public static final String MESSAGE_EMAIL_FAIL_FOOD = "%1$s has failed to be ordered via email. "
+            + MESSAGE_CHECK_INTERNET_CONNECTION;
+    public static final String MESSAGE_DIAL_FAIL_FOOD = "%1$s has failed to be ordered via phone. "
+            + MESSAGE_CHECK_INTERNET_CONNECTION;
 
     private Food toOrder;
     private Index index;
@@ -40,6 +43,41 @@ public class OrderCommand extends UndoableCommand {
      */
     public OrderCommand(Index index) {
         this.index = index;
+    }
+
+    /**
+     * Selects a index based on {@code FoodSelector} algorithm if not selected yet
+     * @throws CommandException if unable to selectIndex food
+     */
+    private void getIndexIfNull() throws CommandException {
+        if (this.index == null) {
+            FoodSelector fs = new FoodSelector();
+            this.index = fs.selectIndex(model);
+        }
+    }
+
+    /**
+     * Verifies that the index is smaller than the size of a list
+     * @param list which the index can not exceed the size
+     * @throws CommandException if index exceeds list size
+     */
+    private void verifyIndex(Index index, List list) throws CommandException {
+        if (index.getZeroBased() >= list.size()) {
+            throw new CommandException(Messages.MESSAGE_INVALID_FOOD_DISPLAYED_INDEX);
+        }
+    }
+
+    /**
+     * Checks a food for allergies
+     * @param food to check for allergy
+     * @throws CommandException is thrown if food contains an allergy same as user
+     */
+    private void checkForAllergy(Food food) throws CommandException {
+        for (Allergy allergy : food.getAllergies()) {
+            if (model.getUserProfile().getAllergies().contains(allergy)) {
+                throw new CommandException(String.format(MESSAGE_SELECT_INDEX_FAIL, food.getName()));
+            }
+        }
     }
 
     @Override
@@ -61,20 +99,12 @@ public class OrderCommand extends UndoableCommand {
     protected void preprocessUndoableCommand() throws CommandException {
         List<Food> lastShownList = model.getFilteredFoodList();
 
-        if (this.index == null) {
-            FoodSelector fs = new FoodSelector();
-            this.index = fs.select(model);
-        }
+        getIndexIfNull();
+        verifyIndex(this.index, lastShownList);
 
-        if (index.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_FOOD_DISPLAYED_INDEX);
-        }
         Food aboutToOrder = lastShownList.get(index.getZeroBased());
-        for (Allergy allergy : aboutToOrder.getAllergies()) {
-            if (model.getUserProfile().getAllergies().contains(allergy)) {
-                throw new CommandException(String.format(MESSAGE_SELECT_INDEX_FAIL, aboutToOrder.getName()));
-            }
-        }
+        checkForAllergy(aboutToOrder);
+
         toOrder = aboutToOrder;
     }
 

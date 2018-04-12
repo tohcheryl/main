@@ -31,7 +31,7 @@ public class HistoryCommandTest {
         assertCommandResult(historyCommand, String.format(HistoryCommand.MESSAGE_SUCCESS, command1));
 
         String command2 = "randomCommand";
-        String command3 = "select 1";
+        String command3 = "selectIndex 1";
         history.add(command2);
         history.add(command3);
 

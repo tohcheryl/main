@@ -24,24 +24,24 @@ public class SessionTest {
 
     private static final int INDEX_AFTER_NAME = 1;
     private static final String SUCCESS_MESSAGE_AFTER_NAME =
-            AddCommand.prompts.get(INDEX_AFTER_NAME).getMessage();
+            AddCommand.PROMPTS.get(INDEX_AFTER_NAME).getMessage();
     private static final int INDEX_AFTER_PHONE = 2;
     private static final String FAILURE_MESSAGE_AFTER_WRONG_PHONE =
             Session.TRY_AGAIN_MESSAGE + Phone.MESSAGE_PHONE_CONSTRAINTS;
     private static final String SUCCESS_MESSAGE_AFTER_PHONE =
-            AddCommand.prompts.get(INDEX_AFTER_PHONE).getMessage();
+            AddCommand.PROMPTS.get(INDEX_AFTER_PHONE).getMessage();
     private static final int INDEX_AFTER_EMAIL = 3;
     private static final String SUCCESS_MESSAGE_AFTER_EMAIL =
-            AddCommand.prompts.get(INDEX_AFTER_EMAIL).getMessage();
+            AddCommand.PROMPTS.get(INDEX_AFTER_EMAIL).getMessage();
     private static final int INDEX_AFTER_ADDRESS = 4;
     private static final String SUCCESS_MESSAGE_AFTER_ADDRESS =
-            AddCommand.prompts.get(INDEX_AFTER_ADDRESS).getMessage();
+            AddCommand.PROMPTS.get(INDEX_AFTER_ADDRESS).getMessage();
     private static final int INDEX_AFTER_PRICE = 5;
     private static final String SUCCESS_MESSAGE_AFTER_PRICE =
-            AddCommand.prompts.get(INDEX_AFTER_PRICE).getMessage();
+            AddCommand.PROMPTS.get(INDEX_AFTER_PRICE).getMessage();
     private static final int INDEX_AFTER_RATING = 6;
     private static final String SUCCESS_MESSAGE_AFTER_RATING =
-            AddCommand.prompts.get(INDEX_AFTER_RATING).getMessage() + " " + Session.OPTIONAL_MESSAGE;
+            AddCommand.PROMPTS.get(INDEX_AFTER_RATING).getMessage() + " " + Session.OPTIONAL_MESSAGE;
 
     private static final String SUCCESS_MESSAGE_AFTER_FIRST_TAG =
             Session.ANYTHING_ELSE_MESSAGE;
@@ -50,7 +50,7 @@ public class SessionTest {
 
     private static final int INDEX_AFTER_TAGS = 7;
     private static final String SUCCESS_MESSAGE_AFTER_TAGS =
-            AddCommand.prompts.get(INDEX_AFTER_TAGS).getMessage() + " " + Session.OPTIONAL_MESSAGE;
+            AddCommand.PROMPTS.get(INDEX_AFTER_TAGS).getMessage() + " " + Session.OPTIONAL_MESSAGE;
 
     private static final String SUCCESS_MESSAGE_AFTER_FIRST_ALLERGY =
             Session.ANYTHING_ELSE_MESSAGE;

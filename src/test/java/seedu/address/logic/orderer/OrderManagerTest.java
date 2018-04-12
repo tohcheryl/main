@@ -1,40 +1,86 @@
 package seedu.address.logic.orderer;
 
-import static org.junit.Assert.assertEquals;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BANANA;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BANANA;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BANANA;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BANANA;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_PRICE_BANANA;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_RATING_BANANA;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIED;
 
-import static seedu.address.testutil.TypicalFoods.getTypicalAddressBook;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Arrays;
+import java.util.HashSet;
 
-import java.io.IOException;
-import javax.mail.MessagingException;
-
+import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
-import seedu.address.logic.commands.OrderCommand;
-import seedu.address.model.Model;
-import seedu.address.model.ModelManager;
-import seedu.address.model.UserPrefs;
+import seedu.address.model.food.Address;
 import seedu.address.model.food.Food;
+import seedu.address.model.food.Name;
+import seedu.address.model.food.Phone;
+import seedu.address.model.food.allergy.Allergy;
+import seedu.address.model.user.UserProfile;
+import seedu.address.testutil.FoodBuilder;
 
 //@@author {samzx}
 
 public class OrderManagerTest {
-    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+
+    private static final String USER_NAME = "Alice";
+    private static final String USER_PHONE = "12345678";
+    private static final String USER_ADDRESS = Address.DEFAULT_ADDRESS;
+    private static final String USER_ALLERGY = "lactose";
+    private static final String USER_NOT_ALLERGIC = "peanut";
+    private static final String MESSAGE_HTTP_POST_FAILED =
+            "Order Manager failed to update server with POST request";
+    private static final String MESSAGE_SHOULD_NOT_THROW_ERROR =
+            "Order Manager should not have thrown error";
+    private UserProfile validUser = new UserProfile(
+            new Name(USER_NAME),
+            new Phone(USER_PHONE),
+            new Address(USER_ADDRESS),
+            new HashSet<>(
+                    Arrays.asList(new Allergy(USER_ALLERGY))
+            )
+    );
 
     @Test
-    public void constructor_withArguments_success() {
-        Food validFood = model.getAddressBook().getFoodList().get(0);
-        OrderManager orderManager = new OrderManager(
-                model.getAddressBook().getUserProfile(),
-                validFood
-        );
+    public void order_withModel_success() throws Exception {
+        Food validFood = new FoodBuilder().withName(VALID_NAME_BANANA).withPhone(VALID_PHONE_BANANA)
+                .withEmail(VALID_EMAIL_BANANA).withAddress(VALID_ADDRESS_BANANA)
+                .withPrice(VALID_PRICE_BANANA).withRating(VALID_RATING_BANANA).withTags(VALID_TAG_FRIED)
+                .withAllergies(USER_NOT_ALLERGIC).build();
+
+        OrderManager orderManager = new OrderManager(validUser, validFood);
+
         try {
             orderManager.order();
-        } catch (MessagingException e) {
-            assertEquals(e, String.format(OrderCommand.MESSAGE_EMAIL_FAIL_FOOD, validFood.getName()));
-        } catch (IOException e) {
-            assertEquals(e, String.format(OrderCommand.MESSAGE_DIAL_FAIL_FOOD, validFood.getName()));
+            assert(verifyPostConfirmation(orderManager.getOrderId()));
+        } catch (AssertionError e) {
+            assert(e.getMessage().isEmpty());
+            throw new Exception(MESSAGE_HTTP_POST_FAILED);
         } catch (Exception e) {
-            assertEquals(e, String.format(OrderCommand.MESSAGE_FAIL_FOOD, validFood.getName()));
+            throw new Exception(MESSAGE_SHOULD_NOT_THROW_ERROR);
         }
+    }
+
+    /**
+     * Sends a HTTP POST Request to the server responsible for exposing message to public APIs
+     * @return whether the message was successfully posted and exposed
+     */
+    private boolean verifyPostConfirmation(String orderId) throws Exception {
+        URL url = new URL(OrderManager.REMOTE_SERVER + OrderManager.ORDER_PATH + orderId);
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestMethod("POST");
+        InputStream inputStream = con.getInputStream();
+        String incomingString = IOUtils.toString(inputStream, OrderManager.CHARSET_ENCODING);
+        con.disconnect();
+
+        String expectedContents = String.format(OrderManager.CANNED_SPEECH_MESSAGE,
+                USER_NAME, VALID_NAME_BANANA, USER_ADDRESS);
+        return incomingString.contains(expectedContents);
     }
 }

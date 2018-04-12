@@ -298,27 +298,29 @@ Format: `clear`
 
 Orders food given with or without an index.
 
-* If no index is given, a food will be chosen for you.
-The food chosen is determined to be both desireable yet, not too determanistic that it will always be orderd.
-
 * If index is given, will order the food at the specified index.
 
-* This command will not order foods which you have allergies for (magenta tags).
+* If no index is given, a food will be chosen for you.
+The food chosen is determined to be both desirable yet, not too deterministic that it will always be ordered.
 
-* Ordering may take some time as email is sent.
+* This command will not order foods which you have allergies for.
+
+* Ordering may take some time as email and phone call is prepared.
 
 Food is ordered by:
 
- Emailing the restaurant of the associated food for a request.
+. Emailing the restaurant of the associated food for a request.
 
- Sending a request to a black-box server which initiates a phone call to food's phone number of the same message.
+. Sending a request to our server which initiates a phone call to food's phone number of the same message.
+
+ Make sure that the food's contact details are correct, specifically, the phone is a Singaporean number.
 
 Format: `order [INDEX]` or `order`
 
 Example:
 
-- `order 2` orders the second listed food
-- `order` orders a heuristically selected food from listed food
+- `order 2` orders the second food listed
+- `order` selects a food from the list to be ordered for you
 // end::orderfood[]
 
 === Exiting the program : `exit`

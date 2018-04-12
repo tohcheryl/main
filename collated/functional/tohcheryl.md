@@ -341,13 +341,13 @@ public class ChangePicCommand extends Command {
     }
 
     @Override
-    public CommandResult execute() {
+    public CommandResult execute() throws CommandException {
         File outputFile = new File("profilepic.png");
         File selectedFile = selectProfilePic();
         try {
             FileUtils.copyFile(selectedFile, outputFile);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new CommandException("Unable to save profile picture");
         }
         EventsCenter.getInstance().post(new ProfilePictureChangedEvent());
         return new CommandResult(MESSAGE_PIC_CHANGED_ACKNOWLEDGEMENT);

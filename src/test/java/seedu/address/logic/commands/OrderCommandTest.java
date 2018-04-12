@@ -22,6 +22,7 @@ import seedu.address.model.food.Food;
 public class OrderCommandTest {
     private static final Index VALID_INDEX = Index.fromZeroBased(1);
     private static final Index NULL_INDEX = null;
+    private static final String EMPTY_STRING = "";
 
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
 
@@ -59,8 +60,10 @@ public class OrderCommandTest {
             assertThat(result.feedbackToUser, containsString(String.format(OrderCommand.MESSAGE_SUCCESS,
                     "", "")));
         } catch (Exception e) {
-            assertThat(e.getMessage(), containsString(String.format(OrderCommand.MESSAGE_EMAIL_FAIL_FOOD, "")));
-            assertThat(e.getMessage(), containsString(String.format(OrderCommand.MESSAGE_EMAIL_FAIL_FOOD, "")));
+            assertThat(e.getMessage(),
+                    containsString(String.format(OrderCommand.MESSAGE_EMAIL_FAIL_FOOD, EMPTY_STRING)));
+            assertThat(e.getMessage(),
+                    containsString(String.format(OrderCommand.MESSAGE_EMAIL_FAIL_FOOD, EMPTY_STRING)));
         }
     }
 

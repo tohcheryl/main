@@ -26,18 +26,18 @@ _End of Extract [from: Read Me] written by Jackson Huang_
 
 * Optional email and address fields
 * Revamped test cases to be Food instead of Persons
+* Added Rating field to Food
 * Display price and ratings in UI
 * Changed Logo
-* Added Ratings field
-* Added Order Command
-* Added Order Manager which emails restaurant provider of food
-* Implemented a Food selection algorithm
+* Added `order` Command
+* Added Food Selector which selects food based on Food's ratings and price
+* Added Order Manager which phones an order and emails restaurant provider of food
 
 === Unused (was used for voice messaging)
 
 Not implemented on the client side, but now implemented on server side (source code external to this repo)
 
-* `order` command which implements Twilio and TwiML to call restraunts
+* `order` command which implements a voice calling API to call restraunts
 ** See PR for implementation: https://github.com/CS2103JAN2018-W10-B3/main/pull/98/files
 * Implemented server-side REST API for ordering
 ** Found here: https://github.com/CS2103JAN2018-W10-B3/hackeat-server
