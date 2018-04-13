@@ -1,57 +1,212 @@
 # tohcheryl
-###### /java/seedu/address/ui/UserProfilePanelTest.java
+###### \java\guitests\guihandles\UserProfilePanelHandle.java
 ``` java
-public class UserProfilePanelTest extends GuiUnitTest {
+/**
+ * A handle to the {@code UserProfilePanel} in the GUI.
+ */
+public class UserProfilePanelHandle extends NodeHandle<Node> {
 
-    private static final ReadOnlyAddressBook ADDRESS_BOOK = SampleDataUtil.getSampleAddressBook();
-    private static final Logger logger = LogsCenter.getLogger(UserProfilePanelTest.class);
+    private static final String NAME_FIELD_ID = "#name";
+    private static final String ADDRESS_FIELD_ID = "#address";
+    private static final String PHONE_FIELD_ID = "#phone";
+    private static final String ALLERGIES_FIELD_ID = "#allergies";
+
+    private final Label nameLabel;
+    private final Label addressLabel;
+    private final Label phoneLabel;
+    private final List<Label> allergyLabels;
+
+    public UserProfilePanelHandle(Node cardNode) {
+        super(cardNode);
+
+        this.nameLabel = getChildNode(NAME_FIELD_ID);
+        this.addressLabel = getChildNode(ADDRESS_FIELD_ID);
+        this.phoneLabel = getChildNode(PHONE_FIELD_ID);
+        Region allergiesContainer = getChildNode(ALLERGIES_FIELD_ID);
+        this.allergyLabels = allergiesContainer
+                .getChildrenUnmodifiable()
+                .stream()
+                .map(Label.class::cast)
+                .collect(Collectors.toList());
+    }
+
+    public String getName() {
+        return nameLabel.getText();
+    }
+
+    public String getAddress() {
+        return addressLabel.getText();
+    }
+
+    public String getPhone() {
+        return phoneLabel.getText();
+    }
+
+    public List<String> getAllergies() {
+        return allergyLabels
+                .stream()
+                .map(Label::getText)
+                .collect(Collectors.toList());
+    }
+}
+```
+###### \java\seedu\address\logic\commands\AddCommandTest.java
+``` java
+        @Override
+        public UserProfile getUserProfile() throws NullPointerException {
+            fail("This method should not be called.");
+            return null;
+        }
+    }
+
+    /**
+     * A Model stub that always throw a DuplicateFoodException when trying to add a food.
+     */
+    private class ModelStubThrowingDuplicateFoodException extends ModelStub {
+        @Override
+        public void addFood(Food food) throws DuplicateFoodException {
+            throw new DuplicateFoodException();
+        }
+
+        @Override
+        public ReadOnlyAddressBook getAddressBook() {
+            return new AddressBook();
+        }
+    }
+
+    /**
+     * A Model stub that always accept the food being added.
+     */
+    private class ModelStubAcceptingFoodAdded extends ModelStub {
+        final ArrayList<Food> foodsAdded = new ArrayList<>();
+
+        @Override
+        public void addFood(Food food) throws DuplicateFoodException {
+            requireNonNull(food);
+            foodsAdded.add(food);
+        }
+
+        @Override
+        public ReadOnlyAddressBook getAddressBook() {
+            return new AddressBook();
+        }
+    }
+
+}
+```
+###### \java\seedu\address\logic\commands\EditUserCommandTest.java
+``` java
+public class EditUserCommandTest {
+
+    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
 
     @Test
-    public void display() {
-        // no allergies
-        UserProfile userWithNoAllergy = new UserProfileBuilder().withAllergies(new String[0]).build();
-        UserProfilePanel userProfilePanel = new UserProfilePanel(ADDRESS_BOOK);
-        userProfilePanel.setUserProfile(userWithNoAllergy);
-        uiPartRule.setUiPart(userProfilePanel);
-        assertPanelDisplay(userProfilePanel, userWithNoAllergy);
+    public void execute_allFieldsSpecified_success() throws Exception {
+        UserProfile editedUserProfile = new UserProfileBuilder().build();
+        EditUserCommand.EditUserDescriptor descriptor = new EditUserDescriptorBuilder(editedUserProfile).build();
+        EditUserCommand editUserCommand = prepareCommand(descriptor);
 
-        // with allergies
-        UserProfile userWithAllergies = new UserProfileBuilder().build();
-        userProfilePanel = new UserProfilePanel(ADDRESS_BOOK);
-        userProfilePanel.setUserProfile(userWithAllergies);
-        uiPartRule.setUiPart(userProfilePanel);
-        assertPanelDisplay(userProfilePanel, userWithAllergies);
+        String expectedMessage = String.format(EditUserCommand.MESSAGE_EDIT_USER_SUCCESS, editedUserProfile);
+
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        expectedModel.updateUserProfile(editedUserProfile);
+
+        assertCommandSuccess(editUserCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_someFieldsSpecified_success() throws Exception {
+        UserProfile currentProfile = model.getUserProfile();
+
+        UserProfileBuilder userProfileSet = new UserProfileBuilder(currentProfile);
+        UserProfile editedUserProfile = userProfileSet.withName(VALID_NAME_BANANA).withPhone(VALID_PHONE_BANANA)
+                .build();
+
+        EditUserCommand.EditUserDescriptor descriptor = new EditUserDescriptorBuilder().withName(VALID_NAME_BANANA)
+                .withPhone(VALID_PHONE_BANANA).build();
+        EditUserCommand editCommand = prepareCommand(descriptor);
+
+        String expectedMessage = String.format(EditUserCommand.MESSAGE_EDIT_USER_SUCCESS, editedUserProfile);
+
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
+        expectedModel.updateUserProfile(editedUserProfile);
+
+        assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_duplicateUserProfile_failure() {
+        UserProfile currentUserProfile = model.getUserProfile();
+        EditUserCommand.EditUserDescriptor descriptor = new EditUserDescriptorBuilder(currentUserProfile).build();
+        EditUserCommand editUserCommand = prepareCommand(descriptor);
+
+        assertCommandFailure(editUserCommand, model, EditUserCommand.MESSAGE_DUPLICATE_USER);
     }
 
     /**
-     * Asserts that {@code userProfilePanel} displays the details of {@code userProfile} correctly
+     * Returns an {@code EditUserCommand} with parameter {@code descriptor}
      */
-    private void assertPanelDisplay(UserProfilePanel userProfilePanel, UserProfile userProfile) {
-        guiRobot.pauseForHuman();
+    private EditUserCommand prepareCommand(EditUserCommand.EditUserDescriptor descriptor) {
+        EditUserCommand editUserCommand = new EditUserCommand(descriptor);
+        editUserCommand.setData(model, new CommandHistory(), new UndoRedoStack());
+        return editUserCommand;
+    }
 
-        UserProfilePanelHandle userProfilePanelHandle = new UserProfilePanelHandle(userProfilePanel.getRoot());
+    /**
+     * 1. Edits the {@code UserProfile}.
+     * 2. Undo the edit.
+     * 3. Redo the edit. This ensures {@code RedoCommand} edits the user profile object.
+     */
+    @Test
+    public void executeUndoRedo_validUserProfile_sameUserProfileEdited() throws Exception {
+        UndoRedoStack undoRedoStack = new UndoRedoStack();
+        UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
+        RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
+        UserProfile editedUserProfile = new UserProfileBuilder().build();
+        EditUserCommand.EditUserDescriptor descriptor = new EditUserDescriptorBuilder(editedUserProfile).build();
+        EditUserCommand editUserCommand = prepareCommand(descriptor);
+        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
 
-        // verify user details are displayed correctly
-        assertPanelDisplaysUser(userProfile, userProfilePanelHandle);
+        UserProfile userProfileToEdit = model.getUserProfile();
+        // edit -> edits user profile
+        editUserCommand.execute();
+        undoRedoStack.push(editUserCommand);
+
+        // undo -> reverts addressbook back to previous state
+        assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
+
+        assertNotEquals(userProfileToEdit, editedUserProfile);
+        // redo -> edits user profile
+        assertCommandSuccess(redoCommand, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
     }
 }
 ```
-###### /java/seedu/address/ui/testutil/GuiTestAssert.java
+###### \java\seedu\address\logic\commands\UserConfigCommandTest.java
 ``` java
+public class UserConfigCommandTest {
+
+    private Model model = new ModelManager(new AddressBook(), new UserPrefs());
+    private UserProfile validUserProfile = new UserProfile(new Name("Wei wei"), new Phone("92304333"),
+                new Address("Blk 343 Serangoon Ave 3 #23-23 Singapore 349343"), getAllergySet("banana"));
+
+    @Test
+    public void execute_validUserProfile_setSuccessfully() throws Exception {
+        CommandResult commandResult = getUserConfigCommand(validUserProfile, model).execute();
+        assertEquals(UserConfigCommand.MESSAGE_SUCCESS, commandResult.feedbackToUser);
+        assertEquals(validUserProfile, model.getAddressBook().getUserProfile());
+    }
+
     /**
-     * Asserts that {@code actualPanel} displays the details of {@code expectedUser}.
+     * Generates a new UserConfigCommand.
      */
-    public static void assertPanelDisplaysUser(UserProfile userProfile, UserProfilePanelHandle actualPanel) {
-        assertEquals(userProfile.getName().fullName, actualPanel.getName());
-        assertEquals(userProfile.getPhone().value, actualPanel.getPhone());
-        assertEquals(userProfile.getAddress().value, actualPanel.getAddress());
-        assertEquals(userProfile.getAllergies().stream().map(allergy -> allergy.allergyName)
-                        .collect(Collectors.toList()),
-                actualPanel.getAllergies());
+    private UserConfigCommand getUserConfigCommand(UserProfile userProfile, Model model) {
+        UserConfigCommand command = new UserConfigCommand(userProfile);
+        command.setData(model, new CommandHistory(), new UndoRedoStack());
+        return command;
     }
 }
 ```
-###### /java/seedu/address/logic/parser/EditUserCommandParserTest.java
+###### \java\seedu\address\logic\parser\EditUserCommandParserTest.java
 ``` java
 public class EditUserCommandParserTest {
 
@@ -187,7 +342,7 @@ public class EditUserCommandParserTest {
     }
 }
 ```
-###### /java/seedu/address/logic/parser/UserConfigCommandParserTest.java
+###### \java\seedu\address\logic\parser\UserConfigCommandParserTest.java
 ``` java
 public class UserConfigCommandParserTest {
 
@@ -219,7 +374,9 @@ public class UserConfigCommandParserTest {
         assertParseFailure(parser, NAME_DESC_BANANA + VALID_PHONE_BANANA + ADDRESS_DESC_BANANA,
                 expectedMessage);
 
-        // missing address prefix - to be implemented
+        // missing address prefix
+        assertParseFailure(parser, NAME_DESC_BANANA + PHONE_DESC_BANANA + VALID_ADDRESS_BANANA,
+                expectedMessage);
 
         // all prefixes missing
         assertParseFailure(parser, VALID_NAME_BANANA + VALID_PHONE_BANANA + VALID_ADDRESS_BANANA,
@@ -236,7 +393,9 @@ public class UserConfigCommandParserTest {
         assertParseFailure(parser, NAME_DESC_BANANA + INVALID_PHONE_DESC + ADDRESS_DESC_BANANA,
                 Phone.MESSAGE_PHONE_CONSTRAINTS);
 
-        // invalid address - to be implemented
+        // invalid address
+        assertParseFailure(parser, NAME_DESC_BANANA + PHONE_DESC_BANANA + INVALID_ADDRESS_DESC,
+                Address.MESSAGE_ADDRESS_CONSTRAINTS);
 
         // invalid allergies
         assertParseFailure(parser, NAME_DESC_BANANA + PHONE_DESC_BANANA + ADDRESS_DESC_BANANA
@@ -244,165 +403,7 @@ public class UserConfigCommandParserTest {
     }
 }
 ```
-###### /java/seedu/address/logic/commands/EditUserCommandTest.java
-``` java
-public class EditUserCommandTest {
-
-    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
-
-    @Test
-    public void execute_allFieldsSpecified_success() throws Exception {
-        UserProfile editedUserProfile = new UserProfileBuilder().build();
-        EditUserCommand.EditUserDescriptor descriptor = new EditUserDescriptorBuilder(editedUserProfile).build();
-        EditUserCommand editUserCommand = prepareCommand(descriptor);
-
-        String expectedMessage = String.format(EditUserCommand.MESSAGE_EDIT_USER_SUCCESS, editedUserProfile);
-
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
-        expectedModel.updateUserProfile(editedUserProfile);
-
-        assertCommandSuccess(editUserCommand, model, expectedMessage, expectedModel);
-    }
-
-    @Test
-    public void execute_someFieldsSpecified_success() throws Exception {
-        UserProfile currentProfile = model.getUserProfile();
-
-        UserProfileBuilder userProfileSet = new UserProfileBuilder(currentProfile);
-        UserProfile editedUserProfile = userProfileSet.withName(VALID_NAME_BANANA).withPhone(VALID_PHONE_BANANA)
-                .build();
-
-        EditUserCommand.EditUserDescriptor descriptor = new EditUserDescriptorBuilder().withName(VALID_NAME_BANANA)
-                .withPhone(VALID_PHONE_BANANA).build();
-        EditUserCommand editCommand = prepareCommand(descriptor);
-
-        String expectedMessage = String.format(EditUserCommand.MESSAGE_EDIT_USER_SUCCESS, editedUserProfile);
-
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
-        expectedModel.updateUserProfile(editedUserProfile);
-
-        assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
-    }
-
-    // execute_noFieldsSpecified_sucess() to be implemented
-
-    @Test
-    public void execute_duplicateUserProfile_failure() {
-        UserProfile currentUserProfile = model.getUserProfile();
-        EditUserCommand.EditUserDescriptor descriptor = new EditUserDescriptorBuilder(currentUserProfile).build();
-        EditUserCommand editUserCommand = prepareCommand(descriptor);
-
-        assertCommandFailure(editUserCommand, model, EditUserCommand.MESSAGE_DUPLICATE_USER);
-    }
-
-    /**
-     * Returns an {@code EditUserCommand} with parameter {@code descriptor}
-     */
-    private EditUserCommand prepareCommand(EditUserCommand.EditUserDescriptor descriptor) {
-        EditUserCommand editUserCommand = new EditUserCommand(descriptor);
-        editUserCommand.setData(model, new CommandHistory(), new UndoRedoStack());
-        return editUserCommand;
-    }
-
-    /**
-     * 1. Edits the {@code UserProfile}.
-     * 2. Undo the edit.
-     * 3. Redo the edit. This ensures {@code RedoCommand} edits the user profile object.
-     */
-    @Test
-    public void executeUndoRedo_validUserProfile_sameUserProfileEdited() throws Exception {
-        UndoRedoStack undoRedoStack = new UndoRedoStack();
-        UndoCommand undoCommand = prepareUndoCommand(model, undoRedoStack);
-        RedoCommand redoCommand = prepareRedoCommand(model, undoRedoStack);
-        UserProfile editedUserProfile = new UserProfileBuilder().build();
-        EditUserCommand.EditUserDescriptor descriptor = new EditUserDescriptorBuilder(editedUserProfile).build();
-        EditUserCommand editUserCommand = prepareCommand(descriptor);
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
-
-        UserProfile userProfileToEdit = model.getUserProfile();
-        // edit -> edits user profile
-        editUserCommand.execute();
-        undoRedoStack.push(editUserCommand);
-
-        // undo -> reverts addressbook back to previous state
-        assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
-
-        assertNotEquals(userProfileToEdit, editedUserProfile);
-        // redo -> edits user profile
-        assertCommandSuccess(redoCommand, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
-    }
-}
-```
-###### /java/seedu/address/logic/commands/UserConfigCommandTest.java
-``` java
-public class UserConfigCommandTest {
-
-    private Model model = new ModelManager(new AddressBook(), new UserPrefs());
-    private UserProfile validUserProfile = new UserProfile(new Name("Wei wei"), new Phone("92304333"),
-                new Address("Blk 343 Serangoon Ave 3 #23-23 Singapore 349343"), getAllergySet("banana"));
-
-    @Test
-    public void execute_validUserProfile_setSuccessfully() throws Exception {
-        CommandResult commandResult = getUserConfigCommand(validUserProfile, model).execute();
-        assertEquals(UserConfigCommand.MESSAGE_SUCCESS, commandResult.feedbackToUser);
-        assertEquals(validUserProfile, model.getAddressBook().getUserProfile());
-    }
-
-    /**
-     * Generates a new UserConfigCommand.
-     */
-    private UserConfigCommand getUserConfigCommand(UserProfile userProfile, Model model) {
-        UserConfigCommand command = new UserConfigCommand(userProfile);
-        command.setData(model, new CommandHistory(), new UndoRedoStack());
-        return command;
-    }
-}
-```
-###### /java/seedu/address/logic/commands/AddCommandTest.java
-``` java
-        @Override
-        public UserProfile getUserProfile() throws NullPointerException {
-            fail("This method should not be called.");
-            return null;
-        }
-    }
-
-    /**
-     * A Model stub that always throw a DuplicateFoodException when trying to add a food.
-     */
-    private class ModelStubThrowingDuplicateFoodException extends ModelStub {
-        @Override
-        public void addFood(Food food) throws DuplicateFoodException {
-            throw new DuplicateFoodException();
-        }
-
-        @Override
-        public ReadOnlyAddressBook getAddressBook() {
-            return new AddressBook();
-        }
-    }
-
-    /**
-     * A Model stub that always accept the food being added.
-     */
-    private class ModelStubAcceptingFoodAdded extends ModelStub {
-        final ArrayList<Food> foodsAdded = new ArrayList<>();
-
-        @Override
-        public void addFood(Food food) throws DuplicateFoodException {
-            requireNonNull(food);
-            foodsAdded.add(food);
-        }
-
-        @Override
-        public ReadOnlyAddressBook getAddressBook() {
-            return new AddressBook();
-        }
-    }
-
-}
-```
-###### /java/seedu/address/model/AddressBookTest.java
+###### \java\seedu\address\model\AddressBookTest.java
 ``` java
         @Override
         public UserProfile getUserProfile() {
@@ -412,21 +413,7 @@ public class UserConfigCommandTest {
 
 }
 ```
-###### /java/seedu/address/model/food/allergy/UniqueAllergyListTest.java
-``` java
-public class UniqueAllergyListTest {
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
-    @Test
-    public void asObservableList_modifyList_throwsUnsupportedOperationException() {
-        UniqueAllergyList uniqueAllergyList = new UniqueAllergyList();
-        thrown.expect(UnsupportedOperationException.class);
-        uniqueAllergyList.asObservableList().remove(0);
-    }
-}
-```
-###### /java/seedu/address/model/food/allergy/AllergyTest.java
+###### \java\seedu\address\model\food\allergy\AllergyTest.java
 ``` java
 public class AllergyTest {
 
@@ -448,7 +435,21 @@ public class AllergyTest {
     }
 }
 ```
-###### /java/seedu/address/model/food/PriceTest.java
+###### \java\seedu\address\model\food\allergy\UniqueAllergyListTest.java
+``` java
+public class UniqueAllergyListTest {
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
+    @Test
+    public void asObservableList_modifyList_throwsUnsupportedOperationException() {
+        UniqueAllergyList uniqueAllergyList = new UniqueAllergyList();
+        thrown.expect(UnsupportedOperationException.class);
+        uniqueAllergyList.asObservableList().remove(0);
+    }
+}
+```
+###### \java\seedu\address\model\food\PriceTest.java
 ``` java
 public class PriceTest {
 
@@ -516,7 +517,74 @@ public class PriceTest {
     }
 }
 ```
-###### /java/seedu/address/testutil/UserProfileBuilder.java
+###### \java\seedu\address\testutil\EditUserDescriptorBuilder.java
+``` java
+/**
+ * A utility class to help with building EditFoodDescriptor objects.
+ */
+public class EditUserDescriptorBuilder {
+
+    private EditUserCommand.EditUserDescriptor descriptor;
+
+    public EditUserDescriptorBuilder() {
+        descriptor = new EditUserCommand.EditUserDescriptor();
+    }
+
+    public EditUserDescriptorBuilder(EditUserCommand.EditUserDescriptor descriptor) {
+        this.descriptor = new EditUserCommand.EditUserDescriptor(descriptor);
+    }
+
+    /**
+     * Returns an {@code EditUserDescriptor} with fields containing {@code userProfile}'s details
+     */
+    public EditUserDescriptorBuilder(UserProfile userProfile) {
+        descriptor = new EditUserCommand.EditUserDescriptor();
+        descriptor.setName(userProfile.getName());
+        descriptor.setPhone(userProfile.getPhone());
+        descriptor.setAddress(userProfile.getAddress());
+        descriptor.setAllergies(userProfile.getAllergies());
+    }
+
+    /**
+     * Sets the {@code Name} of the {@code EditUserDescriptor} that we are building.
+     */
+    public EditUserDescriptorBuilder withName(String name) {
+        descriptor.setName(new Name(name));
+        return this;
+    }
+
+    /**
+     * Sets the {@code Phone} of the {@code EditUserDescriptor} that we are building.
+     */
+    public EditUserDescriptorBuilder withPhone(String phone) {
+        descriptor.setPhone(new Phone(phone));
+        return this;
+    }
+
+    /**
+     * Sets the {@code Address} of the {@code EditUserDescriptor} that we are building.
+     */
+    public EditUserDescriptorBuilder withAddress(String address) {
+        descriptor.setAddress(new Address(address));
+        return this;
+    }
+
+    /**
+     * Parses the {@code allergies} into a {@code Set<Allergy>} and set it to the {@code EditUserDescriptor}
+     * that we are building.
+     */
+    public EditUserDescriptorBuilder withAllergies(String... allergies) {
+        Set<Allergy> allergySet = Stream.of(allergies).map(Allergy::new).collect(Collectors.toSet());
+        descriptor.setAllergies(allergySet);
+        return this;
+    }
+
+    public EditUserCommand.EditUserDescriptor build() {
+        return descriptor;
+    }
+}
+```
+###### \java\seedu\address\testutil\UserProfileBuilder.java
 ``` java
 /**
  * A utility class to help with building User Profile objects.
@@ -588,74 +656,7 @@ public class UserProfileBuilder {
     }
 }
 ```
-###### /java/seedu/address/testutil/EditUserDescriptorBuilder.java
-``` java
-/**
- * A utility class to help with building EditFoodDescriptor objects.
- */
-public class EditUserDescriptorBuilder {
-
-    private EditUserCommand.EditUserDescriptor descriptor;
-
-    public EditUserDescriptorBuilder() {
-        descriptor = new EditUserCommand.EditUserDescriptor();
-    }
-
-    public EditUserDescriptorBuilder(EditUserCommand.EditUserDescriptor descriptor) {
-        this.descriptor = new EditUserCommand.EditUserDescriptor(descriptor);
-    }
-
-    /**
-     * Returns an {@code EditUserDescriptor} with fields containing {@code userProfile}'s details
-     */
-    public EditUserDescriptorBuilder(UserProfile userProfile) {
-        descriptor = new EditUserCommand.EditUserDescriptor();
-        descriptor.setName(userProfile.getName());
-        descriptor.setPhone(userProfile.getPhone());
-        descriptor.setAddress(userProfile.getAddress());
-        descriptor.setAllergies(userProfile.getAllergies());
-    }
-
-    /**
-     * Sets the {@code Name} of the {@code EditUserDescriptor} that we are building.
-     */
-    public EditUserDescriptorBuilder withName(String name) {
-        descriptor.setName(new Name(name));
-        return this;
-    }
-
-    /**
-     * Sets the {@code Phone} of the {@code EditUserDescriptor} that we are building.
-     */
-    public EditUserDescriptorBuilder withPhone(String phone) {
-        descriptor.setPhone(new Phone(phone));
-        return this;
-    }
-
-    /**
-     * Sets the {@code Address} of the {@code EditUserDescriptor} that we are building.
-     */
-    public EditUserDescriptorBuilder withAddress(String address) {
-        descriptor.setAddress(new Address(address));
-        return this;
-    }
-
-    /**
-     * Parses the {@code allergies} into a {@code Set<Allergy>} and set it to the {@code EditUserDescriptor}
-     * that we are building.
-     */
-    public EditUserDescriptorBuilder withAllergies(String... allergies) {
-        Set<Allergy> allergySet = Stream.of(allergies).map(Allergy::new).collect(Collectors.toSet());
-        descriptor.setAllergies(allergySet);
-        return this;
-    }
-
-    public EditUserCommand.EditUserDescriptor build() {
-        return descriptor;
-    }
-}
-```
-###### /java/seedu/address/testutil/UserProfileUtil.java
+###### \java\seedu\address\testutil\UserProfileUtil.java
 ``` java
 /**
  * A utility class for UserProfile.
@@ -682,62 +683,55 @@ public class UserProfileUtil {
     }
 }
 ```
-###### /java/guitests/guihandles/UserProfilePanelHandle.java
+###### \java\seedu\address\ui\testutil\GuiTestAssert.java
 ``` java
+    /**
+     * Asserts that {@code actualPanel} displays the details of {@code expectedUser}.
+     */
+    public static void assertPanelDisplaysUser(UserProfile userProfile, UserProfilePanelHandle actualPanel) {
+        assertEquals(userProfile.getName().fullName, actualPanel.getName());
+        assertEquals(userProfile.getPhone().value, actualPanel.getPhone());
+        assertEquals(userProfile.getAddress().value, actualPanel.getAddress());
+        assertEquals(userProfile.getAllergies().stream().map(allergy -> allergy.allergyName)
+                        .collect(Collectors.toList()),
+                actualPanel.getAllergies());
+    }
+}
+```
+###### \java\seedu\address\ui\UserProfilePanelTest.java
+``` java
+public class UserProfilePanelTest extends GuiUnitTest {
 
-import java.util.List;
-import java.util.stream.Collectors;
+    private static final ReadOnlyAddressBook ADDRESS_BOOK = SampleDataUtil.getSampleAddressBook();
+    private static final Logger logger = LogsCenter.getLogger(UserProfilePanelTest.class);
 
-import javafx.scene.Node;
-import javafx.scene.control.Label;
-import javafx.scene.layout.Region;
+    @Test
+    public void display() {
+        // no allergies
+        UserProfile userWithNoAllergy = new UserProfileBuilder().withAllergies(new String[0]).build();
+        UserProfilePanel userProfilePanel = new UserProfilePanel(ADDRESS_BOOK);
+        userProfilePanel.setUserProfile(userWithNoAllergy);
+        uiPartRule.setUiPart(userProfilePanel);
+        assertPanelDisplay(userProfilePanel, userWithNoAllergy);
 
-/**
- * A handle to the {@code UserProfilePanel} in the GUI.
- */
-public class UserProfilePanelHandle extends NodeHandle<Node> {
-
-    private static final String NAME_FIELD_ID = "#name";
-    private static final String ADDRESS_FIELD_ID = "#address";
-    private static final String PHONE_FIELD_ID = "#phone";
-    private static final String ALLERGIES_FIELD_ID = "#allergies";
-
-    private final Label nameLabel;
-    private final Label addressLabel;
-    private final Label phoneLabel;
-    private final List<Label> allergyLabels;
-
-    public UserProfilePanelHandle(Node cardNode) {
-        super(cardNode);
-
-        this.nameLabel = getChildNode(NAME_FIELD_ID);
-        this.addressLabel = getChildNode(ADDRESS_FIELD_ID);
-        this.phoneLabel = getChildNode(PHONE_FIELD_ID);
-        Region allergiesContainer = getChildNode(ALLERGIES_FIELD_ID);
-        this.allergyLabels = allergiesContainer
-                .getChildrenUnmodifiable()
-                .stream()
-                .map(Label.class::cast)
-                .collect(Collectors.toList());
+        // with allergies
+        UserProfile userWithAllergies = new UserProfileBuilder().build();
+        userProfilePanel = new UserProfilePanel(ADDRESS_BOOK);
+        userProfilePanel.setUserProfile(userWithAllergies);
+        uiPartRule.setUiPart(userProfilePanel);
+        assertPanelDisplay(userProfilePanel, userWithAllergies);
     }
 
-    public String getName() {
-        return nameLabel.getText();
-    }
+    /**
+     * Asserts that {@code userProfilePanel} displays the details of {@code userProfile} correctly
+     */
+    private void assertPanelDisplay(UserProfilePanel userProfilePanel, UserProfile userProfile) {
+        guiRobot.pauseForHuman();
 
-    public String getAddress() {
-        return addressLabel.getText();
-    }
+        UserProfilePanelHandle userProfilePanelHandle = new UserProfilePanelHandle(userProfilePanel.getRoot());
 
-    public String getPhone() {
-        return phoneLabel.getText();
-    }
-
-    public List<String> getAllergies() {
-        return allergyLabels
-                .stream()
-                .map(Label::getText)
-                .collect(Collectors.toList());
+        // verify user details are displayed correctly
+        assertPanelDisplaysUser(userProfile, userProfilePanelHandle);
     }
 }
 ```

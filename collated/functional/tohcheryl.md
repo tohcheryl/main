@@ -1,74 +1,5 @@
 # tohcheryl
-###### /java/seedu/address/ui/UserProfilePanel.java
-``` java
-/**
- * The User Profile panel of the App.
- */
-public class UserProfilePanel extends UiPart<Region> {
-
-    private static final String FXML = "UserProfilePanel.fxml";
-
-    private static final Logger logger = LogsCenter.getLogger(UserProfilePanel.class);
-
-    private static final String PROFILE_PICTURE_PATH = "profilepic.png";
-
-    final Circle clip = new Circle(75, 75, 75);
-
-    private ReadOnlyAddressBook addressBook;
-
-    @FXML
-    private ImageView profilepic;
-
-    @FXML
-    private Label name;
-
-    @FXML
-    private Label phone;
-
-    @FXML
-    private Label address;
-
-    @FXML
-    private FlowPane allergies;
-
-    public UserProfilePanel(ReadOnlyAddressBook addressBook) {
-        super(FXML);
-        this.addressBook = addressBook;
-        name.setWrapText(true);
-        phone.setWrapText(true);
-        address.setWrapText(true);
-        setUserProfile(addressBook.getUserProfile());
-        setProfilePicture();
-        registerAsAnEventHandler(this);
-    }
-
-    public void setUserProfile(UserProfile userProfile) {
-        name.setText(userProfile.getName().fullName);
-        phone.setText(userProfile.getPhone().value);
-        address.setText(userProfile.getAddress().value);
-        allergies.getChildren().clear();
-        userProfile.getAllergies().forEach(allergy -> allergies.getChildren().add(new Label(allergy.allergyName)));
-    }
-
-    public void setProfilePicture() {
-        profilepic.setImage(new Image("file:" + PROFILE_PICTURE_PATH));
-        profilepic.setClip(clip);
-    }
-
-    @Subscribe
-    public void handleAddressBookChangedEvent(AddressBookChangedEvent abce) {
-        UserProfile newUserProfile = addressBook.getUserProfile();
-        logger.info(LogsCenter.getEventHandlingLogMessage(abce, "User Profile updated to: " + newUserProfile));
-        setUserProfile(newUserProfile);
-    }
-
-    @Subscribe
-    public void handleProfilePictureChangedEvent(ProfilePictureChangedEvent ppce) {
-        setProfilePicture();
-    }
-}
-```
-###### /java/seedu/address/commons/events/ui/ProfilePictureChangedEvent.java
+###### \java\seedu\address\commons\events\ui\ProfilePictureChangedEvent.java
 ``` java
 /**
  * Indicates profile picture of user has changed
@@ -81,59 +12,43 @@ public class ProfilePictureChangedEvent extends BaseEvent {
     }
 }
 ```
-###### /java/seedu/address/logic/parser/EditUserCommandParser.java
+###### \java\seedu\address\logic\commands\ChangePicCommand.java
 ``` java
 /**
- * Parses input arguments and creates a new EditUserCommand object
+ * Changes the profile picture of the user
  */
-public class EditUserCommandParser implements Parser<EditUserCommand> {
+public class ChangePicCommand extends Command {
+
+    public static final String COMMAND_WORD = "changepic";
+
+    public static final String MESSAGE_PIC_CHANGED_ACKNOWLEDGEMENT = "Profile picture has been changed!";
 
     /**
-     * Parses the given {@code String} of arguments in the context of the EditCommand
-     * and returns an EditCommand object for execution.
-     * @throws ParseException if the user input does not conform the expected format
+     * Selects a profile picture
      */
-    public EditUserCommand parse(String args) throws ParseException {
-        requireNonNull(args);
-        ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_ADDRESS, PREFIX_ALLERGIES);
-
-        EditUserCommand.EditUserDescriptor editUserDescriptor = new EditUserCommand.EditUserDescriptor();
-        try {
-            ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME)).ifPresent(editUserDescriptor::setName);
-            ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE)).ifPresent(editUserDescriptor::setPhone);
-            ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS)).ifPresent(editUserDescriptor::setAddress);
-            parseAllergiesForEdit(argMultimap.getAllValues(PREFIX_ALLERGIES))
-                    .ifPresent(editUserDescriptor::setAllergies);
-        } catch (IllegalValueException ive) {
-            throw new ParseException(ive.getMessage(), ive);
-        }
-
-        if (!editUserDescriptor.isAnyFieldEdited()) {
-            throw new ParseException(EditUserCommand.MESSAGE_NOT_EDITED);
-        }
-
-        return new EditUserCommand(editUserDescriptor);
+    public File selectProfilePic() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files",
+                "*.png", "*.jpg", "*.gif"));
+        File selectedFile = fileChooser.showOpenDialog(null);
+        return selectedFile;
     }
 
-    /**
-     * Parses {@code Collection<String> allergies} into a {@code Set<Allergy>} if {@code allergies} is non-empty.
-     * If {@code allergies} contain only one element which is an empty string, it will be parsed into a
-     * {@code Set<Allergy>} containing zero allergies.
-     */
-    private Optional<Set<Allergy>> parseAllergiesForEdit(Collection<String> allergies) throws IllegalValueException {
-        assert allergies != null;
-
-        if (allergies.isEmpty()) {
-            return Optional.empty();
+    @Override
+    public CommandResult execute() throws CommandException {
+        File outputFile = new File("profilepic.png");
+        File selectedFile = selectProfilePic();
+        try {
+            FileUtils.copyFile(selectedFile, outputFile);
+        } catch (IOException e) {
+            throw new CommandException("Unable to save profile picture");
         }
-        Collection<String> allergySet = allergies.size() == 1 && allergies.contains("")
-                ? Collections.emptySet() : allergies;
-        return Optional.of(ParserUtil.parseAllergies(allergySet));
+        EventsCenter.getInstance().post(new ProfilePictureChangedEvent());
+        return new CommandResult(MESSAGE_PIC_CHANGED_ACKNOWLEDGEMENT);
     }
 }
 ```
-###### /java/seedu/address/logic/commands/EditUserCommand.java
+###### \java\seedu\address\logic\commands\EditUserCommand.java
 ``` java
 /**
  * Edits the details of a user
@@ -155,7 +70,7 @@ public class EditUserCommand extends UndoableCommand {
 
     public static final String MESSAGE_EDIT_USER_SUCCESS = "Edited User: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
-    public static final String MESSAGE_DUPLICATE_USER = "New user profile is the same as the one set previously.";
+    public static final String MESSAGE_DUPLICATE_USER = "Edited user profile is the same as the one set previously.";
 
     private final EditUserCommand.EditUserDescriptor editUserDescriptor;
 
@@ -318,43 +233,7 @@ public class EditUserCommand extends UndoableCommand {
     }
 }
 ```
-###### /java/seedu/address/logic/commands/ChangePicCommand.java
-``` java
-/**
- * Changes the profile picture of the user
- */
-public class ChangePicCommand extends Command {
-
-    public static final String COMMAND_WORD = "changepic";
-
-    public static final String MESSAGE_PIC_CHANGED_ACKNOWLEDGEMENT = "Profile picture has been changed!";
-
-    /**
-     * Selects a profile picture
-     */
-    public File selectProfilePic() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files",
-                "*.png", "*.jpg", "*.gif"));
-        File selectedFile = fileChooser.showOpenDialog(null);
-        return selectedFile;
-    }
-
-    @Override
-    public CommandResult execute() throws CommandException {
-        File outputFile = new File("profilepic.png");
-        File selectedFile = selectProfilePic();
-        try {
-            FileUtils.copyFile(selectedFile, outputFile);
-        } catch (IOException e) {
-            throw new CommandException("Unable to save profile picture");
-        }
-        EventsCenter.getInstance().post(new ProfilePictureChangedEvent());
-        return new CommandResult(MESSAGE_PIC_CHANGED_ACKNOWLEDGEMENT);
-    }
-}
-```
-###### /java/seedu/address/logic/LogicManager.java
+###### \java\seedu\address\logic\LogicManager.java
 ``` java
     @Override
     public ReadOnlyAddressBook getAddressBook() {
@@ -362,44 +241,86 @@ public class ChangePicCommand extends Command {
     }
 }
 ```
-###### /java/seedu/address/model/user/UserProfile.java
+###### \java\seedu\address\logic\parser\EditUserCommandParser.java
+``` java
+/**
+ * Parses input arguments and creates a new EditUserCommand object
+ */
+public class EditUserCommandParser implements Parser<EditUserCommand> {
+
+    /**
+     * Parses the given {@code String} of arguments in the context of the EditCommand
+     * and returns an EditCommand object for execution.
+     * @throws ParseException if the user input does not conform the expected format
+     */
+    public EditUserCommand parse(String args) throws ParseException {
+        requireNonNull(args);
+        ArgumentMultimap argMultimap =
+                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_ADDRESS, PREFIX_ALLERGIES);
+
+        EditUserCommand.EditUserDescriptor editUserDescriptor = new EditUserCommand.EditUserDescriptor();
+        try {
+            ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME)).ifPresent(editUserDescriptor::setName);
+            ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE)).ifPresent(editUserDescriptor::setPhone);
+            ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS)).ifPresent(editUserDescriptor::setAddress);
+            parseAllergiesForEdit(argMultimap.getAllValues(PREFIX_ALLERGIES))
+                    .ifPresent(editUserDescriptor::setAllergies);
+        } catch (IllegalValueException ive) {
+            throw new ParseException(ive.getMessage(), ive);
+        }
+
+        if (!editUserDescriptor.isAnyFieldEdited()) {
+            throw new ParseException(EditUserCommand.MESSAGE_NOT_EDITED);
+        }
+
+        return new EditUserCommand(editUserDescriptor);
+    }
+
+    /**
+     * Parses {@code Collection<String> allergies} into a {@code Set<Allergy>} if {@code allergies} is non-empty.
+     * If {@code allergies} contain only one element which is an empty string, it will be parsed into a
+     * {@code Set<Allergy>} containing zero allergies.
+     */
+    private Optional<Set<Allergy>> parseAllergiesForEdit(Collection<String> allergies) throws IllegalValueException {
+        assert allergies != null;
+
+        if (allergies.isEmpty()) {
+            return Optional.empty();
+        }
+        Collection<String> allergySet = allergies.size() == 1 && allergies.contains("")
+                ? Collections.emptySet() : allergies;
+        return Optional.of(ParserUtil.parseAllergies(allergySet));
+    }
+}
+```
+###### \java\seedu\address\MainApp.java
 ``` java
     /**
-     * Constructs a {@code UserProfile} object.
-     * @param name    Name of user
-     * @param phone   Phone number of user
-     * @param address Address of user for food delivery
-     * @param recentFoods Food eaten recently
+     * Creates new profilepic.png when app is first started
      */
-    public UserProfile(Name name, Phone phone, Address address, Set<Allergy> allergies, Set<Food> recentFoods) {
-        this.name = name;
-        this.phone = phone;
-        this.address = address;
-        this.allergies = new UniqueAllergyList(allergies);
-        this.recentFoods = new UniqueFoodList(recentFoods);
+    private void initProfilePic() {
+        File profilePicFile = new File("profilepic.png");
+        if (!profilePicFile.exists()) {
+            initDefaultProfilePic();
+        }
+    }
+
+    /**
+     * Saves default profile picture to profilepic.png
+     */
+    private void initDefaultProfilePic() {
+        try {
+            File profilePicFile = new File("profilepic.png");
+            URL defaultPicUrl = new URL("http://i64.tinypic.com/vo385x.png");
+            FileUtils.copyURLToFile(defaultPicUrl, profilePicFile);
+        } catch (IOException e) {
+            logger.warning("Unable to download default profile picture. "
+                    + "Starting HackEat without a profile picture.");
+        }
     }
 
 ```
-###### /java/seedu/address/model/user/UserProfile.java
-``` java
-    /**
-     * Returns an immutable Food set, which throws {@code UnsupportedOperationException}
-     * if modification is attempted.
-     */
-    public Set<Food> getRecentFoods() {
-        return Collections.unmodifiableSet(recentFoods.toSet());
-    }
-
-    /**
-     * Sets recentFoods to the UniqueFoodList provided
-     */
-    public void setRecentFoods(UniqueFoodList recentFoodsList) {
-        this.recentFoods = recentFoodsList;
-    }
-
-
-```
-###### /java/seedu/address/model/AddressBook.java
+###### \java\seedu\address\model\AddressBook.java
 ``` java
     /**
      * Initialises user profile with {@code profile}.
@@ -422,21 +343,7 @@ public class ChangePicCommand extends Command {
     }
 
 ```
-###### /java/seedu/address/model/ModelManager.java
-``` java
-    @Override
-    public UserProfile getUserProfile() throws NullPointerException {
-        return addressBook.getUserProfile();
-    }
-
-    @Override
-    public void initUserProfile(UserProfile userProfile) {
-        addressBook.initUserProfile(userProfile);
-        indicateAddressBookChanged();
-    }
-
-```
-###### /java/seedu/address/model/food/Price.java
+###### \java\seedu\address\model\food\Price.java
 ``` java
     /**
      * Returns price of Food as a BigDecimal.
@@ -463,7 +370,7 @@ public class ChangePicCommand extends Command {
     }
 }
 ```
-###### /java/seedu/address/model/Model.java
+###### \java\seedu\address\model\Model.java
 ``` java
     /**
      * Initialises user profile of address book with {@code target}.
@@ -480,4 +387,136 @@ public class ChangePicCommand extends Command {
      */
     void updateUserProfile(UserProfile editedProfile) throws DuplicateUserException;
 }
+```
+###### \java\seedu\address\model\ModelManager.java
+``` java
+    @Override
+    public UserProfile getUserProfile() throws NullPointerException {
+        return addressBook.getUserProfile();
+    }
+
+    @Override
+    public void initUserProfile(UserProfile userProfile) {
+        addressBook.initUserProfile(userProfile);
+        indicateAddressBookChanged();
+    }
+
+```
+###### \java\seedu\address\model\user\UserProfile.java
+``` java
+    /**
+     * Constructs a {@code UserProfile} object.
+     * @param name    Name of user
+     * @param phone   Phone number of user
+     * @param address Address of user for food delivery
+     * @param recentFoods Food eaten recently
+     */
+    public UserProfile(Name name, Phone phone, Address address, Set<Allergy> allergies, Set<Food> recentFoods) {
+        this.name = name;
+        this.phone = phone;
+        this.address = address;
+        this.allergies = new UniqueAllergyList(allergies);
+        this.recentFoods = new UniqueFoodList(recentFoods);
+    }
+
+```
+###### \java\seedu\address\model\user\UserProfile.java
+``` java
+    /**
+     * Returns an immutable Food set, which throws {@code UnsupportedOperationException}
+     * if modification is attempted.
+     */
+    public Set<Food> getRecentFoods() {
+        return Collections.unmodifiableSet(recentFoods.toSet());
+    }
+
+    /**
+     * Sets recentFoods to the UniqueFoodList provided
+     */
+    public void setRecentFoods(UniqueFoodList recentFoodsList) {
+        this.recentFoods = recentFoodsList;
+    }
+
+
+```
+###### \java\seedu\address\ui\UserProfilePanel.java
+``` java
+/**
+ * The User Profile panel of the App.
+ */
+public class UserProfilePanel extends UiPart<Region> {
+
+    private static final String FXML = "UserProfilePanel.fxml";
+
+    private static final Logger logger = LogsCenter.getLogger(UserProfilePanel.class);
+
+    private static final String PROFILE_PICTURE_PATH = "profilepic.png";
+
+    final Circle clip = new Circle(75, 75, 75);
+
+    private ReadOnlyAddressBook addressBook;
+
+    @FXML
+    private ImageView profilepic;
+
+    @FXML
+    private Label name;
+
+    @FXML
+    private Label phone;
+
+    @FXML
+    private Label address;
+
+    @FXML
+    private FlowPane allergies;
+
+    public UserProfilePanel(ReadOnlyAddressBook addressBook) {
+        super(FXML);
+        this.addressBook = addressBook;
+        name.setWrapText(true);
+        phone.setWrapText(true);
+        address.setWrapText(true);
+        setUserProfile(addressBook.getUserProfile());
+        setProfilePicture();
+        registerAsAnEventHandler(this);
+    }
+
+    public void setUserProfile(UserProfile userProfile) {
+        name.setText(userProfile.getName().fullName);
+        phone.setText(userProfile.getPhone().value);
+        address.setText(userProfile.getAddress().value);
+        allergies.getChildren().clear();
+        userProfile.getAllergies().forEach(allergy -> allergies.getChildren().add(new Label(allergy.allergyName)));
+    }
+
+    public void setProfilePicture() {
+        profilepic.setImage(new Image("file:" + PROFILE_PICTURE_PATH));
+        profilepic.setClip(clip);
+    }
+
+    @Subscribe
+    public void handleAddressBookChangedEvent(AddressBookChangedEvent abce) {
+        UserProfile newUserProfile = addressBook.getUserProfile();
+        logger.info(LogsCenter.getEventHandlingLogMessage(abce, "User Profile updated to: " + newUserProfile));
+        setUserProfile(newUserProfile);
+    }
+
+    @Subscribe
+    public void handleProfilePictureChangedEvent(ProfilePictureChangedEvent ppce) {
+        setProfilePicture();
+    }
+}
+```
+###### \resources\view\UserProfilePanel.fxml
+``` fxml
+<VBox fx:id="profilePane" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+  <children>
+    <ImageView fx:id="profilepic" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+    <Label fx:id="name" text="\$name" />
+    <Label fx:id="phone" text="\$phone" />
+    <Label fx:id="address" text="\$address" />
+    <FlowPane fx:id="allergies" />
+  </children>
+</VBox>
 ```

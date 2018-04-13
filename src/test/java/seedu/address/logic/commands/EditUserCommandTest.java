@@ -60,8 +60,6 @@ public class EditUserCommandTest {
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
     }
 
-    // execute_noFieldsSpecified_sucess() to be implemented
-
     @Test
     public void execute_duplicateUserProfile_failure() {
         UserProfile currentUserProfile = model.getUserProfile();

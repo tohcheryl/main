@@ -1,33 +1,31 @@
 # jaxony
-###### /java/systemtests/AddCommandSystemTest.java
+###### \java\seedu\address\logic\commands\AddCommandTest.java
 ``` java
-    @Test
-    public void addInteractive() {
-        /* -------------------------- Perform add in interactive mode ------------------------------ */
-        assertCommandSuccessWithoutSync(AddCommand.COMMAND_WORD, getModel(), AddCommand.prompts.get(0).getMessage());
-    }
-```
-###### /java/systemtests/AddCommandSystemTest.java
-``` java
-    /**
-     * Performs the same verification as {@code assertCommandSuccess(String, Food)} except asserts that
-     * the,<br>
-     * 1. Result display box displays {@code expectedResultMessage}.<br>
-     * 2. {@code Model}, {@code Storage} and {@code FoodListPanel} equal to the corresponding components in
-     * {@code expectedModel}.<br>
-     * 3. Status bar does not change.<br>
-     * @see AddCommandSystemTest#assertCommandSuccess(String, Food)
-     */
-    private void assertCommandSuccessWithoutSync(String command, Model expectedModel, String expectedResultMessage) {
-        executeCommand(command);
-        assertApplicationDisplaysExpected("", expectedResultMessage, expectedModel);
-        assertSelectedCardUnchanged();
-        assertCommandBoxShowsDefaultStyle();
-        assertStatusBarUnchanged();
-    }
+        @Override
+        public boolean isUserInActiveSession() {
+            fail("This method should not be called.");
+            return false;
+        }
+
+        @Override
+        public void createNewSession(Command interactiveCommand) {
+            fail("This method should not be called.");
+        }
+
+        @Override
+        public CommandResult startSession() throws CommandException {
+            fail("This method should not be called.");
+            return null;
+        }
+
+        @Override
+        public CommandResult interpretInteractiveUserInput(String commandText) throws CommandException {
+            fail("This method should not be called.");
+            return null;
+        }
 
 ```
-###### /java/seedu/address/logic/LogicManagerTest.java
+###### \java\seedu\address\logic\LogicManagerTest.java
 ``` java
     @Test
     public void createNewSession_editCommand_throwsIllegalArgumentException() {
@@ -56,33 +54,7 @@
         logic.isCommandInteractive("asdad");
     }
 ```
-###### /java/seedu/address/logic/commands/AddCommandTest.java
-``` java
-        @Override
-        public boolean isUserInActiveSession() {
-            fail("This method should not be called.");
-            return false;
-        }
-
-        @Override
-        public void createNewSession(Command interactiveCommand) {
-            fail("This method should not be called.");
-        }
-
-        @Override
-        public CommandResult startSession() throws CommandException {
-            fail("This method should not be called.");
-            return null;
-        }
-
-        @Override
-        public CommandResult interpretInteractiveUserInput(String commandText) throws CommandException {
-            fail("This method should not be called.");
-            return null;
-        }
-
-```
-###### /java/seedu/address/model/session/SessionAddCommandTest.java
+###### \java\seedu\address\model\session\SessionAddCommandTest.java
 ``` java
 public class SessionAddCommandTest {
     @Rule
@@ -181,7 +153,7 @@ public class SessionAddCommandTest {
     }
 }
 ```
-###### /java/seedu/address/model/session/SessionTest.java
+###### \java\seedu\address\model\session\SessionTest.java
 ``` java
 public class SessionTest {
     private static final String BACON_NAME = TypicalFoods.BACON.getName().toString();
@@ -194,24 +166,24 @@ public class SessionTest {
 
     private static final int INDEX_AFTER_NAME = 1;
     private static final String SUCCESS_MESSAGE_AFTER_NAME =
-            AddCommand.prompts.get(INDEX_AFTER_NAME).getMessage();
+            AddCommand.PROMPTS.get(INDEX_AFTER_NAME).getMessage();
     private static final int INDEX_AFTER_PHONE = 2;
     private static final String FAILURE_MESSAGE_AFTER_WRONG_PHONE =
             Session.TRY_AGAIN_MESSAGE + Phone.MESSAGE_PHONE_CONSTRAINTS;
     private static final String SUCCESS_MESSAGE_AFTER_PHONE =
-            AddCommand.prompts.get(INDEX_AFTER_PHONE).getMessage();
+            AddCommand.PROMPTS.get(INDEX_AFTER_PHONE).getMessage();
     private static final int INDEX_AFTER_EMAIL = 3;
     private static final String SUCCESS_MESSAGE_AFTER_EMAIL =
-            AddCommand.prompts.get(INDEX_AFTER_EMAIL).getMessage();
+            AddCommand.PROMPTS.get(INDEX_AFTER_EMAIL).getMessage();
     private static final int INDEX_AFTER_ADDRESS = 4;
     private static final String SUCCESS_MESSAGE_AFTER_ADDRESS =
-            AddCommand.prompts.get(INDEX_AFTER_ADDRESS).getMessage();
+            AddCommand.PROMPTS.get(INDEX_AFTER_ADDRESS).getMessage();
     private static final int INDEX_AFTER_PRICE = 5;
     private static final String SUCCESS_MESSAGE_AFTER_PRICE =
-            AddCommand.prompts.get(INDEX_AFTER_PRICE).getMessage();
+            AddCommand.PROMPTS.get(INDEX_AFTER_PRICE).getMessage();
     private static final int INDEX_AFTER_RATING = 6;
     private static final String SUCCESS_MESSAGE_AFTER_RATING =
-            AddCommand.prompts.get(INDEX_AFTER_RATING).getMessage() + " " + Session.OPTIONAL_MESSAGE;
+            AddCommand.PROMPTS.get(INDEX_AFTER_RATING).getMessage() + " " + Session.OPTIONAL_MESSAGE;
 
     private static final String SUCCESS_MESSAGE_AFTER_FIRST_TAG =
             Session.ANYTHING_ELSE_MESSAGE;
@@ -220,7 +192,7 @@ public class SessionTest {
 
     private static final int INDEX_AFTER_TAGS = 7;
     private static final String SUCCESS_MESSAGE_AFTER_TAGS =
-            AddCommand.prompts.get(INDEX_AFTER_TAGS).getMessage() + " " + Session.OPTIONAL_MESSAGE;
+            AddCommand.PROMPTS.get(INDEX_AFTER_TAGS).getMessage() + " " + Session.OPTIONAL_MESSAGE;
 
     private static final String SUCCESS_MESSAGE_AFTER_FIRST_ALLERGY =
             Session.ANYTHING_ELSE_MESSAGE;
@@ -261,4 +233,32 @@ public class SessionTest {
         }
     }
 }
+```
+###### \java\systemtests\AddCommandSystemTest.java
+``` java
+    @Test
+    public void addInteractive() {
+        /* -------------------------- Perform add in interactive mode ------------------------------ */
+        assertCommandSuccessWithoutSync(AddCommand.COMMAND_WORD, getModel(), AddCommand.PROMPTS.get(0).getMessage());
+    }
+```
+###### \java\systemtests\AddCommandSystemTest.java
+``` java
+    /**
+     * Performs the same verification as {@code assertCommandSuccess(String, Food)} except asserts that
+     * the,<br>
+     * 1. Result display box displays {@code expectedResultMessage}.<br>
+     * 2. {@code Model}, {@code Storage} and {@code FoodListPanel} equal to the corresponding components in
+     * {@code expectedModel}.<br>
+     * 3. Status bar does not change.<br>
+     * @see AddCommandSystemTest#assertCommandSuccess(String, Food)
+     */
+    private void assertCommandSuccessWithoutSync(String command, Model expectedModel, String expectedResultMessage) {
+        executeCommand(command);
+        assertApplicationDisplaysExpected("", expectedResultMessage, expectedModel);
+        assertSelectedCardUnchanged();
+        assertCommandBoxShowsDefaultStyle();
+        assertStatusBarUnchanged();
+    }
+
 ```

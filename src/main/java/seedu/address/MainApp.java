@@ -185,6 +185,7 @@ public class MainApp extends Application {
         return initializedPrefs;
     }
 
+    //@@author {tohcheryl}
     /**
      * Creates new profilepic.png when app is first started
      */
@@ -209,6 +210,7 @@ public class MainApp extends Application {
         }
     }
 
+    //@@author
     private void initEventsCenter() {
         EventsCenter.getInstance().registerHandler(this);
     }

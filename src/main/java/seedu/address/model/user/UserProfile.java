@@ -128,8 +128,6 @@ public class UserProfile {
                 .append(getAddress())
                 .append(" Allergies: ");
         getAllergies().forEach(builder::append);
-        builder.append("Recently ordered: ");
-        getRecentFoods().forEach(builder::append);
         return builder.toString();
     }
 }

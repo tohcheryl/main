@@ -44,7 +44,7 @@ public class EditUserCommand extends UndoableCommand {
 
     public static final String MESSAGE_EDIT_USER_SUCCESS = "Edited User: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
-    public static final String MESSAGE_DUPLICATE_USER = "New user profile is the same as the one set previously.";
+    public static final String MESSAGE_DUPLICATE_USER = "Edited user profile is the same as the one set previously.";
 
     private final EditUserCommand.EditUserDescriptor editUserDescriptor;
 
