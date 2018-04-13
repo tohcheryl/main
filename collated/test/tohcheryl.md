@@ -1,14 +1,6 @@
 # tohcheryl
 ###### \java\guitests\guihandles\UserProfilePanelHandle.java
 ``` java
-
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javafx.scene.Node;
-import javafx.scene.control.Label;
-import javafx.scene.layout.Region;
-
 /**
  * A handle to the {@code UserProfilePanel} in the GUI.
  */
