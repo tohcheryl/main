@@ -52,6 +52,7 @@ public class EditUserCommand extends UndoableCommand {
     private UserProfile editedUser;
 
     /**
+     * Creates a new EditUserCommand.
      * @param editUserDescriptor details to edit the food with
      */
     public EditUserCommand(EditUserCommand.EditUserDescriptor editUserDescriptor) {
@@ -126,7 +127,7 @@ public class EditUserCommand extends UndoableCommand {
         public EditUserDescriptor() {}
 
         /**
-         * Copy constructor.
+         * Creates a new EditUserDescriptor.
          * A defensive copy of {@code allergies} is used internally.
          */
         public EditUserDescriptor(EditUserCommand.EditUserDescriptor toCopy) {
