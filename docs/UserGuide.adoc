@@ -265,7 +265,8 @@ Sets user profile of Herbert Williams.
 
 // tag::edituser[]
 === Editing user profile: `edituser`
-Edits user details
+Edits user details i.e. name, phone, address and allergies so that information of the user can be
+updated easily
 Format: `edituser [n/NAME] [p/PHONE] [a/ADDRESS] [alg/ALLERGY]`
 
 ****
@@ -284,7 +285,8 @@ Edits the phone number and address of the user to be `61234567` and `Blk 654 Cas
 // tag::changepic[]
 === Setting a profile picture: `changepic`
 
-Changes a user's profile picture to one that the user has selected. Works only for square images.
+Changes a user's profile picture to one that the user has selected. Works best for square images
+where your face is right smack in the middle!
 
 Format: `changepic`
 // end::changepic[]
