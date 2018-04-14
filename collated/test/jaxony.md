@@ -1,31 +1,47 @@
 # jaxony
-###### \java\seedu\address\logic\commands\AddCommandTest.java
+###### /java/systemtests/AddCommandSystemTest.java
 ``` java
-        @Override
-        public boolean isUserInActiveSession() {
-            fail("This method should not be called.");
-            return false;
-        }
-
-        @Override
-        public void createNewSession(Command interactiveCommand) {
-            fail("This method should not be called.");
-        }
-
-        @Override
-        public CommandResult startSession() throws CommandException {
-            fail("This method should not be called.");
-            return null;
-        }
-
-        @Override
-        public CommandResult interpretInteractiveUserInput(String commandText) throws CommandException {
-            fail("This method should not be called.");
-            return null;
-        }
+    @Test
+    public void addInteractive() {
+        /* -------------------------- Perform add in interactive mode ------------------------------ */
+        assertCommandSuccessWithoutSync(AddCommand.COMMAND_WORD, getModel(), AddCommand.PROMPTS.get(0).getMessage());
+    }
+```
+###### /java/systemtests/AddCommandSystemTest.java
+``` java
+    /**
+     * Performs the same verification as {@code assertCommandSuccess(String, Food)} except asserts that
+     * the,<br>
+     * 1. Result display box displays {@code expectedResultMessage}.<br>
+     * 2. {@code Model}, {@code Storage} and {@code FoodListPanel} equal to the corresponding components in
+     * {@code expectedModel}.<br>
+     * 3. Status bar does not change.<br>
+     * @see AddCommandSystemTest#assertCommandSuccess(String, Food)
+     */
+    private void assertCommandSuccessWithoutSync(String command, Model expectedModel, String expectedResultMessage) {
+        executeCommand(command);
+        assertApplicationDisplaysExpected("", expectedResultMessage, expectedModel);
+        assertSelectedCardUnchanged();
+        assertCommandBoxShowsDefaultStyle();
+        assertStatusBarUnchanged();
+    }
 
 ```
-###### \java\seedu\address\logic\LogicManagerTest.java
+###### /java/seedu/address/commons/events/model/EndActiveSessionEventTest.java
+``` java
+public class EndActiveSessionEventTest {
+
+    @Test
+    public void endActiveSession_success() {
+        SessionInterface sessionManager = new SessionManager();
+        sessionManager.createNewSession(new AddCommand(null));
+        assertTrue(sessionManager.isUserInActiveSession());
+        EventsCenter.getInstance().post(new EndActiveSessionEvent());
+        assertFalse(sessionManager.isUserInActiveSession());
+    }
+}
+```
+###### /java/seedu/address/logic/LogicManagerTest.java
 ``` java
     @Test
     public void createNewSession_editCommand_throwsIllegalArgumentException() {
@@ -54,7 +70,33 @@
         logic.isCommandInteractive("asdad");
     }
 ```
-###### \java\seedu\address\model\session\SessionAddCommandTest.java
+###### /java/seedu/address/logic/commands/AddCommandTest.java
+``` java
+        @Override
+        public boolean isUserInActiveSession() {
+            fail("This method should not be called.");
+            return false;
+        }
+
+        @Override
+        public void createNewSession(Command interactiveCommand) {
+            fail("This method should not be called.");
+        }
+
+        @Override
+        public CommandResult startSession() throws CommandException {
+            fail("This method should not be called.");
+            return null;
+        }
+
+        @Override
+        public CommandResult interpretInteractiveUserInput(String commandText) throws CommandException {
+            fail("This method should not be called.");
+            return null;
+        }
+
+```
+###### /java/seedu/address/model/session/SessionAddCommandTest.java
 ``` java
 public class SessionAddCommandTest {
     @Rule
@@ -63,37 +105,37 @@ public class SessionAddCommandTest {
     @Test
     public void parseInputForField_name_success() throws IllegalArgumentException, IllegalValueException {
         SessionAddCommand session = new SessionAddCommand(new AddCommand(null), null);
-        session.parseInputForField(Name.class, "Some Name");
+        session.parseInputForField(Name.CLASS_NAME, "Some Name");
     }
 
     @Test
     public void parseInputForField_address_success() throws IllegalArgumentException, IllegalValueException {
         SessionAddCommand session = new SessionAddCommand(new AddCommand(null), null);
-        session.parseInputForField(Address.class, "Some Address");
+        session.parseInputForField(Address.CLASS_NAME, "Some Address");
     }
 
     @Test
     public void parseInputForField_phone_success() throws IllegalArgumentException, IllegalValueException {
         SessionAddCommand session = new SessionAddCommand(new AddCommand(null), null);
-        session.parseInputForField(Phone.class, "123124913");
+        session.parseInputForField(Phone.CLASS_NAME, "123124913");
     }
 
     @Test
     public void parseInputForField_email_success() throws IllegalArgumentException, IllegalValueException {
         SessionAddCommand session = new SessionAddCommand(new AddCommand(null), null);
-        session.parseInputForField(Email.class, "email@email.com");
+        session.parseInputForField(Email.CLASS_NAME, "email@email.com");
     }
 
     @Test
     public void parseInputForField_price_success() throws IllegalArgumentException, IllegalValueException {
         SessionAddCommand session = new SessionAddCommand(new AddCommand(null), null);
-        session.parseInputForField(Price.class, "12");
+        session.parseInputForField(Price.CLASS_NAME, "12");
     }
 
     @Test
     public void parseInputForField_rating_success() throws IllegalArgumentException, IllegalValueException {
         SessionAddCommand session = new SessionAddCommand(new AddCommand(null), null);
-        session.parseInputForField(Rating.class, "5");
+        session.parseInputForField(Rating.CLASS_NAME, "5");
     }
 
     @Test
@@ -101,19 +143,19 @@ public class SessionAddCommandTest {
             throws IllegalArgumentException, IllegalValueException {
         thrown.expect(IllegalArgumentException.class);
         SessionAddCommand session = new SessionAddCommand(new AddCommand(null), null);
-        session.parseInputForField(String.class, "Some Input");
+        session.parseInputForField(String.class.getName(), "Some Input");
     }
 
     @Test
     public void parseInputForMultivaluedField_tag_success() throws IllegalValueException {
         SessionAddCommandStub session = new SessionAddCommandStub(new AddCommand(null), null);
-        session.parseInputForMultivaluedField(Tag.class);
+        session.parseInputForMultivaluedField(Tag.CLASS_NAME);
     }
 
     @Test
     public void parseInputForMultivaluedField_allergy_success() throws IllegalValueException {
         SessionAddCommandStub session = new SessionAddCommandStub(new AddCommand(null), null);
-        session.parseInputForMultivaluedField(Allergy.class);
+        session.parseInputForMultivaluedField(Allergy.CLASS_NAME);
     }
 
     @Test
@@ -121,7 +163,7 @@ public class SessionAddCommandTest {
             throws IllegalArgumentException, IllegalValueException {
         thrown.expect(IllegalArgumentException.class);
         SessionAddCommandStub session = new SessionAddCommandStub(new AddCommand(null), null);
-        session.parseInputForMultivaluedField(String.class);
+        session.parseInputForMultivaluedField(String.class.getName());
     }
 
     @Test
@@ -153,7 +195,7 @@ public class SessionAddCommandTest {
     }
 }
 ```
-###### \java\seedu\address\model\session\SessionTest.java
+###### /java/seedu/address/model/session/SessionTest.java
 ``` java
 public class SessionTest {
     private static final String BACON_NAME = TypicalFoods.BACON.getName().toString();
@@ -165,34 +207,35 @@ public class SessionTest {
     private static final String BACON_PRICE = TypicalFoods.BACON.getPrice().toString();
 
     private static final int INDEX_AFTER_NAME = 1;
-    private static final String SUCCESS_MESSAGE_AFTER_NAME =
-            AddCommand.PROMPTS.get(INDEX_AFTER_NAME).getMessage();
     private static final int INDEX_AFTER_PHONE = 2;
+    private static final int INDEX_AFTER_EMAIL = 3;
+    private static final int INDEX_AFTER_ADDRESS = 4;
+    private static final int INDEX_AFTER_PRICE = 5;
+    private static final int INDEX_AFTER_RATING = 6;
+    private static final int INDEX_AFTER_TAGS = 7;
+
+    private static final String SUCCESS_MESSAGE_AFTER_NAME =
+            Session.buildMessageFromPrompt(AddCommand.PROMPTS.get(INDEX_AFTER_NAME));
     private static final String FAILURE_MESSAGE_AFTER_WRONG_PHONE =
             Session.TRY_AGAIN_MESSAGE + Phone.MESSAGE_PHONE_CONSTRAINTS;
     private static final String SUCCESS_MESSAGE_AFTER_PHONE =
-            AddCommand.PROMPTS.get(INDEX_AFTER_PHONE).getMessage();
-    private static final int INDEX_AFTER_EMAIL = 3;
+            Session.buildMessageFromPrompt(AddCommand.PROMPTS.get(INDEX_AFTER_PHONE));
     private static final String SUCCESS_MESSAGE_AFTER_EMAIL =
-            AddCommand.PROMPTS.get(INDEX_AFTER_EMAIL).getMessage();
-    private static final int INDEX_AFTER_ADDRESS = 4;
+            Session.buildMessageFromPrompt(AddCommand.PROMPTS.get(INDEX_AFTER_EMAIL));
     private static final String SUCCESS_MESSAGE_AFTER_ADDRESS =
-            AddCommand.PROMPTS.get(INDEX_AFTER_ADDRESS).getMessage();
-    private static final int INDEX_AFTER_PRICE = 5;
+            Session.buildMessageFromPrompt(AddCommand.PROMPTS.get(INDEX_AFTER_ADDRESS));
     private static final String SUCCESS_MESSAGE_AFTER_PRICE =
-            AddCommand.PROMPTS.get(INDEX_AFTER_PRICE).getMessage();
-    private static final int INDEX_AFTER_RATING = 6;
+            Session.buildMessageFromPrompt(AddCommand.PROMPTS.get(INDEX_AFTER_PRICE));
     private static final String SUCCESS_MESSAGE_AFTER_RATING =
-            AddCommand.PROMPTS.get(INDEX_AFTER_RATING).getMessage() + " " + Session.OPTIONAL_MESSAGE;
+            Session.buildMessageFromPrompt(AddCommand.PROMPTS.get(INDEX_AFTER_RATING));
 
     private static final String SUCCESS_MESSAGE_AFTER_FIRST_TAG =
             Session.ANYTHING_ELSE_MESSAGE;
     private static final String SUCCESS_MESSAGE_AFTER_SECOND_TAG =
             Session.ANYTHING_ELSE_MESSAGE;
 
-    private static final int INDEX_AFTER_TAGS = 7;
     private static final String SUCCESS_MESSAGE_AFTER_TAGS =
-            AddCommand.PROMPTS.get(INDEX_AFTER_TAGS).getMessage() + " " + Session.OPTIONAL_MESSAGE;
+            Session.buildMessageFromPrompt(AddCommand.PROMPTS.get(INDEX_AFTER_TAGS));
 
     private static final String SUCCESS_MESSAGE_AFTER_FIRST_ALLERGY =
             Session.ANYTHING_ELSE_MESSAGE;
@@ -200,8 +243,6 @@ public class SessionTest {
 
     @Test
     public void interpretUserInput_success() throws CommandException {
-        // Session class is abstract so need to use a subclass
-        // to test non-abstract methods in Session
         Session session = new SessionAddCommandStub(new AddCommand(null), EventsCenter.getInstance());
         assertEquals(SUCCESS_MESSAGE_AFTER_NAME, session.interpretUserInput(BACON_NAME).feedbackToUser);
         assertEquals(FAILURE_MESSAGE_AFTER_WRONG_PHONE, session.interpretUserInput(BACON_WRONG_PHONE).feedbackToUser);
@@ -215,11 +256,28 @@ public class SessionTest {
         assertEquals(SUCCESS_MESSAGE_AFTER_FIRST_TAG, session.interpretUserInput("meat").feedbackToUser);
         assertEquals(SUCCESS_MESSAGE_AFTER_SECOND_TAG, session.interpretUserInput("other").feedbackToUser);
         assertEquals(SUCCESS_MESSAGE_AFTER_TAGS, session.interpretUserInput(
-                Session.END_MULTI_VALUE_FIELD).feedbackToUser);
+                Session.END_FIELD).feedbackToUser);
 
         // adding multi value fields
         assertEquals(SUCCESS_MESSAGE_AFTER_FIRST_ALLERGY, session.interpretUserInput("animals").feedbackToUser);
-        assertEquals(Session.SUCCESS_MESSAGE, session.interpretUserInput(Session.END_MULTI_VALUE_FIELD).feedbackToUser);
+        assertEquals(Session.SUCCESS_MESSAGE, session.interpretUserInput(Session.END_FIELD).feedbackToUser);
+    }
+
+    @Test
+    public void interpretUserInput_emptyOptionalFields_success() throws CommandException {
+        Session session = new SessionAddCommandStub(new AddCommand(null), EventsCenter.getInstance());
+        assertEquals(SUCCESS_MESSAGE_AFTER_NAME, session.interpretUserInput(BACON_NAME).feedbackToUser);
+        assertEquals(SUCCESS_MESSAGE_AFTER_PHONE, session.interpretUserInput(BACON_PHONE).feedbackToUser);
+        assertEquals(SUCCESS_MESSAGE_AFTER_EMAIL, session.interpretUserInput(Session.END_FIELD).feedbackToUser);
+        assertEquals(SUCCESS_MESSAGE_AFTER_ADDRESS, session.interpretUserInput(Session.END_FIELD).feedbackToUser);
+        assertEquals(SUCCESS_MESSAGE_AFTER_PRICE, session.interpretUserInput(Session.END_FIELD).feedbackToUser);
+        assertEquals(SUCCESS_MESSAGE_AFTER_RATING, session.interpretUserInput(Session.END_FIELD).feedbackToUser);
+
+        // skipping multi value fields
+        assertEquals(SUCCESS_MESSAGE_AFTER_TAGS, session.interpretUserInput(Session.END_FIELD).feedbackToUser);
+
+        // adding multi value fields
+        assertEquals(Session.SUCCESS_MESSAGE, session.interpretUserInput(Session.END_FIELD).feedbackToUser);
     }
 
     /**
@@ -234,31 +292,31 @@ public class SessionTest {
     }
 }
 ```
-###### \java\systemtests\AddCommandSystemTest.java
+###### /java/guitests/guihandles/ChatPanelHandle.java
 ``` java
-    @Test
-    public void addInteractive() {
-        /* -------------------------- Perform add in interactive mode ------------------------------ */
-        assertCommandSuccessWithoutSync(AddCommand.COMMAND_WORD, getModel(), AddCommand.PROMPTS.get(0).getMessage());
-    }
-```
-###### \java\systemtests\AddCommandSystemTest.java
-``` java
-    /**
-     * Performs the same verification as {@code assertCommandSuccess(String, Food)} except asserts that
-     * the,<br>
-     * 1. Result display box displays {@code expectedResultMessage}.<br>
-     * 2. {@code Model}, {@code Storage} and {@code FoodListPanel} equal to the corresponding components in
-     * {@code expectedModel}.<br>
-     * 3. Status bar does not change.<br>
-     * @see AddCommandSystemTest#assertCommandSuccess(String, Food)
-     */
-    private void assertCommandSuccessWithoutSync(String command, Model expectedModel, String expectedResultMessage) {
-        executeCommand(command);
-        assertApplicationDisplaysExpected("", expectedResultMessage, expectedModel);
-        assertSelectedCardUnchanged();
-        assertCommandBoxShowsDefaultStyle();
-        assertStatusBarUnchanged();
+/**
+ * A handler for the {@code ChatPanel} of the UI
+ */
+public class ChatPanelHandle extends NodeHandle<VBox> {
+
+    public static final String CHAT_PANEL_ID = "#chatPanel";
+
+    public ChatPanelHandle(VBox chatPanelNode) {
+        super(chatPanelNode);
     }
 
+    /**
+     * Returns the last result text in the chat panel.
+     */
+    public String getText() {
+        ObservableList<Node> messageContainers = getRootNode().getChildrenUnmodifiable();
+        int numResults = messageContainers.size();
+        if (numResults == 0) {
+            return null;
+        }
+        HBox lastResultMessageHBox = (HBox) messageContainers.get(messageContainers.size() - 1);
+        Label lastResultLabel = (Label) lastResultMessageHBox.getChildren().get(0);
+        return lastResultLabel.getText();
+    }
+}
 ```
