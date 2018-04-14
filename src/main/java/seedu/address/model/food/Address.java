@@ -18,6 +18,7 @@ public class Address {
      * otherwise " " (a blank string) becomes a valid input.
      */
     public static final String ADDRESS_VALIDATION_REGEX = "[^\\s].*";
+    public static final String CLASS_NAME = "Address";
 
     public final String value;
 

@@ -19,6 +19,7 @@ public class Price {
     public static final String DEFAULT_PRICE = "0";
     public static final String MESSAGE_PRICE_CONSTRAINTS =
             "Price can only contain currency symbol and numbers";
+    public static final String CLASS_NAME = "Price";
     private static Locale currentLocale = Locale.US;
     private String value;
 

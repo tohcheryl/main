@@ -140,7 +140,7 @@ public abstract class Session {
         Prompt p = getCurrentPrompt();
         boolean canUserSkipField = didUserEndPrompt(userInput) && p.isOptional;
         if (!canUserSkipField) {
-            parseInputForField(p.getField(), userInput);
+            parseInputForField(p.getFieldName(), userInput);
         }
         return getNextPromptMessage();
     }
@@ -157,7 +157,7 @@ public abstract class Session {
         Prompt p = getCurrentPrompt();
         if (didUserEndPrompt(userInput)) {
             // user wants to go to the next prompt now
-            parseInputForMultivaluedField(p.getField());
+            parseInputForMultivaluedField(p.getFieldName());
             isParsingMultivaluedField = false;
             return getNextPromptMessage();
         }
@@ -185,9 +185,9 @@ public abstract class Session {
         logger.info("Added " + userInput + " as a multi value field");
     }
 
-    protected abstract void parseInputForMultivaluedField(Class field) throws IllegalValueException;
+    protected abstract void parseInputForMultivaluedField(String fieldName) throws IllegalValueException;
 
-    protected abstract void parseInputForField(Class field, String userInput) throws IllegalValueException;
+    protected abstract void parseInputForField(String fieldName, String userInput) throws IllegalValueException;
 
     private CommandResult askForNextMultivalue() {
         return new CommandResult(ANYTHING_ELSE_MESSAGE);

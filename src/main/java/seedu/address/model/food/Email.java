@@ -9,6 +9,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class Email {
 
+    public static final String CLASS_NAME = "Email";
     public static final String DEFAULT_EMAIL = "unknown@email";
     private static  final String SPECIAL_CHARACTERS = "!#$%&'*+/=?`{|}~^.-";
     public static final String MESSAGE_EMAIL_CONSTRAINTS = "Food emails should be of the format local-part@domain "

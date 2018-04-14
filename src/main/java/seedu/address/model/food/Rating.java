@@ -19,6 +19,7 @@ public class Rating {
      * User must enter only a single digit.
      */
     public static final String RATING_VALIDATION_REGEX = "\\b\\d\\b";
+    public static final String CLASS_NAME = "Rating";
 
     public final String value;
 
