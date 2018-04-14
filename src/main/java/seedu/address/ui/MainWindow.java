@@ -49,7 +49,7 @@ public class MainWindow extends UiPart<Stage> {
     private StackPane personListPanelPlaceholder;
 
     @FXML
-    private StackPane resultDisplayPlaceholder;
+    private StackPane chatPanelPlaceholder;
 
     @FXML
     private StackPane statusbarPlaceholder;
@@ -120,8 +120,8 @@ public class MainWindow extends UiPart<Stage> {
         personListPanel = new FoodListPanel(logic.getFilteredFoodList());
         personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
 
-        ResultDisplay resultDisplay = new ResultDisplay();
-        resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
+        ChatPanel chatPanel = new ChatPanel();
+        chatPanelPlaceholder.getChildren().add(chatPanel.getRoot());
 
         StatusBarFooter statusBarFooter = new StatusBarFooter(prefs.getAddressBookFilePath());
         statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());

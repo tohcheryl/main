@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.VBox?>
 <!-- @@author tohcheryl -->
-<VBox fx:id="profilePane" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:id="profilePane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
   <children>
     <ImageView fx:id="profilepic" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
     <Label fx:id="name" text="\$name" />

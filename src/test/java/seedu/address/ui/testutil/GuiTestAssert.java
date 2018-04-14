@@ -5,9 +5,9 @@ import static org.junit.Assert.assertEquals;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import guitests.guihandles.ChatPanelHandle;
 import guitests.guihandles.FoodCardHandle;
 import guitests.guihandles.FoodListPanelHandle;
-import guitests.guihandles.ResultDisplayHandle;
 import guitests.guihandles.UserProfilePanelHandle;
 import seedu.address.model.food.Food;
 import seedu.address.model.user.UserProfile;
@@ -67,10 +67,10 @@ public class GuiTestAssert {
     }
 
     /**
-     * Asserts the message shown in {@code resultDisplayHandle} equals to {@code expected}.
+     * Asserts the message shown in {@code chatPanelHandle} equals to {@code expected}.
      */
-    public static void assertResultMessage(ResultDisplayHandle resultDisplayHandle, String expected) {
-        assertEquals(expected, resultDisplayHandle.getText());
+    public static void assertResultMessage(ChatPanelHandle chatPanelHandle, String expected) {
+        assertEquals(expected, chatPanelHandle.getText());
     }
 
     //@@author {tohcheryl}

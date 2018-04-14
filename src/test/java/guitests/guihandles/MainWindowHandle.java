@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 public class MainWindowHandle extends StageHandle {
 
     private final FoodListPanelHandle foodListPanel;
-    private final ResultDisplayHandle resultDisplay;
+    private final ChatPanelHandle chatPanel;
     private final CommandBoxHandle commandBox;
     private final StatusBarFooterHandle statusBarFooter;
     private final MainMenuHandle mainMenu;
@@ -17,7 +17,7 @@ public class MainWindowHandle extends StageHandle {
         super(stage);
 
         foodListPanel = new FoodListPanelHandle(getChildNode(FoodListPanelHandle.FOOD_LIST_VIEW_ID));
-        resultDisplay = new ResultDisplayHandle(getChildNode(ResultDisplayHandle.RESULT_DISPLAY_ID));
+        chatPanel = new ChatPanelHandle(getChildNode(ChatPanelHandle.CHAT_PANEL_ID));
         commandBox = new CommandBoxHandle(getChildNode(CommandBoxHandle.COMMAND_INPUT_FIELD_ID));
         statusBarFooter = new StatusBarFooterHandle(getChildNode(StatusBarFooterHandle.STATUS_BAR_PLACEHOLDER));
         mainMenu = new MainMenuHandle(getChildNode(MainMenuHandle.MENU_BAR_ID));
@@ -27,8 +27,8 @@ public class MainWindowHandle extends StageHandle {
         return foodListPanel;
     }
 
-    public ResultDisplayHandle getResultDisplay() {
-        return resultDisplay;
+    public ChatPanelHandle getChatPanelHandle() {
+        return chatPanel;
     }
 
     public CommandBoxHandle getCommandBox() {

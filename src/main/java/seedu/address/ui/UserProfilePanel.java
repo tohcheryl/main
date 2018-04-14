@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 
 import com.google.common.eventbus.Subscribe;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -77,11 +78,15 @@ public class UserProfilePanel extends UiPart<Region> {
     public void handleAddressBookChangedEvent(AddressBookChangedEvent abce) {
         UserProfile newUserProfile = addressBook.getUserProfile();
         logger.info(LogsCenter.getEventHandlingLogMessage(abce, "User Profile updated to: " + newUserProfile));
-        setUserProfile(newUserProfile);
+        Platform.runLater(() -> {
+            setUserProfile(newUserProfile);
+        });
     }
 
     @Subscribe
     public void handleProfilePictureChangedEvent(ProfilePictureChangedEvent ppce) {
-        setProfilePicture();
+        Platform.runLater(() -> {
+            setProfilePicture();
+        });
     }
 }

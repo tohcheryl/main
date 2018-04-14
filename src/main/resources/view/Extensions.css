@@ -3,6 +3,21 @@
     -fx-text-fill: #d06651 !important; /* The error class should always override the default text-fill style */
 }
 
+.result-error {
+    -fx-text-fill: white !important;
+    -fx-background-color: #E72564 !important;
+}
+
+.result-success {
+    -fx-text-fill: white !important;
+    -fx-background-color: #159587 !important;
+}
+
+.user-label {
+    -fx-text-fill: white !important;
+    -fx-background-color: #1FBCD3 !important;
+}
+
 .list-cell:empty {
     /* Empty cells will not have alternating colours */
     -fx-background: #383838;

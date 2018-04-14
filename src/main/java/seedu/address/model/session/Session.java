@@ -123,10 +123,9 @@ public abstract class Session {
             }
         } catch (IllegalValueException ive) {
             if (p.isMultiValued) {
-                // a multi value thingo failed during parsing, need to refresh
                 resetStringBuffer();
             }
-            return new CommandResult(TRY_AGAIN_MESSAGE + ive.getMessage());
+            return new CommandResult(TRY_AGAIN_MESSAGE + ive.getMessage(), false);
         }
     }
 

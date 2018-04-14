@@ -147,15 +147,31 @@
     -fx-text-fill: black;
 }
 
-.result-display {
+.chat-scroll-pane > .viewport {
+   -fx-background-color: transparent;
+}
+
+.chat-scroll-pane {
     -fx-background-color: transparent;
     -fx-font-family: "Segoe UI Light";
-    -fx-font-size: 13pt;
+    -fx-font-size: 32pt;
     -fx-text-fill: white;
 }
 
-.result-display .label {
-    -fx-text-fill: black !important;
+.chat-panel {
+    -fx-background-color: transparent;
+    -fx-font-family: "Segoe UI Light";
+    -fx-font-size: 32pt;
+    -fx-text-fill: white;
+    -fx-padding: 50 25 50 25;
+}
+
+.chat-panel .label {
+    -fx-text-fill: white;
+    -fx-background-color: red;
+    -fx-border-radius: 5;
+    -fx-padding: 5 10 5 10;
+    -fx-background-radius: 5;
 }
 
 .status-bar .label {
@@ -329,11 +345,6 @@
 
 #filterField, #personListPanel, #personWebpage {
     -fx-effect: innershadow(gaussian, black, 10, 0, 0, 0);
-}
-
-#resultDisplay .content {
-    -fx-background-color: transparent, #383838, transparent, #383838;
-    -fx-background-radius: 0;
 }
 
 #profilePane {
