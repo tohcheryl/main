@@ -27,13 +27,15 @@ public class PriceTest {
         // null price
         Assert.assertThrows(NullPointerException.class, () -> Price.isValidPrice(null));
 
-        // invalid prices in US
+        // invalid prices
         assertFalse(Price.isValidPrice("12a.45"));
         assertFalse(Price.isValidPrice("$12a.45"));
         assertFalse(Price.isValidPrice("$1.p0"));
         assertFalse(Price.isValidPrice("203$0"));
         assertFalse(Price.isValidPrice("10$"));
         assertFalse(Price.isValidPrice("12.40$"));
+        assertFalse(Price.isValidPrice("€2,0"));
+        assertFalse(Price.isValidPrice("20000¥"));
 
         // valid prices in US
         assertTrue(Price.isValidPrice("$20"));

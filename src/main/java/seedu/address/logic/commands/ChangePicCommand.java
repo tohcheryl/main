@@ -20,6 +20,8 @@ public class ChangePicCommand extends Command {
 
     public static final String MESSAGE_PIC_CHANGED_ACKNOWLEDGEMENT = "Profile picture has been changed!";
 
+    public static final String MESSAGE_PIC_CHANGED_FAILURE = "Unable to set profile picture";
+
     /**
      * Selects a profile picture
      */
@@ -37,8 +39,8 @@ public class ChangePicCommand extends Command {
         File selectedFile = selectProfilePic();
         try {
             FileUtils.copyFile(selectedFile, outputFile);
-        } catch (IOException e) {
-            throw new CommandException("Unable to save profile picture");
+        } catch (IOException | NullPointerException e) {
+            throw new CommandException(MESSAGE_PIC_CHANGED_FAILURE);
         }
         EventsCenter.getInstance().post(new ProfilePictureChangedEvent());
         return new CommandResult(MESSAGE_PIC_CHANGED_ACKNOWLEDGEMENT);
