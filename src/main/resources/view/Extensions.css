@@ -5,17 +5,17 @@
 
 .result-error {
     -fx-text-fill: white !important;
-    -fx-background-color: red !important;
+    -fx-background-color: #E72564 !important;
 }
 
 .result-success {
     -fx-text-fill: white !important;
-    -fx-background-color: green !important;
+    -fx-background-color: #159587 !important;
 }
 
 .user-label {
     -fx-text-fill: white !important;
-    -fx-background-color: blue !important;
+    -fx-background-color: #1FBCD3 !important;
 }
 
 .list-cell:empty {
