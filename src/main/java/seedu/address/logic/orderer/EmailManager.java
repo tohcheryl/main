@@ -38,9 +38,9 @@ public class EmailManager {
     private static final String PROPERTY_PORT_HEADER = "mail.smtp.port";
     private static final String PROPERTY_PORT = "587";
 
-    private final String username = "hackeatapp@gmail.com";
-    private final String password = "hackeater";
-    private final String from = username;
+    private static final String USERNAME = "hackeatapp@gmail.com";
+    private static final String PASSWORD = "hackeater";
+    private static final String FROM = USERNAME;
 
     private Session session;
 
@@ -81,7 +81,7 @@ public class EmailManager {
         session = Session.getInstance(props,
                 new javax.mail.Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(username, password);
+                        return new PasswordAuthentication(USERNAME, PASSWORD);
                     }
                 });
     }
@@ -92,7 +92,7 @@ public class EmailManager {
     private void sendEmail() throws MessagingException {
 
         MimeMessage message = new MimeMessage(session);
-        message.setFrom(new InternetAddress(from));
+        message.setFrom(new InternetAddress(FROM));
         message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
         message.setSubject(String.format(SUBJECT_LINE, orderId));
         message.setContent(buildContent(), EMAIL_CONTENT_MODE);
