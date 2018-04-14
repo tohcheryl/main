@@ -7,6 +7,7 @@ import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.Command;
+import seedu.address.logic.commands.Prompt;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.ParserUtil;
 import seedu.address.model.food.Address;
@@ -27,10 +28,10 @@ public class SessionAddCommand extends Session {
 
     protected Name name;
     protected Phone phone;
-    protected Email email;
-    protected Address address;
-    protected Price price;
-    protected Rating rating;
+    protected Email email = new Email(Email.DEFAULT_EMAIL);
+    protected Address address = new Address(Address.DEFAULT_ADDRESS);
+    protected Price price = new Price(Price.DEFAULT_PRICE);
+    protected Rating rating = new Rating(Rating.DEFAULT_RATING);
     protected Set<Tag> tagSet;
     protected Set<Allergy> allergySet;
 
@@ -78,20 +79,16 @@ public class SessionAddCommand extends Session {
             phone = ParserUtil.parsePhone(Optional.of(userInput)).get();
             break;
         case "Email":
-            email = ParserUtil.parseEmail(Optional.of(userInput))
-                    .orElse(new Email(Email.DEFAULT_EMAIL));
+            email = ParserUtil.parseEmail(Optional.of(userInput)).get();
             break;
         case "Address":
-            address = ParserUtil.parseAddress(Optional.of(userInput))
-                      .orElse(new Address(Address.DEFAULT_ADDRESS));
+            address = ParserUtil.parseAddress(Optional.of(userInput)).get();
             break;
         case "Price":
-            price = ParserUtil.parsePrice(Optional.of(userInput))
-                    .orElse(new Price(Price.DEFAULT_PRICE));
+            price = ParserUtil.parsePrice(Optional.of(userInput)).get();
             break;
         case "Rating":
-            rating = ParserUtil.parseRating(Optional.of(userInput))
-                     .orElse(new Rating(Rating.DEFAULT_RATING));
+            rating = ParserUtil.parseRating(Optional.of(userInput)).get();
             break;
         default:
             throw new IllegalArgumentException();
