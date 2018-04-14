@@ -644,6 +644,7 @@ that delights our users.
 
 ==== How
 The chat UI consists of the following set of nested JavaFX components, displayed in the object diagram below.
+
 image::object-diagram-chat-ui.png[width="600"]
 
 // end::chat[]
