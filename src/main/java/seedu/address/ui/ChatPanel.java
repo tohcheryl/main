@@ -22,14 +22,16 @@ public class ChatPanel extends UiPart<Region> {
     private final Logger logger = LogsCenter.getLogger(ChatPanel.class);
 
     @FXML
-    private ScrollPane scrollPane;
+    private ScrollPane chatScrollPane;
 
     @FXML
     private VBox chatPanel;
 
     public ChatPanel() {
         super(FXML);
-        scrollPane.setFitToWidth(true);
+        chatScrollPane.setContent(chatPanel);
+        chatScrollPane.setFitToWidth(true);
+        chatScrollPane.vvalueProperty().bind(chatPanel.heightProperty());
         chatPanel.setSpacing(SPACING);
         registerAsAnEventHandler(this);
     }
