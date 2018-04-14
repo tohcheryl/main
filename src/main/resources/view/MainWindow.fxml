@@ -57,11 +57,12 @@
             </StackPane>
           </VBox>
 
-          <StackPane fx:id="userProfilePlaceholder" prefWidth="300" maxWidth="300">
+          <VBox fx:id="userProfilePanel" minWidth="200" prefWidth="200" maxWidth="300" SplitPane.resizableWithParent="false">
             <padding>
               <Insets top="10" right="10" bottom="10" left="10"/>
             </padding>
-          </StackPane>
+            <StackPane fx:id="userProfilePlaceholder" VBox.vgrow="ALWAYS"/>
+          </VBox>
 
         </SplitPane>
 
