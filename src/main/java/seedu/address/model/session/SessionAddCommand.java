@@ -63,14 +63,14 @@ public class SessionAddCommand extends Session {
     /**
      * Parses the {@code userInput} for a specific {@code field}
      *
-     * @param field class used to parse the {@code userInput}
-     * @param userInput test input from the user
-     * @throws IllegalValueException parsing of {@code userInput} causes an error
-     * @throws IllegalArgumentException {@code field} is not allowed
+     * @param classObj Class used to parse the {@code userInput}
+     * @param userInput Test input from the user
+     * @throws IllegalValueException If parsing of {@code userInput} causes an error
+     * @throws IllegalArgumentException If {@code classObj} is not allowed
      */
-    public void parseInputForField(Class field, String userInput)
+    public void parseInputForField(Class classObj, String userInput)
             throws IllegalValueException, IllegalArgumentException {
-        switch (field.getSimpleName()) {
+        switch (classObj.getSimpleName()) {
         case "Name":
             name = ParserUtil.parseName(Optional.of(userInput)).get();
             break;
