@@ -10,7 +10,7 @@ import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.events.ui.ProfilePictureChangedEvent;
 import seedu.address.logic.commands.exceptions.CommandException;
 
-//@@author {tohcheryl}
+//@@author tohcheryl
 /**
  * Changes the profile picture of the user
  */

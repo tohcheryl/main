@@ -15,11 +15,14 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.ui.NewResultAvailableEvent;
 import seedu.address.commons.events.ui.NewUserMessageAvailableEvent;
 
+//@@author jaxony
 /**
  * Panel containing the chat history.
  */
 public class ChatPanel extends UiPart<Region> {
     private static final int SPACING = 10;
+    private static final double WIDTH_DIVISOR = 4.0;
+    private static final double WIDTH_MULTIPLIER = 3.0;
     private static final String RESULT_ERROR_STYLE = "result-error";
     private static final String RESULT_SUCCESS_STYLE = "result-success";
     private static final String USER_LABEL_STYLE = "user-label";
@@ -60,7 +63,8 @@ public class ChatPanel extends UiPart<Region> {
      */
     private Label createLabel(String message, String styleClassName) {
         Label label = new Label(message);
-        label.maxWidthProperty().bind(chatPanel.widthProperty().divide(4).multiply(3));
+        label.maxWidthProperty().bind(chatPanel.widthProperty()
+                .multiply(WIDTH_MULTIPLIER).divide(WIDTH_DIVISOR));
         label.setWrapText(true);
         label.getStyleClass().add(styleClassName);
         return label;

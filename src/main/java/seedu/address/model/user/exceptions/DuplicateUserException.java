@@ -2,7 +2,7 @@ package seedu.address.model.user.exceptions;
 
 import seedu.address.commons.exceptions.DuplicateDataException;
 
-//@author {tohcheryl}
+//@@author tohcheryl
 /**
  * Signals that the operation will result in duplicate Food objects.
  */

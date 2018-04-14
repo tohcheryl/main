@@ -154,7 +154,7 @@ public class CommandTestUtil {
         }
     }
 
-    //@@author {tohcheryl}
+    //@@author tohcheryl
     /**
      * Executes the given {@code command} and confirms that <br>
      * - a {@code CommandException} is thrown <br>

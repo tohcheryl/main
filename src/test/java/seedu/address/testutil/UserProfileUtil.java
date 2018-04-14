@@ -8,7 +8,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import seedu.address.logic.commands.UserConfigCommand;
 import seedu.address.model.user.UserProfile;
 
-//@@author {tohcheryl}
+//@@author tohcheryl
 /**
  * A utility class for UserProfile.
  */

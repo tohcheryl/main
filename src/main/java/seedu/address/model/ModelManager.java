@@ -63,7 +63,7 @@ public class ModelManager extends ComponentManager implements Model {
         return addressBook;
     }
 
-    //@@author {tohcheryl}
+    //@@author tohcheryl
     @Override
     public UserProfile getUserProfile() throws NullPointerException {
         return addressBook.getUserProfile();
@@ -94,7 +94,7 @@ public class ModelManager extends ComponentManager implements Model {
         indicateAddressBookChanged();
     }
 
-    //@@author {jaxony}
+    //@@author jaxony
     @Override
     public void updateUserProfile(UserProfile toAdd) throws DuplicateUserException {
         addressBook.updateUserProfile(toAdd);

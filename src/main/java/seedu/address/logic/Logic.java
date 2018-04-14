@@ -26,7 +26,7 @@ public interface Logic {
     /** Returns the list of input entered by the user, encapsulated in a {@code ListElementPointer} object */
     ListElementPointer getHistorySnapshot();
 
-    //@@author {jaxony}
+    //@@author jaxony
     /**
      * Creates a new Session for chat-like interaction with system.
      * @param userInput Text input from user.

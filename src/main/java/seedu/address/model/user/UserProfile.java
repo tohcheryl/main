@@ -10,7 +10,7 @@ import seedu.address.model.food.Phone;
 import seedu.address.model.food.allergy.Allergy;
 import seedu.address.model.food.allergy.UniqueAllergyList;
 
-//@@author {jaxony}
+//@@author jaxony
 /**
  * Represents the profile of the HackEat user and contains
  * personal information such as name, phone and physical address.
@@ -35,7 +35,7 @@ public class UserProfile {
         this.allergies = new UniqueAllergyList(allergies);
     }
 
-    //@@author {jaxony}
+    //@@author jaxony
     public Name getName() {
         return name;
     }
@@ -57,7 +57,7 @@ public class UserProfile {
     }
 
 
-    //@@author {jaxony}
+    //@@author jaxony
     @Override
     public boolean equals(Object other) {
         if (other == this) {

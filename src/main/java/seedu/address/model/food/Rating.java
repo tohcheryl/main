@@ -3,7 +3,7 @@ package seedu.address.model.food;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
-//@@author {samzx}
+//@@author samzx
 
 /**
  * Represents a Food's rating in HackEat.
@@ -19,6 +19,7 @@ public class Rating {
      * User must enter only a single digit.
      */
     public static final String RATING_VALIDATION_REGEX = "\\b\\d\\b";
+    public static final String CLASS_NAME = "Rating";
 
     public final String value;
 

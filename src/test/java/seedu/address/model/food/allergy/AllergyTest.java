@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import seedu.address.testutil.Assert;
 
-//@@author {tohcheryl}
+//@@author tohcheryl
 public class AllergyTest {
 
     @Test

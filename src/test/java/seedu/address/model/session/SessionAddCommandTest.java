@@ -22,7 +22,7 @@ import seedu.address.model.food.allergy.Allergy;
 import seedu.address.model.tag.Tag;
 import seedu.address.testutil.TypicalFoods;
 
-//@@author {jaxony}
+//@@author jaxony
 public class SessionAddCommandTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -30,37 +30,37 @@ public class SessionAddCommandTest {
     @Test
     public void parseInputForField_name_success() throws IllegalArgumentException, IllegalValueException {
         SessionAddCommand session = new SessionAddCommand(new AddCommand(null), null);
-        session.parseInputForField(Name.class, "Some Name");
+        session.parseInputForField(Name.CLASS_NAME, "Some Name");
     }
 
     @Test
     public void parseInputForField_address_success() throws IllegalArgumentException, IllegalValueException {
         SessionAddCommand session = new SessionAddCommand(new AddCommand(null), null);
-        session.parseInputForField(Address.class, "Some Address");
+        session.parseInputForField(Address.CLASS_NAME, "Some Address");
     }
 
     @Test
     public void parseInputForField_phone_success() throws IllegalArgumentException, IllegalValueException {
         SessionAddCommand session = new SessionAddCommand(new AddCommand(null), null);
-        session.parseInputForField(Phone.class, "123124913");
+        session.parseInputForField(Phone.CLASS_NAME, "123124913");
     }
 
     @Test
     public void parseInputForField_email_success() throws IllegalArgumentException, IllegalValueException {
         SessionAddCommand session = new SessionAddCommand(new AddCommand(null), null);
-        session.parseInputForField(Email.class, "email@email.com");
+        session.parseInputForField(Email.CLASS_NAME, "email@email.com");
     }
 
     @Test
     public void parseInputForField_price_success() throws IllegalArgumentException, IllegalValueException {
         SessionAddCommand session = new SessionAddCommand(new AddCommand(null), null);
-        session.parseInputForField(Price.class, "12");
+        session.parseInputForField(Price.CLASS_NAME, "12");
     }
 
     @Test
     public void parseInputForField_rating_success() throws IllegalArgumentException, IllegalValueException {
         SessionAddCommand session = new SessionAddCommand(new AddCommand(null), null);
-        session.parseInputForField(Rating.class, "5");
+        session.parseInputForField(Rating.CLASS_NAME, "5");
     }
 
     @Test
@@ -68,19 +68,19 @@ public class SessionAddCommandTest {
             throws IllegalArgumentException, IllegalValueException {
         thrown.expect(IllegalArgumentException.class);
         SessionAddCommand session = new SessionAddCommand(new AddCommand(null), null);
-        session.parseInputForField(String.class, "Some Input");
+        session.parseInputForField(String.class.getName(), "Some Input");
     }
 
     @Test
     public void parseInputForMultivaluedField_tag_success() throws IllegalValueException {
         SessionAddCommandStub session = new SessionAddCommandStub(new AddCommand(null), null);
-        session.parseInputForMultivaluedField(Tag.class);
+        session.parseInputForMultivaluedField(Tag.CLASS_NAME);
     }
 
     @Test
     public void parseInputForMultivaluedField_allergy_success() throws IllegalValueException {
         SessionAddCommandStub session = new SessionAddCommandStub(new AddCommand(null), null);
-        session.parseInputForMultivaluedField(Allergy.class);
+        session.parseInputForMultivaluedField(Allergy.CLASS_NAME);
     }
 
     @Test
@@ -88,7 +88,7 @@ public class SessionAddCommandTest {
             throws IllegalArgumentException, IllegalValueException {
         thrown.expect(IllegalArgumentException.class);
         SessionAddCommandStub session = new SessionAddCommandStub(new AddCommand(null), null);
-        session.parseInputForMultivaluedField(String.class);
+        session.parseInputForMultivaluedField(String.class.getName());
     }
 
     @Test

@@ -36,14 +36,13 @@ public class LogicManager extends ComponentManager implements Logic {
     public CommandResult execute(String commandText) throws CommandException, ParseException {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
         try {
-            //@@author {jaxony}
+            //@@author jaxony
             CommandResult result;
             if (model.isUserInActiveSession()) {
                 logger.info("User is in an active session with the system.");
                 result = model.interpretInteractiveUserInput(commandText);
             } else if (isCommandInteractive(commandText)) {
                 logger.info("Command is interactive.");
-                // start a new session
                 createNewSession(commandText);
                 result = startSession();
             } else {
@@ -69,7 +68,7 @@ public class LogicManager extends ComponentManager implements Logic {
         return new ListElementPointer(history.getHistory());
     }
 
-    //@@author {jaxony}
+    //@@author jaxony
     @Override
     public void createNewSession(String userInput) throws IllegalArgumentException {
         Command interactiveCommand = addressBookParser.getCommand(userInput);
@@ -87,7 +86,7 @@ public class LogicManager extends ComponentManager implements Logic {
         return addressBookParser.isCommandInteractive(commandText);
     }
 
-    //@@author {tohcheryl}
+    //@@author tohcheryl
     @Override
     public ReadOnlyAddressBook getAddressBook() {
         return model.getAddressBook();

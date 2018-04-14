@@ -1,33 +1,33 @@
 package seedu.address.logic.commands;
 
-//@@author {jaxony}
+//@@author jaxony
 /**
- * Contains a message and an expected response class.
- * Used for interactive user input for {@code Command}s.
+ * Contains a field and an associated message that the system will send to the user
+ * for this field when interactively asking the user for input.
  */
 public class Prompt {
     public final boolean isMultiValued;
     public final boolean isOptional;
 
-    private Class field;
-    private String message;
+    private final String fieldName;
+    private final String message;
 
-    public Prompt(Class field, String message, boolean isMultiValued, boolean isOptional) {
-        this.field = field;
+    public Prompt(String fieldName, String message, boolean isMultiValued, boolean isOptional) {
+        this.fieldName = fieldName;
         this.message = message;
         this.isMultiValued = isMultiValued;
         this.isOptional = isOptional;
     }
 
-    public Prompt(Class field, String message, boolean isMultiValued) {
-        this.field = field;
+    public Prompt(String fieldName, String message, boolean isMultiValued) {
+        this.fieldName = fieldName;
         this.message = message;
         this.isMultiValued = isMultiValued;
         this.isOptional = false;
     }
 
-    public Class getField() {
-        return field;
+    public String getFieldName() {
+        return fieldName;
     }
 
     public String getMessage() {

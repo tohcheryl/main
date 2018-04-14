@@ -12,6 +12,7 @@ public class Allergy {
     public static final String MESSAGE_ALLERGY_CONSTRAINTS = "Allergy names should be alphanumeric and"
             + " should have at most 20 characters";
     public static final String ALLERGY_VALIDATION_REGEX = "\\p{Alnum}+";
+    public static final String CLASS_NAME = "Allergy";
 
     public final String allergyName;
 

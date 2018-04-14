@@ -19,9 +19,9 @@ import seedu.address.model.food.Rating;
 import seedu.address.model.food.allergy.Allergy;
 import seedu.address.model.tag.Tag;
 
-//@@author {jaxony}
+//@@author jaxony
 /**
- * Session controlling the interaction for the AddCommand
+ * Controls the interaction for the interactive AddCommand
  */
 public class SessionAddCommand extends Session {
 
@@ -39,12 +39,12 @@ public class SessionAddCommand extends Session {
     }
 
     @Override
-    public void parseInputForMultivaluedField(Class field) throws IllegalValueException, IllegalArgumentException {
-        switch (field.getSimpleName()) {
-        case "Tag":
+    public void parseInputForMultivaluedField(String fieldName) throws IllegalValueException, IllegalArgumentException {
+        switch (fieldName) {
+        case Tag.CLASS_NAME:
             tagSet = ParserUtil.parseTags(stringBuffer);
             break;
-        case "Allergy":
+        case Allergy.CLASS_NAME:
             allergySet = ParserUtil.parseAllergies(stringBuffer);
             break;
         default:
@@ -61,32 +61,31 @@ public class SessionAddCommand extends Session {
     }
 
     /**
-     * Parses the {@code userInput} for a specific {@code field}
-     *
-     * @param classObj Class used to parse the {@code userInput}
-     * @param userInput Test input from the user
-     * @throws IllegalValueException If parsing of {@code userInput} causes an error
-     * @throws IllegalArgumentException If {@code classObj} is not allowed
+     * Parses the {@code userInput} for a specific field.
+     * @param fieldName Class name of the field that will be used to parse {@code userInput}
+     * @param userInput Test input from the user.
+     * @throws IllegalValueException If parsing of {@code userInput} causes an error.
+     * @throws IllegalArgumentException If {@code fieldName} is invalid.
      */
-    public void parseInputForField(Class classObj, String userInput)
+    public void parseInputForField(String fieldName, String userInput)
             throws IllegalValueException, IllegalArgumentException {
-        switch (classObj.getSimpleName()) {
-        case "Name":
+        switch (fieldName) {
+        case Name.CLASS_NAME:
             name = ParserUtil.parseName(Optional.of(userInput)).get();
             break;
-        case "Phone":
+        case Phone.CLASS_NAME:
             phone = ParserUtil.parsePhone(Optional.of(userInput)).get();
             break;
-        case "Email":
+        case Email.CLASS_NAME:
             email = ParserUtil.parseEmail(Optional.of(userInput)).get();
             break;
-        case "Address":
+        case Address.CLASS_NAME:
             address = ParserUtil.parseAddress(Optional.of(userInput)).get();
             break;
-        case "Price":
+        case Price.CLASS_NAME:
             price = ParserUtil.parsePrice(Optional.of(userInput)).get();
             break;
-        case "Rating":
+        case Rating.CLASS_NAME:
             rating = ParserUtil.parseRating(Optional.of(userInput)).get();
             break;
         default:

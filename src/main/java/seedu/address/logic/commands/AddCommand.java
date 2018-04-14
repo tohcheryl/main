@@ -56,16 +56,16 @@ public class AddCommand extends UndoableCommand {
     public static final String MESSAGE_SUCCESS = "New food added: %1$s";
     public static final String MESSAGE_DUPLICATE_FOOD = "This food already exists in HackEat";
 
-    //@@author {jaxony}
+    //@@author jaxony
     public static final List<Prompt> PROMPTS = Arrays.asList(
-            new Prompt(Name.class, "What's the food called?", false),
-            new Prompt(Phone.class, "Restaurant phone number?", false),
-            new Prompt(Email.class, "And their email?", false, true),
-            new Prompt(Address.class, "Where they located @ fam?", false, true),
-            new Prompt(Price.class, "$$$?", false, true),
-            new Prompt(Rating.class, "U rate or what?", false, true),
-            new Prompt(Tag.class, "Where those tags at?", true, true),
-            new Prompt(Allergy.class, "Does this food have any allergies?", true, true));
+            new Prompt(Name.CLASS_NAME, "What's the food called?", false),
+            new Prompt(Phone.CLASS_NAME, "Restaurant phone number?", false),
+            new Prompt(Email.CLASS_NAME, "And their email?", false, true),
+            new Prompt(Address.CLASS_NAME, "Where they located @ fam?", false, true),
+            new Prompt(Price.CLASS_NAME, "$$$?", false, true),
+            new Prompt(Rating.CLASS_NAME, "U rate or what?", false, true),
+            new Prompt(Tag.CLASS_NAME, "Where those tags at?", true, true),
+            new Prompt(Allergy.CLASS_NAME, "Does this food have any allergies?", true, true));
     //@@author
     private Food toAdd;
 
@@ -76,12 +76,12 @@ public class AddCommand extends UndoableCommand {
         toAdd = food;
     }
 
-    //@@author {jaxony}
+    //@@author jaxony
     @Override
     public List<Prompt> getPrompts() {
         return PROMPTS;
     }
-    //@author
+    //@@author
 
     @Override
     public CommandResult executeUndoableCommand() throws CommandException {
@@ -96,9 +96,9 @@ public class AddCommand extends UndoableCommand {
 
     }
 
-    //@@author {jaxony}
-    public void setFood(Food food) {
-        toAdd = food;
+    //@@author jaxony
+    public void setFood(Food foodToAdd) {
+        toAdd = foodToAdd;
     }
     //@@author
 

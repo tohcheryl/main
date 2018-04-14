@@ -43,7 +43,7 @@ public abstract class Command {
         this.model = model;
     }
 
-    //@@author {jaxony}
+    //@@author jaxony
     public List<Prompt> getPrompts() {
         return null;
     }

@@ -35,7 +35,7 @@ import seedu.address.model.user.UserProfile;
 import seedu.address.testutil.FoodBuilder;
 
 
-//@@author {samzx}
+//@@author samzx
 
 public class FoodSelectorTest {
     private static final String USER_NAME = "Alice";

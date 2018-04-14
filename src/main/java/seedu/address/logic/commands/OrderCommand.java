@@ -13,7 +13,7 @@ import seedu.address.logic.orderer.OrderManager;
 import seedu.address.model.food.Food;
 import seedu.address.model.food.allergy.Allergy;
 
-//@@author {samzx}
+//@@author samzx
 
 /**
  * Orders command which starts the selection and ordering food process in HackEat.

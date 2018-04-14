@@ -9,7 +9,7 @@ import org.junit.Test;
 import seedu.address.logic.commands.OrderCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
-//@@author {samzx}
+//@@author samzx
 
 public class OrderCommandParserTest {
     private static final String EMPTY_STRING = "";

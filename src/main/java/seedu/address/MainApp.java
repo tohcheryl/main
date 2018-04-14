@@ -185,7 +185,7 @@ public class MainApp extends Application {
         return initializedPrefs;
     }
 
-    //@@author {tohcheryl}
+    //@@author tohcheryl
     /**
      * Creates new profilepic.png when app is first started
      */

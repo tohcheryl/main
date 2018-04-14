@@ -32,7 +32,7 @@ import seedu.address.model.food.Phone;
 import seedu.address.model.food.allergy.Allergy;
 import seedu.address.testutil.EditUserDescriptorBuilder;
 
-//@@author {tohcheryl}
+//@@author tohcheryl
 public class EditUserCommandParserTest {
 
     private static final String ALLERGY_EMPTY = " " + PREFIX_ALLERGIES;
