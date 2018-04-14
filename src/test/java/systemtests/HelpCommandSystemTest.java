@@ -34,7 +34,7 @@ public class HelpCommandSystemTest extends AddressBookSystemTest {
         getMainMenu().openHelpWindowUsingAccelerator();
         assertHelpWindowOpen();
 
-        getResultDisplay().click();
+        getChatPanel().click();
         getMainMenu().openHelpWindowUsingAccelerator();
         assertHelpWindowOpen();
 
@@ -58,7 +58,7 @@ public class HelpCommandSystemTest extends AddressBookSystemTest {
         executeCommand(SelectCommand.COMMAND_WORD + " " + INDEX_FIRST_FOOD.getOneBased());
         assertEquals("", getCommandBox().getInput());
         assertCommandBoxShowsDefaultStyle();
-        assertNotEquals(HelpCommand.SHOWING_HELP_MESSAGE, getResultDisplay().getText());
+        assertNotEquals(HelpCommand.SHOWING_HELP_MESSAGE, getChatPanel().getText());
         assertListMatching(getFoodListPanel(), getModel().getFilteredFoodList());
 
         // assert that the status bar too is updated correctly while the help window is open
