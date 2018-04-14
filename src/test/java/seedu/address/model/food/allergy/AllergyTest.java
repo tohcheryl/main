@@ -13,7 +13,7 @@ public class AllergyTest {
     }
 
     @Test
-    public void constructor_invalidTagName_throwsIllegalArgumentException() {
+    public void constructor_invalidAllergyName_throwsIllegalArgumentException() {
         String invalidAllergyName = "";
         Assert.assertThrows(IllegalArgumentException.class, () -> new Allergy(invalidAllergyName));
     }
