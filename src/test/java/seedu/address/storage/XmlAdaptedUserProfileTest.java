@@ -17,7 +17,7 @@ import seedu.address.model.user.UserProfile;
 import seedu.address.testutil.Assert;
 import seedu.address.testutil.UserProfileBuilder;
 
-//@@author {tohcheryl}
+//@@author tohcheryl
 public class XmlAdaptedUserProfileTest {
     private static final String INVALID_NAME = "R@nch";
     private static final String INVALID_PHONE = "+651234";
