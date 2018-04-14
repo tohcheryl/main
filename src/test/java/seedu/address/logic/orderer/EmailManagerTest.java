@@ -27,7 +27,7 @@ public class EmailManagerTest {
     }
 
     @Test
-    public void email_withNoPassword_failure() {
+    public void email_execution_success() {
         EmailManager emailManager = new EmailManager(model.getUserProfile(),
                 model.getAddressBook().getFoodList().get(VALID_MODEL_FOOD_INDEX), VALID_UUID, VALID_MESSAGE);
         try {
