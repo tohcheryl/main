@@ -1310,3 +1310,20 @@ _{ more test cases ... }_
 ... `order 1`
 ... Your phone will ring from a international number. Pick up the phone, and follow the instructions (if applicable),
 then verify the message is correct.
+
+=== Editing a user profile
+. Updating the details of a user profile
+.. Prerequisite: A user profile should have been set up by default.
+.. Test case: `edituser n/Wei Wei` +
+   Expected: Only if your current profile name is not Wei Wei. +
+   Name of user profile will be updated to `Wei Wei`.
+.. Test case: `edituser alg/peanuts alg/chicken` +
+   Expected: Only if your current allergies are not peanuts and chicken. +
+   Allergies of the user will be updated to include _only_ the two provided allergies.
+
+=== Changing of profile picture
+. Updating a profile picture
+.. Prerequisite: A default profile picture should have been set up.
+.. Test case: `changepic`
+   Expected: A file browser will pop up. Select a _square_ image. The user profile picture +
+   should be updated.
