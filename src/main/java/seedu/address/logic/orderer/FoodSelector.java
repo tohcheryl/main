@@ -20,6 +20,7 @@ import seedu.address.model.food.allergy.Allergy;
  * Selects food in HackEat if the user has not specified a specific food to order.
  */
 public class FoodSelector {
+    private static final float SCORE_BUFFER = 0.001f;
     /**
      * Selects an {@code Index} from a model based on the HackEat Algorithm
      * @param model of the program
@@ -89,8 +90,10 @@ public class FoodSelector {
         }
 
         score = 1;
-        score *= scoreFromRating(food.getRating());
-        score *= scoreFromPrice(food.getPrice());
+        score *= scoreFromRating(food.getRating()) + SCORE_BUFFER;
+        score *= scoreFromPrice(food.getPrice()) + SCORE_BUFFER;
+
+        assert(score > 0);
 
         return score;
     }
