@@ -5,8 +5,10 @@ import java.util.logging.Logger;
 import com.google.common.eventbus.Subscribe;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import seedu.address.commons.core.LogsCenter;
@@ -40,13 +42,15 @@ public class ChatPanel extends UiPart<Region> {
     }
 
     /**
-     * Creates a label for a result message.
+     * Creates a result message.
      *
      * @param message      String message from system for user feedback.
      * @param isSuccessful If the message represents a successful one.
-     * @return A new javafx Label object.
+     * @return A new javafx HBox object.
      */
-    private Label createResultMessageLabel(String message, boolean isSuccessful) {
+    private HBox createResultMessage(String message, boolean isSuccessful) {
+        HBox hbox = new HBox();
+
         Label label = new Label(message);
         label.setWrapText(true);
         if (isSuccessful) {
@@ -54,7 +58,11 @@ public class ChatPanel extends UiPart<Region> {
         } else {
             label.getStyleClass().add(RESULT_ERROR_STYLE);
         }
-        return label;
+
+        hbox.setAlignment(Pos.CENTER_RIGHT);
+        hbox.getChildren().add(label);
+
+        return hbox;
     }
 
     /**
@@ -74,7 +82,7 @@ public class ChatPanel extends UiPart<Region> {
     @Subscribe
     private void handleNewResultAvailableEvent(NewResultAvailableEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
-        chatPanel.getChildren().add(createResultMessageLabel(event.message, event.isSuccessful));
+        chatPanel.getChildren().add(createResultMessage(event.message, event.isSuccessful));
     }
 
     @Subscribe
