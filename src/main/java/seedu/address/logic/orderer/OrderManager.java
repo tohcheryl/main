@@ -44,8 +44,8 @@ public class OrderManager {
     public void order() throws IOException, MessagingException {
         String message = createMessage();
 
-        Emailer emailer = new Emailer(user, toOrder, orderId, message);
-        emailer.email();
+        EmailManager emailManager = new EmailManager(user, toOrder, orderId, message);
+        emailManager.email();
 
         sendOrder(toOrder.getPhone().toString(), message);
     }

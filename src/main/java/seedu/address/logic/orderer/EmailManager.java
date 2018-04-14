@@ -23,7 +23,7 @@ import seedu.address.model.user.UserProfile;
 /**
  * Orders food in HackEat.
  */
-public class Emailer {
+public class EmailManager {
 
     public static final String EMAIL_CONTENT_MODE = "text/html";
 
@@ -50,7 +50,7 @@ public class Emailer {
     private String to;
     private String message;
 
-    public Emailer(UserProfile user, Food food, String orderId, String message) {
+    public EmailManager(UserProfile user, Food food, String orderId, String message) {
         this.user = user;
         this.toOrder = food;
         this.orderId = orderId;
