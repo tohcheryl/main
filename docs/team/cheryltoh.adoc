@@ -39,7 +39,8 @@ app. Having a profile picture is the first step to achieving this.
 *** Wrote additional tests for existing features to increase coverage
 ** Community:
 *** Reported bugs and suggestions for other teams in the class
-
+** Tools:
+*** Set up Coveralls
 == Contributions to the User Guide
 
 
@@ -57,6 +58,6 @@ include::../UserGuide.adoc[tag=changepic]
 |_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
 |===
 
-include::../DeveloperGuide.adoc[tag=addshortcuts]
+include::../DeveloperGuide.adoc[tag=changepic]
 
-include::../DeveloperGuide.adoc[tag=dataencryption]
+include::../DeveloperGuide.adoc[tag=edituser]

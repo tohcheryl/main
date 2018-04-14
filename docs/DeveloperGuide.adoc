@@ -1,4 +1,4 @@
-= AddressBook Level 4 - Developer Guide
+= HackEat - Developer Guide
 :toc:
 :toc-title:
 :toc-placement: preamble
@@ -358,30 +358,6 @@ image::UndoRedoActivityDiagram.png[width="650"]
 ** Cons: Requires dealing with commands that have already been undone: We must remember to skip these commands. Violates Single Responsibility Principle and Separation of Concerns as `HistoryManager` now needs to do two * different things.
 // end::undoredo[]
 
-// tag::addshortcuts[]
-=== [V2.0] Add Shortcuts
-==== Proposed Implementation
-A new Command class `AddShortcutCommand` will be created. A `Shortcut` class will be added to Model. An ArrayList of Commands that is linked to a particular shortcut will be saved. Every `Person` object will have a HashMap which stores the different Shortcuts they have created.
-
-Suppose that a user has just launched the application. The user decides to create a new shortcut for ordering his favorite food. He will type in `mksc orderfave` and he will then be prompted to type in the commands that he would like to associate with that particular shortcut, for e.g. `find butter, order 1`.
-The sequence of commands he has typed in will be stored in a `List`. The `List`, together with the name of the shortcut will then be stored in a `HashMap` as part of the attributes of the `Person` class.
-
-image::UpdatedLogicCommandClassDiagram.png[width="800"]
-==== Design Considerations
-
-===== Aspect: Whether to make AddShortcut undoable
-
-* **Alternative 1:** Make it undoable
-** Pros: Provides user with greater flexibility
-
-** Cons: Harder to implement
-
-* **Alternative 2:** Do not make it undoable
-** Pros: Easier to implement
-
-** Cons: Less user friendly
-// end::addshortcuts[]
-
 // tag::userconfig[]
 === Configuring the User Profile
 ==== Motivation
@@ -398,6 +374,7 @@ In order to support the user profile, a new package was created under the `Model
 Inside it contains a `UserProfile` class, which holds the app state of the user's profile. `Allergy` is also a new object
 in HackEat, and so an `Allergy` class was created in a new `allergy` package of the `Model` component. In order to support
 multiple allergies for a single user, a `UniqueAllergyList` was also created under the same package.
+
 image::model-component-with-user-profile.png[width="600"]
 
 ==== Saving to Storage
@@ -427,13 +404,6 @@ profile to the application. Separating add and update functionalities works for 
 additional complexity is unnecessary.
 // end::userconfig[]
 
-// tag::dataencryption[]
-=== [Proposed] Data Encryption
-
-_{Explain here how the data encryption feature will be implemented}_
-
-// end::dataencryption[]
-
 === Logging
 
 We are using `java.util.logging` package for logging. The `LogsCenter` class is used to manage the logging levels and logging destinations.
@@ -453,6 +423,77 @@ We are using `java.util.logging` package for logging. The `LogsCenter` class is 
 === Configuration
 
 Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: `config.json`).
+
+// tag::changepic[]
+=== Changing of Profile Picture
+
+==== Motivation
+Allowing a user to change his/her profile picture is the first step to making his/her experience
+with HackEat a personalized one.
+
+==== Current Implementation
+A default profile picture is downloaded from the Internet when HackEat is first started and this is
+stored in the same directory as the jar file.
+When the command is called, the user selects an appropriate image.
+The image overwrites the existing profile picture.
+An event is then raised and this causes the image displayed to change.
+
+==== Design Considerations
+
+===== Aspect: Saving the picture
+* **Alternative 1:** Saving it in HackEat as a Base64 encoded String
+** Pros: It was more intuitive to store the picture together with the user profile in HackEat.
+
+** Cons: Because of the length of the Base64 encoded string, it makes the xml file
+very clunky.
+
+* **Alternative 2 (Current choice):** Save it as an image file in the same directory as the jar file.
+** Pros: More direct and easier to implement.
+
+** Cons: Restricts this application to a single user.
+
+* **Alternative 3:** Save the file path in the user profile
+** Pros: It was more intuitive to store the file path in the user profile.
+
+** Cons: More tedious than Alternative 2 as a new field would have to be added to the user profile.
+Since our app is targeted only at a user i.e. the person who installs and sets up HackEat on his computer,
+ such an implementation was unnecessary and Alternative 2 was chosen instead.
+
+// end::changepic[]
+
+// tag::edituser[]
+=== Editing of profile details
+
+==== Motivation
+Allows a user to update their details easily without having to provide all the compulsory details again.
+
+==== Current Implementation
+image::EditUserSequenceDiagramLogic.png[width="600"]
+. Upon parsing of an `EditUserCommand`, an `EditUserDescriptor` object is created.
+. The attribute values of this object will then be set to the edited values.
+. The `EditUserDescriptor` object will be passed as an argument to the constructor of the `EditUserCommand`.
+. The `EditUserCommand` is then preprocessed.
+.. The existing user profile is retrieved.
+.. Based on the attributes which have been set in the `EditUserDescriptor` object, a new `UserProfile`
+object with the updated attribute values is created.
+. The new `UserProfile` is then passed to `model`.
+. `model` then updates the user profile of HackEat.
+. This causes an event to be raised which then causes HackEat to be saved to persistent storage.
+
+==== Design Considerations
+
+===== Aspect: Setting a user's details
+* **Alternative 1:** Modifying the user details directly from Logic
+** Pros: It was more direct to change the details immediately from the Logic Component.
+
+** Cons: It can result in increased coupling among the classes.
+
+* **Alternative 2 (Current choice):** Creation of a new EditUserDescriptor object
+
+** Pros: A cleaner implementation where there is less coupling.
+
+** Cons: On first sight, it seemed more tedious to implement.
+// end::edituser[]
 
 // tag::order[]
 === `order` command feature
