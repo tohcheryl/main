@@ -158,6 +158,13 @@
     -fx-text-fill: black !important;
 }
 
+.chat-scroll-pane {
+    -fx-background-color: transparent;
+    -fx-font-family: "Segoe UI Light";
+    -fx-font-size: 32pt;
+    -fx-text-fill: white;
+}
+
 .chat-panel {
     -fx-background-color: transparent;
     -fx-font-family: "Segoe UI Light";
