@@ -97,8 +97,8 @@ public class AddCommand extends UndoableCommand {
     }
 
     //@@author jaxony
-    public void setFood(Food food) {
-        toAdd = food;
+    public void setFood(Food foodToAdd) {
+        toAdd = foodToAdd;
     }
     //@@author
 
