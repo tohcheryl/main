@@ -43,39 +43,50 @@ public class ChatPanel extends UiPart<Region> {
 
     /**
      * Creates a result message.
-     *
      * @param message      String message from system for user feedback.
      * @param isSuccessful If the message represents a successful one.
-     * @return A new javafx HBox object.
+     * @return A new JavaFX HBox object.
      */
     private HBox createResultMessage(String message, boolean isSuccessful) {
-        HBox hbox = new HBox();
+        Label label = createLabel(message, isSuccessful ? RESULT_SUCCESS_STYLE : RESULT_ERROR_STYLE);
+        return createHBox(label, Pos.CENTER_LEFT);
+    }
 
+    /**
+     * Creates a JavaFX label from a message and style class name.
+     * @param message String message to add to label.
+     * @param styleClassName String name of CSS class for the label.
+     * @return New JavaFX Label object.
+     */
+    private Label createLabel(String message, String styleClassName) {
         Label label = new Label(message);
+        label.maxWidthProperty().bind(chatPanel.widthProperty().divide(4).multiply(3));
         label.setWrapText(true);
-        if (isSuccessful) {
-            label.getStyleClass().add(RESULT_SUCCESS_STYLE);
-        } else {
-            label.getStyleClass().add(RESULT_ERROR_STYLE);
-        }
+        label.getStyleClass().add(styleClassName);
+        return label;
+    }
 
-        hbox.setAlignment(Pos.CENTER_RIGHT);
+    /**
+     * Creates a HBox object with a specific label and alignment.
+     * @param label JavaFX Label object to contain inside HBox.
+     * @param alignment Pos constant specifying where to display contents of HBox.
+     * @return New HBox object.
+     */
+    private HBox createHBox(Label label, Pos alignment) {
+        HBox hbox = new HBox();
+        hbox.setAlignment(alignment);
         hbox.getChildren().add(label);
-
         return hbox;
     }
 
     /**
-     * Creates a label for a user message.
-     *
+     * Creates a user message.
      * @param message String message from user to the system.
-     * @return A new javafx Label object.
+     * @return A new JavaFX HBox object.
      */
-    private Label createUserMessageLabel(String message) {
-        Label label = new Label(message);
-        label.setWrapText(true);
-        label.getStyleClass().add(USER_LABEL_STYLE);
-        return label;
+    private HBox createUserMessage(String message) {
+        Label label = createLabel(message, USER_LABEL_STYLE);
+        return createHBox(label, Pos.CENTER_RIGHT);
     }
 
 
@@ -88,7 +99,7 @@ public class ChatPanel extends UiPart<Region> {
     @Subscribe
     private void handleNewUserMessageEvent(NewUserMessageAvailableEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
-        chatPanel.getChildren().add(createUserMessageLabel(event.message));
+        chatPanel.getChildren().add(createUserMessage(event.message));
     }
 
 }
