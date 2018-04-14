@@ -57,7 +57,7 @@
             </StackPane>
           </VBox>
 
-          <VBox fx:id="userProfilePanel" minWidth="200" prefWidth="200" maxWidth="300" SplitPane.resizableWithParent="false">
+          <VBox fx:id="userProfilePanel" minWidth="250" prefWidth="250" maxWidth="250" SplitPane.resizableWithParent="false">
             <padding>
               <Insets top="10" right="10" bottom="10" left="10"/>
             </padding>

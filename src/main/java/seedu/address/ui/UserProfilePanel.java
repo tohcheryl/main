@@ -7,6 +7,7 @@ import com.google.common.eventbus.Subscribe;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelReader;
@@ -38,6 +39,9 @@ public class UserProfilePanel extends UiPart<Region> {
     private ReadOnlyAddressBook addressBook;
 
     @FXML
+    private ScrollPane profilePane;
+
+    @FXML
     private ImageView profilepic;
 
     @FXML
@@ -55,6 +59,10 @@ public class UserProfilePanel extends UiPart<Region> {
     public UserProfilePanel(ReadOnlyAddressBook addressBook) {
         super(FXML);
         this.addressBook = addressBook;
+        profilePane.setFitToWidth(true);
+        profilePane.setFitToHeight(true);
+        profilePane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        profilePane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         name.setWrapText(true);
         phone.setWrapText(true);
         address.setWrapText(true);
