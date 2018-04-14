@@ -60,10 +60,10 @@ public class AddCommand extends UndoableCommand {
     public static final List<Prompt> PROMPTS = Arrays.asList(
             new Prompt(Name.class, "What's the food called?", false),
             new Prompt(Phone.class, "Restaurant phone number?", false),
-            new Prompt(Email.class, "And their email?", false),
-            new Prompt(Address.class, "Where they located @ fam?", false),
-            new Prompt(Price.class, "$$$?", false),
-            new Prompt(Rating.class, "U rate or what?", false),
+            new Prompt(Email.class, "And their email?", false, true),
+            new Prompt(Address.class, "Where they located @ fam?", false, true),
+            new Prompt(Price.class, "$$$?", false, true),
+            new Prompt(Rating.class, "U rate or what?", false, true),
             new Prompt(Tag.class, "Where those tags at?", true, true),
             new Prompt(Allergy.class, "Does this food have any allergies?", true, true));
     //@@author

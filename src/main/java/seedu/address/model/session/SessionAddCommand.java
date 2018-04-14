@@ -27,10 +27,10 @@ public class SessionAddCommand extends Session {
 
     protected Name name;
     protected Phone phone;
-    protected Email email;
-    protected Address address;
-    protected Price price;
-    protected Rating rating;
+    protected Email email = new Email(Email.DEFAULT_EMAIL);
+    protected Address address = new Address(Address.DEFAULT_ADDRESS);
+    protected Price price = new Price(Price.DEFAULT_PRICE);
+    protected Rating rating = new Rating(Rating.DEFAULT_RATING);
     protected Set<Tag> tagSet;
     protected Set<Allergy> allergySet;
 
@@ -63,14 +63,14 @@ public class SessionAddCommand extends Session {
     /**
      * Parses the {@code userInput} for a specific {@code field}
      *
-     * @param field class used to parse the {@code userInput}
-     * @param userInput test input from the user
-     * @throws IllegalValueException parsing of {@code userInput} causes an error
-     * @throws IllegalArgumentException {@code field} is not allowed
+     * @param classObj Class used to parse the {@code userInput}
+     * @param userInput Test input from the user
+     * @throws IllegalValueException If parsing of {@code userInput} causes an error
+     * @throws IllegalArgumentException If {@code classObj} is not allowed
      */
-    public void parseInputForField(Class field, String userInput)
+    public void parseInputForField(Class classObj, String userInput)
             throws IllegalValueException, IllegalArgumentException {
-        switch (field.getSimpleName()) {
+        switch (classObj.getSimpleName()) {
         case "Name":
             name = ParserUtil.parseName(Optional.of(userInput)).get();
             break;
@@ -78,20 +78,16 @@ public class SessionAddCommand extends Session {
             phone = ParserUtil.parsePhone(Optional.of(userInput)).get();
             break;
         case "Email":
-            email = ParserUtil.parseEmail(Optional.of(userInput))
-                    .orElse(new Email(Email.DEFAULT_EMAIL));
+            email = ParserUtil.parseEmail(Optional.of(userInput)).get();
             break;
         case "Address":
-            address = ParserUtil.parseAddress(Optional.of(userInput))
-                      .orElse(new Address(Address.DEFAULT_ADDRESS));
+            address = ParserUtil.parseAddress(Optional.of(userInput)).get();
             break;
         case "Price":
-            price = ParserUtil.parsePrice(Optional.of(userInput))
-                    .orElse(new Price(Price.DEFAULT_PRICE));
+            price = ParserUtil.parsePrice(Optional.of(userInput)).get();
             break;
         case "Rating":
-            rating = ParserUtil.parseRating(Optional.of(userInput))
-                     .orElse(new Rating(Rating.DEFAULT_RATING));
+            rating = ParserUtil.parseRating(Optional.of(userInput)).get();
             break;
         default:
             throw new IllegalArgumentException();

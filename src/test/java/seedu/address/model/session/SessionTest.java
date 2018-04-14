@@ -23,34 +23,35 @@ public class SessionTest {
     private static final String BACON_PRICE = TypicalFoods.BACON.getPrice().toString();
 
     private static final int INDEX_AFTER_NAME = 1;
-    private static final String SUCCESS_MESSAGE_AFTER_NAME =
-            AddCommand.PROMPTS.get(INDEX_AFTER_NAME).getMessage();
     private static final int INDEX_AFTER_PHONE = 2;
+    private static final int INDEX_AFTER_EMAIL = 3;
+    private static final int INDEX_AFTER_ADDRESS = 4;
+    private static final int INDEX_AFTER_PRICE = 5;
+    private static final int INDEX_AFTER_RATING = 6;
+    private static final int INDEX_AFTER_TAGS = 7;
+
+    private static final String SUCCESS_MESSAGE_AFTER_NAME =
+            Session.buildMessageFromPrompt(AddCommand.PROMPTS.get(INDEX_AFTER_NAME));
     private static final String FAILURE_MESSAGE_AFTER_WRONG_PHONE =
             Session.TRY_AGAIN_MESSAGE + Phone.MESSAGE_PHONE_CONSTRAINTS;
     private static final String SUCCESS_MESSAGE_AFTER_PHONE =
-            AddCommand.PROMPTS.get(INDEX_AFTER_PHONE).getMessage();
-    private static final int INDEX_AFTER_EMAIL = 3;
+            Session.buildMessageFromPrompt(AddCommand.PROMPTS.get(INDEX_AFTER_PHONE));
     private static final String SUCCESS_MESSAGE_AFTER_EMAIL =
-            AddCommand.PROMPTS.get(INDEX_AFTER_EMAIL).getMessage();
-    private static final int INDEX_AFTER_ADDRESS = 4;
+            Session.buildMessageFromPrompt(AddCommand.PROMPTS.get(INDEX_AFTER_EMAIL));
     private static final String SUCCESS_MESSAGE_AFTER_ADDRESS =
-            AddCommand.PROMPTS.get(INDEX_AFTER_ADDRESS).getMessage();
-    private static final int INDEX_AFTER_PRICE = 5;
+            Session.buildMessageFromPrompt(AddCommand.PROMPTS.get(INDEX_AFTER_ADDRESS));
     private static final String SUCCESS_MESSAGE_AFTER_PRICE =
-            AddCommand.PROMPTS.get(INDEX_AFTER_PRICE).getMessage();
-    private static final int INDEX_AFTER_RATING = 6;
+            Session.buildMessageFromPrompt(AddCommand.PROMPTS.get(INDEX_AFTER_PRICE));
     private static final String SUCCESS_MESSAGE_AFTER_RATING =
-            AddCommand.PROMPTS.get(INDEX_AFTER_RATING).getMessage() + " " + Session.OPTIONAL_MESSAGE;
+            Session.buildMessageFromPrompt(AddCommand.PROMPTS.get(INDEX_AFTER_RATING));
 
     private static final String SUCCESS_MESSAGE_AFTER_FIRST_TAG =
             Session.ANYTHING_ELSE_MESSAGE;
     private static final String SUCCESS_MESSAGE_AFTER_SECOND_TAG =
             Session.ANYTHING_ELSE_MESSAGE;
 
-    private static final int INDEX_AFTER_TAGS = 7;
     private static final String SUCCESS_MESSAGE_AFTER_TAGS =
-            AddCommand.PROMPTS.get(INDEX_AFTER_TAGS).getMessage() + " " + Session.OPTIONAL_MESSAGE;
+            Session.buildMessageFromPrompt(AddCommand.PROMPTS.get(INDEX_AFTER_TAGS));
 
     private static final String SUCCESS_MESSAGE_AFTER_FIRST_ALLERGY =
             Session.ANYTHING_ELSE_MESSAGE;
@@ -58,8 +59,6 @@ public class SessionTest {
 
     @Test
     public void interpretUserInput_success() throws CommandException {
-        // Session class is abstract so need to use a subclass
-        // to test non-abstract methods in Session
         Session session = new SessionAddCommandStub(new AddCommand(null), EventsCenter.getInstance());
         assertEquals(SUCCESS_MESSAGE_AFTER_NAME, session.interpretUserInput(BACON_NAME).feedbackToUser);
         assertEquals(FAILURE_MESSAGE_AFTER_WRONG_PHONE, session.interpretUserInput(BACON_WRONG_PHONE).feedbackToUser);
@@ -73,11 +72,28 @@ public class SessionTest {
         assertEquals(SUCCESS_MESSAGE_AFTER_FIRST_TAG, session.interpretUserInput("meat").feedbackToUser);
         assertEquals(SUCCESS_MESSAGE_AFTER_SECOND_TAG, session.interpretUserInput("other").feedbackToUser);
         assertEquals(SUCCESS_MESSAGE_AFTER_TAGS, session.interpretUserInput(
-                Session.END_MULTI_VALUE_FIELD).feedbackToUser);
+                Session.END_FIELD).feedbackToUser);
 
         // adding multi value fields
         assertEquals(SUCCESS_MESSAGE_AFTER_FIRST_ALLERGY, session.interpretUserInput("animals").feedbackToUser);
-        assertEquals(Session.SUCCESS_MESSAGE, session.interpretUserInput(Session.END_MULTI_VALUE_FIELD).feedbackToUser);
+        assertEquals(Session.SUCCESS_MESSAGE, session.interpretUserInput(Session.END_FIELD).feedbackToUser);
+    }
+
+    @Test
+    public void interpretUserInput_emptyOptionalFields_success() throws CommandException {
+        Session session = new SessionAddCommandStub(new AddCommand(null), EventsCenter.getInstance());
+        assertEquals(SUCCESS_MESSAGE_AFTER_NAME, session.interpretUserInput(BACON_NAME).feedbackToUser);
+        assertEquals(SUCCESS_MESSAGE_AFTER_PHONE, session.interpretUserInput(BACON_PHONE).feedbackToUser);
+        assertEquals(SUCCESS_MESSAGE_AFTER_EMAIL, session.interpretUserInput(Session.END_FIELD).feedbackToUser);
+        assertEquals(SUCCESS_MESSAGE_AFTER_ADDRESS, session.interpretUserInput(Session.END_FIELD).feedbackToUser);
+        assertEquals(SUCCESS_MESSAGE_AFTER_PRICE, session.interpretUserInput(Session.END_FIELD).feedbackToUser);
+        assertEquals(SUCCESS_MESSAGE_AFTER_RATING, session.interpretUserInput(Session.END_FIELD).feedbackToUser);
+
+        // skipping multi value fields
+        assertEquals(SUCCESS_MESSAGE_AFTER_TAGS, session.interpretUserInput(Session.END_FIELD).feedbackToUser);
+
+        // adding multi value fields
+        assertEquals(Session.SUCCESS_MESSAGE, session.interpretUserInput(Session.END_FIELD).feedbackToUser);
     }
 
     /**
