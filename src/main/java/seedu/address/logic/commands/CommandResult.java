@@ -8,9 +8,16 @@ import static java.util.Objects.requireNonNull;
 public class CommandResult {
 
     public final String feedbackToUser;
+    public final boolean isSuccessful;
 
     public CommandResult(String feedbackToUser) {
         this.feedbackToUser = requireNonNull(feedbackToUser);
+        isSuccessful = true;
+    }
+
+    public CommandResult(String feedbackToUser, boolean isSuccessful) {
+        this.feedbackToUser = requireNonNull(feedbackToUser);
+        this.isSuccessful = isSuccessful;
     }
 
 }
