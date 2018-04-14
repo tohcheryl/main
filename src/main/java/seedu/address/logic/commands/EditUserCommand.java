@@ -15,10 +15,8 @@ import java.util.Set;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.food.Address;
-import seedu.address.model.food.Food;
 import seedu.address.model.food.Name;
 import seedu.address.model.food.Phone;
-import seedu.address.model.food.UniqueFoodList;
 import seedu.address.model.food.allergy.Allergy;
 import seedu.address.model.user.UserProfile;
 import seedu.address.model.user.exceptions.DuplicateUserException;
@@ -91,8 +89,6 @@ public class EditUserCommand extends UndoableCommand {
         Set<Allergy> updatedAllergies = editUserDescriptor.getAllergies().orElse(userToEdit.getAllergies());
 
         UserProfile editedUser = new UserProfile(updatedName, updatedPhone, updatedAddress, updatedAllergies);
-        Set<Food> recentFoods = userToEdit.getRecentFoods();
-        editedUser.setRecentFoods(new UniqueFoodList(recentFoods));
         return editedUser;
     }
 
