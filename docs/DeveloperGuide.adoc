@@ -427,16 +427,30 @@ Certain properties of the application can be controlled (e.g App name, logging l
 // tag::changepic[]
 === Changing of Profile Picture
 
-==== Motivation
-Allowing a user to change his/her profile picture is the first step to making his/her experience
-with HackEat a personalized one.
+==== What
+The `changepic` command allows users to update their profile picture.
+
+==== Why
+As developers, we believe in creating applications that build connections with our target users. HackEat
+strives to achieve this by providing programmers with an option to spruce up the app a little by adding
+their own picture to it.
+
+==== How
+The `changepic` command triggers the opening of a new window which allows the user to easily select an image.
+This image is then saved locally and the UI is updated to reflect the change.
 
 ==== Current Implementation
-A default profile picture is downloaded from the Internet when HackEat is first started and this is
-stored in the same directory as the jar file.
-When the command is called, the user selects an appropriate image.
-The image overwrites the existing profile picture.
-An event is then raised and this causes the image displayed to change.
+image::EditUserSequenceDiagramLogic.PNG[width="600"]
+When HackEat is first launched, a default profile picture is downloaded from the Internet.
+As the default profile picture should be displayed when the application starts up, a
+`MainApp#initProfilePic` was created to ensure that the application displays the picture.
+This picture is stored locally on the same directory as the jar file.
+Should the user desire to change the profile picture, the `changepic` command can be utilised.
+When the command is executed, a window pops up and the user selects an appropriate image.
+The existing profile picture is overwritten by the newly selected image.
+Upon successful execution, a new `ProfilePicChangedEvent` will be raised.
+This is handled by the `UserProfilePanel` of the `UI` component which then crops the image, if necessary,
+and then updates the UI.
 
 ==== Design Considerations
 
@@ -450,22 +464,32 @@ very clunky.
 * **Alternative 2 (Current choice):** Save it as an image file in the same directory as the jar file.
 ** Pros: More direct and easier to implement.
 
-** Cons: Restricts this application to a single user.
+** Cons: Use of this application will be restricted to a single user.
 
 * **Alternative 3:** Save the file path in the user profile
 ** Pros: It was more intuitive to store the file path in the user profile.
 
 ** Cons: More tedious than Alternative 2 as a new field would have to be added to the user profile.
-Since our app is targeted only at a user i.e. the person who installs and sets up HackEat on his computer,
- such an implementation was unnecessary and Alternative 2 was chosen instead.
+Since there exists only one `UserProfile` for this application, such an implementation was
+unnecessary.
 
 // end::changepic[]
 
 // tag::edituser[]
 === Editing of profile details
 
-==== Motivation
-Allows a user to update their details easily without having to provide all the compulsory details again.
+==== What
+The `edituser` command allows a user to update their details easily without having to provide all
+the compulsory details again.
+
+==== Why
+No programmer likes to have his/her flow state broken, especially by a long command that requires
+one to key in repetitive details. Hence, the `edituser` command was created to allow programmers to
+speedily update their profile details.
+
+==== How
+Under the `EditUserCommand`, a copy of the existing user with the updated details is created.
+This is then passed on to `model` for the user profile to be updated.
 
 ==== Current Implementation
 image::EditUserSequenceDiagramLogic.PNG[width="600"]
@@ -473,7 +497,7 @@ image::EditUserSequenceDiagramLogic.PNG[width="600"]
 . The attribute values of this object will then be set to the edited values.
 . The `EditUserDescriptor` object will be passed as an argument to the constructor of the `EditUserCommand`.
 . The `EditUserCommand` is then preprocessed.
-.. The existing user profile is retrieved.
+.. The existing user profile is retrieved from `model`.
 .. Based on the attributes which have been set in the `EditUserDescriptor` object, a new `UserProfile`
 object with the updated attribute values is created.
 . The new `UserProfile` is then passed to `model`.
@@ -484,15 +508,18 @@ object with the updated attribute values is created.
 
 ===== Aspect: Setting a user's details
 * **Alternative 1:** Modifying the user details directly from Logic
-** Pros: It was more direct to change the details immediately from the Logic Component.
+** Pros: It was more intuitive to change the details of the existing user profile from the Logic Component.
 
-** Cons: It can result in increased coupling among the classes.
+** Cons: This can result in increased coupling among the classes. As a result, many components would
+have to be modified, which renders this method to be more complicated than the alternative.
 
 * **Alternative 2 (Current choice):** Creation of a new EditUserDescriptor object
 
-** Pros: A cleaner implementation where there is less coupling.
+** Pros: A cleaner implementation where there is less coupling. Less components would have to be modified
+and it facilitates the execution of the UndoableCommand.
 
-** Cons: On first sight, it seemed more tedious to implement.
+** Cons: Overhead is incurred as a new copy of the UserProfile has to be created each time the user updates
+his/her details.
 // end::edituser[]
 
 // tag::order[]
@@ -1353,8 +1380,17 @@ then verify the message is correct.
    Allergies of the user will be updated to include _only_ the two provided allergies.
 
 === Changing of profile picture
-. Updating a profile picture
+. Replacing a profile picture with a valid picture
 .. Prerequisite: A default profile picture should have been set up.
 .. Test case: `changepic`
-   Expected: A file browser will pop up. Select a _square_ image. The user profile picture +
-   should be updated.
+   Expected: A file browser will pop up. Select a valid image file. The user profile picture +
+   should be updated to display the center of the image that has been selected.
+. Replacing a profile picture with an invalid file
+.. Test case: `changepic`
+   Expected: A file browser will pop up. Select an invalid file for e.g. a file which was not an
+   image file originally but has had its extension modified. The user profile picture(if it had existed)
+   displayed in the panel should be replaced by an empty space.
+. Hitting the cancel button of the file browser
+.. Test case: `changepic`
+   Expected: A file browser will pop up. Click on the `cancel` button. A new chat bubble displaying
+   an error message should appear.
