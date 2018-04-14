@@ -1288,6 +1288,20 @@ These instructions only provide a starting point for testers to work on; testers
 
 _{ more test cases ... }_
 
+=== Adding a food interactively
+. Start the interactive command:
+.. Type `add` followed by 0 or more whitespaces.
+.. Type `Chinese Hot Pot` for the food's name.
+.. Type `abcadsajdl` for the phone number to get a failure message.
+.. Type `12319313123` for a correct phone number.
+.. Press Enter for the rest of the fields until the `Success` message is received.
+.. Check that the food was indeed added in the food panel on the left.
+
+. Responsive width of message
+.. Messages should be at most three-quarters of the width of the chat panel.
+.. Resize the window to see automatic resizing of the maximum width of the message bubbles.
+.. Type in a really long message (e.g., repeating the letter `a` 50 times) in response to any of the prompts. The text should wrap properly and not exceed three-quarters of the chat panel's width.
+
 === Deleting a food
 
 . Deleting a food while all foods are listed
