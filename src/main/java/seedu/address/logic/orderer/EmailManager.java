@@ -58,8 +58,8 @@ public class EmailManager {
     }
 
     /**
-     *
-     * @throws Exception
+     * Creates an email session, fills in email contents and sends.
+     * @throws MessagingException when able to utilise email session
      */
     public void email() throws MessagingException {
         generateEmailSession();
@@ -119,13 +119,7 @@ public class EmailManager {
      * @return the built string
      */
     private String buildHeading() {
-        StringBuilder stringBuilder = new StringBuilder();
-
-        stringBuilder.append("<h1>");
-        stringBuilder.append(String.format("Order for %s.", user.getName()));
-        stringBuilder.append("</h1>");
-
-        return stringBuilder.toString();
+        return wrapH1(String.format("Order for %s.", user.getName()));
     }
 
     /**
@@ -135,13 +129,8 @@ public class EmailManager {
     private String buildExcerpt() {
         StringBuilder stringBuilder = new StringBuilder();
 
-        stringBuilder.append("<h2>");
-        stringBuilder.append(String.format("%s has sent the following message:", user.getName()));
-        stringBuilder.append("</h2>");
-
-        stringBuilder.append("<pre>");
-        stringBuilder.append(message);
-        stringBuilder.append("</pre>");
+        stringBuilder.append(wrapH2(String.format("%s has sent the following message:", user.getName())));
+        stringBuilder.append(wrapPre(message));
 
         return stringBuilder.toString();
     }
@@ -153,27 +142,14 @@ public class EmailManager {
     private String buildSummary() {
         StringBuilder stringBuilder = new StringBuilder();
 
-        stringBuilder.append("<h2>");
-        stringBuilder.append("Order summary:");
-        stringBuilder.append("</h2>");
-
-        stringBuilder.append("<ul>");
-        stringBuilder.append(String.format("Food: %s", toOrder.getName()));
-        stringBuilder.append("</ul>");
-
-        stringBuilder.append("<ul>");
-        stringBuilder.append(String.format("Price: %s", Price.displayString(toOrder.getPrice().getValue())));
-        stringBuilder.append("</ul>");
-
-        stringBuilder.append("<ul>");
-        stringBuilder.append(String.format("Address: %s", user.getAddress()));
-        stringBuilder.append("</ul>");
-
-        stringBuilder.append("<ul>");
-        stringBuilder.append(
+        stringBuilder.append(wrapH2("Order summary:"));
+        stringBuilder.append(wrapUl(String.format("Food: %s", toOrder.getName())));
+        stringBuilder.append(wrapUl(String.format("Price: %s", Price.displayString(toOrder.getPrice().getValue()))));
+        stringBuilder.append(wrapUl(String.format("Address: %s", user.getAddress())));
+        stringBuilder.append(wrapUl(
                 String.format("Time: %s",
-                        new Date(Clock.fixed(Instant.now(), ZoneId.systemDefault()).millis()).toString()));
-        stringBuilder.append("</ul>");
+                        new Date(Clock.fixed(Instant.now(), ZoneId.systemDefault()).millis()).toString())
+        ));
 
         return stringBuilder.toString();
     }
@@ -183,12 +159,26 @@ public class EmailManager {
      * @return the built string
      */
     private String buildFooter() {
-        StringBuilder stringBuilder = new StringBuilder();
+        return wrapI("Thank you, from the HackEat team.");
+    }
 
-        stringBuilder.append("<i>");
-        stringBuilder.append("Thank you, from the HackEat team.");
-        stringBuilder.append("</i>");
+    private String wrapH1(String content) {
+        return "<h1>" + content + "</h1>";
+    }
 
-        return stringBuilder.toString();
+    private String wrapH2(String content) {
+        return "<h2>" + content + "</h2>";
+    }
+
+    private String wrapUl(String content) {
+        return "<ul>" + content + "</ul>";
+    }
+
+    private String wrapPre(String content) {
+        return "<pre>" + content + "</pre>";
+    }
+
+    private String wrapI(String content) {
+        return "<i>" + content + "</i>";
     }
 }

@@ -1,118 +1,242 @@
 # samzx
-###### \java\seedu\address\logic\commands\OrderCommand.java
+###### /java/seedu/address/logic/orderer/OrderManager.java
 ``` java
 
 /**
- * Orders command which starts the selection and ordering food process in HackEat.
+ * Orders food in HackEat.
  */
-public class OrderCommand extends UndoableCommand {
+public class OrderManager {
 
-    public static final String COMMAND_WORD = "order";
+    public static final String CONTENT_SEPERATOR = "//";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Orders a food "
-            + "Parameters: INDEX (must be a positive integer) ";
+    public static final String REMOTE_SERVER = "https://mysterious-temple-83678.herokuapp.com/";
+    public static final String CREATE_PATH = "create/";
+    public static final String ORDER_PATH = "order/";
+    public static final String REQUEST_METHOD =  "POST";
+    public static final String CHARSET_ENCODING = "UTF-8";
 
-    public static final String MESSAGE_SUCCESS = "%1$s has been requested to be ordered.";
-    public static final String MESSAGE_SELECT_FAIL = "You seem to be allergic to all the foods listed here.";
-    public static final String MESSAGE_SELECT_INDEX_FAIL = "Sorry, can't order that, you seem to be allergic to %s";
-    public static final String MESSAGE_FAIL_FOOD = "Order failure for: %s";
-    public static final String MESSAGE_CHECK_INTERNET_CONNECTION = "Please check your internet connection.";
-    public static final String MESSAGE_EMAIL_FAIL_FOOD = "%1$s has failed to be ordered via email. "
-            + MESSAGE_CHECK_INTERNET_CONNECTION;
-    public static final String MESSAGE_DIAL_FAIL_FOOD = "%1$s has failed to be ordered via phone. "
-            + MESSAGE_CHECK_INTERNET_CONNECTION;
+    public static final String CANNED_SPEECH_MESSAGE = "Hello, my name is %s. Could I order a %s to %s?";
 
+
+    private String orderId;
+    private UserProfile user;
     private Food toOrder;
-    private Index index;
 
-    /**
-     * Creates an Order command to the specified index of {@code Food}
-     */
-    public OrderCommand(Index index) {
-        this.index = index;
+    public OrderManager(UserProfile user, Food food) {
+        this.user = user;
+        this.toOrder = food;
+        this.orderId = UUID.randomUUID().toString();
     }
 
     /**
-     * Selects a index based on {@code FoodSelector} algorithm if not selected yet
-     * @throws CommandException if unable to selectIndex food
+     * Sends email and orders {@code Food}
      */
-    private void getIndexIfNull() throws CommandException {
-        if (this.index == null) {
-            FoodSelector fs = new FoodSelector();
-            this.index = fs.selectIndex(model);
-        }
+    public void order() throws IOException, MessagingException {
+        String message = createMessage();
+
+        EmailManager emailManager = new EmailManager(user, toOrder, orderId, message);
+        emailManager.email();
+
+        sendOrder(toOrder.getPhone().toString(), message);
     }
 
     /**
-     * Verifies that the index is smaller than the size of a list
-     * @param list which the index can not exceed the size
-     * @throws CommandException if index exceeds list size
+     * Creates the body based on a pre-defined message, the user and food values
+     * @return the String format of the body
      */
-    private void verifyIndex(Index index, List list) throws CommandException {
-        if (index.getZeroBased() >= list.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_FOOD_DISPLAYED_INDEX);
-        }
+    private String createMessage() {
+        return String.format(CANNED_SPEECH_MESSAGE, user.getName(), toOrder.getName(), user.getAddress());
     }
 
     /**
-     * Checks a food for allergies
-     * @param food to check for allergy
-     * @throws CommandException is thrown if food contains an allergy same as user
+      * Sends order to REST API for TwiML to pick up
+      */
+    private void sendOrder(String toPhone, String body) throws IOException {
+        String data = toPhone + CONTENT_SEPERATOR +  body;
+        URL url = new URL(REMOTE_SERVER + CREATE_PATH + orderId);
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestMethod(REQUEST_METHOD);
+        con.setDoOutput(true);
+        con.getOutputStream().write(data.getBytes(CHARSET_ENCODING));
+        con.getInputStream();
+        con.disconnect();
+    }
+
+    /**
+     * Returns the orderId for this object
      */
-    private void checkForAllergy(Food food) throws CommandException {
-        for (Allergy allergy : food.getAllergies()) {
-            if (model.getUserProfile().getAllergies().contains(allergy)) {
-                throw new CommandException(String.format(MESSAGE_SELECT_INDEX_FAIL, food.getName()));
-            }
-        }
+    public String getOrderId() {
+        return this.orderId;
     }
-
-    @Override
-    public CommandResult executeUndoableCommand() throws CommandException {
-        try {
-            OrderManager manager = new OrderManager(model.getAddressBook().getUserProfile(), toOrder);
-            manager.order();
-            return new CommandResult(String.format(MESSAGE_SUCCESS, toOrder.getName()));
-        } catch (MessagingException e) {
-            throw new CommandException(String.format(MESSAGE_EMAIL_FAIL_FOOD, toOrder.getName()));
-        } catch (IOException e) {
-            throw new CommandException(String.format(MESSAGE_DIAL_FAIL_FOOD, toOrder.getName()));
-        } catch (Exception e) {
-            throw new CommandException(String.format(MESSAGE_FAIL_FOOD, toOrder.getName()));
-        }
-    }
-
-    @Override
-    protected void preprocessUndoableCommand() throws CommandException {
-        List<Food> lastShownList = model.getFilteredFoodList();
-
-        getIndexIfNull();
-        verifyIndex(this.index, lastShownList);
-
-        Food aboutToOrder = lastShownList.get(index.getZeroBased());
-        checkForAllergy(aboutToOrder);
-
-        toOrder = aboutToOrder;
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        try {
-            return other == this // short circuit if same object
-                    || (other instanceof OrderCommand // instanceof handles nulls
-                    && index.equals(((OrderCommand) other).index));
-
-        } catch (NullPointerException npe) {
-            return other == this // short circuit if same object
-                    || (other instanceof OrderCommand // instanceof handles nulls
-                    && index == (((OrderCommand) other).index));
-        }
-
-    }
-
 }
 ```
-###### \java\seedu\address\logic\orderer\FoodSelector.java
+###### /java/seedu/address/logic/orderer/EmailManager.java
+``` java
+
+/**
+ * Orders food in HackEat.
+ */
+public class EmailManager {
+
+    public static final String EMAIL_CONTENT_MODE = "text/html";
+
+    public static final String SUBJECT_LINE = "Order from HackEat. Reference code: %s";
+
+    private static final String PROPERTY_AUTH_HEADER = "mail.smtp.auth";
+    private static final String PROPERTY_AUTH = "true";
+    private static final String PROPERTY_TLS_HEADER = "mail.smtp.starttls.enable";
+    private static final String PROPERTY_TLS = "true";
+    private static final String PROPERTY_HOST_HEADER = "mail.smtp.host";
+    private static final String PROPERTY_HOST = "smtp.gmail.com";
+    private static final String PROPERTY_PORT_HEADER = "mail.smtp.port";
+    private static final String PROPERTY_PORT = "587";
+
+    private static final String USERNAME = "hackeatapp@gmail.com";
+    private static final String PASSWORD = "hackeater";
+    private static final String FROM = USERNAME;
+
+    private Session session;
+
+    private String orderId;
+    private UserProfile user;
+    private Food toOrder;
+    private String to;
+    private String message;
+
+    public EmailManager(UserProfile user, Food food, String orderId, String message) {
+        this.user = user;
+        this.toOrder = food;
+        this.orderId = orderId;
+        this.message = message;
+    }
+
+    /**
+     * Creates an email session, fills in email contents and sends.
+     * @throws MessagingException when able to utilise email session
+     */
+    public void email() throws MessagingException {
+        generateEmailSession();
+        sendEmail();
+    }
+
+    /**
+     * Generates a new email session with pre-defined seetings
+     */
+    private void generateEmailSession() {
+        to = toOrder.getEmail().toString();
+
+        Properties props = new Properties();
+        props.put(PROPERTY_AUTH_HEADER, PROPERTY_AUTH);
+        props.put(PROPERTY_TLS_HEADER, PROPERTY_TLS);
+        props.put(PROPERTY_HOST_HEADER, PROPERTY_HOST);
+        props.put(PROPERTY_PORT_HEADER, PROPERTY_PORT);
+
+        session = Session.getInstance(props,
+                new javax.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(USERNAME, PASSWORD);
+                    }
+                });
+    }
+
+    /**
+     * Sends an email to a food's email address
+     */
+    private void sendEmail() throws MessagingException {
+
+        MimeMessage message = new MimeMessage(session);
+        message.setFrom(new InternetAddress(FROM));
+        message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+        message.setSubject(String.format(SUBJECT_LINE, orderId));
+        message.setContent(buildContent(), EMAIL_CONTENT_MODE);
+        Transport.send(message);
+    }
+
+    /**
+     * Creates the body of the email message for ease of reading
+     * @return the raw HTML string of the email content
+     */
+    private String buildContent() {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append(buildHeading());
+        stringBuilder.append(buildExcerpt());
+        stringBuilder.append(buildSummary());
+        stringBuilder.append(buildFooter());
+
+        return stringBuilder.toString();
+    }
+
+    /**
+     * Builds the heading for the content of the email
+     * @return the built string
+     */
+    private String buildHeading() {
+        return wrapH1(String.format("Order for %s.", user.getName()));
+    }
+
+    /**
+     * Builds the excerpt message for the content of the email
+     * @return the built string
+     */
+    private String buildExcerpt() {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append(wrapH2(String.format("%s has sent the following message:", user.getName())));
+        stringBuilder.append(wrapPre(message));
+
+        return stringBuilder.toString();
+    }
+
+    /**
+     * Builds the order summary for the content of the email
+     * @return the built string
+     */
+    private String buildSummary() {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append(wrapH2("Order summary:"));
+        stringBuilder.append(wrapUl(String.format("Food: %s", toOrder.getName())));
+        stringBuilder.append(wrapUl(String.format("Price: %s", Price.displayString(toOrder.getPrice().getValue()))));
+        stringBuilder.append(wrapUl(String.format("Address: %s", user.getAddress())));
+        stringBuilder.append(wrapUl(
+                String.format("Time: %s",
+                        new Date(Clock.fixed(Instant.now(), ZoneId.systemDefault()).millis()).toString())
+        ));
+
+        return stringBuilder.toString();
+    }
+
+    /**
+     * Builds the footer for the content of the email
+     * @return the built string
+     */
+    private String buildFooter() {
+        return wrapI("Thank you, from the HackEat team.");
+    }
+
+    private String wrapH1(String content) {
+        return "<h1>" + content + "</h1>";
+    }
+
+    private String wrapH2(String content) {
+        return "<h2>" + content + "</h2>";
+    }
+
+    private String wrapUl(String content) {
+        return "<ul>" + content + "</ul>";
+    }
+
+    private String wrapPre(String content) {
+        return "<pre>" + content + "</pre>";
+    }
+
+    private String wrapI(String content) {
+        return "<i>" + content + "</i>";
+    }
+}
+```
+###### /java/seedu/address/logic/orderer/FoodSelector.java
 ``` java
 
 /**
@@ -246,128 +370,7 @@ public class FoodSelector {
     }
 }
 ```
-###### \java\seedu\address\logic\orderer\OrderManager.java
-``` java
-
-/**
- * Orders food in HackEat.
- */
-public class OrderManager {
-
-    public static final String CONTENT_SEPERATOR = "//";
-
-    public static final String REMOTE_SERVER = "https://mysterious-temple-83678.herokuapp.com/";
-    public static final String CREATE_PATH = "create/";
-    public static final String ORDER_PATH = "order/";
-    public static final String REQUEST_METHOD =  "POST";
-    public static final String CHARSET_ENCODING = "UTF-8";
-
-    public static final String CANNED_SPEECH_MESSAGE = "Hello, my name is %s. Could I order a %s to %s?";
-    public static final String SUBJECT_LINE = "Order from HackEat. Reference code: %s";
-
-    private static final String PROPERTY_AUTH_HEADER = "mail.smtp.auth";
-    private static final String PROPERTY_AUTH = "true";
-    private static final String PROPERTY_TLS_HEADER = "mail.smtp.starttls.enable";
-    private static final String PROPERTY_TLS = "true";
-    private static final String PROPERTY_HOST_HEADER = "mail.smtp.host";
-    private static final String PROPERTY_HOST = "smtp.gmail.com";
-    private static final String PROPERTY_PORT_HEADER = "mail.smtp.port";
-    private static final String PROPERTY_PORT = "587";
-
-    private final String username = "hackeatapp@gmail.com";
-    private final String password = "hackeater";
-    private final String from = username;
-
-    private Session session;
-
-    private String orderId;
-    private UserProfile user;
-    private Food toOrder;
-    private String to;
-
-    public OrderManager(UserProfile user, Food food) {
-        this.user = user;
-        this.toOrder = food;
-        this.orderId = UUID.randomUUID().toString();
-    }
-
-    /**
-     * Sends email and orders {@code Food}
-     */
-    public void order() throws IOException, MessagingException {
-        String message = createMessage();
-
-        generateEmailSession();
-        sendEmail(message);
-
-        sendOrder(toOrder.getPhone().toString(), message);
-    }
-
-    /**
-     * Generates a new email session with pre-defined seetings
-     */
-    private void generateEmailSession() {
-        to = toOrder.getEmail().toString();
-
-        Properties props = new Properties();
-        props.put(PROPERTY_AUTH_HEADER, PROPERTY_AUTH);
-        props.put(PROPERTY_TLS_HEADER, PROPERTY_TLS);
-        props.put(PROPERTY_HOST_HEADER, PROPERTY_HOST);
-        props.put(PROPERTY_PORT_HEADER, PROPERTY_PORT);
-
-        session = Session.getInstance(props,
-                new javax.mail.Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(username, password);
-                    }
-                });
-    }
-
-    /**
-     * Creates the body based on a pre-defined message, the user and food values
-     * @return the String format of the body
-     */
-    private String createMessage() {
-        return String.format(CANNED_SPEECH_MESSAGE, user.getName(), toOrder.getName(), user.getAddress());
-    }
-
-    /**
-     * Sends an email to a food's email address
-     * @param body of the email sent
-     */
-    private void sendEmail(String body) throws MessagingException {
-
-        MimeMessage message = new MimeMessage(session);
-        message.setFrom(new InternetAddress(from));
-        message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-        message.setSubject(String.format(SUBJECT_LINE, orderId));
-        message.setText(body);
-        Transport.send(message);
-    }
-
-    /**
-      * Sends order to REST API for TwiML to pick up
-      */
-    private void sendOrder(String toPhone, String body) throws IOException {
-        String data = toPhone + CONTENT_SEPERATOR +  body;
-        URL url = new URL(REMOTE_SERVER + CREATE_PATH + orderId);
-        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        con.setRequestMethod(REQUEST_METHOD);
-        con.setDoOutput(true);
-        con.getOutputStream().write(data.getBytes(CHARSET_ENCODING));
-        con.getInputStream();
-        con.disconnect();
-    }
-
-    /**
-     * Returns the orderId for this object
-     */
-    public String getOrderId() {
-        return this.orderId;
-    }
-}
-```
-###### \java\seedu\address\logic\parser\OrderCommandParser.java
+###### /java/seedu/address/logic/parser/OrderCommandParser.java
 ``` java
 
 /**
@@ -421,7 +424,120 @@ public class OrderCommandParser implements Parser<OrderCommand> {
 
 
 ```
-###### \java\seedu\address\model\food\Price.java
+###### /java/seedu/address/logic/commands/OrderCommand.java
+``` java
+
+/**
+ * Orders command which starts the selection and ordering food process in HackEat.
+ */
+public class OrderCommand extends UndoableCommand {
+
+    public static final String COMMAND_WORD = "order";
+
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Orders a food "
+            + "Parameters: INDEX (must be a positive integer) ";
+
+    public static final String MESSAGE_SUCCESS = "%1$s has been requested to be ordered.";
+    public static final String MESSAGE_SELECT_FAIL = "You seem to be allergic to all the foods listed here.";
+    public static final String MESSAGE_SELECT_INDEX_FAIL = "Sorry, can't order that, you seem to be allergic to %s";
+    public static final String MESSAGE_FAIL_FOOD = "Order failure for: %s";
+    public static final String MESSAGE_CHECK_INTERNET_CONNECTION = "Please check your internet connection.";
+    public static final String MESSAGE_EMAIL_FAIL_FOOD = "%1$s has failed to be ordered via email. "
+            + MESSAGE_CHECK_INTERNET_CONNECTION;
+    public static final String MESSAGE_DIAL_FAIL_FOOD = "%1$s has failed to be ordered via phone. "
+            + MESSAGE_CHECK_INTERNET_CONNECTION;
+
+    private Food toOrder;
+    private Index index;
+
+    /**
+     * Creates an Order command to the specified index of {@code Food}
+     */
+    public OrderCommand(Index index) {
+        this.index = index;
+    }
+
+    /**
+     * Selects a index based on {@code FoodSelector} algorithm if not selected yet
+     * @throws CommandException if unable to selectIndex food
+     */
+    private void getIndexIfNull() throws CommandException {
+        if (this.index == null) {
+            FoodSelector fs = new FoodSelector();
+            this.index = fs.selectIndex(model);
+        }
+    }
+
+    /**
+     * Verifies that the index is smaller than the size of a list
+     * @param list which the index can not exceed the size
+     * @throws CommandException if index exceeds list size
+     */
+    private void verifyIndex(Index index, List list) throws CommandException {
+        if (index.getZeroBased() >= list.size()) {
+            throw new CommandException(Messages.MESSAGE_INVALID_FOOD_DISPLAYED_INDEX);
+        }
+    }
+
+    /**
+     * Checks a food for allergies
+     * @param food to check for allergy
+     * @throws CommandException is thrown if food contains an allergy same as user
+     */
+    private void checkForAllergy(Food food) throws CommandException {
+        for (Allergy allergy : food.getAllergies()) {
+            if (model.getUserProfile().getAllergies().contains(allergy)) {
+                throw new CommandException(String.format(MESSAGE_SELECT_INDEX_FAIL, food.getName()));
+            }
+        }
+    }
+
+    @Override
+    public CommandResult executeUndoableCommand() throws CommandException {
+        try {
+            OrderManager manager = new OrderManager(model.getAddressBook().getUserProfile(), toOrder);
+            manager.order();
+            return new CommandResult(String.format(MESSAGE_SUCCESS, toOrder.getName()));
+        } catch (MessagingException e) {
+            throw new CommandException(String.format(MESSAGE_EMAIL_FAIL_FOOD, toOrder.getName()));
+        } catch (IOException e) {
+            throw new CommandException(String.format(MESSAGE_DIAL_FAIL_FOOD, toOrder.getName()));
+        } catch (Exception e) {
+            throw new CommandException(String.format(MESSAGE_FAIL_FOOD, toOrder.getName()));
+        }
+    }
+
+    @Override
+    protected void preprocessUndoableCommand() throws CommandException {
+        List<Food> lastShownList = model.getFilteredFoodList();
+
+        getIndexIfNull();
+        verifyIndex(this.index, lastShownList);
+
+        Food aboutToOrder = lastShownList.get(index.getZeroBased());
+        checkForAllergy(aboutToOrder);
+
+        toOrder = aboutToOrder;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        try {
+            return other == this // short circuit if same object
+                    || (other instanceof OrderCommand // instanceof handles nulls
+                    && index.equals(((OrderCommand) other).index));
+
+        } catch (NullPointerException npe) {
+            return other == this // short circuit if same object
+                    || (other instanceof OrderCommand // instanceof handles nulls
+                    && index == (((OrderCommand) other).index));
+        }
+
+    }
+
+}
+```
+###### /java/seedu/address/model/food/Price.java
 ``` java
 
     /**
@@ -434,7 +550,7 @@ public class OrderCommandParser implements Parser<OrderCommand> {
     }
 
 ```
-###### \java\seedu\address\model\food\Rating.java
+###### /java/seedu/address/model/food/Rating.java
 ``` java
 
 /**
@@ -451,6 +567,7 @@ public class Rating {
      * User must enter only a single digit.
      */
     public static final String RATING_VALIDATION_REGEX = "\\b\\d\\b";
+    public static final String CLASS_NAME = "Rating";
 
     public final String value;
 
@@ -490,7 +607,7 @@ public class Rating {
             if (count > 0) {
                 stringBuilder.append("★");
             } else {
-                stringBuilder.append("★");
+                stringBuilder.append("☆");
             }
             count--;
         }
