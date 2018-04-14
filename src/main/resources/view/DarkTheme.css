@@ -158,6 +158,10 @@
     -fx-text-fill: black !important;
 }
 
+.chat-scroll-pane > .viewport {
+   -fx-background-color: transparent;
+}
+
 .chat-scroll-pane {
     -fx-background-color: transparent;
     -fx-font-family: "Segoe UI Light";
