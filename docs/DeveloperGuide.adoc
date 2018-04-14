@@ -440,7 +440,8 @@ The `changepic` command triggers the opening of a new window which allows the us
 This image is then saved locally and the UI is updated to reflect the change.
 
 ==== Current Implementation
-image::EditUserSequenceDiagramLogic.PNG[width="600"]
+image::ChangePicSequenceDiagram.PNG[width="600"]
+
 When HackEat is first launched, a default profile picture is downloaded from the Internet.
 As the default profile picture should be displayed when the application starts up, a
 `MainApp#initProfilePic` was created to ensure that the application displays the picture.
