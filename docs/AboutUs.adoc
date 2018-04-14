@@ -3,15 +3,15 @@
 :imagesDir: images
 :stylesDir: stylesheets
 
-AddressBook - Level 4 was developed by the https://se-edu.github.io/docs/Team.html[se-edu] team. +
+HackEat was developed by the https://github.com/CS2103JAN2018-W10-B3[Ultimate Hackerz] aka W10-B3 team. +
 {empty} +
 We are a team based in the http://www.comp.nus.edu.sg[School of Computing, National University of Singapore].
 
 == Project Team
 
-=== Jackson Huang
+=== Jackson Yi Zhou Huang
 image::jaxony.png[width="150", align="left"]
-{empty}[https://github.com/jaxony[github]]
+{empty}[https://github.com/jaxony[github]][https://cs2103jan2018-w10-b3.github.io/main/team/jacksonhuang.html[portfolio]]
 
 Role: Developer +
 In charge of UI
@@ -20,18 +20,16 @@ In charge of UI
 
 === Sam Zhong Sheng Xie
 image::samzx.png[width="150", align="left"]
-{empty}[http://github.com/samzx[github]]
-
-https://cs2103jan2018-w10-b3.github.io/main/team/samxie.html[Project Portfolio Page]
+{empty}[http://github.com/samzx[github]][https://cs2103jan2018-w10-b3.github.io/main/team/samxie.html[portfolio]]
 
 Role: Developer +
 In charge of Logic
 
 '''
 
-=== Cheryl Toh
+=== Toh Yunqi Cheryl
 image::tohcheryl.png[width="150", align="left"]
-{empty}[http://github.com/tohcheryl[github]]
+{empty}[http://github.com/tohcheryl[github]][https://cs2103jan2018-w10-b3.github.io/main/team/cheryltoh.html[portfolio]]
 
 Role: Developer +
 In charge of Model
