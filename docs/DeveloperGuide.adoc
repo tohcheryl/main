@@ -468,7 +468,7 @@ Since our app is targeted only at a user i.e. the person who installs and sets u
 Allows a user to update their details easily without having to provide all the compulsory details again.
 
 ==== Current Implementation
-image::EditUserSequenceDiagramLogic.png[width="600"]
+image::EditUserSequenceDiagramLogic.PNG[width="600"]
 . Upon parsing of an `EditUserCommand`, an `EditUserDescriptor` object is created.
 . The attribute values of this object will then be set to the edited values.
 . The `EditUserDescriptor` object will be passed as an argument to the constructor of the `EditUserCommand`.
