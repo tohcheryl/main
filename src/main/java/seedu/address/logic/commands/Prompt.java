@@ -1,6 +1,6 @@
 package seedu.address.logic.commands;
 
-//@@author {jaxony}
+//@@author jaxony
 /**
  * Contains a message and an expected response class.
  * Used for interactive user input for {@code Command}s.

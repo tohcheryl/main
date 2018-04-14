@@ -21,7 +21,7 @@ import seedu.address.model.food.allergy.Allergy;
 import seedu.address.model.user.UserProfile;
 import seedu.address.model.user.exceptions.DuplicateUserException;
 
-//@@author {tohcheryl}
+//@@author tohcheryl
 /**
  * Edits the details of a user
  */

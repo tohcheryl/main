@@ -73,7 +73,7 @@ public class GuiTestAssert {
         assertEquals(expected, chatPanelHandle.getText());
     }
 
-    //@@author {tohcheryl}
+    //@@author tohcheryl
     /**
      * Asserts that {@code actualPanel} displays the details of {@code expectedUser}.
      */

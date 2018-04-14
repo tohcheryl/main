@@ -9,7 +9,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 
 import seedu.address.model.user.UserProfile;
 
-//@@author {jaxony}
+//@@author jaxony
 /**
  * Sets User Profile of HackEat user.
  */

@@ -19,7 +19,7 @@ import seedu.address.commons.events.ui.ProfilePictureChangedEvent;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.user.UserProfile;
 
-//@@author {tohcheryl}
+//@@author tohcheryl
 /**
  * The User Profile panel of the App.
  */

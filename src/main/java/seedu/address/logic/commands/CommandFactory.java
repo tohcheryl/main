@@ -1,6 +1,6 @@
 package seedu.address.logic.commands;
 
-//@@author {jaxony}
+//@@author jaxony
 /**
  * Factory pattern for creating command objects
  */

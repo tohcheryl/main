@@ -3,7 +3,7 @@ package seedu.address.model.food;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
-//@@author {samzx}
+//@@author samzx
 
 /**
  * Represents a Food's rating in HackEat.

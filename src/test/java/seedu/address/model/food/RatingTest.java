@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import seedu.address.testutil.Assert;
 
-//@@author {samzx}
+//@@author samzx
 
 public class RatingTest {
     private static final String VALID_RATING = "0";

@@ -94,7 +94,7 @@ public class AddressBookTest {
             return tags;
         }
 
-        //@@author {tohcheryl}
+        //@@author tohcheryl
         @Override
         public UserProfile getUserProfile() {
             return profile;

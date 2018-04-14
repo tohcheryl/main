@@ -2,7 +2,7 @@ package seedu.address.commons.events.ui;
 
 import seedu.address.commons.events.BaseEvent;
 
-//@@author {tohcheryl}
+//@@author tohcheryl
 /**
  * Indicates profile picture of user has changed
  */

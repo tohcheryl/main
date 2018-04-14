@@ -13,7 +13,7 @@ import seedu.address.model.UserPrefs;
 import seedu.address.model.user.UserProfile;
 import seedu.address.testutil.UserProfileBuilder;
 
-//@@author {tohcheryl}
+//@@author tohcheryl
 public class UserConfigCommandTest {
 
     private Model model = new ModelManager(new AddressBook(), new UserPrefs());

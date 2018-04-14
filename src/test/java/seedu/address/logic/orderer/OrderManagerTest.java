@@ -25,7 +25,7 @@ import seedu.address.model.food.allergy.Allergy;
 import seedu.address.model.user.UserProfile;
 import seedu.address.testutil.FoodBuilder;
 
-//@@author {samzx}
+//@@author samzx
 
 public class OrderManagerTest {
 

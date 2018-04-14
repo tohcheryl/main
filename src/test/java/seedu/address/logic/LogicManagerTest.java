@@ -54,7 +54,7 @@ public class LogicManagerTest {
         logic.getFilteredFoodList().remove(0);
     }
 
-    //@@author {jaxony}
+    //@@author jaxony
     @Test
     public void createNewSession_editCommand_throwsIllegalArgumentException() {
         thrown.expect(IllegalArgumentException.class);

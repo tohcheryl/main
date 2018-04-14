@@ -64,7 +64,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         this.tags.setTags(tags);
     }
 
-    //@@author {tohcheryl}
+    //@@author tohcheryl
     /**
      * Initialises user profile with {@code profile}.
      */

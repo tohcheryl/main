@@ -16,7 +16,7 @@ import seedu.address.logic.commands.EditUserCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.food.allergy.Allergy;
 
-//@@author {tohcheryl}
+//@@author tohcheryl
 /**
  * Parses input arguments and creates a new EditUserCommand object
  */

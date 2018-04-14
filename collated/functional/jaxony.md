@@ -17,7 +17,7 @@
     public List<Prompt> getPrompts() {
         return PROMPTS;
     }
-    //@author
+    //@@author
 
     @Override
     public CommandResult executeUndoableCommand() throws CommandException {

@@ -60,7 +60,7 @@ public class Price {
         value = validator.validate(inputPrice, currentLocale).toString();
     }
 
-    //@@author {samzx}
+    //@@author samzx
 
     /**
      * Parses price value into more recognisable price format with $.
@@ -71,7 +71,7 @@ public class Price {
         return "$" + value;
     }
 
-    //@@author {tohcheryl}
+    //@@author tohcheryl
     /**
      * Returns price of Food as a BigDecimal.
      */

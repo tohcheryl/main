@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import seedu.address.logic.commands.exceptions.CommandException;
 
-//@@author {tohcheryl}
+//@@author tohcheryl
 public class ChangePicCommandTest {
 
     private static String imageFilePath = "src/main/resources/images/defaultprofilepic.png";

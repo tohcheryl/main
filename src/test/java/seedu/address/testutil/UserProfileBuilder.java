@@ -10,7 +10,7 @@ import seedu.address.model.food.allergy.Allergy;
 import seedu.address.model.user.UserProfile;
 import seedu.address.model.util.SampleDataUtil;
 
-//@@author {tohcheryl}
+//@@author tohcheryl
 /**
  * A utility class to help with building User Profile objects.
  */

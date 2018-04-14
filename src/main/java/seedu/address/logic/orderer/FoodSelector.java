@@ -14,7 +14,7 @@ import seedu.address.model.food.Price;
 import seedu.address.model.food.Rating;
 import seedu.address.model.food.allergy.Allergy;
 
-//@@author {samzx}
+//@@author samzx
 
 /**
  * Selects food in HackEat if the user has not specified a specific food to order.

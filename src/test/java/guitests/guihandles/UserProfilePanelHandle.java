@@ -7,7 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
 
-//@@author {tohcheryl}
+//@@author tohcheryl
 /**
  * A handle to the {@code UserProfilePanel} in the GUI.
  */

@@ -13,7 +13,7 @@ import seedu.address.model.user.UserProfile;
 import seedu.address.model.util.SampleDataUtil;
 import seedu.address.testutil.UserProfileBuilder;
 
-//@@author {tohcheryl}
+//@@author tohcheryl
 public class UserProfilePanelTest extends GuiUnitTest {
 
     private static final ReadOnlyAddressBook ADDRESS_BOOK = SampleDataUtil.getSampleAddressBook();

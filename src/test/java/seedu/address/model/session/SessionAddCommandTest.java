@@ -22,7 +22,7 @@ import seedu.address.model.food.allergy.Allergy;
 import seedu.address.model.tag.Tag;
 import seedu.address.testutil.TypicalFoods;
 
-//@@author {jaxony}
+//@@author jaxony
 public class SessionAddCommandTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();

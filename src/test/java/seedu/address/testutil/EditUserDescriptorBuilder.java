@@ -11,7 +11,7 @@ import seedu.address.model.food.Phone;
 import seedu.address.model.food.allergy.Allergy;
 import seedu.address.model.user.UserProfile;
 
-//@@author {tohcheryl}
+//@@author tohcheryl
 /**
  * A utility class to help with building EditFoodDescriptor objects.
  */

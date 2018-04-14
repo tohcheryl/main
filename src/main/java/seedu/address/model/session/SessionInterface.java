@@ -4,7 +4,7 @@ import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 
-//@@author {jaxony}
+//@@author jaxony
 /**
  * The API of the Session sub-component.
  */

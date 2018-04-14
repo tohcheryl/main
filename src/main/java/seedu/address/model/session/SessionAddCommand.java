@@ -19,7 +19,7 @@ import seedu.address.model.food.Rating;
 import seedu.address.model.food.allergy.Allergy;
 import seedu.address.model.tag.Tag;
 
-//@@author {jaxony}
+//@@author jaxony
 /**
  * Session controlling the interaction for the AddCommand
  */
