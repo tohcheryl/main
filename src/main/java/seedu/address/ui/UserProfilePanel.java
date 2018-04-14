@@ -9,6 +9,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.PixelReader;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Region;
 
@@ -70,8 +72,28 @@ public class UserProfilePanel extends UiPart<Region> {
     }
 
     public void setProfilePicture() {
-        profilepic.setImage(new Image("file:" + PROFILE_PICTURE_PATH));
+        Image image = new Image("file:" + PROFILE_PICTURE_PATH);
+        Image squareImage = getSquareImage(image);
+        profilepic.setImage(squareImage);
         profilepic.setClip(clip);
+    }
+
+    public Image getSquareImage(Image image) {
+        double width = image.getWidth();
+        double height = image.getHeight();
+        if (width == height) {
+            return image;
+        } else {
+            double lengthOfSquare = width < height ? width : height;
+            double centerX = width / 2;
+            double centerY = height / 2;
+            double startingX = centerX - lengthOfSquare / 2;
+            double startingY = centerY - lengthOfSquare / 2;
+            PixelReader reader = image.getPixelReader();
+            WritableImage squareImage = new WritableImage(reader, (int) startingX,
+                    (int) startingY, (int) lengthOfSquare, (int) lengthOfSquare);
+            return squareImage;
+        }
     }
 
     @Subscribe
