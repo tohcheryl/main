@@ -9,9 +9,9 @@
 <ScrollPane fx:id="profilePane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
   <VBox fx:id="profileVBox" >
     <ImageView fx:id="profilepic" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" />
-    <Label fx:id="name" text="\$name" />
-    <Label fx:id="phone" text="\$phone" />
-    <Label fx:id="address" text="\$address" />
+    <Label fx:id="name" text="\$name" alignment="CENTER"/>
+    <Label fx:id="phone" text="\$phone" alignment="CENTER"/>
+    <Label fx:id="address" text="\$address" alignment="CENTER"/>
     <FlowPane fx:id="allergies" />
   </VBox>
 </ScrollPane>

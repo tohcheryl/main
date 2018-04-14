@@ -356,7 +356,7 @@
 
 #profileVBox {
     -fx-background-color: #f2efe8;
-    -fx-padding: 0 10 10 0;
+    -fx-padding: 0 5 0 5;
     -fx-alignment: top-center;
     -fx-spacing: 5;
 }
