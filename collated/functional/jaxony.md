@@ -1,111 +1,233 @@
 # jaxony
-###### \java\seedu\address\logic\commands\AddCommand.java
-``` java
-    public static final List<Prompt> PROMPTS = Arrays.asList(
-            new Prompt(Name.class, "What's the food called?", false),
-            new Prompt(Phone.class, "Restaurant phone number?", false),
-            new Prompt(Email.class, "And their email?", false),
-            new Prompt(Address.class, "Where they located @ fam?", false),
-            new Prompt(Price.class, "$$$?", false),
-            new Prompt(Rating.class, "U rate or what?", false),
-            new Prompt(Tag.class, "Where those tags at?", true, true),
-            new Prompt(Allergy.class, "Does this food have any allergies?", true, true));
+###### /resources/view/ChatPanel.fxml
+``` fxml
+<StackPane fx:id="placeHolder" styleClass="pane-with-border" xmlns="http://javafx.com/javafx/8"
+           xmlns:fx="http://javafx.com/fxml/1" >
+  <ScrollPane fx:id="chatScrollPane" styleClass="chat-scroll-pane">
+    <VBox fx:id="chatPanel" styleClass="chat-panel"/>
+  </ScrollPane>
+</StackPane>
 ```
-###### \java\seedu\address\logic\commands\AddCommand.java
+###### /java/seedu/address/ui/ChatPanel.java
 ``` java
-    @Override
-    public List<Prompt> getPrompts() {
-        return PROMPTS;
-    }
-    //@@author
+/**
+ * Panel containing the chat history.
+ */
+public class ChatPanel extends UiPart<Region> {
+    private static final int SPACING = 10;
+    private static final double WIDTH_DIVISOR = 4.0;
+    private static final double WIDTH_MULTIPLIER = 3.0;
+    private static final String RESULT_ERROR_STYLE = "result-error";
+    private static final String RESULT_SUCCESS_STYLE = "result-success";
+    private static final String USER_LABEL_STYLE = "user-label";
+    private static final String FXML = "ChatPanel.fxml";
+    private final Logger logger = LogsCenter.getLogger(ChatPanel.class);
 
-    @Override
-    public CommandResult executeUndoableCommand() throws CommandException {
-        requireNonNull(model);
-        requireNonNull(toAdd);
-        try {
-            model.addFood(toAdd);
-            return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
-        } catch (DuplicateFoodException e) {
-            throw new CommandException(MESSAGE_DUPLICATE_FOOD);
+    @FXML
+    private ScrollPane chatScrollPane;
+
+    @FXML
+    private VBox chatPanel;
+
+    public ChatPanel() {
+        super(FXML);
+        chatScrollPane.setContent(chatPanel);
+        chatScrollPane.setFitToWidth(true);
+        chatScrollPane.vvalueProperty().bind(chatPanel.heightProperty());
+        chatPanel.setSpacing(SPACING);
+        registerAsAnEventHandler(this);
+    }
+
+    /**
+     * Creates a result message.
+     * @param message      String message from system for user feedback.
+     * @param isSuccessful If the message represents a successful one.
+     * @return A new JavaFX HBox object.
+     */
+    private HBox createResultMessage(String message, boolean isSuccessful) {
+        Label label = createLabel(message, isSuccessful ? RESULT_SUCCESS_STYLE : RESULT_ERROR_STYLE);
+        return createHBox(label, Pos.CENTER_LEFT);
+    }
+
+    /**
+     * Creates a JavaFX label from a message and style class name.
+     * @param message String message to add to label.
+     * @param styleClassName String name of CSS class for the label.
+     * @return New JavaFX Label object.
+     */
+    private Label createLabel(String message, String styleClassName) {
+        Label label = new Label(message);
+        label.maxWidthProperty().bind(chatPanel.widthProperty()
+                .multiply(WIDTH_MULTIPLIER).divide(WIDTH_DIVISOR));
+        label.setWrapText(true);
+        label.getStyleClass().add(styleClassName);
+        return label;
+    }
+
+    /**
+     * Creates a HBox object with a specific label and alignment.
+     * @param label JavaFX Label object to contain inside HBox.
+     * @param alignment Pos constant specifying where to display contents of HBox.
+     * @return New HBox object.
+     */
+    private HBox createHBox(Label label, Pos alignment) {
+        HBox hbox = new HBox();
+        hbox.setAlignment(alignment);
+        hbox.getChildren().add(label);
+        return hbox;
+    }
+
+    /**
+     * Creates a user message.
+     * @param message String message from user to the system.
+     * @return A new JavaFX HBox object.
+     */
+    private HBox createUserMessage(String message) {
+        Label label = createLabel(message, USER_LABEL_STYLE);
+        return createHBox(label, Pos.CENTER_RIGHT);
+    }
+
+
+    @Subscribe
+    private void handleNewResultAvailableEvent(NewResultAvailableEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        chatPanel.getChildren().add(createResultMessage(event.message, event.isSuccessful));
+    }
+
+    @Subscribe
+    private void handleNewUserMessageEvent(NewUserMessageAvailableEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        chatPanel.getChildren().add(createUserMessage(event.message));
+    }
+
+}
+```
+###### /java/seedu/address/logic/Logic.java
+``` java
+    /**
+     * Creates a new Session for chat-like interaction with system.
+     * @param userInput Text input from user.
+     */
+    void createNewSession(String userInput);
+
+    /**
+     * Starts the active Session.
+     * @return Feedback to user.
+     * @throws CommandException If command execution fails.
+     */
+    CommandResult startSession() throws CommandException;
+
+    /**
+     * Checks if command is an interactive command.
+     * @param commandText Text input from user.
+     * @return Feedback to user.
+     * @throws ParseException If {@code commandText} is not a valid command.
+     */
+    boolean isCommandInteractive(String commandText) throws ParseException;
+
+    /**
+     * Returns ReadOnlyAddressBook
+     */
+    ReadOnlyAddressBook getAddressBook();
+}
+```
+###### /java/seedu/address/logic/parser/AddressBookParser.java
+``` java
+    /**
+     * Checks whether userInput specifies a command that is interactive.
+     * Currently only AddCommand supports interactive mode.
+     * @param userInput Text input from user.
+     * @return True if the command is interactive, false if the command is valid but not interactive.
+     * @throws ParseException If the command is invalid.
+     */
+    public boolean isCommandInteractive(String userInput) throws ParseException {
+        Matcher matcher = match(userInput);
+        final String arguments = matcher.group("arguments");
+        switch (matcher.group("commandWord")) {
+        case AddCommand.COMMAND_WORD:
+            break;
+        case EditCommand.COMMAND_WORD:
+        case SelectCommand.COMMAND_WORD:
+        case DeleteCommand.COMMAND_WORD:
+        case ClearCommand.COMMAND_WORD:
+        case FindCommand.COMMAND_WORD:
+        case ListCommand.COMMAND_WORD:
+        case OrderCommand.COMMAND_WORD:
+        case HistoryCommand.COMMAND_WORD:
+        case ExitCommand.COMMAND_WORD:
+        case HelpCommand.COMMAND_WORD:
+        case UndoCommand.COMMAND_WORD:
+        case RedoCommand.COMMAND_WORD:
+        case ChangePicCommand.COMMAND_WORD:
+        case EditUserCommand.COMMAND_WORD:
+        case UserConfigCommand.COMMAND_WORD:
+            return false;
+        default:
+            throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
         }
-
+        return arguments.equals("");
     }
 
+    /**
+     * Matches user input string with a basic command regex.
+     *
+     * @param userInput Text input from user.
+     * @return Matcher object produced from regex pattern.
+     * @throws ParseException If error arises during parsing of {@code userInput}.
+     */
+    private Matcher match(String userInput) throws ParseException {
+        final Matcher matcher = BASIC_COMMAND_FORMAT.matcher(userInput.trim());
+        if (!matcher.matches()) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE));
+        }
+        return matcher;
+    }
 ```
-###### \java\seedu\address\logic\commands\AddCommand.java
+###### /java/seedu/address/logic/parser/AddressBookParser.java
 ``` java
-    public void setFood(Food food) {
-        toAdd = food;
+    /**
+     * Creates a new command object.
+     * @param userInput Text input from user.
+     * @return New Command object.
+     * @throws IllegalArgumentException If the command in {@code userInput} is not supported.
+     */
+    public Command getCommand(String userInput) throws IllegalArgumentException {
+        return CommandFactory.createCommand(userInput.trim());
     }
 ```
-###### \java\seedu\address\logic\commands\Command.java
+###### /java/seedu/address/logic/commands/Command.java
 ``` java
     public List<Prompt> getPrompts() {
         return null;
     }
 }
 ```
-###### \java\seedu\address\logic\commands\CommandFactory.java
+###### /java/seedu/address/logic/commands/AddCommand.java
 ``` java
-/**
- * Factory pattern for creating command objects
- */
-public class CommandFactory {
-
-    /**
-     * Creates a Command given a command word.
-     * @param commandWord Word for a command.
-     * @return A new Command object.
-     * @throws IllegalArgumentException If the command word is not supported.
-     */
-    public static Command createCommand(String commandWord) throws IllegalArgumentException {
-        switch (commandWord) {
-        case AddCommand.COMMAND_WORD:
-            return new AddCommand(null);
-        default:
-            throw new IllegalArgumentException();
-        }
-    }
-}
+    public static final List<Prompt> PROMPTS = Arrays.asList(
+            new Prompt(Name.CLASS_NAME, "What's the food called?", false),
+            new Prompt(Phone.CLASS_NAME, "Restaurant phone number?", false),
+            new Prompt(Email.CLASS_NAME, "And their email?", false, true),
+            new Prompt(Address.CLASS_NAME, "Where they located @ fam?", false, true),
+            new Prompt(Price.CLASS_NAME, "$$$?", false, true),
+            new Prompt(Rating.CLASS_NAME, "U rate or what?", false, true),
+            new Prompt(Tag.CLASS_NAME, "Where those tags at?", true, true),
+            new Prompt(Allergy.CLASS_NAME, "Does this food have any allergies?", true, true));
 ```
-###### \java\seedu\address\logic\commands\Prompt.java
+###### /java/seedu/address/logic/commands/AddCommand.java
 ``` java
-/**
- * Contains a message and an expected response class.
- * Used for interactive user input for {@code Command}s.
- */
-public class Prompt {
-    public final boolean isMultiValued;
-    public final boolean isOptional;
-
-    private Class field;
-    private String message;
-
-    public Prompt(Class field, String message, boolean isMultiValued, boolean isOptional) {
-        this.field = field;
-        this.message = message;
-        this.isMultiValued = isMultiValued;
-        this.isOptional = isOptional;
+    @Override
+    public List<Prompt> getPrompts() {
+        return PROMPTS;
     }
-
-    public Prompt(Class field, String message, boolean isMultiValued) {
-        this.field = field;
-        this.message = message;
-        this.isMultiValued = isMultiValued;
-        this.isOptional = false;
-    }
-
-    public Class getField() {
-        return field;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-}
 ```
-###### \java\seedu\address\logic\commands\UserConfigCommand.java
+###### /java/seedu/address/logic/commands/AddCommand.java
+``` java
+    public void setFood(Food foodToAdd) {
+        toAdd = foodToAdd;
+    }
+```
+###### /java/seedu/address/logic/commands/UserConfigCommand.java
 ``` java
 /**
  * Sets User Profile of HackEat user.
@@ -154,36 +276,66 @@ public class UserConfigCommand extends UndoableCommand {
     }
 }
 ```
-###### \java\seedu\address\logic\Logic.java
+###### /java/seedu/address/logic/commands/Prompt.java
 ``` java
-    /**
-     * Creates a new Session for chat-like interaction with system.
-     * @param userInput Text input from user.
-     */
-    void createNewSession(String userInput);
+/**
+ * Contains a field and an associated message that the system will send to the user
+ * for this field when interactively asking the user for input.
+ */
+public class Prompt {
+    public final boolean isMultiValued;
+    public final boolean isOptional;
 
-    /**
-     * Starts the active Session.
-     * @return Feedback to user.
-     * @throws CommandException If command execution fails.
-     */
-    CommandResult startSession() throws CommandException;
+    private final String fieldName;
+    private final String message;
 
-    /**
-     * Checks if command is an interactive command.
-     * @param commandText Text input from user.
-     * @return Feedback to user.
-     * @throws ParseException If {@code commandText} is not a valid command.
-     */
-    boolean isCommandInteractive(String commandText) throws ParseException;
+    public Prompt(String fieldName, String message, boolean isMultiValued, boolean isOptional) {
+        this.fieldName = fieldName;
+        this.message = message;
+        this.isMultiValued = isMultiValued;
+        this.isOptional = isOptional;
+    }
 
-    /**
-     * Returns ReadOnlyAddressBook
-     */
-    ReadOnlyAddressBook getAddressBook();
+    public Prompt(String fieldName, String message, boolean isMultiValued) {
+        this.fieldName = fieldName;
+        this.message = message;
+        this.isMultiValued = isMultiValued;
+        this.isOptional = false;
+    }
+
+    public String getFieldName() {
+        return fieldName;
+    }
+
+    public String getMessage() {
+        return message;
+    }
 }
 ```
-###### \java\seedu\address\logic\LogicManager.java
+###### /java/seedu/address/logic/commands/CommandFactory.java
+``` java
+/**
+ * Factory pattern for creating command objects
+ */
+public class CommandFactory {
+
+    /**
+     * Creates a Command given a command word.
+     * @param commandWord Word for a command.
+     * @return A new Command object.
+     * @throws IllegalArgumentException If the command word is not supported.
+     */
+    public static Command createCommand(String commandWord) throws IllegalArgumentException {
+        switch (commandWord) {
+        case AddCommand.COMMAND_WORD:
+            return new AddCommand(null);
+        default:
+            throw new IllegalArgumentException();
+        }
+    }
+}
+```
+###### /java/seedu/address/logic/LogicManager.java
 ``` java
             CommandResult result;
             if (model.isUserInActiveSession()) {
@@ -191,12 +343,11 @@ public class UserConfigCommand extends UndoableCommand {
                 result = model.interpretInteractiveUserInput(commandText);
             } else if (isCommandInteractive(commandText)) {
                 logger.info("Command is interactive.");
-                // start a new session
                 createNewSession(commandText);
                 result = startSession();
             } else {
 ```
-###### \java\seedu\address\logic\LogicManager.java
+###### /java/seedu/address/logic/LogicManager.java
 ``` java
     @Override
     public void createNewSession(String userInput) throws IllegalArgumentException {
@@ -216,73 +367,125 @@ public class UserConfigCommand extends UndoableCommand {
     }
 
 ```
-###### \java\seedu\address\logic\parser\AddressBookParser.java
+###### /java/seedu/address/model/user/UserProfile.java
 ``` java
+/**
+ * Represents the profile of the HackEat user and contains
+ * personal information such as name, phone and physical address.
+ */
+public class UserProfile {
+    private Name name;
+    private Phone phone;
+    private Address address;
+    private final UniqueAllergyList allergies;
+
+
     /**
-     * Checks whether userInput specifies a command that is interactive.
-     * Currently only AddCommand supports interactive mode.
-     * @param userInput Text input from user.
-     * @return True if the command is interactive, false if the command is valid but not interactive.
-     * @throws ParseException If the command is invalid.
+     * Constructs a {@code UserProfile} object.
+     *  @param name    Name of user
+     * @param phone   Phone number of user
+     * @param address Address of user for food delivery
      */
-    public boolean isCommandInteractive(String userInput) throws ParseException {
-        Matcher matcher = match(userInput);
-        final String arguments = matcher.group("arguments");
-        // command must be interactive type if no arguments are provided
-        // only AddCommand is interactive right now
-        switch (matcher.group("commandWord")) {
-        case AddCommand.COMMAND_WORD:
-            break;
-        case EditCommand.COMMAND_WORD:
-        case SelectCommand.COMMAND_WORD:
-        case DeleteCommand.COMMAND_WORD:
-        case ClearCommand.COMMAND_WORD:
-        case FindCommand.COMMAND_WORD:
-        case ListCommand.COMMAND_WORD:
-        case OrderCommand.COMMAND_WORD:
-        case HistoryCommand.COMMAND_WORD:
-        case ExitCommand.COMMAND_WORD:
-        case HelpCommand.COMMAND_WORD:
-        case UndoCommand.COMMAND_WORD:
-        case RedoCommand.COMMAND_WORD:
-        case ChangePicCommand.COMMAND_WORD:
-        case EditUserCommand.COMMAND_WORD:
-        case UserConfigCommand.COMMAND_WORD:
-            return false;
-        default:
-            throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
-        }
-        return arguments.equals("");
+    public UserProfile(Name name, Phone phone, Address address, Set<Allergy> allergies) {
+        this.name = name;
+        this.phone = phone;
+        this.address = address;
+        this.allergies = new UniqueAllergyList(allergies);
+    }
+
+```
+###### /java/seedu/address/model/user/UserProfile.java
+``` java
+    public Name getName() {
+        return name;
+    }
+
+    public Phone getPhone() {
+        return phone;
+    }
+
+    public Address getAddress() {
+        return address;
     }
 
     /**
-     * Matches user input string with a basic command regex.
-     *
-     * @param userInput Text input from user.
-     * @return Matcher object produced from regex pattern.
-     * @throws ParseException If error arises during parsing of {@code userInput}.
+     * Returns an immutable allergy set, which throws {@code UnsupportedOperationException}
+     * if modification is attempted.
      */
-    private Matcher match(String userInput) throws ParseException {
-        final Matcher matcher = BASIC_COMMAND_FORMAT.matcher(userInput.trim());
-        if (!matcher.matches()) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE));
-        }
-        return matcher;
+    public Set<Allergy> getAllergies() {
+        return Collections.unmodifiableSet(allergies.toSet());
     }
+
+
 ```
-###### \java\seedu\address\logic\parser\AddressBookParser.java
+###### /java/seedu/address/model/user/UserProfile.java
 ``` java
-    /**
-     * Create a new command object.
-     * @param userInput Text input from user.
-     * @return New Command object.
-     * @throws IllegalArgumentException If the command in {@code userInput} is not supported.
-     */
-    public Command getCommand(String userInput) throws IllegalArgumentException {
-        return CommandFactory.createCommand(userInput.trim());
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        if (!(other instanceof UserProfile)) {
+            return false;
+        }
+
+        UserProfile otherUserProfile = (UserProfile) other;
+        return otherUserProfile.getName().equals(this.getName())
+                && otherUserProfile.getPhone().equals(this.getPhone())
+                && otherUserProfile.getAddress().equals(this.getAddress())
+                && otherUserProfile.getAllergies().equals(this.getAllergies());
+    }
+
+    @Override
+    public int hashCode() {
+        // use this method for custom fields hashing instead of implementing your own
+        return Objects.hash(name, phone, address, allergies);
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(getName())
+                .append(" Phone: ")
+                .append(getPhone())
+                .append(" Address: ")
+                .append(getAddress())
+                .append(" Allergies: ");
+        getAllergies().forEach(builder::append);
+        return builder.toString();
+    }
+}
+```
+###### /java/seedu/address/model/ModelManager.java
+``` java
+    @Override
+    public void updateUserProfile(UserProfile toAdd) throws DuplicateUserException {
+        addressBook.updateUserProfile(toAdd);
+        indicateAddressBookChanged();
+    }
+
+    @Override
+    public boolean isUserInActiveSession() {
+        return sessionManager.isUserInActiveSession();
+    }
+
+    @Override
+    public void createNewSession(Command interactiveCommand) {
+        sessionManager.createNewSession(interactiveCommand);
+    }
+
+    @Override
+    public CommandResult startSession() throws CommandException {
+        return sessionManager.startSession();
+    }
+
+    @Override
+    public CommandResult interpretInteractiveUserInput(String commandText) throws CommandException {
+        return sessionManager.interpretUserInput(commandText);
     }
 ```
-###### \java\seedu\address\model\Model.java
+###### /java/seedu/address/model/Model.java
 ``` java
     /**
      * Checks if the user is engaged in an interactive session.
@@ -311,220 +514,19 @@ public class UserConfigCommand extends UndoableCommand {
     CommandResult interpretInteractiveUserInput(String commandText) throws CommandException;
 
 ```
-###### \java\seedu\address\model\ModelManager.java
-``` java
-    @Override
-    public void updateUserProfile(UserProfile toAdd) throws DuplicateUserException {
-        addressBook.updateUserProfile(toAdd);
-        indicateAddressBookChanged();
-    }
-
-    @Override
-    public boolean isUserInActiveSession() {
-        return sessionManager.isUserInActiveSession();
-    }
-
-    @Override
-    public void createNewSession(Command interactiveCommand) {
-        sessionManager.createNewSession(interactiveCommand);
-    }
-
-    @Override
-    public CommandResult startSession() throws CommandException {
-        return sessionManager.startSession();
-    }
-
-    @Override
-    public CommandResult interpretInteractiveUserInput(String commandText) throws CommandException {
-        return sessionManager.interpretUserInput(commandText);
-    }
-```
-###### \java\seedu\address\model\session\Session.java
-``` java
-
-/**
- * Represents a continuous chat or interaction between the user
- * and the system.
- */
-public abstract class Session {
-    public static final String END_MULTI_VALUE_FIELD = "";
-    public static final String OPTIONAL_MESSAGE = "Press [Enter] to skip this optional field.";
-    public static final String SUCCESS_MESSAGE = "Success!";
-    public static final String ANYTHING_ELSE_MESSAGE = "And anything else? Type [Enter] to stop.";
-    public static final String TRY_AGAIN_MESSAGE = "Please try again: ";
-    protected final EventsCenter eventsCenter;
-    protected Collection<String> stringBuffer;
-    protected Command command;
-    protected int promptIndex;
-    protected final List<Prompt> prompts;
-    private final Logger logger = LogsCenter.getLogger(Session.class);
-    private boolean isParsingMultivaluedField;
-
-    public Session(Command command, EventsCenter eventsCenter) {
-        this.command = command;
-        promptIndex = 0;
-        prompts = this.command.getPrompts();
-        this.eventsCenter = eventsCenter;
-        isParsingMultivaluedField = false;
-    }
-
-    /**
-     * Gets the next prompt message in the interactive session.
-     *
-     * @return feedback to the user
-     * @throws CommandException If end() throws exception
-     */
-    private CommandResult getNextPromptMessage() throws CommandException {
-        promptIndex++;
-        if (!sessionHasPromptsLeft()) {
-            end();
-            return new CommandResult(SUCCESS_MESSAGE);
-        }
-        Prompt prompt = getCurrentPrompt();
-        if (prompt.isMultiValued) {
-            setupForMultiValued();
-        }
-        return buildCommandResultFromPrompt(prompt);
-    }
-
-    /**
-     * Sets up Session state for processing multi valued field.
-     */
-    private void setupForMultiValued() {
-        isParsingMultivaluedField = true;
-        resetStringBuffer();
-    }
-
-    /**
-     * Constructs a CommandResult from a prompt.
-     *
-     * @param prompt What the system is asking from the user. May be optional.
-     * @return Feedback to user.
-     */
-    private CommandResult buildCommandResultFromPrompt(Prompt prompt) {
-        String message = prompt.getMessage();
-        if (prompt.isOptional) {
-            message += " " + OPTIONAL_MESSAGE;
-        }
-        return new CommandResult(message);
-    }
-
-    private boolean sessionHasPromptsLeft() {
-        return promptIndex < prompts.size();
-    }
-
-    /**
-     * Ends the active Session.
-     *
-     * @throws CommandException If finishCommand() throws exception
-     */
-    private void end() throws CommandException {
-        finishCommand();
-        eventsCenter.post(new EndActiveSessionEvent());
-    }
-
-    private Prompt getCurrentPrompt() {
-        return prompts.get(promptIndex);
-    }
-
-    protected abstract void finishCommand() throws CommandException;
-
-    /**
-     * Interprets user input in the CommandBox.
-     *
-     * @param userInput Text typed in by the user in the CommandBox
-     * @return feedback to user
-     * @throws CommandException
-     */
-    public CommandResult interpretUserInput(String userInput) throws CommandException {
-        logger.info("Received user input in current Session: " + userInput);
-        Prompt p = getCurrentPrompt();
-
-        try {
-            if (p.isMultiValued) {
-                return handleInputForMultiValuedField(userInput);
-            } else {
-                parseInputForField(p.getField(), userInput);
-                return getNextPromptMessage();
-            }
-        } catch (IllegalValueException ive) {
-            if (p.isMultiValued) {
-                // a multi value thingo failed during parsing, need to refresh
-                resetStringBuffer();
-            }
-            return new CommandResult(TRY_AGAIN_MESSAGE + ive.getMessage());
-        }
-    }
-
-    /**
-     * Processes and responds to user input when processing a multi valued field.
-     *
-     * @param userInput String input from user.
-     * @return Feedback to the user.
-     * @throws CommandException If parsing goes wrong.
-     */
-    private CommandResult handleInputForMultiValuedField(String userInput)
-            throws CommandException, IllegalValueException {
-        Prompt p = getCurrentPrompt();
-        if (didUserEndPrompt(userInput)) {
-            // user wants to go to the next prompt now
-            parseInputForMultivaluedField(p.getField());
-            isParsingMultivaluedField = false;
-            return getNextPromptMessage();
-        }
-        // user entered input that can be processed
-        addAsMultiValue(userInput);
-        return askForNextMultivalue();
-
-    }
-
-    private void resetStringBuffer() {
-        stringBuffer = new HashSet<>();
-    }
-
-    private boolean didUserEndPrompt(String userInput) {
-        return userInput.equals(END_MULTI_VALUE_FIELD);
-    }
-
-    /**
-     * Adds user input to a collection of strings for processing later
-     * when all input has been collected from the user.
-     * @param userInput String from user.
-     */
-    private void addAsMultiValue(String userInput) {
-        stringBuffer.add(userInput);
-        logger.info("Added " + userInput + " as a multi value field");
-    }
-
-    protected abstract void parseInputForMultivaluedField(Class field) throws IllegalValueException;
-
-    protected abstract void parseInputForField(Class field, String userInput) throws IllegalValueException;
-
-    private CommandResult askForNextMultivalue() {
-        return new CommandResult(ANYTHING_ELSE_MESSAGE);
-    }
-
-    /**
-     * Start the session by giving the first prompt in the interaction.
-     */
-    public CommandResult start() throws CommandException {
-        return new CommandResult(getCurrentPrompt().getMessage());
-    }
-}
-```
-###### \java\seedu\address\model\session\SessionAddCommand.java
+###### /java/seedu/address/model/session/SessionAddCommand.java
 ``` java
 /**
- * Session controlling the interaction for the AddCommand
+ * Controls the interaction for the interactive AddCommand
  */
 public class SessionAddCommand extends Session {
 
     protected Name name;
     protected Phone phone;
-    protected Email email;
-    protected Address address;
-    protected Price price;
-    protected Rating rating;
+    protected Email email = new Email(Email.DEFAULT_EMAIL);
+    protected Address address = new Address(Address.DEFAULT_ADDRESS);
+    protected Price price = new Price(Price.DEFAULT_PRICE);
+    protected Rating rating = new Rating(Rating.DEFAULT_RATING);
     protected Set<Tag> tagSet;
     protected Set<Allergy> allergySet;
 
@@ -533,12 +535,12 @@ public class SessionAddCommand extends Session {
     }
 
     @Override
-    public void parseInputForMultivaluedField(Class field) throws IllegalValueException, IllegalArgumentException {
-        switch (field.getSimpleName()) {
-        case "Tag":
+    public void parseInputForMultivaluedField(String fieldName) throws IllegalValueException, IllegalArgumentException {
+        switch (fieldName) {
+        case Tag.CLASS_NAME:
             tagSet = ParserUtil.parseTags(stringBuffer);
             break;
-        case "Allergy":
+        case Allergy.CLASS_NAME:
             allergySet = ParserUtil.parseAllergies(stringBuffer);
             break;
         default:
@@ -555,37 +557,32 @@ public class SessionAddCommand extends Session {
     }
 
     /**
-     * Parses the {@code userInput} for a specific {@code field}
-     *
-     * @param field class used to parse the {@code userInput}
-     * @param userInput test input from the user
-     * @throws IllegalValueException parsing of {@code userInput} causes an error
-     * @throws IllegalArgumentException {@code field} is not allowed
+     * Parses the {@code userInput} for a specific field.
+     * @param fieldName Class name of the field that will be used to parse {@code userInput}
+     * @param userInput Test input from the user.
+     * @throws IllegalValueException If parsing of {@code userInput} causes an error.
+     * @throws IllegalArgumentException If {@code fieldName} is invalid.
      */
-    public void parseInputForField(Class field, String userInput)
+    public void parseInputForField(String fieldName, String userInput)
             throws IllegalValueException, IllegalArgumentException {
-        switch (field.getSimpleName()) {
-        case "Name":
+        switch (fieldName) {
+        case Name.CLASS_NAME:
             name = ParserUtil.parseName(Optional.of(userInput)).get();
             break;
-        case "Phone":
+        case Phone.CLASS_NAME:
             phone = ParserUtil.parsePhone(Optional.of(userInput)).get();
             break;
-        case "Email":
-            email = ParserUtil.parseEmail(Optional.of(userInput))
-                    .orElse(new Email(Email.DEFAULT_EMAIL));
+        case Email.CLASS_NAME:
+            email = ParserUtil.parseEmail(Optional.of(userInput)).get();
             break;
-        case "Address":
-            address = ParserUtil.parseAddress(Optional.of(userInput))
-                      .orElse(new Address(Address.DEFAULT_ADDRESS));
+        case Address.CLASS_NAME:
+            address = ParserUtil.parseAddress(Optional.of(userInput)).get();
             break;
-        case "Price":
-            price = ParserUtil.parsePrice(Optional.of(userInput))
-                    .orElse(new Price(Price.DEFAULT_PRICE));
+        case Price.CLASS_NAME:
+            price = ParserUtil.parsePrice(Optional.of(userInput)).get();
             break;
-        case "Rating":
-            rating = ParserUtil.parseRating(Optional.of(userInput))
-                     .orElse(new Rating(Rating.DEFAULT_RATING));
+        case Rating.CLASS_NAME:
+            rating = ParserUtil.parseRating(Optional.of(userInput)).get();
             break;
         default:
             throw new IllegalArgumentException();
@@ -593,7 +590,7 @@ public class SessionAddCommand extends Session {
     }
 }
 ```
-###### \java\seedu\address\model\session\SessionInterface.java
+###### /java/seedu/address/model/session/SessionInterface.java
 ``` java
 /**
  * The API of the Session sub-component.
@@ -626,7 +623,7 @@ public interface SessionInterface {
     CommandResult interpretUserInput(String userInput) throws CommandException;
 }
 ```
-###### \java\seedu\address\model\session\SessionManager.java
+###### /java/seedu/address/model/session/SessionManager.java
 ``` java
 /**
  * Manages sessions (interactions) between user and system for chat-like
@@ -688,97 +685,191 @@ public class SessionManager extends ComponentManager implements SessionInterface
     }
 }
 ```
-###### \java\seedu\address\model\user\UserProfile.java
+###### /java/seedu/address/model/session/Session.java
 ``` java
+
 /**
- * Represents the profile of the HackEat user and contains
- * personal information such as name, phone and physical address.
+ * Represents a continuous chat or interaction between the user
+ * and the system.
  */
-public class UserProfile {
-    private Name name;
-    private Phone phone;
-    private Address address;
-    private final UniqueAllergyList allergies;
-    private UniqueFoodList recentFoods;
+public abstract class Session {
+    public static final String END_FIELD = "";
+    public static final String OPTIONAL_MESSAGE = "[Enter] to skip.";
+    public static final String SUCCESS_MESSAGE = "Success!";
+    public static final String ANYTHING_ELSE_MESSAGE = "And anything else? Type [Enter] to stop.";
+    public static final String TRY_AGAIN_MESSAGE = "Please try again: ";
+    protected final EventsCenter eventsCenter;
+    protected Collection<String> stringBuffer;
+    protected Command command;
+    protected int promptIndex;
+    protected final List<Prompt> prompts;
+    private final Logger logger = LogsCenter.getLogger(Session.class);
+    private boolean isParsingMultivaluedField;
 
-
-    /**
-     * Constructs a {@code UserProfile} object.
-     *  @param name    Name of user
-     * @param phone   Phone number of user
-     * @param address Address of user for food delivery
-     */
-    public UserProfile(Name name, Phone phone, Address address, Set<Allergy> allergies) {
-        this.name = name;
-        this.phone = phone;
-        this.address = address;
-        this.allergies = new UniqueAllergyList(allergies);
-        this.recentFoods = new UniqueFoodList();
-    }
-
-```
-###### \java\seedu\address\model\user\UserProfile.java
-``` java
-    public Name getName() {
-        return name;
-    }
-
-    public Phone getPhone() {
-        return phone;
-    }
-
-    public Address getAddress() {
-        return address;
+    public Session(Command command, EventsCenter eventsCenter) {
+        this.command = command;
+        promptIndex = 0;
+        prompts = this.command.getPrompts();
+        this.eventsCenter = eventsCenter;
+        isParsingMultivaluedField = false;
     }
 
     /**
-     * Returns an immutable allergy set, which throws {@code UnsupportedOperationException}
-     * if modification is attempted.
+     * Gets the next prompt message in the interactive session.
+     *
+     * @return feedback to the user
+     * @throws CommandException If end() throws exception
      */
-    public Set<Allergy> getAllergies() {
-        return Collections.unmodifiableSet(allergies.toSet());
-    }
-
-```
-###### \java\seedu\address\model\user\UserProfile.java
-``` java
-    @Override
-    public boolean equals(Object other) {
-        if (other == this) {
-            return true;
+    private CommandResult getNextPromptMessage() throws CommandException {
+        promptIndex++;
+        if (!sessionHasPromptsLeft()) {
+            end();
+            return new CommandResult(SUCCESS_MESSAGE);
         }
-
-        if (!(other instanceof UserProfile)) {
-            return false;
+        Prompt prompt = getCurrentPrompt();
+        if (prompt.isMultiValued) {
+            setupForMultiValued();
         }
-
-        UserProfile otherUserProfile = (UserProfile) other;
-        return otherUserProfile.getName().equals(this.getName())
-                && otherUserProfile.getPhone().equals(this.getPhone())
-                && otherUserProfile.getAddress().equals(this.getAddress())
-                && otherUserProfile.getAllergies().equals(this.getAllergies())
-                && otherUserProfile.getRecentFoods().equals(this.getRecentFoods());
+        return buildCommandResultFromPrompt(prompt);
     }
 
-    @Override
-    public int hashCode() {
-        // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, address, allergies, recentFoods);
+    /**
+     * Sets up Session state for processing multi valued field.
+     */
+    private void setupForMultiValued() {
+        isParsingMultivaluedField = true;
+        resetStringBuffer();
     }
 
-    @Override
-    public String toString() {
-        final StringBuilder builder = new StringBuilder();
-        builder.append(getName())
-                .append(" Phone: ")
-                .append(getPhone())
-                .append(" Address: ")
-                .append(getAddress())
-                .append(" Allergies: ");
-        getAllergies().forEach(builder::append);
-        builder.append("Recently ordered: ");
-        getRecentFoods().forEach(builder::append);
-        return builder.toString();
+    /**
+     * Constructs a CommandResult from a prompt.
+     *
+     * @param prompt What the system is asking from the user. May be optional.
+     * @return Feedback to user.
+     */
+    private static CommandResult buildCommandResultFromPrompt(Prompt prompt) {
+        String message = buildMessageFromPrompt(prompt);
+        return new CommandResult(message);
+    }
+
+    public static String buildMessageFromPrompt(Prompt p) {
+        return p.isOptional ? p.getMessage() + " " + OPTIONAL_MESSAGE : p.getMessage();
+    }
+
+    private boolean sessionHasPromptsLeft() {
+        return promptIndex < prompts.size();
+    }
+
+    /**
+     * Ends the active Session.
+     *
+     * @throws CommandException If finishCommand() throws exception
+     */
+    private void end() throws CommandException {
+        finishCommand();
+        eventsCenter.post(new EndActiveSessionEvent());
+    }
+
+    private Prompt getCurrentPrompt() {
+        return prompts.get(promptIndex);
+    }
+
+    protected abstract void finishCommand() throws CommandException;
+
+    /**
+     * Interprets user input in the CommandBox.
+     *
+     * @param userInput Text typed in by the user in the CommandBox
+     * @return feedback to user
+     * @throws CommandException
+     */
+    public CommandResult interpretUserInput(String userInput) throws CommandException {
+        logger.info("Received user input in current Session: " + userInput);
+        Prompt p = getCurrentPrompt();
+
+        try {
+            if (p.isMultiValued) {
+                return handleInputForMultiValuedField(userInput);
+            } else {
+                return handleInputForField(userInput);
+            }
+        } catch (IllegalValueException ive) {
+            if (p.isMultiValued) {
+                resetStringBuffer();
+            }
+            return new CommandResult(TRY_AGAIN_MESSAGE + ive.getMessage(), false);
+        }
+    }
+
+    /**
+     *
+     * @param userInput String input from user.
+     * @return Feedback to the user.
+     * @throws CommandException If command execution leads to an error.
+     * @throws IllegalValueException If input parsing leads to an error.
+     */
+    private CommandResult handleInputForField(String userInput) throws CommandException, IllegalValueException {
+        Prompt p = getCurrentPrompt();
+        boolean canUserSkipField = didUserEndPrompt(userInput) && p.isOptional;
+        if (!canUserSkipField) {
+            parseInputForField(p.getFieldName(), userInput);
+        }
+        return getNextPromptMessage();
+    }
+
+    /**
+     * Processes and responds to user input when processing a multi valued field.
+     *
+     * @param userInput String input from user.
+     * @return Feedback to the user.
+     * @throws CommandException If command execution leads to an error.
+     */
+    private CommandResult handleInputForMultiValuedField(String userInput)
+            throws CommandException, IllegalValueException {
+        Prompt p = getCurrentPrompt();
+        if (didUserEndPrompt(userInput)) {
+            // user wants to go to the next prompt now
+            parseInputForMultivaluedField(p.getFieldName());
+            isParsingMultivaluedField = false;
+            return getNextPromptMessage();
+        }
+        // user entered input that can be processed
+        addAsMultiValue(userInput);
+        return askForNextMultivalue();
+
+    }
+
+    private void resetStringBuffer() {
+        stringBuffer = new HashSet<>();
+    }
+
+    private boolean didUserEndPrompt(String userInput) {
+        return userInput.equals(END_FIELD);
+    }
+
+    /**
+     * Adds user input to a collection of strings for processing later
+     * when all input has been collected from the user.
+     * @param userInput String from user.
+     */
+    private void addAsMultiValue(String userInput) {
+        stringBuffer.add(userInput);
+        logger.info("Added " + userInput + " as a multi value field");
+    }
+
+    protected abstract void parseInputForMultivaluedField(String fieldName) throws IllegalValueException;
+
+    protected abstract void parseInputForField(String fieldName, String userInput) throws IllegalValueException;
+
+    private CommandResult askForNextMultivalue() {
+        return new CommandResult(ANYTHING_ELSE_MESSAGE);
+    }
+
+    /**
+     * Start the session by giving the first prompt in the interaction.
+     */
+    public CommandResult start() throws CommandException {
+        return new CommandResult(getCurrentPrompt().getMessage());
     }
 }
 ```

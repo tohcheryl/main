@@ -3,16 +3,9 @@ package seedu.address.logic.orderer;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Properties;
 import java.util.UUID;
 
-import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 
 import seedu.address.model.food.Food;
 import seedu.address.model.user.UserProfile;
@@ -33,27 +26,11 @@ public class OrderManager {
     public static final String CHARSET_ENCODING = "UTF-8";
 
     public static final String CANNED_SPEECH_MESSAGE = "Hello, my name is %s. Could I order a %s to %s?";
-    public static final String SUBJECT_LINE = "Order from HackEat. Reference code: %s";
 
-    private static final String PROPERTY_AUTH_HEADER = "mail.smtp.auth";
-    private static final String PROPERTY_AUTH = "true";
-    private static final String PROPERTY_TLS_HEADER = "mail.smtp.starttls.enable";
-    private static final String PROPERTY_TLS = "true";
-    private static final String PROPERTY_HOST_HEADER = "mail.smtp.host";
-    private static final String PROPERTY_HOST = "smtp.gmail.com";
-    private static final String PROPERTY_PORT_HEADER = "mail.smtp.port";
-    private static final String PROPERTY_PORT = "587";
-
-    private final String username = "hackeatapp@gmail.com";
-    private final String password = "hackeater";
-    private final String from = username;
-
-    private Session session;
 
     private String orderId;
     private UserProfile user;
     private Food toOrder;
-    private String to;
 
     public OrderManager(UserProfile user, Food food) {
         this.user = user;
@@ -67,30 +44,10 @@ public class OrderManager {
     public void order() throws IOException, MessagingException {
         String message = createMessage();
 
-        generateEmailSession();
-        sendEmail(message);
+        EmailManager emailManager = new EmailManager(user, toOrder, orderId, message);
+        emailManager.email();
 
         sendOrder(toOrder.getPhone().toString(), message);
-    }
-
-    /**
-     * Generates a new email session with pre-defined seetings
-     */
-    private void generateEmailSession() {
-        to = toOrder.getEmail().toString();
-
-        Properties props = new Properties();
-        props.put(PROPERTY_AUTH_HEADER, PROPERTY_AUTH);
-        props.put(PROPERTY_TLS_HEADER, PROPERTY_TLS);
-        props.put(PROPERTY_HOST_HEADER, PROPERTY_HOST);
-        props.put(PROPERTY_PORT_HEADER, PROPERTY_PORT);
-
-        session = Session.getInstance(props,
-                new javax.mail.Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(username, password);
-                    }
-                });
     }
 
     /**
@@ -99,20 +56,6 @@ public class OrderManager {
      */
     private String createMessage() {
         return String.format(CANNED_SPEECH_MESSAGE, user.getName(), toOrder.getName(), user.getAddress());
-    }
-
-    /**
-     * Sends an email to a food's email address
-     * @param body of the email sent
-     */
-    private void sendEmail(String body) throws MessagingException {
-
-        MimeMessage message = new MimeMessage(session);
-        message.setFrom(new InternetAddress(from));
-        message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-        message.setSubject(String.format(SUBJECT_LINE, orderId));
-        message.setText(body);
-        Transport.send(message);
     }
 
     /**

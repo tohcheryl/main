@@ -77,29 +77,25 @@ Examples:
 * `add n/Hainanese Chicken Rice t/chinese e/tiantianchicken@maxwell.sg a/Maxwell Food Centre p/96914852 t/protein alg/msg`
 
 // tag::add[]
-=== Adding a food interactively: `add` [Proposed to finish in v1.5]
+=== Adding a food interactively: `add`
 
 Adds a food to HackEat using an interactive, chat-like experience where HackEat asks you questions about your food
 so you never have to remember the format for `add` again! +
 Format: `add`
 
-[NOTE]
-All fields are required in the interactive `add` command.
-
-[TIP]
-A food should have 1 or more tags and allergies. Currently 0 tags and allergies is not supported for interactive mode.
-
 Example:
 
-* `add` [Press Enter] > `What's the name of your food?`
-* `Sweet Chili Fish Burger` [Press Enter] > `And phone number of restaurant?`
-* `123133123` [Press Enter] > `Is there an email?`
-* `email@email.com` [Press Enter] > `Where it @ fam?`
-* `2 Clementi Road` [Press Enter] > `Any tags?`
-* `burger` [Press Enter] > `Anything else? Type (n/N) to stop.`
-* `n` [Press Enter] > `Any allergies?`
-* `peanut` [Press Enter] > `Anything else? Type (n/N) to stop.`
-* `n` [Press Enter] > `Success!`
+* `add` [Press Enter] > `What's the food called?`
+* `Sweet Chili Fish Burger` [Press Enter] > `Restaurant phone number?`
+* `123133123` [Press Enter] > `And their email? [Enter] to skip.`
+* `email@email.com` [Press Enter] > `Where they located @ fam? [Enter] to skip.`
+* `2 Clementi Road` [Press Enter] > `$$$? [Enter] to skip.`
+* [Press Enter] > `U rate or what? [Enter] to skip.`
+* `5` [Press Enter] > `Where those tags at? [Enter] to skip.`
+* `burger` [Press Enter] > `Anything else? Type [Enter] to stop.`
+* [Press Enter] > `Does this food have any allergies? Type [Enter] to skip.`
+* `peanut` [Press Enter] > `Anything else? Type [Enter] to stop.`
+* [Press Enter] > `Success!`
 // end::add[]
 
 === Listing all foods : `list`

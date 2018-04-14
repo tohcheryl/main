@@ -598,11 +598,28 @@ component.
 
 An alternative architectural design would be to have `SessionData` and `SessionLogic` separated across `Model` and
 `Logic` components. The advantage of this design is that it adheres to the strict definitions of the functions
-of each of these components. The disadvantage, which is much more costly, is the increased coupling between these
-separate components and classes. It is much more convenient to simply combine the state and logic for `Session`s in a
-single component to reduce coupling and increase cohesion, making developer efficiency higher and code organisation more
+of each of these components. The disadvantage, which is much more costly, is the increased coupling between these separate components and classes. It is much more convenient to simply combine the state and logic for `Sessions` in a single component to reduce coupling and increase cohesion, making developer efficiency higher and code organisation more
 simple.
 // end::add[]
+
+// tag::chat[]
+=== Chat UI
+
+==== What
+The `ResultDisplay` was replaced with a `ChatPanel`. The system's messages and the user's messages are now shown
+as chat messages in a chat history. The message bubbles are color coordinated based on whether the message is
+a user message, a failed system message, or a successful system message.
+
+==== Why
+The chat UI, like the interactive `add` command, aims to give our target users (hungry programmers) a fun and natural way to
+manage food and food ordering. The commands are still CLI-based, but now there is an added sense of interaction and novelty
+that delights our users.
+
+==== How
+The chat UI consists of the following set of nested JavaFX components, displayed in the object diagram below.
+image::object-diagram-chat-ui.png[width="600"]
+
+// end::chat[]
 
 == Documentation
 
@@ -1270,6 +1287,20 @@ These instructions only provide a starting point for testers to work on; testers
    Expected: The most recent window size and location is retained.
 
 _{ more test cases ... }_
+
+=== Adding a food interactively
+. Start the interactive command:
+.. Type `add` followed by 0 or more whitespaces.
+.. Type `Chinese Hot Pot` for the food's name.
+.. Type `abcadsajdl` for the phone number to get a failure message.
+.. Type `12319313123` for a correct phone number.
+.. Press Enter for the rest of the fields until the `Success` message is received.
+.. Check that the food was indeed added in the food panel on the left.
+
+. Responsive width of message
+.. Messages should be at most three-quarters of the width of the chat panel.
+.. Resize the window to see automatic resizing of the maximum width of the message bubbles.
+.. Type in a really long message (e.g., repeating the letter `a` 50 times) in response to any of the prompts. The text should wrap properly and not exceed three-quarters of the chat panel's width.
 
 === Deleting a food
 
