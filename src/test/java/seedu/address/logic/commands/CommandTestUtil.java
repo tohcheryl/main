@@ -154,6 +154,22 @@ public class CommandTestUtil {
         }
     }
 
+    //@@author {tohcheryl}
+    /**
+     * Executes the given {@code command} and confirms that <br>
+     * - a {@code CommandException} is thrown <br>
+     * - the CommandException message matches {@code expectedMessage}
+     */
+    public static void assertCommandFailure(Command command, String expectedMessage) {
+        try {
+            command.execute();
+            fail("The expected CommandException was not thrown.");
+        } catch (CommandException e) {
+            assertEquals(expectedMessage, e.getMessage());
+        }
+    }
+
+    //@@author
     /**
      * Updates {@code model}'s filtered list to show only the food at the given {@code targetIndex} in the
      * {@code model}'s address book.
