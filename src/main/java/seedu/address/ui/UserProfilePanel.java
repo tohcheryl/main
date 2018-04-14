@@ -71,6 +71,9 @@ public class UserProfilePanel extends UiPart<Region> {
         registerAsAnEventHandler(this);
     }
 
+    /**
+     * Sets the labels to reflect the values of the current {@code UserProfile}
+     */
     public void setUserProfile(UserProfile userProfile) {
         name.setText(userProfile.getName().fullName);
         phone.setText(userProfile.getPhone().value);
@@ -79,6 +82,9 @@ public class UserProfilePanel extends UiPart<Region> {
         userProfile.getAllergies().forEach(allergy -> allergies.getChildren().add(new Label(allergy.allergyName)));
     }
 
+    /**
+     * Sets the profile picture to a square image
+     */
     public void setProfilePicture() {
         Image image = new Image("file:" + PROFILE_PICTURE_PATH);
         Image squareImage = getSquareImage(image);
@@ -86,6 +92,9 @@ public class UserProfilePanel extends UiPart<Region> {
         profilepic.setClip(clip);
     }
 
+    /**
+     * Crops an image to make it square so that it can be displayed properly in the image view
+     */
     public Image getSquareImage(Image image) {
         double width = image.getWidth();
         double height = image.getHeight();
