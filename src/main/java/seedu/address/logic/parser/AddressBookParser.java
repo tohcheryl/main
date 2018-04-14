@@ -47,8 +47,6 @@ public class AddressBookParser {
     public boolean isCommandInteractive(String userInput) throws ParseException {
         Matcher matcher = match(userInput);
         final String arguments = matcher.group("arguments");
-        // command must be interactive type if no arguments are provided
-        // only AddCommand is interactive right now
         switch (matcher.group("commandWord")) {
         case AddCommand.COMMAND_WORD:
             break;
@@ -158,7 +156,7 @@ public class AddressBookParser {
 
     //@@author jaxony
     /**
-     * Create a new command object.
+     * Creates a new command object.
      * @param userInput Text input from user.
      * @return New Command object.
      * @throws IllegalArgumentException If the command in {@code userInput} is not supported.

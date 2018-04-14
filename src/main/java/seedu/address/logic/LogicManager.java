@@ -43,7 +43,6 @@ public class LogicManager extends ComponentManager implements Logic {
                 result = model.interpretInteractiveUserInput(commandText);
             } else if (isCommandInteractive(commandText)) {
                 logger.info("Command is interactive.");
-                // start a new session
                 createNewSession(commandText);
                 result = startSession();
             } else {

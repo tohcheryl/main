@@ -21,7 +21,7 @@ import seedu.address.model.tag.Tag;
 
 //@@author jaxony
 /**
- * Session controlling the interaction for the AddCommand
+ * Controls the interaction for the interactive AddCommand
  */
 public class SessionAddCommand extends Session {
 

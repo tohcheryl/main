@@ -103,18 +103,15 @@ public class CommandBox extends UiPart<Region> {
     private void handleCommandInputChanged() {
         raise(new NewUserMessageAvailableEvent(commandTextField.getText()));
         try {
-            // non-interactive parsing
             CommandResult commandResult = logic.execute(commandTextField.getText());
             initHistory();
             historySnapshot.next();
-            // process result of the command
             commandTextField.setText("");
             logger.info("Result: " + commandResult.feedbackToUser);
             raise(new NewResultAvailableEvent(commandResult.feedbackToUser, commandResult.isSuccessful));
 
         } catch (CommandException | ParseException e) {
             initHistory();
-            // handle command failure
             setStyleToIndicateCommandFailure();
             logger.info("Invalid command: " + commandTextField.getText());
             raise(new NewResultAvailableEvent(e.getMessage(), false));
