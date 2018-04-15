@@ -13,7 +13,7 @@ import seedu.address.model.user.UserProfile;
 
 //@@author tohcheryl
 /**
- * A utility class to help with building EditFoodDescriptor objects.
+ * A utility class to help with building EditUserDescriptor objects.
  */
 public class EditUserDescriptorBuilder {
 
