@@ -7,7 +7,7 @@
 ---
 
 == Overview
-HackEat was created based on a fork of AddressBook - Level 4 which is used
+HackEat was morphed from AddressBook - Level 4, a desktop application which is used
 for teaching Software Engineering Principles. The user interacts with it using a CLI, and it has a GUI created with JavaFX.
 It is written in Java, and has about 10 kLoC.
 
@@ -21,26 +21,38 @@ _End of Extract [from: Read Me] written by Jackson Huang_
 
 == Summary of contributions
 
-* *Major enhancement*: added *the ability to customise a user's profile*
-** What it does: allows the user to modify his/her contact details and sets his/her profile picture.
-** Justification: This feature improves the product significantly because a user can update his/her contact details.
-This is an essential feature so that the ordered food can be delivered to the right place. Moreover, user
-personalisation is important nowadays. What users appreciate is an emotionally tangible link between the user and the
-app. Having a profile picture is the first step to achieving this.
-** Highlights: This enhancement resulted in the implementation of two new commands - `changepic` and `edituser`.
+* *Major enhancement*: Provide users with a personalised and customised experience
 
-* *Minor enhancement*: added a price attribute to Food.
+** What it does: Allows users to view and modify their details as well as update their profile picture
 
-* *Code contributed*: [https://github.com[Functional code]] [https://github.com[Test code]] _{give links to collated code files}_
+** Justification: This feature allows users to update their contact details and allergies - both of which are imperative to HackEat.
+Since the `order` command utilises the allergies of users to determine the types of food that they can eat, it is essential
+to have an `edituser` command that allows users to easily update their allergies. In addition, this feature also makes it simple for users to change
+their contact details, which can prove to be useful if they want their food to be delivered to the right place. Lastly, with the prevalence
+of user customisation these days, what users appreciate is an emotionally tangible link between them and the app. Having a profile picture is
+the first step to achieving this.
+
+** Highlights: This enhancement resulted in the implementation of two new commands - `changepic` and `edituser`. Implementation of the two
+commands required an analysis of the pros and cons of the various possible options.
+
+** Jackson Huang implemented the basic classes required for a User Profile.
+
+* *Minor enhancement*: Added price and allergy attribute to Food.
+
+* *Code contributed*: [https://github.com/CS2103JAN2018-W10-B3/main/blob/master/collated/functional/tohcheryl.md[Functional code]] [https://github.com/CS2103JAN2018-W10-B3/main/blob/master/collated/test/tohcheryl.md[Test code]]
 
 * *Other contributions*:
 
 ** Enhancements to existing features:
-*** Wrote additional tests for existing features to increase coverage
+*** Wrote additional tests for existing features to increase coverage from 88% to 90% (https://github.com/CS2103JAN2018-W10-B3/main/pull/76[#76])
+*** Update User Guide to align with HackEat
+
 ** Community:
-*** Reported bugs and suggestions for other teams in the class
+*** Reported bugs and suggestions for other teams in the class (example: https://github.com/CS2103JAN2018-W13-B3/main/issues/151[#151])
+
 ** Tools:
-*** Set up Coveralls
+*** Set up Coveralls for the team
+
 == Contributions to the User Guide
 
 
