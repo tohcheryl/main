@@ -33,7 +33,7 @@ _End of Extract [from: Read Me] written by Jackson Huang_
 * Added Food Selector which selects food based on Food's ratings and price
 * Added Order Manager which phones an order and emails restaurant provider of food
 
-=== Unused (was used for voice messaging)
+=== Unused
 
 Not implemented on the client side, but now implemented on server side (source code external to this repo)
 
@@ -42,7 +42,7 @@ Not implemented on the client side, but now implemented on server side (source c
 * Implemented server-side REST API for ordering
 ** Found here: https://github.com/CS2103JAN2018-W10-B3/hackeat-server
 ** Configured to be hosted on Heroku on https://mysterious-temple-83678.herokuapp.com/
-** Diagram below
+** Previous architecture when used in client side
 
 image::unused--order-command--order-manager.png[width="600"]
 
@@ -52,22 +52,3 @@ include::../UserGuide.adoc[tag=orderfood]
 
 == Contributions to the Developer Guide
 include::../DeveloperGuide.adoc[tag=order]
-
-== Future proposals
-
-The use of Twilio API to directly use voice messages.
-Can be seen in unused section.
-
-=== Smarter ordering AI agent
-Possibly implement smarter speech with `<Gather>` and `<Redirect>`.
-
-1. `<Gather>` gathers data from user in form of speech, and posts to the url /create/:id/response at the REST API.
-2. API parses the information and generates new XML data specific to the response at /order/:id/response.
-3. `<Redirect>` redirects chat flow to /order/:id/response and retrieves XML data and confirms, repeats or declines the order.
-
-API Links:
-
-* `<Gather>`
-** https://www.twilio.com/docs/voice/twiml/gather
-* `<Redirect>`
-** https://www.twilio.com/docs/voice/twiml/redirect
