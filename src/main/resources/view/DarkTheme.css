@@ -349,7 +349,7 @@
 
 #profilePane {
     -fx-background-color: #f2efe8;
-    -fx-padding: 30 10 10 10;
+    -fx-padding: 30 10 30 10;
     -fx-alignment: top-center;
     -fx-spacing: 5;
 }
