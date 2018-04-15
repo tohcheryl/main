@@ -395,19 +395,14 @@ public class EditUserCommandParserTest {
 ``` java
 public class UserConfigCommandParserTest {
 
-    // temp fix
-    private static final String ALLERGIES_DESC_APPLE = " " + PREFIX_ALLERGIES + "lactose";
-    private static final String INVALID_ALLERGIES_DESC = " " + PREFIX_ALLERGIES + "#lactose";
-
     private UserConfigCommandParser parser = new UserConfigCommandParser();
-
 
     @Test
     public void parse_allFieldsPresent_success() {
         UserProfile expectedUserProfile = new UserProfile(new Name(VALID_NAME_APPLE), new Phone(VALID_PHONE_APPLE),
                 new Address(VALID_ADDRESS_APPLE), getAllergySet("lactose"));
 
-        assertParseSuccess(parser, NAME_DESC_APPLE + PHONE_DESC_APPLE + ADDRESS_DESC_APPLE + ALLERGIES_DESC_APPLE,
+        assertParseSuccess(parser, NAME_DESC_APPLE + PHONE_DESC_APPLE + ADDRESS_DESC_APPLE + ALLERGY_DESC_LACTOSE,
                 new UserConfigCommand(expectedUserProfile));
     }
 
@@ -448,7 +443,7 @@ public class UserConfigCommandParserTest {
 
         // invalid allergies
         assertParseFailure(parser, NAME_DESC_BANANA + PHONE_DESC_BANANA + ADDRESS_DESC_BANANA
-                + INVALID_ALLERGIES_DESC, Allergy.MESSAGE_ALLERGY_CONSTRAINTS);
+                + INVALID_ALLERGY_DESC, Allergy.MESSAGE_ALLERGY_CONSTRAINTS);
     }
 }
 ```
@@ -649,7 +644,7 @@ public class XmlAdaptedUserProfileTest {
 ###### \java\seedu\address\testutil\EditUserDescriptorBuilder.java
 ``` java
 /**
- * A utility class to help with building EditFoodDescriptor objects.
+ * A utility class to help with building EditUserDescriptor objects.
  */
 public class EditUserDescriptorBuilder {
 

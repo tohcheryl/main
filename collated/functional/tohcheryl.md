@@ -1,127 +1,5 @@
 # tohcheryl
-###### /resources/view/UserProfilePanel.fxml
-``` fxml
-<?import javafx.scene.control.ScrollPane?>
-<ScrollPane fx:id="profilePane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-  <VBox fx:id="profileVBox" >
-    <ImageView fx:id="profilepic" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" />
-    <Label fx:id="name" text="\$name" alignment="CENTER"/>
-    <Label fx:id="phone" text="\$phone" alignment="CENTER"/>
-    <Label fx:id="address" text="\$address" alignment="CENTER"/>
-    <FlowPane fx:id="allergies" />
-  </VBox>
-</ScrollPane>
-```
-###### /java/seedu/address/ui/UserProfilePanel.java
-``` java
-/**
- * The User Profile panel of the App.
- */
-public class UserProfilePanel extends UiPart<Region> {
-
-    private static final String FXML = "UserProfilePanel.fxml";
-
-    private static final Logger logger = LogsCenter.getLogger(UserProfilePanel.class);
-
-    private static final String PROFILE_PICTURE_PATH = "profilepic.png";
-
-    final Circle clip = new Circle(75, 75, 75);
-
-    private ReadOnlyAddressBook addressBook;
-
-    @FXML
-    private ScrollPane profilePane;
-
-    @FXML
-    private ImageView profilepic;
-
-    @FXML
-    private Label name;
-
-    @FXML
-    private Label phone;
-
-    @FXML
-    private Label address;
-
-    @FXML
-    private FlowPane allergies;
-
-    public UserProfilePanel(ReadOnlyAddressBook addressBook) {
-        super(FXML);
-        this.addressBook = addressBook;
-        profilePane.setFitToWidth(true);
-        profilePane.setFitToHeight(true);
-        profilePane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        profilePane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-        name.setWrapText(true);
-        phone.setWrapText(true);
-        address.setWrapText(true);
-        setUserProfile(addressBook.getUserProfile());
-        setProfilePicture();
-        registerAsAnEventHandler(this);
-    }
-
-    /**
-     * Sets the labels to reflect the values of the current {@code UserProfile}
-     */
-    public void setUserProfile(UserProfile userProfile) {
-        name.setText(userProfile.getName().fullName);
-        phone.setText(userProfile.getPhone().value);
-        address.setText(userProfile.getAddress().value);
-        allergies.getChildren().clear();
-        userProfile.getAllergies().forEach(allergy -> allergies.getChildren().add(new Label(allergy.allergyName)));
-    }
-
-    /**
-     * Sets the profile picture to a square image
-     */
-    public void setProfilePicture() {
-        Image image = new Image("file:" + PROFILE_PICTURE_PATH);
-        Image squareImage = getSquareImage(image);
-        profilepic.setImage(squareImage);
-        profilepic.setClip(clip);
-    }
-
-    /**
-     * Crops an image to make it square so that it can be displayed properly in the image view
-     */
-    public Image getSquareImage(Image image) {
-        double width = image.getWidth();
-        double height = image.getHeight();
-        if (width == height) {
-            return image;
-        } else {
-            double lengthOfSquare = width < height ? width : height;
-            double centerX = width / 2;
-            double centerY = height / 2;
-            double startingX = centerX - lengthOfSquare / 2;
-            double startingY = centerY - lengthOfSquare / 2;
-            PixelReader reader = image.getPixelReader();
-            WritableImage squareImage = new WritableImage(reader, (int) startingX,
-                    (int) startingY, (int) lengthOfSquare, (int) lengthOfSquare);
-            return squareImage;
-        }
-    }
-
-    @Subscribe
-    public void handleAddressBookChangedEvent(AddressBookChangedEvent abce) {
-        UserProfile newUserProfile = addressBook.getUserProfile();
-        logger.info(LogsCenter.getEventHandlingLogMessage(abce, "User Profile updated to: " + newUserProfile));
-        Platform.runLater(() -> {
-            setUserProfile(newUserProfile);
-        });
-    }
-
-    @Subscribe
-    public void handleProfilePictureChangedEvent(ProfilePictureChangedEvent ppce) {
-        Platform.runLater(() -> {
-            setProfilePicture();
-        });
-    }
-}
-```
-###### /java/seedu/address/commons/events/ui/ProfilePictureChangedEvent.java
+###### \java\seedu\address\commons\events\ui\ProfilePictureChangedEvent.java
 ``` java
 /**
  * Indicates profile picture of user has changed
@@ -148,7 +26,7 @@ public class ChangePicCommand extends Command {
     public static final String MESSAGE_PIC_CHANGED_FAILURE = "Unable to set profile picture";
 
     /**
-     * Selects a profile picture
+     * Allows user to select a profile picture
      */
     public File selectProfilePic() {
         FileChooser fileChooser = new FileChooser();
@@ -202,8 +80,8 @@ public class EditUserCommand extends UndoableCommand {
     private UserProfile editedUser;
 
     /**
-     * Creates a new EditUserCommand.
-     * @param editUserDescriptor details to edit the food with
+     * Creates a new EditUserCommand
+     * @param editUserDescriptor An EditUserDescriptor object which contains the updated attribute values
      */
     public EditUserCommand(EditUserCommand.EditUserDescriptor editUserDescriptor) {
         requireNonNull(editUserDescriptor);
@@ -317,7 +195,7 @@ public class EditUserCommand extends UndoableCommand {
         }
 
         /**
-         * Sets {@code allergies} to this object's {@code allergies}.
+         * Sets the current set of {@code allergies} to the {@code allergies} set provided
          * A defensive copy of {@code allergies} is used internally.
          */
         public void setAllergies(Set<Allergy> allergies) {
@@ -419,7 +297,7 @@ public class EditUserCommandParser implements Parser<EditUserCommand> {
 ###### \java\seedu\address\MainApp.java
 ``` java
     /**
-     * Creates new profilepic.png when app is first started
+     * Sets up a default profile picture if a picture has not been set
      */
     private void initProfilePic() {
         File profilePicFile = new File("profilepic.png");
@@ -446,14 +324,14 @@ public class EditUserCommandParser implements Parser<EditUserCommand> {
 ###### \java\seedu\address\model\AddressBook.java
 ``` java
     /**
-     * Initialises user profile with {@code profile}.
+     * Sets the current user profile to the input {@code profile}.
      */
     public void initUserProfile(UserProfile profile) {
         this.profile = profile;
     }
 
     /**
-     * Replaces current user profile {@code target} with {@code editedProfile}.
+     * Replaces the current user profile with {@code editedProfile}.
      * @throws DuplicateUserException if there is no change in user profile
      */
     public void updateUserProfile(UserProfile editedProfile) throws DuplicateUserException {
@@ -469,7 +347,7 @@ public class EditUserCommandParser implements Parser<EditUserCommand> {
 ###### \java\seedu\address\model\food\Price.java
 ``` java
     /**
-     * Returns price of Food as a BigDecimal.
+     * Returns price of Food as a String.
      */
     public String getValue() {
         return value;
@@ -496,7 +374,7 @@ public class EditUserCommandParser implements Parser<EditUserCommand> {
 ###### \java\seedu\address\model\Model.java
 ``` java
     /**
-     * Initialises user profile of address book with {@code target}.
+     * Sets the user profile of address book to {@code target}.
      */
     void initUserProfile(UserProfile target);
 
@@ -598,7 +476,7 @@ public class UserProfilePanel extends UiPart<Region> {
     }
 
     /**
-     * Sets the profile picture to a square image
+     * Sets the profile picture to a square image and clips it
      */
     public void setProfilePicture() {
         Image image = new Image("file:" + PROFILE_PICTURE_PATH);
