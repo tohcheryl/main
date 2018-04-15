@@ -49,7 +49,7 @@ public interface Logic {
     boolean isCommandInteractive(String commandText) throws ParseException;
 
     /**
-     * Returns ReadOnlyAddressBook
+     * Returns the current ReadOnlyAddressBook
      */
     ReadOnlyAddressBook getAddressBook();
 }

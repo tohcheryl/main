@@ -23,7 +23,7 @@ public class ChangePicCommand extends Command {
     public static final String MESSAGE_PIC_CHANGED_FAILURE = "Unable to set profile picture";
 
     /**
-     * Selects a profile picture
+     * Allows user to select a profile picture
      */
     public File selectProfilePic() {
         FileChooser fileChooser = new FileChooser();

@@ -79,7 +79,7 @@ public interface Model {
 
     //@@author tohcheryl
     /**
-     * Initialises user profile of address book with {@code target}.
+     * Sets the user profile of address book to {@code target}.
      */
     void initUserProfile(UserProfile target);
 

@@ -50,8 +50,8 @@ public class EditUserCommand extends UndoableCommand {
     private UserProfile editedUser;
 
     /**
-     * Creates a new EditUserCommand.
-     * @param editUserDescriptor details to edit the food with
+     * Creates a new EditUserCommand
+     * @param editUserDescriptor An EditUserDescriptor object which contains the updated attribute values
      */
     public EditUserCommand(EditUserCommand.EditUserDescriptor editUserDescriptor) {
         requireNonNull(editUserDescriptor);
@@ -165,7 +165,7 @@ public class EditUserCommand extends UndoableCommand {
         }
 
         /**
-         * Sets {@code allergies} to this object's {@code allergies}.
+         * Sets the current set of {@code allergies} to the {@code allergies} set provided
          * A defensive copy of {@code allergies} is used internally.
          */
         public void setAllergies(Set<Allergy> allergies) {
