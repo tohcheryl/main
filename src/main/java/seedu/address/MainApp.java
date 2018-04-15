@@ -187,7 +187,7 @@ public class MainApp extends Application {
 
     //@@author tohcheryl
     /**
-     * Creates new profilepic.png when app is first started
+     * Sets up a default profile picture if a picture has not been set
      */
     private void initProfilePic() {
         File profilePicFile = new File("profilepic.png");

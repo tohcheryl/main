@@ -83,7 +83,7 @@ public class UserProfilePanel extends UiPart<Region> {
     }
 
     /**
-     * Sets the profile picture to a square image
+     * Sets the profile picture to a square image and clips it
      */
     public void setProfilePicture() {
         Image image = new Image("file:" + PROFILE_PICTURE_PATH);
