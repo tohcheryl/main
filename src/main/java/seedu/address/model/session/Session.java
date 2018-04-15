@@ -24,7 +24,7 @@ public abstract class Session {
     public static final String END_FIELD = "";
     public static final String OPTIONAL_MESSAGE = "[Enter] to skip.";
     public static final String SUCCESS_MESSAGE = "Success!";
-    public static final String ANYTHING_ELSE_MESSAGE = "And anything else? Type [Enter] to stop.";
+    public static final String ANYTHING_ELSE_MESSAGE = "And anything else?\nType [Enter] to stop.";
     public static final String TRY_AGAIN_MESSAGE = "Please try again: ";
     protected final EventsCenter eventsCenter;
     protected Collection<String> stringBuffer;
@@ -42,64 +42,9 @@ public abstract class Session {
         isParsingMultivaluedField = false;
     }
 
-    /**
-     * Gets the next prompt message in the interactive session.
-     * @return Feedback to the user as a {@code CommandResult}.
-     * @throws CommandException If command execution fails.
-     */
-    private CommandResult getNextPromptMessage() throws CommandException {
-        promptIndex++;
-        if (!sessionHasPromptsLeft()) {
-            end();
-            return new CommandResult(SUCCESS_MESSAGE);
-        }
-        Prompt prompt = getCurrentPrompt();
-        if (prompt.isMultiValued) {
-            setupForMultiValued();
-        }
-        return buildCommandResultFromPrompt(prompt);
-    }
-
-    /**
-     * Sets up Session state for processing multi valued field.
-     */
-    private void setupForMultiValued() {
-        isParsingMultivaluedField = true;
-        resetStringBuffer();
-    }
-
-    /**
-     * Constructs a CommandResult from a prompt.
-     * @param prompt What the system is asking from the user. May be optional.
-     * @return Feedback to user.
-     */
-    private static CommandResult buildCommandResultFromPrompt(Prompt prompt) {
-        String message = buildMessageFromPrompt(prompt);
-        return new CommandResult(message);
-    }
-
     public static String buildMessageFromPrompt(Prompt p) {
-        return p.isOptional ? p.getMessage() + " " + OPTIONAL_MESSAGE : p.getMessage();
+        return p.isOptional ? p.getMessage() + "\n" + OPTIONAL_MESSAGE : p.getMessage();
     }
-
-    private boolean sessionHasPromptsLeft() {
-        return promptIndex < prompts.size();
-    }
-
-    /**
-     * Ends the active Session.
-     * @throws CommandException If finishCommand() throws exception
-     */
-    private void end() throws CommandException {
-        eventsCenter.post(new EndActiveSessionEvent());
-        finishCommand();
-    }
-
-    private Prompt getCurrentPrompt() {
-        return prompts.get(promptIndex);
-    }
-
-    protected abstract void finishCommand() throws CommandException;
 
     /**
      * Interprets user input in the CommandBox.
@@ -133,6 +78,16 @@ public abstract class Session {
         return new CommandResult(getCurrentPrompt().getMessage());
     }
 
+    protected abstract void parseInputForMultivaluedField(String fieldName) throws IllegalValueException;
+
+    protected abstract void parseInputForField(String fieldName, String userInput) throws IllegalValueException;
+
+    protected abstract void finishCommand() throws CommandException;
+
+    private Prompt getCurrentPrompt() {
+        return prompts.get(promptIndex);
+    }
+
     /**
      * Processes user input for a single-value field, including optional fields.
      * @param userInput String input from user.
@@ -147,6 +102,19 @@ public abstract class Session {
             parseInputForField(p.getFieldName(), userInput);
         }
         return getNextPromptMessage();
+    }
+
+    private boolean sessionHasPromptsLeft() {
+        return promptIndex < prompts.size();
+    }
+
+    /**
+     * Ends the active {@code Session}.
+     * @throws CommandException If command execution fails.
+     */
+    private void endSession() throws CommandException {
+        eventsCenter.post(new EndActiveSessionEvent());
+        finishCommand();
     }
 
     /**
@@ -177,18 +145,55 @@ public abstract class Session {
     }
 
     /**
+     * Gets the next prompt message in the interactive session.
+     * @return Feedback to the user as a {@code CommandResult}.
+     * @throws CommandException If command execution fails.
+     */
+    private CommandResult getNextPromptMessage() throws CommandException {
+        promptIndex++;
+        if (!sessionHasPromptsLeft()) {
+            endSession();
+            return buildSuccessfulCommandResult();
+        }
+        Prompt prompt = getCurrentPrompt();
+        if (prompt.isMultiValued) {
+            setupForMultiValued();
+        }
+        return buildCommandResultFromPrompt(prompt);
+    }
+
+    private CommandResult buildSuccessfulCommandResult() {
+        return new CommandResult(SUCCESS_MESSAGE);
+    }
+
+    /**
+     * Establishes Session state for processing a field containing
+     * one or more values.
+     */
+    private void setupForMultiValued() {
+        isParsingMultivaluedField = true;
+        resetStringBuffer();
+    }
+
+    /**
+     * Constructs a CommandResult from a prompt.
+     * @param prompt What the system is asking from the user. May be optional.
+     * @return Feedback to user.
+     */
+    private static CommandResult buildCommandResultFromPrompt(Prompt prompt) {
+        String message = buildMessageFromPrompt(prompt);
+        return new CommandResult(message);
+    }
+
+    /**
      * Adds user input to a collection of strings for processing later
-     * when all input has been collected from the user.
+     * when all input has been collected from the user for the current command.
      * @param userInput String from user.
      */
     private void addAsMultiValue(String userInput) {
         stringBuffer.add(userInput);
         logger.info("Added " + userInput + " as a multi value field");
     }
-
-    protected abstract void parseInputForMultivaluedField(String fieldName) throws IllegalValueException;
-
-    protected abstract void parseInputForField(String fieldName, String userInput) throws IllegalValueException;
 
     private CommandResult askForNextMultivalue() {
         return new CommandResult(ANYTHING_ELSE_MESSAGE);
