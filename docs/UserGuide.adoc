@@ -63,7 +63,7 @@ Format: `help`
 === Adding a food in a single line: `add`
 
 Adds a food to HackEat +
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG] [alg/ALLERGY]...`
+Format: `add n/NAME p/PHONE_NUMBER [e/EMAIL] [a/ADDRESS] [t/TAG] [alg/ALLERGY]...`
 
 [NOTE]
 Name and phone fields must not be left blank
@@ -113,6 +113,7 @@ Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [r/RATING] [pr/PRIC
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 * When editing tags, the existing tags of the food will be removed i.e adding of tags is not cumulative.
+* When editing allergies, the existing allergies of the food will be removed i.e adding of allergies is not cumulative.
 * You can remove all the food's tags by typing `t/` without specifying any tags after it.
 * You can remove all the food's allergies by typing `alg/` without specifying any allergies after it.
 ****
@@ -160,29 +161,9 @@ Examples:
 * `list` +
 `delete 2` +
 Deletes the 2nd food in HackEat.
-* `find Betsy` +
+* `find Brownies` +
 `delete 1` +
 Deletes the 1st food in the results of the `find` command.
-
-=== Selecting a food : `select`
-
-Selects the food identified by the index number used in the last food listing. +
-Format: `select INDEX`
-
-****
-* Selects the food and loads the Google search page the food at the specified `INDEX`.
-* The index refers to the index number shown in the most recent listing.
-* The index *must be a positive integer* `1, 2, 3, ...`
-****
-
-Examples:
-
-* `list` +
-`select 2` +
-Selects the 2nd food in HackEat.
-* `find Rice` +
-`select 1` +
-Selects the 1st food in the results of the `find` command.
 
 === Listing entered commands : `history`
 
@@ -366,6 +347,7 @@ e.g.`select 2`
 * *History* : `history`
 * *Undo* : `undo`
 * *Redo* : `redo`
+* *Order* : `order [INDEX]`
 * *Edit user details* : `edituser [n/NAME] [p/PHONE_NUMBER] [a/ADDRESS] [alg/ALLERGY]` +
 e.g. `edituser n/Lucas Ho alg/peanuts`
 * *Change profile picture* : `changepic`
