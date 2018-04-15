@@ -75,12 +75,12 @@ public class OrderManagerTest {
     }
 
     @Test
-    public void netIsAvailable_invalidUrl_failure() throws MalformedURLException{
+    public void netIsAvailable_invalidUrl_failure() throws MalformedURLException {
         Assert.assertThrows(RuntimeException.class, () -> OrderManager.netIsAvailable(INVALID_URL));
     }
 
     @Test
-    public void netIsAvailable_badConnection_failure() throws MalformedURLException{
+    public void netIsAvailable_badConnection_failure() throws MalformedURLException {
         assertFalse(OrderManager.netIsAvailable(LOOSE_CONNECTION));
     }
 
