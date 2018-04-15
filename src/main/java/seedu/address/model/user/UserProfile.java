@@ -21,10 +21,9 @@ public class UserProfile {
     private Address address;
     private final UniqueAllergyList allergies;
 
-
     /**
      * Constructs a {@code UserProfile} object.
-     *  @param name    Name of user
+     * @param name    Name of user
      * @param phone   Phone number of user
      * @param address Address of user for food delivery
      */
@@ -35,7 +34,6 @@ public class UserProfile {
         this.allergies = new UniqueAllergyList(allergies);
     }
 
-    //@@author jaxony
     public Name getName() {
         return name;
     }
@@ -56,8 +54,6 @@ public class UserProfile {
         return Collections.unmodifiableSet(allergies.toSet());
     }
 
-
-    //@@author jaxony
     @Override
     public boolean equals(Object other) {
         if (other == this) {
