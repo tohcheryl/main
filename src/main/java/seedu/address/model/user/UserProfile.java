@@ -20,7 +20,7 @@ public class UserProfile {
     private Phone phone;
     private Address address;
     private final UniqueAllergyList allergies;
-    
+
     /**
      * Constructs a {@code UserProfile} object.
      * @param name    Name of user
