@@ -63,15 +63,8 @@ public class OrderManagerTest {
 
         OrderManager orderManager = new OrderManager(validUser, validFood);
 
-        try {
-            orderManager.order();
-            assert(verifyPostConfirmation(orderManager.getOrderId()));
-        } catch (AssertionError e) {
-            assert(e.getMessage().isEmpty());
-            throw new Exception(MESSAGE_HTTP_POST_FAILED);
-        } catch (Exception e) {
-            throw new Exception(MESSAGE_SHOULD_NOT_THROW_ERROR);
-        }
+        assertOrderResolvesCorrectly(orderManager, MESSAGE_HTTP_POST_FAILED);
+
     }
 
     @Test
@@ -104,5 +97,23 @@ public class OrderManagerTest {
         String expectedContents = String.format(OrderManager.CANNED_SPEECH_MESSAGE,
                 USER_NAME, VALID_NAME_BANANA, USER_ADDRESS);
         return incomingString.contains(expectedContents);
+    }
+
+    /**
+     * Executes order method for order manager and checks the correct message is thrown
+     * @param orderManager to execute order method
+     * @param httpPostFail message if unable to contact server with http post
+     * @throws Exception
+     */
+    private void assertOrderResolvesCorrectly(OrderManager orderManager, String httpPostFail) throws Exception {
+        try {
+            orderManager.order();
+            assert(verifyPostConfirmation(orderManager.getOrderId()));
+        } catch (AssertionError e) {
+            assert(e.getMessage().isEmpty());
+            throw new Exception(httpPostFail);
+        } catch (Exception e) {
+            throw new Exception(MESSAGE_SHOULD_NOT_THROW_ERROR);
+        }
     }
 }

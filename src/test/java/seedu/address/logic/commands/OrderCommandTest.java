@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 import static seedu.address.testutil.TypicalFoods.getTypicalAddressBook;
@@ -29,6 +30,15 @@ public class OrderCommandTest {
     @Test
     public void constructor_index_success() {
         OrderCommand indexedOrderCommand = new OrderCommand(VALID_INDEX);
+        OrderCommand nullOrderCommand = new OrderCommand(NULL_INDEX);
+
+        assertNotNull(indexedOrderCommand);
+        assertNotNull(nullOrderCommand);
+    }
+
+    @Test
+    public void equals_duplicate_success() {
+        OrderCommand indexedOrderCommand = new OrderCommand(VALID_INDEX);
         OrderCommand indexedOrderCommand2 = new OrderCommand(VALID_INDEX);
 
         OrderCommand nullOrderCommand = new OrderCommand(NULL_INDEX);
@@ -42,29 +52,17 @@ public class OrderCommandTest {
     public void execute_orderWithIndex_success() throws CommandException {
         OrderCommand orderCommand = getOrderCommandForIndex(VALID_INDEX, model);
         Food food = model.getAddressBook().getFoodList().get(VALID_INDEX.getZeroBased());
-        try {
-            CommandResult result = orderCommand.execute();
-            assertThat(result.feedbackToUser, containsString(String.format(OrderCommand.MESSAGE_SUCCESS,
-                    food.getName())));
-        } catch (Exception e) {
-            assertThat(e.getMessage(), containsString(String.format(OrderCommand.MESSAGE_SELECT_INDEX_FAIL,
-                    food.getName())));
-        }
+        assertExecuteResolvesCorrectly(orderCommand,
+                String.format(OrderCommand.MESSAGE_SUCCESS, food.getName()),
+                String.format(OrderCommand.MESSAGE_SELECT_INDEX_FAIL, food.getName()));
     }
 
     @Test
     public void execute_orderWithoutIndex_success() throws CommandException {
         OrderCommand orderCommand = getOrderCommandForIndex(NULL_INDEX, model);
-        try {
-            CommandResult result = orderCommand.execute();
-            assertThat(result.feedbackToUser, containsString(String.format(OrderCommand.MESSAGE_SUCCESS,
-                    "", "")));
-        } catch (Exception e) {
-            assertThat(e.getMessage(),
-                    containsString(String.format(OrderCommand.MESSAGE_EMAIL_FAIL_FOOD, EMPTY_STRING)));
-            assertThat(e.getMessage(),
-                    containsString(String.format(OrderCommand.MESSAGE_EMAIL_FAIL_FOOD, EMPTY_STRING)));
-        }
+        assertExecuteResolvesCorrectly(orderCommand,
+                String.format(OrderCommand.MESSAGE_SUCCESS, "", ""),
+                String.format(OrderCommand.MESSAGE_EMAIL_FAIL_FOOD, EMPTY_STRING));
     }
 
     /**
@@ -77,17 +75,17 @@ public class OrderCommandTest {
     }
 
     /**
-     * Executes the given {@code command}, confirms that <br>
-     * - the result message matches {@code expectedMessage} <br>
-     * - the {@code actualModel} matches {@code expectedModel}
+     * Execute order command and ensures that the correct response is met when succeeding or failing
+     * @param orderCommand to execute
+     * @param success message if execute success
+     * @param failure message if execute fails
      */
-    public static void assertCommandSuccess(Command command, Model actualModel, String expectedMessage) {
+    private void assertExecuteResolvesCorrectly(OrderCommand orderCommand, String success, String failure) {
         try {
-            CommandResult result = command.execute();
-            assertEquals(expectedMessage, result.feedbackToUser);
-        } catch (CommandException ce) {
-            throw new AssertionError("Execution of command should not fail.", ce);
+            CommandResult result = orderCommand.execute();
+            assertThat(result.feedbackToUser, containsString(success));
+        } catch (Exception e) {
+            assertThat(e.getMessage(), containsString(failure));
         }
     }
-
 }
