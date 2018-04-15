@@ -39,6 +39,9 @@ commands required an analysis of the pros and cons of the various possible optio
 
 * *Minor enhancement*: Added price and allergy attribute to Food.
 
+** Justification: These 2 attributes allows HackEat to create a personalised experience for the user. Based on the allergies of the user
+and the food, an appropriate food will be ordered. A future enhancement would include taking the budget of the user into account.
+
 * *Code contributed*: [https://github.com/CS2103JAN2018-W10-B3/main/blob/master/collated/functional/tohcheryl.md[Functional code]] [https://github.com/CS2103JAN2018-W10-B3/main/blob/master/collated/test/tohcheryl.md[Test code]]
 
 * *Other contributions*:
