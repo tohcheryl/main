@@ -40,7 +40,7 @@ HackEat is a next-generation food recommendation and ordering app for the hacker
 *** Set up Travis CI.
 *** Set up GitHub organisation, repository, invited team members and created Developer team.
 
-* *Code contributed*: [https://github.com/CS2103JAN2018-W10-B3/main/blob/master/collated/functional/jaxony.md[Functional code]] [https://https://github.com/CS2103JAN2018-W10-B3/main/blob/master/collated/test/jaxony.md[Test code]]
+* *Code contributed*: [https://github.com/CS2103JAN2018-W10-B3/main/blob/master/collated/functional/jaxony.md[Functional code]] [https://github.com/CS2103JAN2018-W10-B3/main/blob/master/collated/test/jaxony.md[Test code]]
 
 == Contributions to the User Guide
 |===
