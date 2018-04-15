@@ -360,6 +360,7 @@ image::UndoRedoActivityDiagram.png[width="650"]
 
 // tag::userconfig[]
 === Configuring the User Profile
+
 ==== Motivation
 It's nice to have someone greet you as your friend. HackEat makes its users comfortable and feel
 welcomed whenever they open their app. This is possible because a new feature has been implemented that
@@ -390,18 +391,6 @@ New classes required to support XML of User Profile:
 This was quite simple. Only one new method was required to be added to the `AddressBook` class to initialize
 an `AddressBook` with the loaded `UserProfile`.
 
-
-==== Design Considerations
-
-===== `Update` instead of `Add`
-It was simpler to implement a single `AddressBook#updateUserProfile` method instead of
-an `AddressBook#addUserProfile` and an update method. The update method simply sets the current `profile`
-property in `AddressBook` to the new incoming `profile`.
-
-By simply replacing the property, you don't need to check if the property is not null before
-updating the profile. You also don't need to check if the profile is null before choosing to add a new
-profile to the application. Separating add and update functionalities works for Food, but not for profile as the
-additional complexity is unnecessary.
 // end::userconfig[]
 
 === Logging
@@ -612,12 +601,17 @@ concrete, command-specific child classes (e.g. `SessionAddCommand`).
 ===== Simplified sequence diagram for starting or continuing a `Session`
 image::add-command-interactive-start.png[width="600"]
 
-
-The abstract `Session` class provides the shared methods that control the logical flow of any interaction.
-The abstract methods `Session#parseInputForMultivaluedField` and `Session#parseInputForField` are overidden
-by concrete subclasses of `Session` because each type of `Command` needs to parse and store its
-
 ==== Design considerations
+
+===== Extensibility
+The interactive mode of communication between the user and the system was built with extensibility in mind.
+The abstract `Session` class contains the common methods that control the logical flow of any interactive command.
+The abstract methods `Session#parseInputForMultivaluedField` and `Session#parseInputForField` are overidden
+by concrete subclasses, allowing each specific type of `Command` to parse and store user input relevant to its own fields.
+Hence, the implementation of an interactive `EditCommand` and `OrderCommand` would be convenient and simple owing to important
+architectural decisions made from the beginning.
+
+===== Model or Logic?
 It was difficult to choose where to place the `Session`, `SessionAddCommand`, `SessionManager` and `SessionInterface`
 interface and classes. These classes and interface handle both application data (i.e. they should belong in the `Model`)
 as well as text parsing (i.e. they could also belong in the `Logic` component). We opted for the simplistic solution of
@@ -647,6 +641,10 @@ that delights our users.
 The chat UI consists of the following set of nested JavaFX components, displayed in the object diagram below.
 
 image::object-diagram-chat-ui.png[width="600"]
+
+When the user presses `Enter` in the `CommandBox` UI component, a `NewUserMessageAvailableEvent` event is posted to the `EventCenter`.
+The `ChatPanel` is subscribed to such events, and a new message is created and added to the UI when such an event is received. The same
+approach applies to the handling of `NewResultAvailableEvents`, which represent the system's responses to user input.
 
 // end::chat[]
 
