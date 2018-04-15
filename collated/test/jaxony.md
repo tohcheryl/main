@@ -1,33 +1,33 @@
 # jaxony
-###### /java/systemtests/AddCommandSystemTest.java
+###### \java\guitests\guihandles\ChatPanelHandle.java
 ``` java
-    @Test
-    public void addInteractive() {
-        /* -------------------------- Perform add in interactive mode ------------------------------ */
-        assertCommandSuccessWithoutSync(AddCommand.COMMAND_WORD, getModel(), AddCommand.PROMPTS.get(0).getMessage());
-    }
-```
-###### /java/systemtests/AddCommandSystemTest.java
-``` java
-    /**
-     * Performs the same verification as {@code assertCommandSuccess(String, Food)} except asserts that
-     * the,<br>
-     * 1. Result display box displays {@code expectedResultMessage}.<br>
-     * 2. {@code Model}, {@code Storage} and {@code FoodListPanel} equal to the corresponding components in
-     * {@code expectedModel}.<br>
-     * 3. Status bar does not change.<br>
-     * @see AddCommandSystemTest#assertCommandSuccess(String, Food)
-     */
-    private void assertCommandSuccessWithoutSync(String command, Model expectedModel, String expectedResultMessage) {
-        executeCommand(command);
-        assertApplicationDisplaysExpected("", expectedResultMessage, expectedModel);
-        assertSelectedCardUnchanged();
-        assertCommandBoxShowsDefaultStyle();
-        assertStatusBarUnchanged();
+/**
+ * A handler for the {@code ChatPanel} of the UI
+ */
+public class ChatPanelHandle extends NodeHandle<VBox> {
+
+    public static final String CHAT_PANEL_ID = "#chatPanel";
+
+    public ChatPanelHandle(VBox chatPanelNode) {
+        super(chatPanelNode);
     }
 
+    /**
+     * Returns the last result text in the chat panel.
+     */
+    public String getText() {
+        ObservableList<Node> messageContainers = getRootNode().getChildrenUnmodifiable();
+        int numResults = messageContainers.size();
+        if (numResults == 0) {
+            return null;
+        }
+        HBox lastResultMessageHBox = (HBox) messageContainers.get(messageContainers.size() - 1);
+        Label lastResultLabel = (Label) lastResultMessageHBox.getChildren().get(0);
+        return lastResultLabel.getText();
+    }
+}
 ```
-###### /java/seedu/address/commons/events/model/EndActiveSessionEventTest.java
+###### \java\seedu\address\commons\events\model\EndActiveSessionEventTest.java
 ``` java
 public class EndActiveSessionEventTest {
 
@@ -41,7 +41,33 @@ public class EndActiveSessionEventTest {
     }
 }
 ```
-###### /java/seedu/address/logic/LogicManagerTest.java
+###### \java\seedu\address\logic\commands\AddCommandTest.java
+``` java
+        @Override
+        public boolean isUserInActiveSession() {
+            fail("This method should not be called.");
+            return false;
+        }
+
+        @Override
+        public void createNewSession(Command interactiveCommand) {
+            fail("This method should not be called.");
+        }
+
+        @Override
+        public CommandResult startSession() throws CommandException {
+            fail("This method should not be called.");
+            return null;
+        }
+
+        @Override
+        public CommandResult interpretInteractiveUserInput(String commandText) throws CommandException {
+            fail("This method should not be called.");
+            return null;
+        }
+
+```
+###### \java\seedu\address\logic\LogicManagerTest.java
 ``` java
     @Test
     public void createNewSession_editCommand_throwsIllegalArgumentException() {
@@ -70,33 +96,7 @@ public class EndActiveSessionEventTest {
         logic.isCommandInteractive("asdad");
     }
 ```
-###### /java/seedu/address/logic/commands/AddCommandTest.java
-``` java
-        @Override
-        public boolean isUserInActiveSession() {
-            fail("This method should not be called.");
-            return false;
-        }
-
-        @Override
-        public void createNewSession(Command interactiveCommand) {
-            fail("This method should not be called.");
-        }
-
-        @Override
-        public CommandResult startSession() throws CommandException {
-            fail("This method should not be called.");
-            return null;
-        }
-
-        @Override
-        public CommandResult interpretInteractiveUserInput(String commandText) throws CommandException {
-            fail("This method should not be called.");
-            return null;
-        }
-
-```
-###### /java/seedu/address/model/session/SessionAddCommandTest.java
+###### \java\seedu\address\model\session\SessionAddCommandTest.java
 ``` java
 public class SessionAddCommandTest {
     @Rule
@@ -195,7 +195,7 @@ public class SessionAddCommandTest {
     }
 }
 ```
-###### /java/seedu/address/model/session/SessionTest.java
+###### \java\seedu\address\model\session\SessionTest.java
 ``` java
 public class SessionTest {
     private static final String BACON_NAME = TypicalFoods.BACON.getName().toString();
@@ -292,31 +292,31 @@ public class SessionTest {
     }
 }
 ```
-###### /java/guitests/guihandles/ChatPanelHandle.java
+###### \java\systemtests\AddCommandSystemTest.java
 ``` java
-/**
- * A handler for the {@code ChatPanel} of the UI
- */
-public class ChatPanelHandle extends NodeHandle<VBox> {
-
-    public static final String CHAT_PANEL_ID = "#chatPanel";
-
-    public ChatPanelHandle(VBox chatPanelNode) {
-        super(chatPanelNode);
+    @Test
+    public void addInteractive() {
+        /* -------------------------- Perform add in interactive mode ------------------------------ */
+        assertCommandSuccessWithoutSync(AddCommand.COMMAND_WORD, getModel(), AddCommand.PROMPTS.get(0).getMessage());
     }
-
+```
+###### \java\systemtests\AddCommandSystemTest.java
+``` java
     /**
-     * Returns the last result text in the chat panel.
+     * Performs the same verification as {@code assertCommandSuccess(String, Food)} except asserts that
+     * the,<br>
+     * 1. Result display box displays {@code expectedResultMessage}.<br>
+     * 2. {@code Model}, {@code Storage} and {@code FoodListPanel} equal to the corresponding components in
+     * {@code expectedModel}.<br>
+     * 3. Status bar does not change.<br>
+     * @see AddCommandSystemTest#assertCommandSuccess(String, Food)
      */
-    public String getText() {
-        ObservableList<Node> messageContainers = getRootNode().getChildrenUnmodifiable();
-        int numResults = messageContainers.size();
-        if (numResults == 0) {
-            return null;
-        }
-        HBox lastResultMessageHBox = (HBox) messageContainers.get(messageContainers.size() - 1);
-        Label lastResultLabel = (Label) lastResultMessageHBox.getChildren().get(0);
-        return lastResultLabel.getText();
+    private void assertCommandSuccessWithoutSync(String command, Model expectedModel, String expectedResultMessage) {
+        executeCommand(command);
+        assertApplicationDisplaysExpected("", expectedResultMessage, expectedModel);
+        assertSelectedCardUnchanged();
+        assertCommandBoxShowsDefaultStyle();
+        assertStatusBarUnchanged();
     }
-}
+
 ```

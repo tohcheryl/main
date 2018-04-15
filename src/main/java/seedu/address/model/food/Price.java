@@ -9,18 +9,17 @@ import java.util.Locale;
 import org.apache.commons.validator.routines.BigDecimalValidator;
 import org.apache.commons.validator.routines.CurrencyValidator;
 
-//@@ author {tohcheryl}
+//@@author tohcheryl
 /**
  * Represents a Food's price in HackEat.
- * Guarantees: immutable; is valid as declared in {@link #isValidPrice(String)}
  */
 public class Price {
 
     public static final String DEFAULT_PRICE = "0";
     public static final String MESSAGE_PRICE_CONSTRAINTS =
-            "Price can only contain numbers and a single decimal point(if necessary)."
-                    + "Prices that have more than 2 decimal places will be truncated."
-                    + "A $ sign can be prefixed to the price but it is not required.";
+            "Price should contain only numbers and a single decimal point if necessary."
+                    + " Prices that have more than 2 decimal places will be truncated."
+                    + " A $ sign can be prefixed to the price but it is not required.";
     public static final String CLASS_NAME = "Price";
     private static Locale currentLocale = Locale.US;
     private String value;
