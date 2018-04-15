@@ -282,7 +282,7 @@ Edits the phone number and address of the user to be `61234567` and `Blk 654 Cas
 === Setting a profile picture: `changepic`
 
 Changes a user's profile picture to one that the user has selected. Works best for square images
-where your face is right smack in the middle!
+where your face is positioned right at the center.
 
 Format: `changepic`
 // end::changepic[]
