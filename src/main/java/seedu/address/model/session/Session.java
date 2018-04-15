@@ -44,9 +44,8 @@ public abstract class Session {
 
     /**
      * Gets the next prompt message in the interactive session.
-     *
-     * @return feedback to the user
-     * @throws CommandException If end() throws exception
+     * @return Feedback to the user as a {@code CommandResult}.
+     * @throws CommandException If command execution fails.
      */
     private CommandResult getNextPromptMessage() throws CommandException {
         promptIndex++;
@@ -71,7 +70,6 @@ public abstract class Session {
 
     /**
      * Constructs a CommandResult from a prompt.
-     *
      * @param prompt What the system is asking from the user. May be optional.
      * @return Feedback to user.
      */
@@ -90,7 +88,6 @@ public abstract class Session {
 
     /**
      * Ends the active Session.
-     *
      * @throws CommandException If finishCommand() throws exception
      */
     private void end() throws CommandException {
@@ -106,10 +103,9 @@ public abstract class Session {
 
     /**
      * Interprets user input in the CommandBox.
-     *
      * @param userInput Text typed in by the user in the CommandBox
-     * @return feedback to user
-     * @throws CommandException
+     * @return Feedback to user as a {@code CommandResult}.
+     * @throws CommandException If the executed command is invalid.
      */
     public CommandResult interpretUserInput(String userInput) throws CommandException {
         logger.info("Received user input in current Session: " + userInput);
@@ -130,9 +126,17 @@ public abstract class Session {
     }
 
     /**
-     *
+     * Starts the session by returning the first prompt in the interaction.
+     * @return The message of the first prompt.
+     */
+    public CommandResult start() throws CommandException {
+        return new CommandResult(getCurrentPrompt().getMessage());
+    }
+
+    /**
+     * Processes user input for a single-value field, including optional fields.
      * @param userInput String input from user.
-     * @return Feedback to the user.
+     * @return Feedback to the user as a {@code CommandResult}.
      * @throws CommandException If command execution leads to an error.
      * @throws IllegalValueException If input parsing leads to an error.
      */
@@ -146,8 +150,7 @@ public abstract class Session {
     }
 
     /**
-     * Processes and responds to user input when processing a multi valued field.
-     *
+     * Processes user input for a multi valued field, including optional fields.
      * @param userInput String input from user.
      * @return Feedback to the user.
      * @throws CommandException If command execution leads to an error.
@@ -156,12 +159,10 @@ public abstract class Session {
             throws CommandException, IllegalValueException {
         Prompt p = getCurrentPrompt();
         if (didUserEndPrompt(userInput)) {
-            // user wants to go to the next prompt now
             parseInputForMultivaluedField(p.getFieldName());
             isParsingMultivaluedField = false;
             return getNextPromptMessage();
         }
-        // user entered input that can be processed
         addAsMultiValue(userInput);
         return askForNextMultivalue();
 
@@ -191,12 +192,5 @@ public abstract class Session {
 
     private CommandResult askForNextMultivalue() {
         return new CommandResult(ANYTHING_ELSE_MESSAGE);
-    }
-
-    /**
-     * Start the session by giving the first prompt in the interaction.
-     */
-    public CommandResult start() throws CommandException {
-        return new CommandResult(getCurrentPrompt().getMessage());
     }
 }
