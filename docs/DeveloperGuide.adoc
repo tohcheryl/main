@@ -1408,6 +1408,11 @@ then verify the message is correct.
    Expected: Only if your current allergies are not peanuts and chicken. +
    Allergies of the user will be updated to include _only_ the two provided allergies.
 
+. Scrollable user profile panel
+.. Test case: Add a huge bunch of allergies
+   Expected: Your name, phone and address will be truncated if necessary and the profile panel
+   becomes scrollable in order to display the allergies.
+
 === Changing of profile picture
 . Replacing a profile picture with a valid picture
 .. Prerequisite: A default profile picture should have been set up.
