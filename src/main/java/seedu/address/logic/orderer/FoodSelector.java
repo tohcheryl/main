@@ -27,7 +27,7 @@ public class FoodSelector {
      * @return the index of the selected food
      */
     public Index selectIndex(Model model) throws CommandException {
-        ArrayList<FoodDescriptor> foodDescriptors = generateFoodList(model);
+        ArrayList<FoodDescriptor> foodDescriptors = buildFoodDescriptorList(model);
         FoodDescriptor foodDescriptor = pickFood(foodDescriptors);
         return foodDescriptor.index;
     }
@@ -61,7 +61,7 @@ public class FoodSelector {
      * @param model to be provided
      * @return a list of food
      */
-    private ArrayList<FoodDescriptor> generateFoodList(Model model) {
+    private ArrayList<FoodDescriptor> buildFoodDescriptorList(Model model) {
         ArrayList<FoodDescriptor> foodDescriptors = new ArrayList<>();
 
         List<Food> lastShownList = model.getFilteredFoodList();
@@ -100,15 +100,14 @@ public class FoodSelector {
 
     /**
      * Outputs a score based on the value of the price
+     * For dampener variable:
+     * -    dampener = 1, Roughly twice more likely to order a food of $5, than of value $10
+     * -    dampener = 1.5, Roughly 50% more likely to order a food of $5, than of value $10
+     * -    dampener = 2, Roughly 30% more likely to order a food of $5, than of value $10
      * @param price to have score derived from
      * @return score determined by algorithm
      */
     private float scoreFromPrice(Price price) {
-        /*
-         * dampener = 1, Roughly twice more likely to order a food of $5, than of value $10
-         * dampener = 1.5, Roughly 50% more likely to order a food of $5, than of value $10
-         * dampener = 2, Roughly 30% more likely to order a food of $5, than of value $10
-         */
         final float dampener = 1;
 
         float value = Float.parseFloat(price.getValue());
@@ -118,15 +117,14 @@ public class FoodSelector {
 
     /**
      * Outputs a score based on the value of the rating
+     * For weighting variable:
+     * -    weighting = 1, 5x more likely to order a food of rating 5, than of 1
+     * -    weighting = 1.5, ~10x more likely to order a food of rating 5, than of 1
+     * -    weighting = 2, 25x more likely to order a food of rating 5, than of 1
      * @param rating to have score derived from
      * @return score determined by algorithm
      */
     private float scoreFromRating(Rating rating) {
-        /*
-         * weighting = 1, 5x more likely to order a food of rating 5, than of 1
-         * weighting = 1.5, ~10x more likely to order a food of rating 5, than of 1
-         * weighting = 2, 25x more likely to order a food of rating 5, than of 1
-         */
         final float weighting = 1;
 
         float value = Float.parseFloat(rating.value);

@@ -1,7 +1,6 @@
 package seedu.address.logic.orderer;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static seedu.address.testutil.TypicalFoods.getTypicalAddressBook;
 
 import org.junit.Test;
@@ -30,10 +29,18 @@ public class EmailManagerTest {
     public void email_execution_success() {
         EmailManager emailManager = new EmailManager(model.getUserProfile(),
                 model.getAddressBook().getFoodList().get(VALID_MODEL_FOOD_INDEX), VALID_UUID, VALID_MESSAGE);
+        assertEmailSuccess(emailManager);
+    }
+
+    /**
+     * Executes the email method of the given {@code emailManager} and asserts success
+     * @param emailManager to execute email
+     */
+    private static void assertEmailSuccess(EmailManager emailManager) {
         try {
             emailManager.email();
         } catch (Exception e) {
-            assertTrue(e.getMessage().isEmpty());
+            throw new AssertionError("Email should not fail.");
         }
     }
 }

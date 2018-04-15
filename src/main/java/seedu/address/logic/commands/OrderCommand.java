@@ -118,13 +118,13 @@ public class OrderCommand extends UndoableCommand {
     @Override
     public boolean equals(Object other) {
         try {
-            return other == this // short circuit if same object
-                    || (other instanceof OrderCommand // instanceof handles nulls
+            return other == this
+                    || (other instanceof OrderCommand
                     && index.equals(((OrderCommand) other).index));
 
         } catch (NullPointerException npe) {
-            return other == this // short circuit if same object
-                    || (other instanceof OrderCommand // instanceof handles nulls
+            return other == this
+                    || (other instanceof OrderCommand
                     && index == (((OrderCommand) other).index));
         }
 

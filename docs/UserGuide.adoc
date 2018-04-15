@@ -295,7 +295,7 @@ Format: `clear`
 // tag::orderfood[]
 === Order food: `order`
 
-Orders food given with or without an index.
+Orders food.
 
 * If index is given, will order the food at the specified index.
 
@@ -308,7 +308,7 @@ The food chosen is determined to be both desirable yet, not too deterministic th
 
 Food is ordered by:
 
-. Emailing the restaurant of the associated food for a request.
+. Emailing the restaurant of the associated food for a request, and summary of the order (for recording purposes).
 
 . Sending a request to our server which initiates a phone call to food's phone number of the same message.
 

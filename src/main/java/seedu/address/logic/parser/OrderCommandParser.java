@@ -37,8 +37,8 @@ public class OrderCommandParser implements Parser<OrderCommand> {
     }
 
     /**
-     * Given a {@code String} of arguments in the context of the OrderCommand
-     * and returns an OrderCommand object for execution.
+     * Returns an OrderCommand object for execution when given a {@code String} of
+     * arguments in the context of the OrderCommand.
      * @throws ParseException if the user input does not conform the expected format
      */
     private OrderCommand orderCommandWithIndex(String args) throws ParseException {

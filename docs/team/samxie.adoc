@@ -24,16 +24,36 @@ _End of Extract [from: Read Me] written by Jackson Huang_
 
 == Summary of contributions
 
-* Optional email and address fields
-* Revamped test cases to be Food instead of Persons
-* Added Rating field to Food
-* Display price and ratings in UI
-* Changed Logo
-* Added `order` Command
-* Added Food Selector which selects food based on Food's ratings and price
-* Added Order Manager which phones an order and emails restaurant provider of food
+* Major contribution
+** What it does
+*** `order` command selects a food (if no index specified) and contacts the restaurant via phone and email.
+** Justification
+*** The application's goal was to make ordering food a non-disruptive experience. Therefore, it was necessary to
+automate the ordering process to save the user time and effort required to order food, minimising the toll on the
+user's workflow.
+** Highlights
+*** It was a rewarding experience using APIs and setting up a remote server to process the voice call.
 
-=== Unused (was used for voice messaging)
+* Minor contribution
+** Added Rating field to Food
+*** Rating was required for the food selection algorithm to have a better idea of what preferences the user has for
+for each food.
+* Code contributed: [https://github.com/CS2103JAN2018-W10-B3/main/blob/master/collated/functional/samzx.md[Functional code]] [https://github.com/CS2103JAN2018-W10-B3/main/blob/master/collated/test/samzx.md[Test code]]
+* Other contributions
+** Features
+*** Optional email and address fields
+*** Revamped test cases to be Food instead of Persons
+*** Display price and ratings in UI
+*** Changed Logo
+** Project management
+*** Added a project section to track weekly project management tasks
+*** Added a project section to track the progress of everyone's enhancements, wrote out the requirements of each
+enhancement
+*** Created issues for found bugs of other user's features
+*** Created issues for weekly TODOs for weekly release requirements
+
+
+=== Unused
 
 Not implemented on the client side, but now implemented on server side (source code external to this repo)
 
@@ -42,32 +62,21 @@ Not implemented on the client side, but now implemented on server side (source c
 * Implemented server-side REST API for ordering
 ** Found here: https://github.com/CS2103JAN2018-W10-B3/hackeat-server
 ** Configured to be hosted on Heroku on https://mysterious-temple-83678.herokuapp.com/
-** Diagram below
+** Previous architecture when used in client side
 
 image::unused--order-command--order-manager.png[width="600"]
 
 
 == Contributions to the User Guide
+|===
+|_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting
+ end-users._
+|===
 include::../UserGuide.adoc[tag=orderfood]
 
 == Contributions to the Developer Guide
+|===
+|_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical
+documentation and the technical depth of my contributions to the project._
+|===
 include::../DeveloperGuide.adoc[tag=order]
-
-== Future proposals
-
-The use of Twilio API to directly use voice messages.
-Can be seen in unused section.
-
-=== Smarter ordering AI agent
-Possibly implement smarter speech with `<Gather>` and `<Redirect>`.
-
-1. `<Gather>` gathers data from user in form of speech, and posts to the url /create/:id/response at the REST API.
-2. API parses the information and generates new XML data specific to the response at /order/:id/response.
-3. `<Redirect>` redirects chat flow to /order/:id/response and retrieves XML data and confirms, repeats or declines the order.
-
-API Links:
-
-* `<Gather>`
-** https://www.twilio.com/docs/voice/twiml/gather
-* `<Redirect>`
-** https://www.twilio.com/docs/voice/twiml/redirect

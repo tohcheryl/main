@@ -725,8 +725,9 @@ public class UserProfile {
      * Returns an immutable allergy set, which throws {@code UnsupportedOperationException}
      * if modification is attempted.
      */
-    public Set<Allergy> getAllergies() {
-        return Collections.unmodifiableSet(allergies.toSet());
+    private void end() throws CommandException {
+        eventsCenter.post(new EndActiveSessionEvent());
+        finishCommand();
     }
 
 
