@@ -1,115 +1,5 @@
 # samzx
-###### \java\seedu\address\logic\commands\OrderCommandTest.java
-``` java
-
-public class OrderCommandTest {
-    private static final Index VALID_INDEX = Index.fromZeroBased(1);
-    private static final Index NULL_INDEX = null;
-    private static final String EMPTY_STRING = "";
-
-    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
-
-    @Test
-    public void constructor_index_success() {
-        OrderCommand indexedOrderCommand = new OrderCommand(VALID_INDEX);
-        OrderCommand nullOrderCommand = new OrderCommand(NULL_INDEX);
-
-        assertNotNull(indexedOrderCommand);
-        assertNotNull(nullOrderCommand);
-    }
-
-    @Test
-    public void equals_duplicate_success() {
-        OrderCommand indexedOrderCommand = new OrderCommand(VALID_INDEX);
-        OrderCommand indexedOrderCommand2 = new OrderCommand(VALID_INDEX);
-
-        OrderCommand nullOrderCommand = new OrderCommand(NULL_INDEX);
-        OrderCommand nullOrderCommand2 = new OrderCommand(NULL_INDEX);
-
-        assertEquals(indexedOrderCommand, indexedOrderCommand2);
-        assertEquals(nullOrderCommand, nullOrderCommand2);
-    }
-
-    @Test
-    public void execute_orderWithIndex_success() throws CommandException {
-        OrderCommand orderCommand = getOrderCommandForIndex(VALID_INDEX, model);
-        Food food = model.getAddressBook().getFoodList().get(VALID_INDEX.getZeroBased());
-        assertExecuteResolvesCorrectly(orderCommand,
-                String.format(OrderCommand.MESSAGE_SUCCESS, food.getName()),
-                String.format(OrderCommand.MESSAGE_SELECT_INDEX_FAIL, food.getName()));
-    }
-
-    @Test
-    public void execute_orderWithoutIndex_success() throws CommandException {
-        OrderCommand orderCommand = getOrderCommandForIndex(NULL_INDEX, model);
-        assertExecuteResolvesCorrectly(orderCommand,
-                String.format(OrderCommand.MESSAGE_SUCCESS, "", ""),
-                String.format(OrderCommand.MESSAGE_EMAIL_FAIL_FOOD, EMPTY_STRING));
-    }
-
-    /**
-     * Generates a new AddCommand with the details of the given food.
-     */
-    private OrderCommand getOrderCommandForIndex(Index index, Model model) {
-        OrderCommand command = new OrderCommand(index);
-        command.setData(model, new CommandHistory(), new UndoRedoStack());
-        return command;
-    }
-
-    /**
-     * Execute order command and ensures that the correct response is met when succeeding or failing
-     * @param orderCommand to execute
-     * @param success message if execute success
-     * @param failure message if execute fails
-     */
-    private void assertExecuteResolvesCorrectly(OrderCommand orderCommand, String success, String failure) {
-        try {
-            CommandResult result = orderCommand.execute();
-            assertThat(result.feedbackToUser, containsString(success));
-        } catch (Exception e) {
-            assertThat(e.getMessage(), containsString(failure));
-        }
-    }
-}
-```
-###### \java\seedu\address\logic\orderer\EmailManagerTest.java
-``` java
-
-public class EmailManagerTest {
-    private static final int VALID_MODEL_FOOD_INDEX = 0;
-    private static final String VALID_UUID = "f64f2940-fae4-11e7-8c5f-ef356f279131";
-    private static final String VALID_MESSAGE = "Message";
-
-    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
-
-    @Test
-    public void constructor_withArguments_success() {
-        EmailManager emailManager = new EmailManager(model.getUserProfile(),
-                model.getAddressBook().getFoodList().get(VALID_MODEL_FOOD_INDEX), VALID_UUID, VALID_MESSAGE);
-        assertNotNull(emailManager);
-    }
-
-    @Test
-    public void email_execution_success() {
-        EmailManager emailManager = new EmailManager(model.getUserProfile(),
-                model.getAddressBook().getFoodList().get(VALID_MODEL_FOOD_INDEX), VALID_UUID, VALID_MESSAGE);
-        assertEmailSuccess(emailManager);
-    }
-
-    /**
-     * Executes the email method of the given {@code emailManager} and asserts success
-     * @param emailManager to execute email
-     */
-    private static void assertEmailSuccess(EmailManager emailManager) {
-        try {
-            emailManager.email();
-        } catch (Exception e) {
-            throw new AssertionError("Email should not fail.");
-        }
-    }
-}
-```
-###### \java\seedu\address\logic\orderer\FoodSelectorTest.java
+###### /java/seedu/address/logic/orderer/FoodSelectorTest.java
 ``` java
 
 public class FoodSelectorTest {
@@ -207,7 +97,7 @@ public class FoodSelectorTest {
     }
 }
 ```
-###### \java\seedu\address\logic\orderer\OrderManagerTest.java
+###### /java/seedu/address/logic/orderer/OrderManagerTest.java
 ``` java
 
 public class OrderManagerTest {
@@ -296,7 +186,44 @@ public class OrderManagerTest {
     }
 }
 ```
-###### \java\seedu\address\logic\parser\OrderCommandParserTest.java
+###### /java/seedu/address/logic/orderer/EmailManagerTest.java
+``` java
+
+public class EmailManagerTest {
+    private static final int VALID_MODEL_FOOD_INDEX = 0;
+    private static final String VALID_UUID = "f64f2940-fae4-11e7-8c5f-ef356f279131";
+    private static final String VALID_MESSAGE = "Message";
+
+    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+
+    @Test
+    public void constructor_withArguments_success() {
+        EmailManager emailManager = new EmailManager(model.getUserProfile(),
+                model.getAddressBook().getFoodList().get(VALID_MODEL_FOOD_INDEX), VALID_UUID, VALID_MESSAGE);
+        assertNotNull(emailManager);
+    }
+
+    @Test
+    public void email_execution_success() {
+        EmailManager emailManager = new EmailManager(model.getUserProfile(),
+                model.getAddressBook().getFoodList().get(VALID_MODEL_FOOD_INDEX), VALID_UUID, VALID_MESSAGE);
+        assertEmailSuccess(emailManager);
+    }
+
+    /**
+     * Executes the email method of the given {@code emailManager} and asserts success
+     * @param emailManager to execute email
+     */
+    private static void assertEmailSuccess(EmailManager emailManager) {
+        try {
+            emailManager.email();
+        } catch (Exception e) {
+            throw new AssertionError("Email should not fail.");
+        }
+    }
+}
+```
+###### /java/seedu/address/logic/parser/OrderCommandParserTest.java
 ``` java
 
 public class OrderCommandParserTest {
@@ -325,7 +252,80 @@ public class OrderCommandParserTest {
     }
 }
 ```
-###### \java\seedu\address\model\food\RatingTest.java
+###### /java/seedu/address/logic/commands/OrderCommandTest.java
+``` java
+
+public class OrderCommandTest {
+    private static final Index VALID_INDEX = Index.fromZeroBased(1);
+    private static final Index NULL_INDEX = null;
+    private static final String EMPTY_STRING = "";
+
+    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+
+    @Test
+    public void constructor_index_success() {
+        OrderCommand indexedOrderCommand = new OrderCommand(VALID_INDEX);
+        OrderCommand nullOrderCommand = new OrderCommand(NULL_INDEX);
+
+        assertNotNull(indexedOrderCommand);
+        assertNotNull(nullOrderCommand);
+    }
+
+    @Test
+    public void equals_duplicate_success() {
+        OrderCommand indexedOrderCommand = new OrderCommand(VALID_INDEX);
+        OrderCommand indexedOrderCommand2 = new OrderCommand(VALID_INDEX);
+
+        OrderCommand nullOrderCommand = new OrderCommand(NULL_INDEX);
+        OrderCommand nullOrderCommand2 = new OrderCommand(NULL_INDEX);
+
+        assertEquals(indexedOrderCommand, indexedOrderCommand2);
+        assertEquals(nullOrderCommand, nullOrderCommand2);
+    }
+
+    @Test
+    public void execute_orderWithIndex_success() throws CommandException {
+        OrderCommand orderCommand = getOrderCommandForIndex(VALID_INDEX, model);
+        Food food = model.getAddressBook().getFoodList().get(VALID_INDEX.getZeroBased());
+        assertExecuteResolvesCorrectly(orderCommand,
+                String.format(OrderCommand.MESSAGE_SUCCESS, food.getName()),
+                String.format(OrderCommand.MESSAGE_SELECT_INDEX_FAIL, food.getName()));
+    }
+
+    @Test
+    public void execute_orderWithoutIndex_success() throws CommandException {
+        OrderCommand orderCommand = getOrderCommandForIndex(NULL_INDEX, model);
+        assertExecuteResolvesCorrectly(orderCommand,
+                String.format(OrderCommand.MESSAGE_SUCCESS, "", ""),
+                String.format(OrderCommand.MESSAGE_EMAIL_FAIL_FOOD, EMPTY_STRING));
+    }
+
+    /**
+     * Generates a new AddCommand with the details of the given food.
+     */
+    private OrderCommand getOrderCommandForIndex(Index index, Model model) {
+        OrderCommand command = new OrderCommand(index);
+        command.setData(model, new CommandHistory(), new UndoRedoStack());
+        return command;
+    }
+
+    /**
+     * Execute order command and ensures that the correct response is met when succeeding or failing
+     * @param orderCommand to execute
+     * @param success message if execute success
+     * @param failure message if execute fails
+     */
+    private void assertExecuteResolvesCorrectly(OrderCommand orderCommand, String success, String failure) {
+        try {
+            CommandResult result = orderCommand.execute();
+            assertThat(result.feedbackToUser, containsString(success));
+        } catch (Exception e) {
+            assertThat(e.getMessage(), containsString(failure));
+        }
+    }
+}
+```
+###### /java/seedu/address/model/food/RatingTest.java
 ``` java
 
 public class RatingTest {
