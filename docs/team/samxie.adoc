@@ -24,14 +24,33 @@ _End of Extract [from: Read Me] written by Jackson Huang_
 
 == Summary of contributions
 
-* Optional email and address fields
-* Revamped test cases to be Food instead of Persons
-* Added Rating field to Food
-* Display price and ratings in UI
-* Changed Logo
-* Added `order` Command
-* Added Food Selector which selects food based on Food's ratings and price
-* Added Order Manager which phones an order and emails restaurant provider of food
+* Major contribution
+** What it does
+*** `order` command selects a food (if no index specified) and contacts the restaurant via phone and email.
+** Justification
+*** The application's goal was to make ordering food a non-disruptive experience. Therefore, it was necessary to
+automate the ordering process to save the user time and effort required to order food, minimising the toll on the
+user's workflow.
+** Highlights
+*** It was a rewarding experience using APIs and setting up a remote server to process the voice call.
+
+* Minor contribution
+** Added Rating field to Food
+*** Rating was required for the food selection algorithm to have a better idea of what preferences the user has for
+for each food.
+* Other contributions
+** Features
+*** Optional email and address fields
+*** Revamped test cases to be Food instead of Persons
+*** Display price and ratings in UI
+*** Changed Logo
+** Project management
+*** Added a project section to track weekly project management tasks
+*** Added a project section to track the progress of everyone's enhancements, wrote out the requirements of each
+enhancement
+*** Created issues for found bugs of other user's features
+*** Created issues for weekly TODOs for weekly release requirements
+
 
 === Unused
 
@@ -48,7 +67,15 @@ image::unused--order-command--order-manager.png[width="600"]
 
 
 == Contributions to the User Guide
+|===
+|_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting
+ end-users._
+|===
 include::../UserGuide.adoc[tag=orderfood]
 
 == Contributions to the Developer Guide
+|===
+|_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical
+documentation and the technical depth of my contributions to the project._
+|===
 include::../DeveloperGuide.adoc[tag=order]

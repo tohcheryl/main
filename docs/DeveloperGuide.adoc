@@ -560,7 +560,7 @@ The user will need to pay once it has arrived.
 ==== Current implementations
 
 ===== Food Selector
-image::order-command--food-selector.png[width="600"]
+image::orderer--food-selector.png[width="600"]
 
 * Foods are given scores based on ratings, price and allergy.
 ** A high rating will result in a higher score
