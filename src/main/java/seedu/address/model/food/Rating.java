@@ -16,10 +16,13 @@ public class Rating {
             "Please enter a number between 0 to " + MAX_RATING;
 
     /**
-     * User must enter only a single digit.
+     * Users must enter only a single digit.
      */
     public static final String RATING_VALIDATION_REGEX = "\\b\\d\\b";
     public static final String CLASS_NAME = "Rating";
+
+    private static final String UNFILLED_RATING_SYMBOL = "☆";
+    private static final String FILLED_RATING_SYMBOL = "★";
 
     public final String value;
 
@@ -57,9 +60,9 @@ public class Rating {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < MAX_RATING; i++) {
             if (count > 0) {
-                stringBuilder.append("★");
+                stringBuilder.append(FILLED_RATING_SYMBOL);
             } else {
-                stringBuilder.append("☆");
+                stringBuilder.append(UNFILLED_RATING_SYMBOL);
             }
             count--;
         }

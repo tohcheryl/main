@@ -41,7 +41,7 @@ public class OrderManager {
     }
 
     /**
-     * Sends email and orders {@code Food}
+     * Sends email summary and orders {@code Food} via phone
      */
     public void order() throws IOException, MessagingException {
         String message = createMessage();
