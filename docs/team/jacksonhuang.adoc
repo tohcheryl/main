@@ -7,21 +7,19 @@
 ---
 
 == Overview
+=== What is this project?
+For our CS2103 Software Engineering module at the National University of Singapore, our team of three morphed an AddressBook Java application into a food ordering application called HackEat. The aim of this module was to practice important aspects of software engineering, including working with a large codebase (AddressBook started off as 10k Lines of Code), writing tests, using version control and practising project management using GitHub.
 
-For our CS2103 Software Engineering module at the National University of Singapore, our team of three morphed an AddressBook Java application into a food ordering application called HackEat (described next). The aim of this module was to practice important aspects of software engineering, including working with a large codebase (AddressBook started off as 10k Lines of Code), writing tests, using version control and practising project management using GitHub.
-
-HackEat is a next-gen food recommendation and ordering app for the hackers, the programmers, the creators of world bustling and bursting with world-changing ideas but running short on time ⏰⏳.
-
-Perfect for the busy software developer or desk hermit: Use CLI commands to accelerate the chore of finding the right food.
-
-HackEat takes the stress, thinking and time-waste out of deciding what to eat. Order your food in style with commands like `order` to stay in the zone even when you’re not programming.
+=== What is HackEat?
+HackEat is a next-generation food recommendation and ordering app for the hackers, the programmers and the creators of the world who are bustling and bursting with world-changing ideas but running short on time ⏰⏳. HackEat is perfect for the busy software developer or desk hermit. Why not use CLI commands to accelerate the chore of finding the right food? HackEat takes the stress, thinking and time out of deciding what to eat. Our app allows users to order their favourite food in style with commands like `order`. That way, they can stay in the zone even when they’re not programming!
 
 == Summary of contributions
 
 * Major enhancement: implemented architecture for interactive commands
-** What it is: the user can `add` new foods by responding to the application's prompts and questions.
+** What it is: The user can `add` new foods by interactively responding to the application's prompts and questions.
 ** Justification: We want to make an app that takes as little cognitive effort as possible to order and manage food intake. The complex format-based commands require typing extra formatting tags (e.g. `n/ p/ a/`), which takes extra cognitive effort. An interactive and natural chat-like system makes it much easier and faster to add, and in future, edit and order food.
 ** Highlights: This was a challenging feature to design. I used sequence diagrams and architectural diagrams to initially understand the problem. The idea of using a Session to track the state of interactions occurred to me only after considering other options.
+** For the Developer: All the architecture is in place to convert other non-interactive commands into interactive commands.
 * Minor enhancement: added a User Profile and UserConfig command
 ** What it is: the user can configure his/her User Profile, popualting it with the user's name, address, phone and allergies.
 ** Justification: This feature improves user experience because interactions can be more personalised. In addition, this minor feature
@@ -30,17 +28,19 @@ HackEat takes the stress, thinking and time-waste out of deciding what to eat. O
 ** Cheryl Toh extended this significantly for her major enhancement.
 
 * Other contributions:
+** Team work
+*** Found a bug and submitted a bug issue for teammate Sam Xie's `order` feature [https://github.com/CS2103JAN2018-W10-B3/main/issues/163[GitHub Issue]]
 ** Project Management
-*** Processed and assigned bugs after testing session for v1.4
-*** Managed release v1.2 and v1.4 on GitHub (2 releases)
+*** Processed and assigned bugs after the v1.4 testing session.
+*** Managed release v1.2 and v1.4 on GitHub (2 releases).
 ** Tools
-*** Set up code collation
-*** Renamed `.jar` file
-*** Set up automated documentation publishing on GitHub
-*** Set up Travis CI
-*** Set up GitHub organisation, repository, invited team members and created Developer team
+*** Set up code collation `.sh` script.
+*** Renamed `.jar` file.
+*** Set up automated documentation publishing on GitHub.
+*** Set up Travis CI.
+*** Set up GitHub organisation, repository, invited team members and created Developer team.
 
-* *Code contributed*: [https://github.com[Functional code]] [https://github.com[Test code]]
+* *Code contributed*: [https://github.com/CS2103JAN2018-W10-B3/main/blob/master/collated/functional/jaxony.md[Functional code]] [https://https://github.com/CS2103JAN2018-W10-B3/main/blob/master/collated/test/jaxony.md[Test code]]
 
 == Contributions to the User Guide
 |===
@@ -48,7 +48,9 @@ HackEat takes the stress, thinking and time-waste out of deciding what to eat. O
 |===
 
 include::../UserGuide.adoc[tag=add]
+
 include::../UserGuide.adoc[tag=userconfig]
+
 include::../UserGuide.adoc[tag=nlp]
 
 == Contributions to the Developer Guide
@@ -57,6 +59,9 @@ include::../UserGuide.adoc[tag=nlp]
 |===
 
 include::../DeveloperGuide.adoc[tag=add]
+
+include::../DeveloperGuide.adoc[tag=chat]
+
 include::../DeveloperGuide.adoc[tag=userconfig]
 
 
