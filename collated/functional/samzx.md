@@ -29,7 +29,7 @@ public class OrderManager {
     }
 
     /**
-     * Sends email and orders {@code Food}
+     * Sends email summary and orders {@code Food} via phone
      */
     public void order() throws IOException, MessagingException {
         String message = createMessage();
@@ -38,6 +38,23 @@ public class OrderManager {
         emailManager.email();
 
         sendOrder(toOrder.getPhone().toString(), message);
+    }
+
+    /**
+     * Checks whether client can connect to server
+     * @return whether client can connect to server
+     */
+    public static boolean netIsAvailable(String urlString) {
+        try {
+            final URL url = new URL(urlString);
+            final URLConnection conn = url.openConnection();
+            conn.connect();
+            return true;
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            return false;
+        }
     }
 
     /**
@@ -243,13 +260,14 @@ public class EmailManager {
  * Selects food in HackEat if the user has not specified a specific food to order.
  */
 public class FoodSelector {
+    private static final float SCORE_BUFFER = 0.001f;
     /**
      * Selects an {@code Index} from a model based on the HackEat Algorithm
      * @param model of the program
      * @return the index of the selected food
      */
     public Index selectIndex(Model model) throws CommandException {
-        ArrayList<FoodDescriptor> foodDescriptors = generateFoodList(model);
+        ArrayList<FoodDescriptor> foodDescriptors = buildFoodDescriptorList(model);
         FoodDescriptor foodDescriptor = pickFood(foodDescriptors);
         return foodDescriptor.index;
     }
@@ -283,7 +301,7 @@ public class FoodSelector {
      * @param model to be provided
      * @return a list of food
      */
-    private ArrayList<FoodDescriptor> generateFoodList(Model model) {
+    private ArrayList<FoodDescriptor> buildFoodDescriptorList(Model model) {
         ArrayList<FoodDescriptor> foodDescriptors = new ArrayList<>();
 
         List<Food> lastShownList = model.getFilteredFoodList();
@@ -312,23 +330,24 @@ public class FoodSelector {
         }
 
         score = 1;
-        score *= scoreFromRating(food.getRating());
-        score *= scoreFromPrice(food.getPrice());
+        score *= scoreFromRating(food.getRating()) + SCORE_BUFFER;
+        score *= scoreFromPrice(food.getPrice()) + SCORE_BUFFER;
+
+        assert(score > 0);
 
         return score;
     }
 
     /**
      * Outputs a score based on the value of the price
+     * For dampener variable:
+     * -    dampener = 1, Roughly twice more likely to order a food of $5, than of value $10
+     * -    dampener = 1.5, Roughly 50% more likely to order a food of $5, than of value $10
+     * -    dampener = 2, Roughly 30% more likely to order a food of $5, than of value $10
      * @param price to have score derived from
      * @return score determined by algorithm
      */
     private float scoreFromPrice(Price price) {
-        /*
-         * dampener = 1, Roughly twice more likely to order a food of $5, than of value $10
-         * dampener = 1.5, Roughly 50% more likely to order a food of $5, than of value $10
-         * dampener = 2, Roughly 30% more likely to order a food of $5, than of value $10
-         */
         final float dampener = 1;
 
         float value = Float.parseFloat(price.getValue());
@@ -338,15 +357,14 @@ public class FoodSelector {
 
     /**
      * Outputs a score based on the value of the rating
+     * For weighting variable:
+     * -    weighting = 1, 5x more likely to order a food of rating 5, than of 1
+     * -    weighting = 1.5, ~10x more likely to order a food of rating 5, than of 1
+     * -    weighting = 2, 25x more likely to order a food of rating 5, than of 1
      * @param rating to have score derived from
      * @return score determined by algorithm
      */
     private float scoreFromRating(Rating rating) {
-        /*
-         * weighting = 1, 5x more likely to order a food of rating 5, than of 1
-         * weighting = 1.5, ~10x more likely to order a food of rating 5, than of 1
-         * weighting = 2, 25x more likely to order a food of rating 5, than of 1
-         */
         final float weighting = 1;
 
         float value = Float.parseFloat(rating.value);
@@ -401,8 +419,8 @@ public class OrderCommandParser implements Parser<OrderCommand> {
     }
 
     /**
-     * Given a {@code String} of arguments in the context of the OrderCommand
-     * and returns an OrderCommand object for execution.
+     * Returns an OrderCommand object for execution when given a {@code String} of
+     * arguments in the context of the OrderCommand.
      * @throws ParseException if the user input does not conform the expected format
      */
     private OrderCommand orderCommandWithIndex(String args) throws ParseException {
@@ -440,8 +458,9 @@ public class OrderCommand extends UndoableCommand {
     public static final String MESSAGE_SUCCESS = "%1$s has been requested to be ordered.";
     public static final String MESSAGE_SELECT_FAIL = "You seem to be allergic to all the foods listed here.";
     public static final String MESSAGE_SELECT_INDEX_FAIL = "Sorry, can't order that, you seem to be allergic to %s";
-    public static final String MESSAGE_FAIL_FOOD = "Order failure for: %s";
-    public static final String MESSAGE_CHECK_INTERNET_CONNECTION = "Please check your internet connection.";
+    public static final String MESSAGE_FAIL_FOOD = "Something went wrong, we could not order %s";
+    public static final String MESSAGE_CHECK_INTERNET_CONNECTION = "Failed to contact our servers. "
+            + "Please check your internet connection.";
     public static final String MESSAGE_EMAIL_FAIL_FOOD = "%1$s has failed to be ordered via email. "
             + MESSAGE_CHECK_INTERNET_CONNECTION;
     public static final String MESSAGE_DIAL_FAIL_FOOD = "%1$s has failed to be ordered via phone. "
@@ -495,9 +514,15 @@ public class OrderCommand extends UndoableCommand {
     @Override
     public CommandResult executeUndoableCommand() throws CommandException {
         try {
-            OrderManager manager = new OrderManager(model.getAddressBook().getUserProfile(), toOrder);
-            manager.order();
+            if (!OrderManager.netIsAvailable(OrderManager.REMOTE_SERVER)) {
+                throw new CommandException(String.format(MESSAGE_CHECK_INTERNET_CONNECTION));
+            } else {
+                OrderManager manager = new OrderManager(model.getAddressBook().getUserProfile(), toOrder);
+                manager.order();
+            }
             return new CommandResult(String.format(MESSAGE_SUCCESS, toOrder.getName()));
+        } catch (CommandException e) {
+            throw e;
         } catch (MessagingException e) {
             throw new CommandException(String.format(MESSAGE_EMAIL_FAIL_FOOD, toOrder.getName()));
         } catch (IOException e) {
@@ -523,13 +548,13 @@ public class OrderCommand extends UndoableCommand {
     @Override
     public boolean equals(Object other) {
         try {
-            return other == this // short circuit if same object
-                    || (other instanceof OrderCommand // instanceof handles nulls
+            return other == this
+                    || (other instanceof OrderCommand
                     && index.equals(((OrderCommand) other).index));
 
         } catch (NullPointerException npe) {
-            return other == this // short circuit if same object
-                    || (other instanceof OrderCommand // instanceof handles nulls
+            return other == this
+                    || (other instanceof OrderCommand
                     && index == (((OrderCommand) other).index));
         }
 
@@ -564,10 +589,13 @@ public class Rating {
             "Please enter a number between 0 to " + MAX_RATING;
 
     /**
-     * User must enter only a single digit.
+     * Users must enter only a single digit.
      */
     public static final String RATING_VALIDATION_REGEX = "\\b\\d\\b";
     public static final String CLASS_NAME = "Rating";
+
+    private static final String UNFILLED_RATING_SYMBOL = "☆";
+    private static final String FILLED_RATING_SYMBOL = "★";
 
     public final String value;
 
@@ -605,9 +633,9 @@ public class Rating {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < MAX_RATING; i++) {
             if (count > 0) {
-                stringBuilder.append("★");
+                stringBuilder.append(FILLED_RATING_SYMBOL);
             } else {
-                stringBuilder.append("☆");
+                stringBuilder.append(UNFILLED_RATING_SYMBOL);
             }
             count--;
         }

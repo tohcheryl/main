@@ -766,8 +766,8 @@ public abstract class Session {
      * @throws CommandException If finishCommand() throws exception
      */
     private void end() throws CommandException {
-        finishCommand();
         eventsCenter.post(new EndActiveSessionEvent());
+        finishCommand();
     }
 
     private Prompt getCurrentPrompt() {

@@ -99,6 +99,8 @@ public class FoodSelectorTest {
 ``` java
 
 public class OrderManagerTest {
+    private static final String INVALID_URL = "";
+    private static final String LOOSE_CONNECTION = "http://www.120391820938109231023.com/";
 
     private static final String USER_NAME = "Alice";
     private static final String USER_PHONE = "12345678";
@@ -136,6 +138,21 @@ public class OrderManagerTest {
         } catch (Exception e) {
             throw new Exception(MESSAGE_SHOULD_NOT_THROW_ERROR);
         }
+    }
+
+    @Test
+    public void netIsAvailable_invalidUrl_failure() throws MalformedURLException {
+        Assert.assertThrows(RuntimeException.class, () -> OrderManager.netIsAvailable(INVALID_URL));
+    }
+
+    @Test
+    public void netIsAvailable_badConnection_failure() throws MalformedURLException {
+        assertFalse(OrderManager.netIsAvailable(LOOSE_CONNECTION));
+    }
+
+    @Test
+    public void netIsAvailable_validUrl_success() {
+        assertTrue(OrderManager.netIsAvailable(OrderManager.REMOTE_SERVER));
     }
 
     /**
@@ -180,7 +197,7 @@ public class EmailManagerTest {
         try {
             emailManager.email();
         } catch (Exception e) {
-            assertEquals(e.getMessage(), null);
+            assertTrue(e.getMessage().isEmpty());
         }
     }
 }
