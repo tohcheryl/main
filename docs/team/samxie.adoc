@@ -38,6 +38,7 @@ user's workflow.
 ** Added Rating field to Food
 *** Rating was required for the food selection algorithm to have a better idea of what preferences the user has for
 for each food.
+* Code contributed: [https://github.com/CS2103JAN2018-W10-B3/main/blob/master/collated/functional/samzx.md[Functional code]] [https://github.com/CS2103JAN2018-W10-B3/main/blob/master/collated/test/samzx.md[Test code]]
 * Other contributions
 ** Features
 *** Optional email and address fields
