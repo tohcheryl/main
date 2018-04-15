@@ -1,7 +1,7 @@
 package seedu.address.logic.orderer;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static seedu.address.testutil.TypicalFoods.getTypicalAddressBook;
 
 import org.junit.Test;
@@ -33,7 +33,7 @@ public class EmailManagerTest {
         try {
             emailManager.email();
         } catch (Exception e) {
-            assertEquals(e.getMessage(), null);
+            assertTrue(e.getMessage().isEmpty());
         }
     }
 }

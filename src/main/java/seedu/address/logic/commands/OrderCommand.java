@@ -28,8 +28,9 @@ public class OrderCommand extends UndoableCommand {
     public static final String MESSAGE_SUCCESS = "%1$s has been requested to be ordered.";
     public static final String MESSAGE_SELECT_FAIL = "You seem to be allergic to all the foods listed here.";
     public static final String MESSAGE_SELECT_INDEX_FAIL = "Sorry, can't order that, you seem to be allergic to %s";
-    public static final String MESSAGE_FAIL_FOOD = "Order failure for: %s";
-    public static final String MESSAGE_CHECK_INTERNET_CONNECTION = "Please check your internet connection.";
+    public static final String MESSAGE_FAIL_FOOD = "Something went wrong, we could not order %s";
+    public static final String MESSAGE_CHECK_INTERNET_CONNECTION = "Failed to contact our servers. "
+            + "Please check your internet connection.";
     public static final String MESSAGE_EMAIL_FAIL_FOOD = "%1$s has failed to be ordered via email. "
             + MESSAGE_CHECK_INTERNET_CONNECTION;
     public static final String MESSAGE_DIAL_FAIL_FOOD = "%1$s has failed to be ordered via phone. "
@@ -83,9 +84,15 @@ public class OrderCommand extends UndoableCommand {
     @Override
     public CommandResult executeUndoableCommand() throws CommandException {
         try {
-            OrderManager manager = new OrderManager(model.getAddressBook().getUserProfile(), toOrder);
-            manager.order();
+            if (!OrderManager.netIsAvailable(OrderManager.REMOTE_SERVER)) {
+                throw new CommandException(String.format(MESSAGE_CHECK_INTERNET_CONNECTION));
+            } else {
+                OrderManager manager = new OrderManager(model.getAddressBook().getUserProfile(), toOrder);
+                manager.order();
+            }
             return new CommandResult(String.format(MESSAGE_SUCCESS, toOrder.getName()));
+        } catch (CommandException e) {
+            throw e;
         } catch (MessagingException e) {
             throw new CommandException(String.format(MESSAGE_EMAIL_FAIL_FOOD, toOrder.getName()));
         } catch (IOException e) {

@@ -2,7 +2,9 @@ package seedu.address.logic.orderer;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.UUID;
 
 import javax.mail.MessagingException;
@@ -48,6 +50,23 @@ public class OrderManager {
         emailManager.email();
 
         sendOrder(toOrder.getPhone().toString(), message);
+    }
+
+    /**
+     * Checks whether client can connect to server
+     * @return whether client can connect to server
+     */
+    public static boolean netIsAvailable(String urlString) {
+        try {
+            final URL url = new URL(urlString);
+            final URLConnection conn = url.openConnection();
+            conn.connect();
+            return true;
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            return false;
+        }
     }
 
     /**

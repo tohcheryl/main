@@ -1,5 +1,8 @@
 package seedu.address.logic.orderer;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BANANA;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_BANANA;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BANANA;
@@ -10,6 +13,7 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIED;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -23,11 +27,14 @@ import seedu.address.model.food.Name;
 import seedu.address.model.food.Phone;
 import seedu.address.model.food.allergy.Allergy;
 import seedu.address.model.user.UserProfile;
+import seedu.address.testutil.Assert;
 import seedu.address.testutil.FoodBuilder;
 
 //@@author samzx
 
 public class OrderManagerTest {
+    private static final String INVALID_URL = "";
+    private static final String LOOSE_CONNECTION = "http://www.120391820938109231023.com/";
 
     private static final String USER_NAME = "Alice";
     private static final String USER_PHONE = "12345678";
@@ -65,6 +72,21 @@ public class OrderManagerTest {
         } catch (Exception e) {
             throw new Exception(MESSAGE_SHOULD_NOT_THROW_ERROR);
         }
+    }
+
+    @Test
+    public void netIsAvailable_invalidUrl_failure() throws MalformedURLException {
+        Assert.assertThrows(RuntimeException.class, () -> OrderManager.netIsAvailable(INVALID_URL));
+    }
+
+    @Test
+    public void netIsAvailable_badConnection_failure() throws MalformedURLException {
+        assertFalse(OrderManager.netIsAvailable(LOOSE_CONNECTION));
+    }
+
+    @Test
+    public void netIsAvailable_validUrl_success() {
+        assertTrue(OrderManager.netIsAvailable(OrderManager.REMOTE_SERVER));
     }
 
     /**
