@@ -422,7 +422,7 @@ The `changepic` command allows users to update their profile picture.
 ==== Why
 As developers, we believe in creating applications that build connections with our target users. HackEat
 strives to achieve this by providing programmers with an option to spruce up the app a little by adding
-their own picture to it.  Besides that, the user profile picture could be used in the future for easy identification
+their own picture to it. Besides that, the user profile picture could be used in the future for easy identification
 of the customer by the deliverer.
 
 ==== How
